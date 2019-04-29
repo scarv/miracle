@@ -21,8 +21,8 @@ only when needed.
 Questions:
 1. Can we identify the number of register stages loaded data must travel
   through in a system by observing power based side channels?
-  - Can we do this for multiple CPUs?
-  - Can we do this for the same CPU on multiple systems?
+   - Can we do this for multiple CPUs?
+   - Can we do this for the same CPU on multiple systems?
 2. Can we use this information to obtain a better leakage estimate?
 3. Can we use this information to better minimise leakage?
 
@@ -45,10 +45,10 @@ Questions:
 1. Can we reverese engineer how a bus handles sub-word data accesses?
 2. Can we do this for multiple CPUs?
 3. Can we do this for multiple implementations of the same CPU?
-  - Do the results differ?
+   - Do the results differ?
 4. Can we get a better leakage estimation by taking this into account?
-  - Is this leakage exploitable?
-  - Can we use this information to better minimise leakage?
+   - Is this leakage exploitable?
+   - Can we use this information to better minimise leakage?
 
 ## 3. Pipeline Registers
 
@@ -64,11 +64,11 @@ Questions:
 1. Can we identify the length of a pipeline just from side-channel
   information?
 2. Can we show which information appears in which stage of the pipeline?
-  - Expect immediates to appear early.
-  - Register read data next.
-  - Result data should appear last.
+   - Expect immediates to appear early.
+   - Register read data next.
+   - Result data should appear last.
 3. Can we identify forwarding paths by looking at side-channel information?
-  - Does activation of these paths increase leakage?
+   - Does activation of these paths increase leakage?
 4. Can we use this information to inform instruction scheduling choices to
    minimise leakage?
 
@@ -84,8 +84,8 @@ control flow changes typically occur in the very last stage.
 Questions:
 1. Can we identify the presence of these instructions using side-channel
    leakage information?
-  - Can we exploit whatever leakage they produce?
-  - If we cannot observe this leakage, why might that be?
+   - Can we exploit whatever leakage they produce?
+   - If we cannot observe this leakage, why might that be?
 2. Does such leakage contribute to "ghost" leakage observed in the past,
    where certain values continue to leak long after they are "finished"
    with.
