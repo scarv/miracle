@@ -1,5 +1,5 @@
 
-# Pipeline Leakage Study
+# Micro-architecture Leakage Study
 
 *A collection of tools and experiments for investigating side-channel
 leakage due to pipelining and other implementation decisions in CPUs.*
