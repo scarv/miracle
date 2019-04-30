@@ -111,6 +111,8 @@ Analysis:
   - data word value
   - expected loaded data
 - Create a hamming weight estimate, and perform simple CPA on each trace.
+  - If I expect entire word to be loaded, use weight of word.
+  - If I expect only asked for data to be loaded, use weight of sub-word.
 - Highly corrolated estimates indicate a correct combination of possible
   transported data.
 - This should let us answer if, when we load a byte, we also load the
