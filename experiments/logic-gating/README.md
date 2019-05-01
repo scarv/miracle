@@ -1,5 +1,5 @@
 
-## 5. Logic gating
+# Logic gating
 
 Logic gating (wrt. clock gating) is a technique used to reduce
 toggling (and so energy consumption) in digital logic circuits.
@@ -20,6 +20,34 @@ leakage.
 
 Hypothesis 2: The extra toggling will cause *more* leakage, if that toggling
 can be modelled.
+
+---
+
+# Experiments:
+
+This experiment is nigh on impossible to do on an ASIC, since
+we have no idea what is and is not logic gated.
+Such an experiment would only really be possible on the in-house
+CPU core, which we have lots of knowledge (and *understanding*) about, and
+which can be modified as needed.
+
+Setup:
+- Identify parts of the CPU which are amenable to logic gating:
+  - This can be guided by analysing waveforms of a target application, and
+    noting which signals have the highest probability of toggling per
+    clock cycle.
+  - It can also be done simply by observing where in the CPU the same data
+    feeds mutually exclusive logic blocks.
+- Having identified a managable number of blocks (N=~3) suitable for gating,
+  create a set of implementation parameters allowing gating to be turned on
+  or off easily.
+
+Experiment:
+- For each combination of logic gate enable parameters:
+  - Capture the area / timing impact
+  - Perform a standard t-test on some code kernel (1 AES round?)
+- Compare average / peak leakage across parameters
+  - Which parameter values corrolate with high/low leakage.
 
 ---
 
