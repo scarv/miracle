@@ -88,6 +88,49 @@ For each load/store instruction one is interested in:
 - Can we identify forwarding paths in the CPU?
 - How does pipeline forwarding affect leakage?
 
+**Register Forwarding:**
+
+
+First, identify a set of useful ALU style instructions: add/xor/shift/mul
+
+Identifying *where* forwarding takes place:
+- For each pair of useful ALU instructions:
+  - Start with a sequence of NOPs, followed by `I1`, followed by
+    `N` > pipeline length NOPS, followed by `I2`, followed by more NOPS.
+  - `I2` reads from `I1` destination.
+  - Time how long the instruction sequence takes for `N`, `N-1`..`N=0`
+    NOP operations between `I1` and `I2`.
+  - If the sequence takes `X` cycles for `X` instructions, then either
+    there is no forwarding because the instructions were far enough apart
+    it was not needed, or forwarding took place transparently and there was
+    no need for a stall.
+  - If the sequence takes `>X` cycles for `X` instructions, then stalling
+    to avoid the RAW hazard must have occured.
+
+Identifying leakage:
+- For each of the scenarios above, run a t-test using a single constant
+  value to be forwarded v.s a known random value.
+- Sort the scenarios based on peak observed leakage?
+- Sort scenarios based on *where* peak leakage occurs in the sequence.
+- Identify the top-N local maxima in the leakage? Can N correspond to the
+  number of pipeline stages the forwarded value traversed?
+
+**Load to use:**
+
+Identifying how far appart instructions must be to avoid load to use
+stalls:
+- Pick `I1` and `I2` where `I1` is a load and `I2` reads from the destination
+  of `I1`.
+- Create a sequence of the form {NOPS, `I1`, NOPS\*N,`I2`, NOPS}.
+- Time how long it takes to execute the sequence, for varying values of
+  `N`.
+  - If it takes 1 cycle per instruction, no stalling occured.
+
+Leakage effects:
+- Do a t-test on fixed v.s random loaded (and hence forwarded values)
+
+Considerations:
+- Assumes no/predictable cache behavior
 
 ---
 
