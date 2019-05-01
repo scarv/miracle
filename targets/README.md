@@ -8,7 +8,9 @@ experiments*
 - Use the Sasebo FPGA platform
 - Use Xilinx own Microblaze configurable CPU.
 - The CPU has a *configurable* pipeline depth, and it's micro-architecture
-  is mostly undocumented beyond that.
+  is documented in 
+  [Xilinx UG984](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_3/ug984-vivado-microblaze-ref.pdf).
+  - Pipeline length: 3/5/8
 - We can configure the surrounding AXI interconnect as well to add register
   stages to the memory busess.
 

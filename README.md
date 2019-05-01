@@ -14,12 +14,7 @@ A set of ideas for experiments and the questions they should answer:
 - [Latent Execution Leakage](experiments/latent-leakage/README.md)
 - [Logic Gating](experiments/logic-gating/README.md)
 
-[Target platforms](targets/README.md) to perform the experiments on:
-- FPGA + Xilinx Microblaze
-- FPGA + PicoRV32
-- FPGA + SCARV in-house CPU Core
-- SCALE M0/3/4 boards
-- SCALE RISC-V board?
-- SiFive HiFive Dev Board
-
+Notes:
+- [Target platforms](targets/README.md) to perform the experiments on:
+- [Instruction Stream Generation](instr-stream-gen/README.md)
 ---
