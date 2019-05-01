@@ -31,3 +31,11 @@ experiments*
 - Interesting to run the same benchmarks on a multi-cycle machine and
   see what the differences are.
 
+**FPGA + SCARV in house CPU:**
+
+- 5 Stage pipeline
+- Total control over internal micro-architecture.
+- Very useful for logic gating experiments.
+- Will eventually be used as host for pipeline XCrypto implementation,
+  so useful to profile as a baseline anyway.
+
