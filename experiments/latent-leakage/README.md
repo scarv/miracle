@@ -1,5 +1,5 @@
 
-## Latent Execution Leakage
+# Latent Execution Leakage
 
 This is Dan's "spectre for side-channels" idea.
 
@@ -19,7 +19,7 @@ Questions:
 
 ---
 
-## Experiments
+# Experiments
 
 Step 1: Profiling instructions
 - Select some possible attackable instruction we expect to appear in the
