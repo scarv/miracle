@@ -1,0 +1,6 @@
+[submodule "external/scale-sw"]
+	path = external/scale-sw
+	url = https://github.com/danpage/scale-sw.git
+[submodule "external/scale-hw"]
+	path = external/scale-hw
+	url = https://github.com/danpage/scale-hw.git
