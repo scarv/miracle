@@ -22,6 +22,12 @@ experiments*
 - Mostly un-documented internals of the CPUs themselves, some clues
   about pipeline information.
 
+
+Note:
+- According to [1], the M3 NOP instruction is actually killed in the
+  decode stage, and does not affect later pipeline registers.
+  This sort of effect is *extremely* important to identify.
+
 **SiFive HiFive board:**
 
 - Rocket chip based microcontroller
@@ -41,3 +47,9 @@ experiments*
 - Will eventually be used as host for pipeline XCrypto implementation,
   so useful to profile as a baseline anyway.
 
+---
+
+**References:**
+1. Microarchitectural power simulator for leakage assessment of cryptographic
+   software on ARM Cortex-M3 Processors. Yan Le Corre, Johann Gro\Bschadl and
+   Daniel Dinu.
