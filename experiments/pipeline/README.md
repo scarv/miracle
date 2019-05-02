@@ -67,8 +67,14 @@ For each instruction one is interested in:
   progressing through a pipeline.
 - Create hamming weight estimates for the result of the operation
   progressing through a pipeline.
+- Use hamming distance estimate for predicted consecutive pipeline
+  register values.
+  - If three instructions are in-flight at once, we can use the sum of
+    three hamming distance guesses for the relevant pipeline registers?
 - Use corrolation analysis to see when operand estimate stops corrolating
   and result estimate starts.
+- If the values being operated on are conspicuous and sandwiched with NOPs,
+  even simple SPA might work?
 
 **Register-Memory:**
 
