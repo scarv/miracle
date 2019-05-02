@@ -18,4 +18,10 @@ A set of ideas for experiments and the questions they should answer:
 Notes:
 - [Target platforms](targets/README.md) to perform the experiments on:
 - [Instruction Stream Generation](instr-stream-gen/README.md)
+
 ---
+
+## Useful Links:
+
+- [ARM Cortex M0 Technical reference](https://developer.arm.com/docs/ddi0432/c)
+- [Xilinx UG984 Microblaze Processor Reference Guide](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_3/ug984-vivado-microblaze-ref.pdf)
