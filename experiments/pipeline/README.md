@@ -121,6 +121,14 @@ Identifying leakage:
 - Identify the top-N local maxima in the leakage? Can N correspond to the
   number of pipeline stages the forwarded value traversed?
 
+Notes:
+- When a register value is forwarded, two values must be considered:
+  - The in-flight value, forwarded from a pipeline register
+  - The committed value inside the register file
+- Both values will progress along combinatorial paths to a MUX, before the
+  right one is selected.
+  - Does this "race" produce useful / detectable leakage?
+
 **Load to use:**
 
 Identifying how far appart instructions must be to avoid load to use
