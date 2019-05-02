@@ -9,6 +9,7 @@ leakage due to pipelining and other implementation decisions in CPUs.*
 ## Proposals
 
 A set of ideas for experiments and the questions they should answer:
+- [NOP Instructions](experiments/nop-instruction/README.md)
 - [Memory Bus Effects](experiments/memory-bus/README.md)
 - [Pipeline Effects](experiments/pipeline/README.md)
 - [Latent Execution Leakage](experiments/latent-leakage/README.md)
