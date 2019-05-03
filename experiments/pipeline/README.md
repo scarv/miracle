@@ -20,6 +20,8 @@ Questions:
    - Does activation of these paths increase leakage?
 4. Can we use this information to inform instruction scheduling choices to
    minimise leakage?
+5. How does leakage which *starts* appearing in one cycle bleed into
+   subsequent cycles?
 
 ---
 
@@ -145,6 +147,25 @@ Leakage effects:
 
 Considerations:
 - Assumes no/predictable cache behavior
+
+## Multi-cycle leakage
+
+It's been observed that leakage does not stay contained within the clock
+cycle which causes the leaking value to appear/disappear.
+Can we work out why this is?
+- Does it come from the power supply taking >1 clock cycle to stablise
+  again after being perterbed due to data-dependent register writes?
+- Does it come from the same value(s) propagating across multiple
+  register stages?
+- All / none of the above?
+
+Experimental approaches:
+- Slow down the clock rate such that no clock transitions occur until
+  the power waveform has stabalised again.
+  - This will be a device / technology specific effect.
+- Look at a known pipeline architecture, and identify each register a
+  value is written too. If the number of registers is >1 and is spread
+  over time, this is a likely source of multi-cycle leakage.
 
 ---
 
