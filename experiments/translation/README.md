@@ -36,14 +36,20 @@ may execute NOPs in different ways; for example, they may or may not
 be squashed at the decode stage.
 
 Questions:
+
 1. For each target (processor plus tool-chain), can we produce some
    form of systematic survey of, e.g., pseudo-instructions; in some
    cases, the ISA itself might specify/assume examples.
+
 2. Given mismatch between specification and (translated) execution,
    is it possible to identify cases where leakage characteristics
    will differ; are there potentially exploitable instances (e.g.,
    a NOP leaking wrt. register reads that shouldn't exist from an
    intuitive perspective).
+
+   For example, MIPS apparently has an abs pseudo-instruction that
+   translates to a sequence including a data-dependent branch!
+
 3. How can this issue be addressed, in a) existing platforms (e.g.,
    via "security *aware* translation") or b) new platforms (e.g.,
    rules or principles, such as eliminating any such examples).
