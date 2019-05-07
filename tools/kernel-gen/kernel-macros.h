@@ -5,7 +5,7 @@
 #if ARCH_ARMV6M
     #include "kernel-macros-armv6m.h"
 #elif ARCH_ARMV7M
-    .error "No macros for ARCH_ARMV7M available yet"
+    #include "kernel-macros-armv7m.h"
 #elif ARCH_MICROBLAZE
     .error "No macros for ARCH_MICROBLAZE available yet"
 #elif ARCH_RV32IMC
