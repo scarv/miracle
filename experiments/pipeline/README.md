@@ -154,10 +154,22 @@ It's been observed that leakage does not stay contained within the clock
 cycle which causes the leaking value to appear/disappear.
 Can we work out why this is?
 - Does it come from the power supply taking >1 clock cycle to stablise
-  again after being perterbed due to data-dependent register writes?
+  again after being perturbed due to data-dependent register writes?
 - Does it come from the same value(s) propagating across multiple
   register stages?
 - All / none of the above?
+
+Hypothesis:
+- Each toggle of a net causes a predictable decaying sinusoid to appear
+  as an additive signal in the power supply waveform.
+- Multiply nets toggling at once cause the summation of their decaying
+  sinusoids to be applied to the power wave form.
+- Out of phase sinusoids will combine constructivley/destructivley.
+- If the sinusoids do not decay completely over a single clock
+  cycle, then their effect on the power supply wave form will continue to
+  combine with the next set of net toggles on the next clock edge.
+- This effect would lead to inter-cycle interference and an *amplification*
+  of linear leakages across cycles.
 
 Experimental approaches:
 - Slow down the clock rate such that no clock transitions occur until
