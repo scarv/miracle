@@ -1,1 +1,3 @@
-papers/
+*.swp
+*.swo
+build/

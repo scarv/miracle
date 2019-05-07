@@ -89,3 +89,14 @@
 #define MULTIPLY_RR (RD,RA,RB)\
     .error "Macro 'MULTIPLY_RR' not implemented"
 
+//
+// Enter a function and prepare space in registers to *do stuff*
+//
+#define FUNC_ENTER\
+    .error "Macro 'FUNC_ENTER' not implemented"
+
+//
+// Return from a function
+//
+#define FUNC_RETURN
+    .error "Macro 'FUNC_RETURN' not implemented"

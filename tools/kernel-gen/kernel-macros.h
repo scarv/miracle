@@ -3,7 +3,7 @@
 #define __KERNEL_MACROS_H__
 
 #if ARCH_ARMV6M
-    .error "No macros for ARCH_ARMV6M available yet"
+    #include "kernel-macros-armv6m.h"
 #elif ARCH_ARMV7M
     .error "No macros for ARCH_ARMV7M available yet"
 #elif ARCH_MICROBLAZE
@@ -101,17 +101,15 @@
 
 //
 // Architectural .warning "Macro '' not defined"
-#endif instruction.
 //
-#ifndef ANOP\
+#ifndef ANOP
     .warning "Macro 'ANOP' not defined"
 #endif
 
 //
 // Micro-Architectural .warning "Macro '' not defined"
-#endif instruction.
 //
-#ifndef MNOP\
+#ifndef MNOP
     .warning "Macro 'MNOP' not defined"
 #endif
 
@@ -120,6 +118,20 @@
 //
 #ifndef MULTIPLY_RR 
     .warning "Macro 'MULTIPLY_RR' not defined"
+#endif
+
+//
+// Enter a function and prepare space in registers to *do stuff*
+//
+#ifndef FUNC_ENTER
+    .warning "Macro 'FUNC_ENTER' not defined"
+#endif
+
+//
+// Return from a function
+//
+#ifndef FUNC_RETURN
+    .warning "Macro 'FUNC_RETURN' not defined"
 #endif
 
 #endif 
