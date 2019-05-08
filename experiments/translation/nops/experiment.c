@@ -1,10 +1,14 @@
 
+#include <stdlib.h>
+#include <string.h>
+
 #include "uas_bsp.h"
 
 #include "experiment.h"
 
 //! Declaration for the experiment payload function in nops.S
-volatile extern void * experiment_payload();
+extern void     * experiment_payload();
+extern void     * experiment_payload_end;
 
 /*!
 @details Does nothing.
@@ -22,7 +26,7 @@ uint8_t experiment_run(){
     uas_bsp_trigger_set();
     
     experiment_payload();
-
+    
     uas_bsp_trigger_clear();
 
     return UAS_RSP_OKAY;

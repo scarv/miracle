@@ -37,6 +37,14 @@ void    uas_bsp_uart_wr_char(
     uint8_t tosend //!< The character to send.
 );
 
+/*!
+@brief Write a 32-bit integer as a hex string to the UART
+@details Pads the value with zeros. Does not add a preceeding '0x'.
+@returns void
+*/
+void    uas_bsp_uart_wr_hex(
+    uint32_t to_put //!< The value to print.
+);
 
 /*!
 @brief Set the trace capture trigger signal.
