@@ -4,7 +4,7 @@
 @brief Experiment header file for the NOPS translation experiment.
 */
 
-#include "uas_control.h"
+#include "scass/scass_target.h"
 
 #ifndef EXPERIMENT_H
 #define EXPERIMENT_H
@@ -20,5 +20,12 @@ uint8_t experiment_init();
 @returns 0 if successful, non-zero otherwise.
 */
 uint8_t experiment_run();
+
+/*!
+@brief Responsible for configuring the scass communication object.
+*/
+void experiment_setup_scass(
+    scass_target_cfg * cfg //!< The config object to setup.
+);
 
 #endif
