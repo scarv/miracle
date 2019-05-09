@@ -57,7 +57,7 @@ A set of ideas for experiments and the questions they should answer:
 
 **Notes:**
 
-- [Target platforms](targets/README.md) to perform the experiments on:
+- [Target platforms](target/README.md) to perform the experiments on:
 - [Instruction Stream Generation](tools/kernel-gen/README.md)
 - [Relevent Papers](PAPERS.md)
 
