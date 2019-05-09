@@ -1,21 +1,44 @@
 
 # Latent Execution Leakage
 
-This is Dan's "spectre for side-channels" idea.
+**This is Dan's "spectre for side-channels" idea.**
 
 In an `N` length pipeline (without considering branch prediction for now)
-control flow changes typically occur in the very last stage.
-- This means that there are upto `N-1` instructions in varying stages of
+control flow changes are *taken* in the very last stage.
+This has several implications:
+
+- There are upto `N-1` instructions in varying stages of
   completion in preceeding stages.
 
-Questions:
+- There may be results already computed from secret date in a pipeline
+  register about to be thrown away.
+
+- There may be secret operands which have been read but not computed on
+  in a pipeline register about to be thrown away.
+
+In large super-scalar / out-of-order CPUs, it was possible for
+un-committed instructions to influence micro-architectural state in an
+architecturally detectable way. This gave rise to spectre and meltdown.
+
+In a single-issue, in-order, pipelined CPU *without perfect branch
+prediction*, it is *inevitable* that some instructions will progress through
+the pipeline and be partially executed in the shadow of a taken control
+flow change.
+
+**Questions:**
+
 1. Can we identify the presence of these instructions using side-channel
    leakage information?
+
    - Can we exploit whatever leakage they produce?
+
    - If we cannot observe this leakage, why might that be?
+
 2. Does such leakage contribute to "ghost" leakage observed in the past,
    where certain values continue to leak long after they are "finished"
    with.
+
+3. How likely is this sort of leakage to occur?
 
 ---
 

@@ -22,7 +22,7 @@ can mean values are left in registers which are not related to the
 currently running program, and their overwrite can cause leakage a long
 time after the original program was finished with it.
 
-Questions:
+**Questions:**
 
 1. Can we identify the number of register stages loaded data must travel
   through in a system by observing power based side channels?
@@ -60,7 +60,7 @@ standards such as AXI, AMBA and Wishbone.
 These standards define the physical signals used to communicate, as well
 as how data is layed out on them.
 
-Questions:
+**Questions:**
 
 1. For each popular micro-controller bus standard, survey their
    behavior with respect to sub-word width accesses.

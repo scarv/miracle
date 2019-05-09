@@ -8,7 +8,7 @@ leakage due to pipelining and other implementation decisions in CPUs.*
 
 ## Aims
 
-General:
+**General:**
 
 1. Investigate how the micro-architectural design of a CPU and SoC
    affect power side-channel leakage.
@@ -18,7 +18,7 @@ General:
    ways to model it.
    See [Pipeline Effects](experiments/pipeline/README.md).
 
-Specific:
+**Specific:**
 
 1. To create a set of (reasonably) portable micro-benchmarks which:
    
@@ -55,7 +55,7 @@ A set of ideas for experiments and the questions they should answer:
 - [Latent Execution Leakage](experiments/latent-leakage/README.md)
 - [Logic Gating](experiments/logic-gating/README.md)
 
-Notes:
+**Notes:**
 
 - [Target platforms](targets/README.md) to perform the experiments on:
 - [Instruction Stream Generation](tools/kernel-gen/README.md)

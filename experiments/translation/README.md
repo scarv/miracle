@@ -35,7 +35,7 @@ instruction whose semantics are the same.  Likewise, processor cores
 may execute NOPs in different ways; for example, they may or may not
 be squashed at the decode stage.
 
-Questions:
+**Questions:**
 
 1. For each target (processor plus tool-chain), can we produce some
    form of systematic survey of, e.g., pseudo-instructions; in some
