@@ -6,9 +6,49 @@ leakage due to pipelining and other implementation decisions in CPUs.*
 
 ---
 
+## Aims
+
+General:
+
+1. Investigate how the micro-architectural design of a CPU and SoC
+   affect power side-channel leakage.
+
+2. Investigate how the execution of instructions in a pipeline
+   affects traditional assumptions about leakage, and to find better
+   ways to model it.
+   See [Pipeline Effects](experiments/pipeline/README.md).
+
+Specific:
+
+1. To create a set of (reasonably) portable micro-benchmarks which:
+   
+   - Stimulate the supposed leakage mechanisms and provide evidence for
+     hypotheses about their behaviour.
+
+   - Can be used to profile a SoC. Either with a view to attacking it, or
+     minimising the leakage from it.
+
+2. (dis)prove the presence of memory-bus sub-word leakage for specific
+   SoCs / systems.
+   See [Memory Bus Effects](experiments/memory-bus/README.md).
+
+3. (dis)prove the presence of latent execution leakage for specific
+   SoCs / systems.
+   See [Latent Execution Leakage](experiments/latent-leakage/README.md).
+
+4. Catalogue the effects of assembly level translation of programs into
+   machine code, and if/how assumptions about `NOP` behavior hold
+   under power side-channel analysis.
+   See [Instruction translation](experiments/translation/README.md).
+
+5. Investigate how logic-gating affects power side-channel leakage.
+   See [Logic Gating](experiments/logic-gating/README.md)
+
+
 ## Proposals
 
 A set of ideas for experiments and the questions they should answer:
+
 - [Instruction translation](experiments/translation/README.md)
 - [Memory Bus Effects](experiments/memory-bus/README.md)
 - [Pipeline Effects](experiments/pipeline/README.md)
@@ -16,6 +56,7 @@ A set of ideas for experiments and the questions they should answer:
 - [Logic Gating](experiments/logic-gating/README.md)
 
 Notes:
+
 - [Target platforms](targets/README.md) to perform the experiments on:
 - [Instruction Stream Generation](tools/kernel-gen/README.md)
 - [Relevent Papers](PAPERS.md)

@@ -1,27 +1,71 @@
 
 # Pipeline Registers
 
-Most CPUs are implemented using pipelines. The presence of a pipeline
-implies several things about the underlying architecture:
+Pipelining is a very general technique in digital logic design to
+increase the throughput of data processing at the expense of latency.
+Almost all modern CPUs use pipelining to achieve higher execution
+frequencies, and the depth (length) of a pipeline is often used to
+characterise a CPU.
+
+The presence of a pipeline implies several things about the underlying
+CPU micro-architecture:
+
 - Instruction execution is spread across time.
+
 - Data-dependent leakage is spread over time.
+
   - The same value may leak in different places in the trace.
+
+  - Leakage from operands may appear at different times to leakage from
+    results.
+
+  - Result data may exist for multiple clock cycles before being
+    written to any architectural state.
+
 - To prevent RAW hazards, CPUs must either stall, or  *forward* data from
   later stages to earlier stages.
 
+
+Historically, modelling of power side-channel leakage has been done
+by looking at instructions in isolation, and calculating the
+hamming weight of their result, or the hamming distance between
+consecutive results.
+Some models like ELMO go further by modelling tuples of instructions, and
+creating statistical leakage models for sequences of instructions.
+
+It's been noted in past work that data-dependent leakage can sometimes appear
+many cycles after the initial operation which created the data.
+It's also been noted that consecutive linear operations leak more than
+expected.
+
 Questions:
+
 1. Can we identify the length of a pipeline just from side-channel
   information?
+
 2. Can we show which information appears in which stage of the pipeline?
+
    - Expect immediates to appear early.
+
    - Register read data next.
+   
    - Result data should appear last.
+
 3. Can we identify forwarding paths by looking at side-channel information?
+
    - Does activation of these paths increase leakage?
+
 4. Can we use this information to inform instruction scheduling choices to
    minimise leakage?
+
 5. How does leakage which *starts* appearing in one cycle bleed into
    subsequent cycles?
+
+   - Does this happen purely as an artifact of pipelining?
+
+   - Does this happen due to internal power supply capacitiances?
+
+   - Can we separate the two effects, or confirm/eliminate them?
 
 ---
 
@@ -102,82 +146,140 @@ For each load/store instruction one is interested in:
 First, identify a set of useful ALU style instructions: add/xor/shift/mul
 
 Identifying *where* forwarding takes place:
+
 - For each pair of useful ALU instructions:
+
   - Start with a sequence of NOPs, followed by `I1`, followed by
     `N` > pipeline length NOPS, followed by `I2`, followed by more NOPS.
+
   - `I2` reads from `I1` destination.
+
   - Time how long the instruction sequence takes for `N`, `N-1`..`N=0`
     NOP operations between `I1` and `I2`.
+
   - If the sequence takes `X` cycles for `X` instructions, then either
     there is no forwarding because the instructions were far enough apart
     it was not needed, or forwarding took place transparently and there was
     no need for a stall.
+
   - If the sequence takes `>X` cycles for `X` instructions, then stalling
     to avoid the RAW hazard must have occured.
 
 Identifying leakage:
+
 - For each of the scenarios above, run a t-test using a single constant
   value to be forwarded v.s a known random value.
+
 - Sort the scenarios based on peak observed leakage?
+
 - Sort scenarios based on *where* peak leakage occurs in the sequence.
+
 - Identify the top-N local maxima in the leakage? Can N correspond to the
   number of pipeline stages the forwarded value traversed?
 
 Notes:
 - When a register value is forwarded, two values must be considered:
+
   - The in-flight value, forwarded from a pipeline register
+
   - The committed value inside the register file
+
 - Both values will progress along combinatorial paths to a MUX, before the
   right one is selected.
+
   - Does this "race" produce useful / detectable leakage?
+
 
 **Load to use:**
 
 Identifying how far appart instructions must be to avoid load to use
 stalls:
+
 - Pick `I1` and `I2` where `I1` is a load and `I2` reads from the destination
   of `I1`.
+
 - Create a sequence of the form {NOPS, `I1`, NOPS\*N,`I2`, NOPS}.
+
 - Time how long it takes to execute the sequence, for varying values of
   `N`.
+
   - If it takes 1 cycle per instruction, no stalling occured.
 
 Leakage effects:
+
 - Do a t-test on fixed v.s random loaded (and hence forwarded values)
 
 Considerations:
+
 - Assumes no/predictable cache behavior
 
 ## Multi-cycle leakage
 
-It's been observed that leakage does not stay contained within the clock
+It has been observed that leakage does not stay contained within the clock
 cycle which causes the leaking value to appear/disappear.
 Can we work out why this is?
+
 - Does it come from the power supply taking >1 clock cycle to stablise
   again after being perturbed due to data-dependent register writes?
+
 - Does it come from the same value(s) propagating across multiple
   register stages?
+
 - All / none of the above?
 
-Hypothesis:
+
+Hypothesis 1.
+
 - Each toggle of a net causes a predictable decaying sinusoid to appear
   as an additive signal in the power supply waveform.
+
 - Multiply nets toggling at once cause the summation of their decaying
   sinusoids to be applied to the power wave form.
+
 - Out of phase sinusoids will combine constructivley/destructivley.
+
 - If the sinusoids do not decay completely over a single clock
   cycle, then their effect on the power supply wave form will continue to
   combine with the next set of net toggles on the next clock edge.
+
 - This effect would lead to inter-cycle interference and an *amplification*
   of linear leakages across cycles.
 
+
+Notes:
+
+- Distinguishing between leakage due to inter-clock cycle capacitance
+  effects and simple(r) spreading of execution over mutliple cycles
+  is hard.
+
+- One approach might be to re-use part of the forwarding experiment.
+  Try a sequence of *linear* fixed-vs-random computations where:
+
+  1. Results are forwarded
+
+  2. Results are not forwarded
+
+  3. Results are forwarded, but operations are interleaved with NOPs
+     (requires a pipeline deep enough to achieve forwarding over
+      3 pipeline stages)
+
+  4. Results are not forwarded, and operations are interleaved with NOPs
+
+- If inter-cycle capacitance is having an effect, one would expect the
+  interleaved instructions to show less leakage amplfication regardless of
+  forwarding.
+
+
 Experimental approaches:
+
 - Slow down the clock rate such that no clock transitions occur until
   the power waveform has stabalised again.
+
   - This will be a device / technology specific effect.
+
 - Look at a known pipeline architecture, and identify each register a
   value is written too. If the number of registers is >1 and is spread
-  over time, this is a likely source of multi-cycle leakage.
+  over time, this is a likely contributor to multi-cycle leakage.
 
 ---
 

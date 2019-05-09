@@ -3,43 +3,92 @@
 
 Memory busses and interconnects are expensive to drive signals over, or
 to have toggle unnecessarily.
+This is because:
+- The traces often travel long distances across the chip (compared to an
+  ALU datapath for example).
+- Many different sub-systems are connected to the same bus.
+- It may take multiple clock cycles to send and recieve a memory transaction
+  due to stalls or interconnect latency.
 
-Their value will be driven by registers, which change in value
-only when needed.
+They behavior of memory busses is rarely documented for the programmer.
+While great care can be taken by through measurement and even informed
+assumptions about CPU register (overwrite) behaviour, memory hierarchy
+registers are often much more obscured.
+
+Further, they are often time-multipliexed between different resources.
+This can even occur in single-agent systems where a micro-controller tries
+to access data and instructions from the same memory. This multiplexing
+can mean values are left in registers which are not related to the
+currently running program, and their overwrite can cause leakage a long
+time after the original program was finished with it.
 
 Questions:
+
 1. Can we identify the number of register stages loaded data must travel
   through in a system by observing power based side channels?
+
    - Can we do this for multiple CPUs?
+
    - Can we do this for the same CPU on multiple systems?
+
 2. Can we work out if data loaded/stored some time ago remains in a register,
    which might get overwritten on the next load?
+
 3. Can we use this information to obtain a better leakage estimate?
+
 4. Can we use this information to better minimise leakage?
 
 
 # 2. Memory Bus Widths
 
 Typical micro-controller based SoCs will have some sort of bus
-interconnect, allowing the uC to talk to memory and peripherals.
-
+interconnect, allowing it to talk to memory and peripherals.
 The data lines of this bus are usually as wide as the register word width
-of the CPU. A 32-bit CPU will have a 32-bit data bus.
+of the CPU: A 32-bit CPU will have a 32-bit data bus.
 
-When loading and storing sub-word values, parts of the bus are not
-used.
-
-However, past work suggests that sometimes, more information than
+CPUs often operate on values which are smaller than the word width of
+the register.
+This is commonly seen in block ciphers.
+When loading and storing sub-word values, what happens on the rest of
+the bus is not known to the programmer.
+Past work suggests that sometimes, more information than
 was requested is driven onto the bus, which may cause more or
 different leakage than was expected.
 
+One may also be able to reason about bus behavior by analysing bus
+standards such as AXI, AMBA and Wishbone.
+These standards define the physical signals used to communicate, as well
+as how data is layed out on them.
+
 Questions:
-1. Can we reverese engineer how a bus handles sub-word data accesses?
-2. Can we do this for multiple CPUs?
-3. Can we do this for multiple implementations of the same CPU?
+
+1. For each popular micro-controller bus standard, survey their
+   behavior with respect to sub-word width accesses.
+
+   - Is their handling of sub-word acceses fully specified?
+
+   - Can reasonable assumptions be made about their implementation be made in
+     the absence of a total specification?
+
+2. Can we reverese engineer how a bus handles sub-word data accesses?
+
+   - Theoretically it should be possible to demonstrate this using
+     well chosen data being loaded and stored, and creating an expectation
+     for how much adjoining data is also transfered but discarded.
+
+3. Can we do this for multiple CPUs?
+    
+   - RISC style architecturs typically all have the same collection
+     of byte/halfword/word load and store instructions.
+
+4. Can we do this for multiple implementations of the same CPU?
+
    - Do the results differ?
-4. Can we get a better leakage estimation by taking this into account?
+
+5. Can we get a better leakage estimation by taking this into account?
+
    - Is this leakage exploitable?
+
    - Can we use this information to better minimise leakage?
 
 ---
