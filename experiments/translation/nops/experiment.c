@@ -13,14 +13,18 @@ extern void     * experiment_payload_end;
 /*!
 @details Does nothing.
 */
-uint8_t experiment_init() {
+uint8_t experiment_init(
+    scass_target_cfg * cfg //!< PRNG / data access
+) {
     return 0;
 }
 
 /*!
 @details Runs a bunch of NOPS in sequence, then finishes.
 */
-uint8_t experiment_run(){
+uint8_t experiment_run(
+    scass_target_cfg * cfg //!< PRNG / data access
+){
 
     uas_bsp_trigger_set();
     
