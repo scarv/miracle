@@ -2,7 +2,7 @@
 #include "uas_prng.h"
 
 //! The current value of the PRNG
-static uint32_t prng_val;
+static uint32_t prng_val = 0xF0F0F0F0;
 
 /*!
 @brief Update the PRNG value
