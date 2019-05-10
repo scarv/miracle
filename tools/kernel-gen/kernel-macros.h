@@ -14,6 +14,25 @@
     .error "No known architecture defined"
 #endif
 
+// ABI argument register 0
+#ifndef ARG_0
+    .warning "ARG_0 register not defined"
+#endif
+
+// ABI argument register 1
+#ifndef ARG_1
+    .warning "ARG_1 register not defined"
+#endif
+
+// ABI argument register 2
+#ifndef ARG_2
+    .warning "ARG_2 register not defined"
+#endif
+
+// ABI argument register 3
+#ifndef ARG_3
+    .warning "ARG_3 register not defined"
+#endif
 
 //
 // Load unsigned byte into RD, using register + immediate addressing

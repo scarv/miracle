@@ -1,4 +1,16 @@
 
+// ABI argument register 0
+#define ARG_0 .error "ARG_0 register not defined"
+
+// ABI argument register 1
+#define ARG_1 .error "ARG_1 register not defined"
+
+// ABI argument register 2
+#define ARG_2 .error "ARG_2 register not defined"
+
+// ABI argument register 3
+#define ARG_3 .error "ARG_3 register not defined"
+
 //
 // Load unsigned byte into RD, using register + immediate addressing
 //

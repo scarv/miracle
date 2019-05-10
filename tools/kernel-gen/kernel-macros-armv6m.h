@@ -1,4 +1,11 @@
 
+// ABI argument registers
+#define ARG_0 r0
+#define ARG_1 r1
+#define ARG_2 r2
+#define ARG_3 r3
+
+
 #define LOAD_UBYTE_RI(RD,RB,IMM)  ldr  RD,RN,IMM 
 #define LOAD_UHALF_RI(RD,RB,IMM)  ldrh RD,RN,IMM
 #define LOAD_WORD_RI(RD,RB,IMM)   ldrb RD,RN,IMM
