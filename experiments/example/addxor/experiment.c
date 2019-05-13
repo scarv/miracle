@@ -7,20 +7,20 @@
 
 #include "experiment.h"
 
-#define EDATA_LEN 8
+#define EDATA_IN_LEN 8
+#define EDATA_OUT_LEN 4
 
-uint8_t           experiment_data [EDATA_LEN];
+uint8_t           data_in  [EDATA_IN_LEN ];
+uint8_t           data_out [EDATA_OUT_LEN];
 
 //! Declaration for the experiment payload function in nops.S
 extern void     * experiment_payload(
-    uint32_t a,
-    uint32_t b
+    uint32_t   a,
+    uint32_t   b,
+    uint32_t * data_out
 );
 
 extern void     * experiment_payload_end;
-    
-static uint32_t prng_a;
-static uint32_t prng_b;
 
 /*!
 @details Does nothing.
@@ -29,8 +29,11 @@ uint8_t experiment_init(
     scass_target_cfg * cfg //!< PRNG / data access
 ) {
 
-    for(uint8_t i = 0; i < EDATA_LEN; i++) {
-        experiment_data[i] = i;
+    for(uint8_t i = 0; i < EDATA_IN_LEN; i++) {
+        data_in[i] = i;
+    }
+    for(uint8_t i = 0; i < EDATA_OUT_LEN; i++) {
+        data_out[i] = i;
     }
     return 0;
 }
@@ -42,12 +45,12 @@ uint8_t experiment_run(
     scass_target_cfg * cfg //!< PRNG / data access
 ){
 
-    prng_a = scass_prng_sample(cfg);
-    prng_b = scass_prng_sample(cfg);
+    uint32_t in_a = ((uint32_t*)data_in)[0];
+    uint32_t in_b = ((uint32_t*)data_in)[1];
 
     uas_bsp_trigger_set();
     
-    experiment_payload(prng_a, prng_b);
+    experiment_payload(in_a, in_b, (uint32_t*)data_out);
     
     uas_bsp_trigger_clear();
 
@@ -58,10 +61,17 @@ uint8_t experiment_run(
 void experiment_setup_scass(
     scass_target_cfg * cfg //!< The config object to setup.
 ){
+
     cfg -> scass_experiment_init = experiment_init;
     cfg -> scass_experiment_run  = experiment_run ;
+
     cfg -> experiment_name       = "example/andxor";
-    cfg -> experiment_data       = experiment_data;
-    cfg -> experiment_data_len   = EDATA_LEN;
+
+    cfg -> data_in               = data_in;
+    cfg -> data_in_len           = EDATA_IN_LEN;
+
+    cfg -> data_out              = data_out;
+    cfg -> data_out_len          = EDATA_OUT_LEN;
+
 }
 

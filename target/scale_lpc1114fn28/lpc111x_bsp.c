@@ -20,8 +20,11 @@ uint8_t uas_bsp_init_target(){
     
     if(scale_init(&SCALE_CONF)) {
         scale_gpio_wr(SCALE_GPIO_PIN_GPO, 1);
+        scale_gpio_wr(SCALE_GPIO_PIN_TRG, 0);
         return 0;
     } else {
+        scale_gpio_wr(SCALE_GPIO_PIN_GPO, 0);
+        scale_gpio_wr(SCALE_GPIO_PIN_TRG, 1);
         return 1;
     }
 }
