@@ -4,6 +4,17 @@
 *A list of candidate devices and platforms on which to perform these
 experiments*
 
+---
+
+## Implemented Platforms
+
+- [SCALE ARM M0 Board / lpc1114fn28](scale_lpc1114fn28/README.md)
+- [SCALE ARM M3 Board / lpc1313fbd48](scale_lpc1313fbd48/README.md)
+- [SAKURA-X Microblaze 3-stage softcore](sakurax_mb3/README.md)
+
+
+## Candidate Platforms
+
 **FPGA + Xilinx Microblaze:**
 - Use the Sasebo FPGA platform
 - Use Xilinx own Microblaze configurable CPU.
