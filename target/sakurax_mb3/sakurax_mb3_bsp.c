@@ -23,7 +23,7 @@ const uint32_t UART_STATUS_RX_VALID  = 0x00000001;
 const uint32_t UART_STATUS_TX_FULL   = 0x00000008;
 
 
-static volatile uint32_t * GPIO = (uint32_t*)0x40600000;
+static volatile uint32_t * GPIO = (uint32_t*)0x40000000;
 
 const uint32_t GPIO_TRIGGER = 0x00000001;
 const uint32_t GPIO_GPO     = 0x00000002;

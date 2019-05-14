@@ -14,7 +14,21 @@ AS      = $(UAS_MICROBLAZE_TOOLCHAIN_ROOT)/microblaze-xilinx-elf-as
 OBJDUMP = $(UAS_MICROBLAZE_TOOLCHAIN_ROOT)/microblaze-xilinx-elf-objdump
 OBJCOPY = $(UAS_MICROBLAZE_TOOLCHAIN_ROOT)/microblaze-xilinx-elf-objcopy
 
-TARGET_SRCS = $(UAS_ROOT)/target/sakurax_mb3/sakurax_mb3_bsp.c \
+TARGET_SRCS = $(UAS_ROOT)/target/sakurax_mb3/sakurax_mb3_bsp.c 
 
-program: $(HEX_OUT)
-	echo "PROGRAMMING NOT IMPLEMENTED"
+UPDATEMEM       = $(VIVADO_ROOT)/bin/updatemem
+
+MEMINFO         = $(UAS_ROOT)/target/sakurax_mb3/sakurax_mb3.mmi
+IMPL_BITFILE    = $(UAS_ROOT)/target/sakurax_mb3/bitstream.bit
+DOWNLOAD_BITFILE= $(UAS_BUILD)/$(UAS_EXPERIMENT)/$(UAS_TARGET)/download.bit
+
+$(DOWNLOAD_BITFILE) : $(IMPL_BITFILE) $(BINOUT)
+	$(UPDATEMEM) -force \
+	-meminfo $(MEMINFO) \
+	-bit     $(IMPL_BITFILE) \
+	-data    $(BINOUT) \
+	-proc    system_top_i/CPU_MB3 \
+	-out     $(DOWNLOAD_BITFILE)
+
+program: $(DOWNLOAD_BITFILE)
+	

@@ -7,8 +7,17 @@ export UAS_BUILD=$UAS_ROOT/build
 export SCALE_SW=$UAS_ROOT/external/scale-sw
 export SCALE_HW=$UAS_ROOT/external/scale-hw
 
-export UAS_ARM_TOOLCHAIN_ROOT=/usr/bin/
-export UAS_MICROBLAZE_TOOLCHAIN_ROOT=/opt/Xilinx/SDK/2018.1/gnu/microblaze/lin/bin
+if [ -z $UAS_ARM_TOOLCHAIN_ROOT ] ; then
+    export UAS_ARM_TOOLCHAIN_ROOT=/usr/bin/
+fi
+
+if [ -z $VIVADO_ROOT ] ; then
+    export VIVADO_ROOT=$XILINX_VIVADO
+fi
+
+if [ -z $UAS_MICROBLAZE_TOOLCHAIN_ROOT ] ; then
+    export UAS_MICROBLAZE_TOOLCHAIN_ROOT=/opt/Xilinx/SDK/2018.1/gnu/microblaze/lin/bin
+fi
 
 mkdir -p $UAS_BUILD
 
@@ -19,4 +28,5 @@ echo "SCALE_HW  = $SCALE_HW"
 echo "---"
 echo "UAS_ARM_TOOLCHAIN_ROOT        = $UAS_ARM_TOOLCHAIN_ROOT"
 echo "UAS_MICROBLAZE_TOOLCHAIN_ROOT = $UAS_MICROBLAZE_TOOLCHAIN_ROOT"
+echo "VIVADO_ROOT                   = $VIVADO_ROOT"
 echo "-----------------------------------------------------------------------"

@@ -3,7 +3,7 @@ UAS_EXPERIMENT      ?= translation/nops
 UAS_TARGET          ?= scale_lpc1114fn28
 UAS_EXPERIMENT_SRC  ?= $(UAS_ROOT)/experiments/$(UAS_EXPERIMENT)
 
-BINOUT     = $(UAS_BUILD)/$(UAS_EXPERIMENT)/$(UAS_TARGET)/program.out
+BINOUT     = $(UAS_BUILD)/$(UAS_EXPERIMENT)/$(UAS_TARGET)/program.elf
 OBJDUMP_OUT= $(UAS_BUILD)/$(UAS_EXPERIMENT)/$(UAS_TARGET)/program.objdump
 HEX_OUT    = $(UAS_BUILD)/$(UAS_EXPERIMENT)/$(UAS_TARGET)/program.hex
 
