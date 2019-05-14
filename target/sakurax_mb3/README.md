@@ -76,3 +76,5 @@ Pin     | SAKURA-X Pin Name     | RTL Signal Name
 - [SAKURA-X FPGA Development Platform](http://satoh.cs.uec.ac.jp/SAKURA/hardware/SAKURA-X.html)
   - [Purchasing](http://www.troche.com/sakura/order.html)
 - [Xilinx UG984 Microblaze Processor Reference Guide](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_3/ug984-vivado-microblaze-ref.pdf)
+- [Xilinx PG144 AXI GPIO v2.0 Product Guide](https://www.xilinx.com/support/documentation/ip_documentation/axi_gpio/v2_0/pg144-axi-gpio.pdf)
+- [Xilinx PG142 AXI UART Lite v2.0 Product Guide](https://www.xilinx.com/support/documentation/ip_documentation/axi_uartlite/v2_0/pg142-axi-uartlite.pdf)
