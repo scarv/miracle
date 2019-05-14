@@ -41,6 +41,11 @@ The wider SoC system implemented on the FPGA consists of:
 - Processor System Reset Module
 - Clock Generator Core - 12.5 Mhz
 
+Notes:
+- The AXI interconnect has an register stage between the master and
+  slave ports.
+- The LMB interfaces have no such registering.
+
 ## System Memory Map
 
 Device      | Base          | Range    | High Address
