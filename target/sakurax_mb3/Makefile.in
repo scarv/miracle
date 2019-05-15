@@ -37,4 +37,5 @@ program: $(DOWNLOAD_BITFILE)
 	$(VIVADO) -mode tcl -log $(VIVADO_LOG) -nojournal \
         -source $(UAS_ROOT)/target/sakurax_mb3/program_bitstream.tcl \
         -tclargs $(DOWNLOAD_BITFILE)
+	@rm $(dir $(VIVADO_LOG))/vivado*backup.log
 	
