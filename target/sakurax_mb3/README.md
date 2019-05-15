@@ -29,6 +29,7 @@ This target configures the Microblaze as follows:
 - Implementation Strategy: Area Optimised
 - MMU: None
 
+![System Block Diagram][block-diagram.png]
 
 The wider SoC system implemented on the FPGA consists of:
 - The Microblaze CPU
@@ -42,9 +43,10 @@ The wider SoC system implemented on the FPGA consists of:
 - Clock Generator Core - 12.5 Mhz
 
 Notes:
-- The AXI interconnect has an register stage between the master and
-  slave ports.
 - The LMB interfaces have no such registering.
+- The AXI BRAM 0 device has 0 register stages between the CPU and the memory.
+- The AXI BRAM 1 device has 1 register stage between the CPU and the memory. 
+- By default, the linker script loads code and data into AXI BRAM 0.
 
 ## System Memory Map
 
@@ -53,7 +55,8 @@ Device      | Base          | Range    | High Address
 UART        | 0x40600000    |  4K      | 0x40600FFF
 GPIO        | 0x40000000    |  4K      | 0x40000FFF
 LMB BRAM    | 0x10000000    |  8K      | 0x10001FFF
-AXI BRAM    | 0x00000000    | 32K      | 0x00007FFF
+AXI BRAM 0  | 0x00000000    | 16K      | 0x00003FFF
+AXI BRAM 1  | 0x00004000    | 16K      | 0x00007FFF
 
 ## Pin Locations
 

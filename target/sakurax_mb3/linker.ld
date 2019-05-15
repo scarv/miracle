@@ -17,7 +17,8 @@ _HEAP_SIZE = DEFINED(_HEAP_SIZE) ? _HEAP_SIZE : 0x400;
 
 MEMORY
 {
-   BRAM_CTRL_Mem0 : ORIGIN = 0x50, LENGTH = 0x7FB0
+   BRAM_0_Mem0 : ORIGIN = 0x50, LENGTH = 0x3FB0
+   BRAM_1_Mem0 : ORIGIN = 0x4000, LENGTH = 0x4000
    INST_LMB_Mem_DATA_LMB_Mem : ORIGIN = 0x10000000, LENGTH = 0x2000
 }
 
@@ -49,15 +50,15 @@ SECTIONS
    *(.text)
    *(.text.*)
    *(.gnu.linkonce.t.*)
-} > BRAM_CTRL_Mem0
+} > BRAM_0_Mem0
 
 .init : {
    KEEP (*(.init))
-} > BRAM_CTRL_Mem0
+} > BRAM_0_Mem0
 
 .fini : {
    KEEP (*(.fini))
-} > BRAM_CTRL_Mem0
+} > BRAM_0_Mem0
 
 .ctors : {
    __CTOR_LIST__ = .;
@@ -68,7 +69,7 @@ SECTIONS
    KEEP (*(.ctors))
    __CTOR_END__ = .;
    ___CTORS_END___ = .;
-} > BRAM_CTRL_Mem0
+} > BRAM_0_Mem0
 
 .dtors : {
    __DTOR_LIST__ = .;
@@ -79,7 +80,7 @@ SECTIONS
    KEEP (*(.dtors))
    PROVIDE(__DTOR_END__ = .);
    PROVIDE(___DTORS_END___ = .);
-} > BRAM_CTRL_Mem0
+} > BRAM_0_Mem0
 
 .rodata : {
    __rodata_start = .;
@@ -87,7 +88,7 @@ SECTIONS
    *(.rodata.*)
    *(.gnu.linkonce.r.*)
    __rodata_end = .;
-} > BRAM_CTRL_Mem0
+} > BRAM_0_Mem0
 
 .sdata2 : {
    . = ALIGN(8);
@@ -97,7 +98,7 @@ SECTIONS
    *(.gnu.linkonce.s2.*)
    . = ALIGN(8);
    __sdata2_end = .;
-} > BRAM_CTRL_Mem0
+} > BRAM_0_Mem0
 
 .sbss2 : {
    __sbss2_start = .;
@@ -105,7 +106,7 @@ SECTIONS
    *(.sbss2.*)
    *(.gnu.linkonce.sb2.*)
    __sbss2_end = .;
-} > BRAM_CTRL_Mem0
+} > BRAM_0_Mem0
 
 .data : {
    . = ALIGN(4);
@@ -114,31 +115,31 @@ SECTIONS
    *(.data.*)
    *(.gnu.linkonce.d.*)
    __data_end = .;
-} > BRAM_CTRL_Mem0
+} > BRAM_0_Mem0
 
 .got : {
    *(.got)
-} > BRAM_CTRL_Mem0
+} > BRAM_0_Mem0
 
 .got1 : {
    *(.got1)
-} > BRAM_CTRL_Mem0
+} > BRAM_0_Mem0
 
 .got2 : {
    *(.got2)
-} > BRAM_CTRL_Mem0
+} > BRAM_0_Mem0
 
 .eh_frame : {
    *(.eh_frame)
-} > BRAM_CTRL_Mem0
+} > BRAM_0_Mem0
 
 .jcr : {
    *(.jcr)
-} > BRAM_CTRL_Mem0
+} > BRAM_0_Mem0
 
 .gcc_except_table : {
    *(.gcc_except_table)
-} > BRAM_CTRL_Mem0
+} > BRAM_0_Mem0
 
 .sdata : {
    . = ALIGN(8);
@@ -147,7 +148,7 @@ SECTIONS
    *(.sdata.*)
    *(.gnu.linkonce.s.*)
    __sdata_end = .;
-} > BRAM_CTRL_Mem0
+} > BRAM_0_Mem0
 
 .sbss (NOLOAD) : {
    . = ALIGN(4);
@@ -157,7 +158,7 @@ SECTIONS
    *(.gnu.linkonce.sb.*)
    . = ALIGN(8);
    __sbss_end = .;
-} > BRAM_CTRL_Mem0
+} > BRAM_0_Mem0
 
 .tdata : {
    __tdata_start = .;
@@ -165,7 +166,7 @@ SECTIONS
    *(.tdata.*)
    *(.gnu.linkonce.td.*)
    __tdata_end = .;
-} > BRAM_CTRL_Mem0
+} > BRAM_0_Mem0
 
 .tbss : {
    __tbss_start = .;
@@ -173,7 +174,7 @@ SECTIONS
    *(.tbss.*)
    *(.gnu.linkonce.tb.*)
    __tbss_end = .;
-} > BRAM_CTRL_Mem0
+} > BRAM_0_Mem0
 
 .bss (NOLOAD) : {
    . = ALIGN(4);
@@ -184,7 +185,7 @@ SECTIONS
    *(COMMON)
    . = ALIGN(4);
    __bss_end = .;
-} > BRAM_CTRL_Mem0
+} > BRAM_0_Mem0
 
 _SDA_BASE_ = __sdata_start + ((__sbss_end - __sdata_start) / 2 );
 
@@ -198,7 +199,7 @@ _SDA2_BASE_ = __sdata2_start + ((__sbss2_end - __sdata2_start) / 2 );
    _heap_start = .;
    . += _HEAP_SIZE;
    _heap_end = .;
-} > BRAM_CTRL_Mem0
+} > BRAM_0_Mem0
 
 .stack (NOLOAD) : {
    _stack_end = .;
@@ -206,7 +207,7 @@ _SDA2_BASE_ = __sdata2_start + ((__sbss2_end - __sdata2_start) / 2 );
    . = ALIGN(8);
    _stack = .;
    __stack = _stack;
-} > BRAM_CTRL_Mem0
+} > BRAM_0_Mem0
 
 _end = .;
 }
