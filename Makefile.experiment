@@ -2,6 +2,12 @@
 UAS_EXPERIMENT      ?= translation/nops
 UAS_TARGET          ?= scale_lpc1114fn28
 UAS_EXPERIMENT_SRC  ?= $(UAS_ROOT)/experiments/$(UAS_EXPERIMENT)
+UAS_EXPERIMENT_BUILD = $(UAS_BUILD)/$(UAS_EXPERIMENT)/$(UAS_TARGET)
+
+TTEST_CAPTURE       ?= $(UAS_ROOT)/external/fw-acquisition/ttest-capture.py
+TTEST_ANALYSE       ?= $(UAS_ROOT)/external/fw-acquisition/ttest-analyse.py
+TTEST_NUM_TRACES    ?= 10000
+TTEST_NAME          ?= default
 
 BINOUT     = $(UAS_BUILD)/$(UAS_EXPERIMENT)/$(UAS_TARGET)/program.elf
 OBJDUMP_OUT= $(UAS_BUILD)/$(UAS_EXPERIMENT)/$(UAS_TARGET)/program.objdump

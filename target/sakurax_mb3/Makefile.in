@@ -18,11 +18,19 @@ TARGET_SRCS = $(UAS_ROOT)/target/sakurax_mb3/sakurax_mb3_bsp.c
 
 UPDATEMEM       = $(VIVADO_ROOT)/bin/updatemem
 VIVADO          = $(VIVADO_ROOT)/bin/vivado
-VIVADO_LOG      = $(UAS_BUILD)/$(UAS_EXPERIMENT)/$(UAS_TARGET)/vivado.log
+VIVADO_LOG      = $(UAS_EXPERIMENT_BUILD)/vivado.log
 
 MEMINFO         = $(UAS_ROOT)/target/sakurax_mb3/sakurax_mb3.mmi
 IMPL_BITFILE    = $(UAS_ROOT)/target/sakurax_mb3/bitstream.bit
-DOWNLOAD_BITFILE= $(UAS_BUILD)/$(UAS_EXPERIMENT)/$(UAS_TARGET)/download.bit
+DOWNLOAD_BITFILE= $(UAS_EXPERIMENT_BUILD)/download.bit
+
+SAKURAX_MB3_SCOPE_CONFIG = $(UAS_ROOT)/target/sakurax_mb3/picoscope5000.cfg
+SAKURAX_MB3_POWER_CHANNEL= B
+SAKURAX_MB3_TRS_FIXED    = $(UAS_EXPERIMENT_BUILD)/ttest-$(TTEST_NAME)-fixed.trs
+SAKURAX_MB3_TRS_RANDOM   = $(UAS_EXPERIMENT_BUILD)/ttest-$(TTEST_NAME)-random.trs
+
+SAKURAX_MB3_TT_GRAPH     = $(UAS_EXPERIMENT_BUILD)/ttest-$(TTEST_NAME)-ttrace.svg
+SAKURAX_MB3_TT_AVG       = $(UAS_EXPERIMENT_BUILD)/ttest-$(TTEST_NAME)-averages.svg
 
 $(DOWNLOAD_BITFILE) : $(IMPL_BITFILE) $(BINOUT)
 	$(UPDATEMEM) -force \
@@ -33,9 +41,31 @@ $(DOWNLOAD_BITFILE) : $(IMPL_BITFILE) $(BINOUT)
 	-out     $(DOWNLOAD_BITFILE)
 	@rm updatemem.jou updatemem.log
 
-program: $(DOWNLOAD_BITFILE)
+$(VIVADO_LOG) : $(DOWNLOAD_BITFILE)
 	$(VIVADO) -mode tcl -log $(VIVADO_LOG) -nojournal \
         -source $(UAS_ROOT)/target/sakurax_mb3/program_bitstream.tcl \
         -tclargs $(DOWNLOAD_BITFILE)
 	@rm $(dir $(VIVADO_LOG))/vivado*backup.log
 	
+program: $(VIVADO_LOG)
+
+$(SAKURAX_MB3_TRS_RANDOM): $(SAKURAX_MB3_TRS_FIXED)
+$(SAKURAX_MB3_TRS_FIXED) : 
+	$(TTEST_CAPTURE) -n $(TTEST_NUM_TRACES) \
+                     -b $(USB_BAUD) \
+                        $(USB_PORT) \
+                        $(SAKURAX_MB3_SCOPE_CONFIG) \
+                        $(SAKURAX_MB3_POWER_CHANNEL) \
+                        $(SAKURAX_MB3_TRS_FIXED) \
+                        $(SAKURAX_MB3_TRS_RANDOM)
+
+$(SAKURAX_MB3_TT_GRAPH): $(SAKURAX_MB3_TT_AVG)
+$(SAKURAX_MB3_TT_AVG) : $(SAKURAX_MB3_TRS_RANDOM)
+	$(TTEST_ANALYSE) \
+        --graph-ttest       $(SAKURAX_MB3_TT_GRAPH) \
+        --graph-avg-trace   $(SAKURAX_MB3_TT_AVG) \
+        $(SAKURAX_MB3_TRS_FIXED) \
+        $(SAKURAX_MB3_TRS_RANDOM)
+
+ttest: $(SAKURAX_MB3_TT_GRAPH) $(SAKURAX_MB3_TT_AVG)
+
