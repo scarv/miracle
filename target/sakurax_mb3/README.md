@@ -29,7 +29,7 @@ This target configures the Microblaze as follows:
 - Implementation Strategy: Area Optimised
 - MMU: None
 
-![System Block Diagram][block-diagram.png]
+![System Block Diagram](block-diagram.png)
 
 The wider SoC system implemented on the FPGA consists of:
 - The Microblaze CPU
