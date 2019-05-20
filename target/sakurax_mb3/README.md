@@ -5,6 +5,21 @@
 
 ---
 
+## Getting Started
+
+To build and run an experiment on the target using the pre-synthesised
+bitfile:
+
+```sh
+$> source bin/conf.sh
+$> make -B -f Makefile.experiment UAS_EXPERIMENT=example/addxor UAS_TARGET=sakurax_mb3 program
+```
+
+This will build the example experiment, combine it with the pre-synthesised
+bitfile and program the FPGA via the Xilinx hardware server.
+
+## Target Information
+
 This target is an FPGA CPU Softcore: The *Microblaze* provided by Xilinx.
 The *Microblaze* is a highly configurable soft CPU design, which can be
 included as a managment core in larger FPGA systems.
@@ -48,7 +63,7 @@ Notes:
 - The AXI BRAM 1 device has 1 register stage between the CPU and the memory. 
 - By default, the linker script loads code and data into AXI BRAM 0.
 
-## System Memory Map
+### System Memory Map
 
 Device      | Base          | Range    | High Address
 ------------|---------------|----------|----------------
@@ -58,7 +73,7 @@ LMB BRAM    | 0x10000000    |  8K      | 0x10001FFF
 AXI BRAM 0  | 0x00000000    | 16K      | 0x00003FFF
 AXI BRAM 1  | 0x00004000    | 16K      | 0x00007FFF
 
-## Pin Locations
+### Pin Locations
 
 Pin     | SAKURA-X Pin Name     | RTL Signal Name
 --------|-----------------------|-----------------------------------------------

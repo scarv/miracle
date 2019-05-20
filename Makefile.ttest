@@ -1,0 +1,37 @@
+
+include $(UAS_ROOT)/Makefile.common
+
+TTEST_CAPTURE       ?= $(UAS_ROOT)/external/fw-acquisition/ttest-capture.py
+TTEST_ANALYSE       ?= $(UAS_ROOT)/external/fw-acquisition/ttest-analyse.py
+TTEST_NUM_TRACES    ?= 10000
+TTEST_NAME          ?= default
+
+TTEST_SCOPE_CONFIG = $(UAS_ROOT)/target/$(UAS_TARGET)/picoscope5000.cfg
+TTEST_POWER_CHANNEL= B
+TTEST_TRS_FIXED    = $(UAS_EXPERIMENT_BUILD)/ttest-$(TTEST_NAME)-fixed.trs
+TTEST_TRS_RANDOM   = $(UAS_EXPERIMENT_BUILD)/ttest-$(TTEST_NAME)-random.trs
+
+TTEST_TT_GRAPH     = $(UAS_EXPERIMENT_BUILD)/ttest-$(TTEST_NAME)-ttrace.svg
+TTEST_TT_AVG       = $(UAS_EXPERIMENT_BUILD)/ttest-$(TTEST_NAME)-averages.svg
+
+$(TTEST_TRS_RANDOM): $(TTEST_TRS_FIXED)
+$(TTEST_TRS_FIXED) : 
+	$(TTEST_CAPTURE) -n $(TTEST_NUM_TRACES) \
+                     -b $(USB_BAUD) \
+                        $(USB_PORT) \
+                        $(TTEST_SCOPE_CONFIG) \
+                        $(TTEST_POWER_CHANNEL) \
+                        $(TTEST_TRS_FIXED) \
+                        $(TTEST_TRS_RANDOM)
+
+$(TTEST_TT_GRAPH): $(TTEST_TT_AVG)
+$(TTEST_TT_AVG) : $(TTEST_TRS_RANDOM)
+	$(TTEST_ANALYSE) \
+        --graph-ttest       $(TTEST_TT_GRAPH) \
+        --graph-avg-trace   $(TTEST_TT_AVG) \
+        $(TTEST_TRS_FIXED) \
+        $(TTEST_TRS_RANDOM)
+
+ttest-capture: $(TTEST_TRS_FIXED) $(TTEST_TRS_RANDOM)
+
+ttest: $(TTEST_TT_GRAPH) $(TTEST_TT_AVG)

@@ -17,7 +17,7 @@ To build and run an experiment on the target:
 ```sh
 $> source bin/conf.sh
 $> export UAS_ARM_TOOLCHAIN_ROOT=<path to 2016q3 ARM embedded toolchain>
-$> make -B -f Makefile.experiment UAS_EXPERIMENT=example/addxor UAS_TARGET=scale_lpc812m101
+$> make -B -f Makefile.experiment UAS_EXPERIMENT=example/addxor UAS_TARGET=scale_lpc812m101 program
 ```
 
 If you're target device is not connected to `/dev/ttyUSB0`, you also need
