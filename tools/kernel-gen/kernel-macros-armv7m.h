@@ -11,7 +11,7 @@
 #define STORE_BYTE_RI(RS,RB,IMM)  str  RD,RN,IMM 
 #define STORE_HALF_RI(RS,RB,IMM)  strh RD,RN,IMM
 #define STORE_WORD_RI(RS,RB,IMM)  strb RD,RN,IMM
-#define XOR_RR(RD,RA,RM)          eors RD,RD,RM 
+#define XOR_RR(RD,RA,RM)          eor  RD,RM 
 #define XOR_RI(RD,RA,IMM)         .error "Not implemented XOR RRI ARM7-M"
 #define ADD_RR(RD,RN,RM )         add  RD,RN,RM  
 #define ADD_RI(RD,RA,IMM)         adds RD,RD,IM 

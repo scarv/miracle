@@ -17,5 +17,34 @@ TARGET_SRCS = $(UAS_ROOT)/external/scale-hw/share/lpc13xx/crt0.S \
               $(UAS_ROOT)/target/scale_lpc1313fbd48/lpc13xx_bsp.c \
               $(UAS_ROOT)/external/scale-hw/target/lpc1313fbd48/scale.c
 
+LPC1313_SCOPE_CONFIG = $(UAS_ROOT)/target/scale_lpc1313fbd48/picoscope5000.cfg
+LPC1313_POWER_CHANNEL= B
+LPC1313_TRS_FIXED    = $(UAS_EXPERIMENT_BUILD)/ttest-$(TTEST_NAME)-fixed.trs
+LPC1313_TRS_RANDOM   = $(UAS_EXPERIMENT_BUILD)/ttest-$(TTEST_NAME)-random.trs
+
+LPC1313_TT_GRAPH     = $(UAS_EXPERIMENT_BUILD)/ttest-$(TTEST_NAME)-ttrace.svg
+LPC1313_TT_AVG       = $(UAS_EXPERIMENT_BUILD)/ttest-$(TTEST_NAME)-averages.svg
+
 program: $(HEX_OUT)
 	lpc21isp -wipe -hex $< $(USB_PORT) $(USB_BAUD) 12000
+
+$(LPC1313_TRS_RANDOM): $(LPC1313_TRS_FIXED)
+$(LPC1313_TRS_FIXED) : 
+	$(TTEST_CAPTURE) -n $(TTEST_NUM_TRACES) \
+                     -b $(USB_BAUD) \
+                        $(USB_PORT) \
+                        $(LPC1313_SCOPE_CONFIG) \
+                        $(LPC1313_POWER_CHANNEL) \
+                        $(LPC1313_TRS_FIXED) \
+                        $(LPC1313_TRS_RANDOM)
+
+$(LPC1313_TT_GRAPH): $(LPC1313_TT_AVG)
+$(LPC1313_TT_AVG) : $(LPC1313_TRS_RANDOM)
+	$(TTEST_ANALYSE) \
+        --graph-ttest       $(LPC1313_TT_GRAPH) \
+        --graph-avg-trace   $(LPC1313_TT_AVG) \
+        $(LPC1313_TRS_FIXED) \
+        $(LPC1313_TRS_RANDOM)
+
+ttest: $(LPC1313_TT_GRAPH) $(LPC1313_TT_AVG)
+
