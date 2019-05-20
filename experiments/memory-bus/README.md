@@ -11,7 +11,7 @@ This is because:
   due to stalls or interconnect latency.
 
 They behavior of memory busses is rarely documented for the programmer.
-While great care can be taken by through measurement and even informed
+While great care can be taken through measurement and even informed
 assumptions about CPU register (overwrite) behaviour, memory hierarchy
 registers are often much more obscured.
 
