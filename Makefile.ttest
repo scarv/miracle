@@ -8,21 +8,25 @@ TTEST_NAME          ?= default
 
 TTEST_SCOPE_CONFIG = $(UAS_ROOT)/target/$(UAS_TARGET)/picoscope5000.cfg
 TTEST_POWER_CHANNEL= B
-TTEST_TRS_FIXED    = $(UAS_EXPERIMENT_BUILD)/ttest-$(TTEST_NAME)-fixed.trs
-TTEST_TRS_RANDOM   = $(UAS_EXPERIMENT_BUILD)/ttest-$(TTEST_NAME)-random.trs
+TTEST_TRS_FIXED    = $(UAS_EXPERIMENT_BUILD)/$(TTEST_NAME)/ttest-fixed.trs
+TTEST_TRS_RANDOM   = $(UAS_EXPERIMENT_BUILD)/$(TTEST_NAME)/ttest-random.trs
 
-TTEST_TT_GRAPH     = $(UAS_EXPERIMENT_BUILD)/ttest-$(TTEST_NAME)-ttrace.svg
-TTEST_TT_AVG       = $(UAS_EXPERIMENT_BUILD)/ttest-$(TTEST_NAME)-averages.svg
+TTEST_TT_GRAPH     = $(UAS_EXPERIMENT_BUILD)/$(TTEST_NAME)/ttest-ttrace.svg
+TTEST_TT_AVG       = $(UAS_EXPERIMENT_BUILD)/$(TTEST_NAME)/ttest-averages.svg
+TTEST_LOG          = $(UAS_EXPERIMENT_BUILD)/$(TTEST_NAME)/ttest.log
 
 $(TTEST_TRS_RANDOM): $(TTEST_TRS_FIXED)
 $(TTEST_TRS_FIXED) : 
-	$(TTEST_CAPTURE) -n $(TTEST_NUM_TRACES) \
-                     -b $(USB_BAUD) \
-                        $(USB_PORT) \
-                        $(TTEST_SCOPE_CONFIG) \
-                        $(TTEST_POWER_CHANNEL) \
-                        $(TTEST_TRS_FIXED) \
-                        $(TTEST_TRS_RANDOM)
+	@mkdir -p $(dir $(TTEST_LOG))
+	$(TTEST_CAPTURE) \
+        -n $(TTEST_NUM_TRACES) \
+        -l $(TTEST_LOG) \
+        -b $(USB_BAUD) \
+           $(USB_PORT) \
+           $(TTEST_SCOPE_CONFIG) \
+           $(TTEST_POWER_CHANNEL) \
+           $(TTEST_TRS_FIXED) \
+           $(TTEST_TRS_RANDOM)
 
 $(TTEST_TT_GRAPH): $(TTEST_TT_AVG)
 $(TTEST_TT_AVG) : $(TTEST_TRS_RANDOM)
