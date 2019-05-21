@@ -1,19 +1,22 @@
 
 # Target Platforms
 
-*A list of candidate devices and platforms on which to perform these
+*A list of candidate/realised devices and platforms on which to perform these
 experiments*
 
 ---
 
 ## Implemented Platforms
 
+- [SCALE ARM M0+ Board / lpc812m101](scale_lpc812m101/README.md)
 - [SCALE ARM M0 Board / lpc1114fn28](scale_lpc1114fn28/README.md)
 - [SCALE ARM M3 Board / lpc1313fbd48](scale_lpc1313fbd48/README.md)
 - [SAKURA-X Microblaze 3-stage softcore](sakurax_mb3/README.md)
 
 
 ## Candidate Platforms
+
+Notes on platforms that were initially considered as targets:
 
 **FPGA + Xilinx Microblaze:**
 - Use the Sasebo FPGA platform
