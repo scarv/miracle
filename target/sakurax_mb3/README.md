@@ -35,6 +35,10 @@ If you edit the system, re-implement it, then copy the output
 bitfile over to `$UAS_ROOT/target/sakurax_mb3/bitstream.bit` to use
 the auto-program make targets described above.
 
+- You may also need to re-generate the memory map information file
+  `target/sakurax_mb3/sakurax_mb3.mmi` to make sure that the ELF
+  programs can be correctly combined with the bitfile before programming.
+
 ## Target Information
 
 This target is an FPGA CPU Softcore: The *Microblaze* provided by Xilinx.

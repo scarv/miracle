@@ -12,6 +12,7 @@ experiments*
 - [SCALE ARM M0 Board / lpc1114fn28](scale_lpc1114fn28/README.md)
 - [SCALE ARM M3 Board / lpc1313fbd48](scale_lpc1313fbd48/README.md)
 - [SAKURA-X Microblaze 3-stage softcore](sakurax_mb3/README.md)
+- [SAKURA-X Microblaze 5-stage softcore](sakurax_mb5/README.md)
 
 
 ## Candidate Platforms
