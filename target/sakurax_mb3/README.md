@@ -18,6 +18,23 @@ $> make -B -f Makefile.experiment UAS_EXPERIMENT=example/addxor UAS_TARGET=sakur
 This will build the example experiment, combine it with the pre-synthesised
 bitfile and program the FPGA via the Xilinx hardware server.
 
+## Re-creating the Vivado Project
+
+The `vivado_sakurax_mb3.tcl` script can re-build the entire vivado project.
+From the project root, run:
+
+```sh
+$> make -f Makefile.experiment UAS_TARGET=sakurax_mb3 recreate-vivado-project
+```
+
+This will (re-)create `$UAS_BUILD/vivado/sakurax_mb3/`, containing the
+entire project, system block design and configuration.
+See `target/sakurax_mb3/Makefile.in` to see exactly how this is done.
+
+If you edit the system, re-implement it, then copy the output
+bitfile over to `$UAS_ROOT/target/sakurax_mb3/bitstream.bit` to use
+the auto-program make targets described above.
+
 ## Target Information
 
 This target is an FPGA CPU Softcore: The *Microblaze* provided by Xilinx.

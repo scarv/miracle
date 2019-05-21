@@ -14,14 +14,16 @@ AS      = $(UAS_MICROBLAZE_TOOLCHAIN_ROOT)/microblaze-xilinx-elf-as
 OBJDUMP = $(UAS_MICROBLAZE_TOOLCHAIN_ROOT)/microblaze-xilinx-elf-objdump
 OBJCOPY = $(UAS_MICROBLAZE_TOOLCHAIN_ROOT)/microblaze-xilinx-elf-objcopy
 
-TARGET_SRCS = $(UAS_ROOT)/target/sakurax_mb3/sakurax_mb3_bsp.c 
+TARGET_DIR  = $(UAS_ROOT)/target/sakurax_mb3
+
+TARGET_SRCS = $(TARGET_DIR)/sakurax_mb3_bsp.c 
 
 UPDATEMEM       = $(VIVADO_ROOT)/bin/updatemem
 VIVADO          = $(VIVADO_ROOT)/bin/vivado
 VIVADO_LOG      = $(UAS_EXPERIMENT_BUILD)/vivado.log
 
-MEMINFO         = $(UAS_ROOT)/target/sakurax_mb3/sakurax_mb3.mmi
-IMPL_BITFILE    = $(UAS_ROOT)/target/sakurax_mb3/bitstream.bit
+MEMINFO         = $(TARGET_DIR)/sakurax_mb3.mmi
+IMPL_BITFILE    = $(TARGET_DIR)/bitstream.bit
 DOWNLOAD_BITFILE= $(UAS_EXPERIMENT_BUILD)/download.bit
 
 $(DOWNLOAD_BITFILE) : $(IMPL_BITFILE) $(BINOUT)
@@ -35,9 +37,15 @@ $(DOWNLOAD_BITFILE) : $(IMPL_BITFILE) $(BINOUT)
 
 $(VIVADO_LOG) : $(DOWNLOAD_BITFILE)
 	$(VIVADO) -mode tcl -log $(VIVADO_LOG) -nojournal \
-        -source $(UAS_ROOT)/target/sakurax_mb3/program_bitstream.tcl \
+        -source $(TARGET_DIR)/program_bitstream.tcl \
         -tclargs $(DOWNLOAD_BITFILE)
-	@rm $(dir $(VIVADO_LOG))/vivado*backup.log
+	@rm -f $(dir $(VIVADO_LOG))/vivado*backup.log
 	
 program: $(VIVADO_LOG)
+
+recreate-vivado-project:
+	cd $(UAS_BUILD)/vivado/ && \
+	$(VIVADO) -source $(TARGET_DIR)/vivado_sakurax_mb3.tcl \
+        -mode tcl -nojournal -nolog \
+        -tclargs --origin_dir $(TARGET_DIR) 
 
