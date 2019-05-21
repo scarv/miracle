@@ -1064,3 +1064,5 @@ set_property -name "steps.write_bitstream.args.more options" -value "" -objects 
 current_run -implementation [get_runs impl_1]
 
 puts "INFO: Project created:${_xil_proj_name_}"
+exit
+
