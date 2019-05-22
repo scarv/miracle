@@ -5,12 +5,15 @@
 #define ARG_2 r2
 #define ARG_3 r3
 
-#define LOAD_UBYTE_RI(RD,RB,IMM)  ldr  RD,RN,IMM 
-#define LOAD_UHALF_RI(RD,RB,IMM)  ldrh RD,RN,IMM
-#define LOAD_WORD_RI(RD,RB,IMM)   ldrb RD,RN,IMM
-#define STORE_BYTE_RI(RS,RB,IMM)  str  RD,RN,IMM 
-#define STORE_HALF_RI(RS,RB,IMM)  strh RD,RN,IMM
-#define STORE_WORD_RI(RS,RB,IMM)  strb RD,RN,IMM
+#define __hash #
+#define f(x) x
+
+#define LOAD_UBYTE_RI(RD,RB,IMM)  ldrb RD,[RB,f(__hash)IMM]
+#define LOAD_UHALF_RI(RD,RB,IMM)  ldrh RD,[RB,f(__hash)IMM]
+#define LOAD_WORD_RI(RD,RB,IMM)   ldr  RD,[RB,f(__hash)IMM]
+#define STORE_BYTE_RI(RS,RB,IMM)  strb RD,[RB,f(__hash)IMM]
+#define STORE_HALF_RI(RS,RB,IMM)  strh RD,[RB,f(__hash)IMM]
+#define STORE_WORD_RI(RS,RB,IMM)  str  RD,[RB,f(__hash)IMM]
 #define XOR_RR(RD,RA,RM)          eor  RD,RM 
 #define XOR_RI(RD,RA,IMM)         .error "Not implemented XOR RRI ARM7-M"
 #define ADD_RR(RD,RN,RM )         add  RD,RN,RM  

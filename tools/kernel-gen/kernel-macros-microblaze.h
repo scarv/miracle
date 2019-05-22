@@ -6,12 +6,12 @@
 #define ARG_3 r8
 
 
-#define LOAD_UBYTE_RI(RD,RB,IMM)  lbui RD,RN,IMM 
-#define LOAD_UHALF_RI(RD,RB,IMM)  lhui RD,RN,IMM
-#define LOAD_WORD_RI(RD,RB,IMM)   lwi  RD,RN,IMM
-#define STORE_BYTE_RI(RS,RB,IMM)  sbi  RD,RN,IMM 
-#define STORE_HALF_RI(RS,RB,IMM)  shi  RD,RN,IMM
-#define STORE_WORD_RI(RS,RB,IMM)  swi  RD,RN,IMM
+#define LOAD_UBYTE_RI(RD,RA,IMM)  lbui RD,RA,IMM 
+#define LOAD_UHALF_RI(RD,RA,IMM)  lhui RD,RA,IMM
+#define LOAD_WORD_RI(RD,RA,IMM)   lwi  RD,RA,IMM
+#define STORE_BYTE_RI(RS,RB,IMM)  sbi  RS,RB,IMM 
+#define STORE_HALF_RI(RS,RB,IMM)  shi  RS,RB,IMM
+#define STORE_WORD_RI(RS,RB,IMM)  swi  RS,RB,IMM
 #define XOR_RR(RD,RA,RM)          xor  RD,RA,RM
 #define XOR_RI(RD,RA,IMM)         xori RD,RA,IMM
 #define ADD_RR(RD,RN,RM )         add  RD,RN,RM  
