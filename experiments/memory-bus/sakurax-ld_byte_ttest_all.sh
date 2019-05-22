@@ -19,9 +19,9 @@
 # arg 2 - serial port.
 function run_ttest {
 make -B USB_PORT=$3 \
-        TTEST_NAME=ld_byte50k_$2 \
+        TTEST_NAME=ld_byte100k_$2 \
         TTEST_FLAGS="--fixed-byte-len $2 --fixed-value 0x73b2ccfd6a39f20f" \
-        TTEST_NUM_TRACES=50000 \
+        TTEST_NUM_TRACES=100000 \
         TTEST_CAPTURE=./experiments/memory-bus/ld_byte_ttest.py\
         ttest_$1_memory-bus-ld_byte
 }
