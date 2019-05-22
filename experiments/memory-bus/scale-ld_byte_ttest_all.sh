@@ -26,14 +26,16 @@ make -B program_$1_memory-bus-ld_byte USB_PORT=$2
 # arg 1 - number of fixed bytes
 # arg 2 - serial port.
 function run_ttest {
-make -B -f Makefile.ttest \
+make -B -f Makefile \
         USB_PORT=$3 \
-        TTEST_NAME=ld_byte_$2 \
-        TTEST_FLAGS="--fixed-byte-len $2 --fixed-value 0x73b2ccfd6a39f20f" \
-        TTEST_NUM_TRACES=100000 \
-        TTEST_CAPTURE=./experiments/memory-bus/ld_byte_ttest.py\
+        TTEST_NAME=ld_byte_50k_$2 \
+        TTEST_FLAGS="-k --fixed-byte-len $2 --fixed-value 0x73b2ccfd6a39f20f" \
+        TTEST_NUM_TRACES=50000 \
+        TTEST_CAPTURE=./experiments/memory-bus/ld_byte_ttest.py \
         ttest_$1_memory-bus-ld_byte
 }
+
+pwd
 
 run_ttest $1 0 $2
 run_ttest $1 1 $2
