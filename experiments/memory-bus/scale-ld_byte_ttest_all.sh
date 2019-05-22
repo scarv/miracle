@@ -7,6 +7,10 @@
 # Make sure to run this script from $UAS_ROOT to make sure it
 # will run properly.
 #
+# Usage:
+#
+#   $> ./experiments/memory-bus/scale-ld_byte_ttest_all.sh <target> <serial port>
+#
 
 #
 # Build
