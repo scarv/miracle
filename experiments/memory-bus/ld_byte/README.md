@@ -29,6 +29,8 @@ also loading adjacent bytes within the selected word.
 
 ## Running the experiment
 
+**For a specific target and fixed byte width:**
+
 ```sh
 make -B USB_PORT=<port> ttest_<target>_memory-ld_byte TTEST_CAPTURE=./experiments/memory-bus/ld_byte_ttest.py TTEST_FLAGS="--fixed-byte-len N"
 rt
@@ -43,4 +45,22 @@ Where:
 -  `<target>` is the desired target platform to run on.
 - `N` is the number of bytes in the "random" trace set to make identical
   to the fixed value.
+
+**For a scale target for all fixed byte widths:**
+
+```sh
+./experiments/memory-bus/scale-ld_byte_ttest_all.sh <target> <serial port>
+```
+
+Where:
+- `<target>` is the target platform.
+- `<serial port>` is the serial port to communicate with the target over.
+
+**For all FPGA targets for all fixed byte widths:**
+
+```sh
+./experiments/memory-bus/sakurax-ld_byte_ttest_all.sh <serial port>
+```
+Where:
+- `<serial port>` is the serial port to communicate with the target over.
 
