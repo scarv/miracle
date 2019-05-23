@@ -12,6 +12,8 @@
 #   $> ./experiments/memory-bus/ld_byte/sakurax-ttest-all.sh <serial port>
 #
 
+TT_NAME=ld_byte_200k
+
 #
 # TTests
 # arg 0 - target platform
@@ -19,7 +21,7 @@
 # arg 2 - serial port.
 function run_ttest {
 make -B USB_PORT=$3 \
-        TTEST_NAME=ld_byte200k_$2 \
+        TTEST_NAME=${TT_NAME}_$2 \
         TTEST_FLAGS="--fixed-byte-len $2 --fixed-value 0x73b2ccfd6a39f20f" \
         TTEST_NUM_TRACES=200000 \
         TTEST_CAPTURE=./experiments/memory-bus/ld_byte/ttest.py\
@@ -50,6 +52,8 @@ run_ttest sakurax_mb3 5 $1
 run_ttest sakurax_mb3 6 $1
 run_ttest sakurax_mb3 7 $1
 
+${UAS_ROOT}/experiments/memory-bus/ld_byte/ttest_graph.sh sakurax_mb3 ${TT_NAME}
+
 #
 # MB5 Target
 #
@@ -64,6 +68,8 @@ run_ttest sakurax_mb5 5 $1
 run_ttest sakurax_mb5 6 $1
 run_ttest sakurax_mb5 7 $1
 
+${UAS_ROOT}/experiments/memory-bus/ld_byte/ttest_graph.sh sakurax_mb5 ${TT_NAME}
+
 #
 # MB8 Target
 #
@@ -77,6 +83,8 @@ run_ttest sakurax_mb8 4 $1
 run_ttest sakurax_mb8 5 $1
 run_ttest sakurax_mb8 6 $1
 run_ttest sakurax_mb8 7 $1
+
+${UAS_ROOT}/experiments/memory-bus/ld_byte/ttest_graph.sh sakurax_mb8 ${TT_NAME}
 
 # Return to previous cwd
 cd -
