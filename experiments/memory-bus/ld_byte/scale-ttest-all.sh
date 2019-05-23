@@ -12,6 +12,9 @@
 #   $> ./experiments/memory-bus/ld_byte/scale-ttest-all.sh <target> <serial port>
 #
 
+# Exit on first failed command.
+set -e
+
 #
 # Build
 make -B build_$1_memory-bus-ld_byte
@@ -28,9 +31,9 @@ make -B program_$1_memory-bus-ld_byte USB_PORT=$2
 function run_ttest {
 make -B -f Makefile \
         USB_PORT=$3 \
-        TTEST_NAME=ld_byte_50k_$2 \
+        TTEST_NAME=ld_byte_5k_$2 \
         TTEST_FLAGS="-k --fixed-byte-len $2 --fixed-value 0x73b2ccfd6a39f20f" \
-        TTEST_NUM_TRACES=50000 \
+        TTEST_NUM_TRACES=5000 \
         TTEST_CAPTURE=./experiments/memory-bus/ld_byte/ttest.py \
         ttest_$1_memory-bus-ld_byte
 }

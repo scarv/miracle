@@ -10,12 +10,16 @@
 #define EDATA_IN_LEN 8
 #define EDATA_OUT_LEN 4
 
-uint8_t           data_in  [EDATA_IN_LEN ];
-uint8_t           data_out [EDATA_OUT_LEN];
+// An address in SRAM
+uint8_t * data_sram = (uint8_t*)(0x10000800);
+
+uint8_t   data_in  [EDATA_IN_LEN ];
+uint8_t   data_out [EDATA_OUT_LEN];
 
 //! Declaration for the experiment payload function in lb_0.S
 extern void     * experiment_payload(
-    uint8_t * data
+    uint8_t * data_flash,
+    uint8_t * data_sram  
 );
 
 extern void     * experiment_payload_end;
@@ -29,6 +33,7 @@ uint8_t experiment_init(
 
     for(uint8_t i = 0; i < EDATA_IN_LEN; i++) {
         data_in[i] = i;
+        data_sram[i] = i;
     }
     for(uint8_t i = 0; i < EDATA_OUT_LEN; i++) {
         data_out[i] = i;
@@ -43,9 +48,16 @@ uint8_t experiment_run(
     scass_target_cfg * cfg //!< PRNG / data access
 ){
 
+    for(int i = 0; i < 8; i ++) {
+        data_sram[i] = data_in[i];
+    }
+
     uas_bsp_trigger_set();
     
-    experiment_payload(data_in);
+    experiment_payload(
+        data_in,
+        data_sram
+    );
     
     uas_bsp_trigger_clear();
 

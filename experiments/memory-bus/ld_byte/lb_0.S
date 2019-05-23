@@ -8,9 +8,10 @@ experiment_payload:
     
     FUNC_ENTER
 
-    // Clear arg1 so we don't get weird hamming distance from
+    // Clear arg2/3 so we don't get weird hamming distance from
     // between calls to experiment_payload
-    XOR_RR(ARG_1,ARG_1,ARG_1)
+    XOR_RR(ARG_2,ARG_2,ARG_2)
+    XOR_RR(ARG_3,ARG_3,ARG_3)
 
     ANOP
     ANOP
@@ -25,9 +26,98 @@ experiment_payload:
     ANOP
     ANOP
     ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
 
-    LOAD_UBYTE_RI(ARG_1,ARG_0,0)
+    // Load from Flash
+    LOAD_UBYTE_RI(ARG_2,ARG_0,0)
     
+
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    
+    // Load from SRAM
+    LOAD_UBYTE_RI(ARG_3,ARG_1,0)
+    
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
     ANOP
     ANOP
     ANOP
@@ -43,8 +133,8 @@ experiment_payload:
     ANOP
 
     // Clear the registers we used ready for next iteration.
-    XOR_RR(ARG_1,ARG_1,ARG_1)
-    XOR_RR(ARG_0,ARG_0,ARG_0)
+    XOR_RR(ARG_2,ARG_2,ARG_2)
+    XOR_RR(ARG_3,ARG_3,ARG_3)
 
     FUNC_RETURN
 
