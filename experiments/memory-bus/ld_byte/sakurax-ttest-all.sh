@@ -51,6 +51,7 @@ run_ttest sakurax_mb3 4 $1
 run_ttest sakurax_mb3 5 $1
 run_ttest sakurax_mb3 6 $1
 run_ttest sakurax_mb3 7 $1
+run_ttest sakurax_mb3 8 $1
 
 ${UAS_ROOT}/experiments/memory-bus/ld_byte/ttest_graph.sh sakurax_mb3 ${TT_NAME}
 
@@ -67,6 +68,7 @@ run_ttest sakurax_mb5 4 $1
 run_ttest sakurax_mb5 5 $1
 run_ttest sakurax_mb5 6 $1
 run_ttest sakurax_mb5 7 $1
+run_ttest sakurax_mb5 8 $1
 
 ${UAS_ROOT}/experiments/memory-bus/ld_byte/ttest_graph.sh sakurax_mb5 ${TT_NAME}
 
@@ -83,6 +85,7 @@ run_ttest sakurax_mb8 4 $1
 run_ttest sakurax_mb8 5 $1
 run_ttest sakurax_mb8 6 $1
 run_ttest sakurax_mb8 7 $1
+run_ttest sakurax_mb8 8 $1
 
 ${UAS_ROOT}/experiments/memory-bus/ld_byte/ttest_graph.sh sakurax_mb8 ${TT_NAME}
 

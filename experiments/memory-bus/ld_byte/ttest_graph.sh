@@ -8,7 +8,7 @@
 TARGET=$1
 TTEST_NAME=$2
 EXPERIMENT=memory-bus/ld_byte
-GRAPH=$UAS_BUILD/${EXPERIMENT}/${TARGET}/graph
+GRAPH=$UAS_BUILD/${EXPERIMENT}/${TARGET}/graph-${TTEST_NAME}
 
 $UAS_ROOT/external/fw-acquisition/ttest_multi_analyse.py \
     --graph-ttest ${GRAPH}-ttest.svg \
