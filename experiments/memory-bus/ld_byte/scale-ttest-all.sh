@@ -9,7 +9,7 @@
 #
 # Usage:
 #
-#   $> ./experiments/memory-bus/scale-ld_byte_ttest_all.sh <target> <serial port>
+#   $> ./experiments/memory-bus/ld_byte/scale-ttest-all.sh <target> <serial port>
 #
 
 #
@@ -31,7 +31,7 @@ make -B -f Makefile \
         TTEST_NAME=ld_byte_50k_$2 \
         TTEST_FLAGS="-k --fixed-byte-len $2 --fixed-value 0x73b2ccfd6a39f20f" \
         TTEST_NUM_TRACES=50000 \
-        TTEST_CAPTURE=./experiments/memory-bus/ld_byte_ttest.py \
+        TTEST_CAPTURE=./experiments/memory-bus/ld_byte/ttest.py \
         ttest_$1_memory-bus-ld_byte
 }
 
