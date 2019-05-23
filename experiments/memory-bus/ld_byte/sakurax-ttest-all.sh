@@ -22,8 +22,8 @@ TT_NAME=ld_byte_200k
 function run_ttest {
 make -B USB_PORT=$3 \
         TTEST_NAME=${TT_NAME}_$2 \
-        TTEST_FLAGS="--fixed-byte-len $2 --fixed-value 0x73b2ccfd6a39f20f" \
-        TTEST_NUM_TRACES=200000 \
+        TTEST_FLAGS="-k --fixed-byte-len $2 --fixed-value 0x73b2ccfd6a39f20f" \
+        TTEST_NUM_TRACES=10000 \
         TTEST_CAPTURE=./experiments/memory-bus/ld_byte/ttest.py\
         ttest_$1_memory-bus-ld_byte
 }
@@ -41,7 +41,7 @@ pwd
 #
 # MB3 Target
 #
-make -B -f Makefile.experiment USB_PORT=$1 UAS_EXPERIMENT=memory-bus/ld_byte UAS_TARGET=sakurax_mb3 build
+make -B -f Makefile.experiment USB_PORT=$1 UAS_EXPERIMENT=memory-bus/ld_byte UAS_TARGET=sakurax_mb3 build all
 make -B -f Makefile.experiment USB_PORT=$1 UAS_EXPERIMENT=memory-bus/ld_byte UAS_TARGET=sakurax_mb3 program
 run_ttest sakurax_mb3 0 $1
 run_ttest sakurax_mb3 1 $1

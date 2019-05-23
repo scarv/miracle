@@ -11,7 +11,7 @@
 #define EDATA_OUT_LEN 4
 
 // An address in SRAM
-uint8_t * data_sram = (uint8_t*)(0x10000800);
+volatile uint8_t * data_sram = (volatile uint8_t*)(0x10000800);
 
 uint8_t   data_in  [EDATA_IN_LEN ];
 uint8_t   data_out [EDATA_OUT_LEN];
@@ -19,7 +19,7 @@ uint8_t   data_out [EDATA_OUT_LEN];
 //! Declaration for the experiment payload function in lb_0.S
 extern void     * experiment_payload(
     uint8_t * data_flash,
-    uint8_t * data_sram  
+    volatile uint8_t * data_sram  
 );
 
 extern void     * experiment_payload_end;
