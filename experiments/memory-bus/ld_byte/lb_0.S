@@ -28,6 +28,24 @@ experiment_payload:
     ANOP
     ANOP
     ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
 
     // Load from Flash
     LOAD_UBYTE_RI(ARG_2,ARG_0,0)
@@ -61,10 +79,30 @@ experiment_payload:
     ANOP
     ANOP
     ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
     
     // Load from SRAM
     LOAD_UBYTE_RI(ARG_3,ARG_1,0)
     
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
+    ANOP
     ANOP
     ANOP
     ANOP

@@ -21,5 +21,6 @@ $UAS_ROOT/external/fw-acquisition/ttest_multi_analyse.py \
     -t lb4 $UAS_ROOT/build/${EXPERIMENT}/$TARGET/${TTEST_NAME}_4/ttest-fixed.trs $UAS_ROOT/build/${EXPERIMENT}/$TARGET/${TTEST_NAME}_4/ttest-random.trs \
     -t lb5 $UAS_ROOT/build/${EXPERIMENT}/$TARGET/${TTEST_NAME}_5/ttest-fixed.trs $UAS_ROOT/build/${EXPERIMENT}/$TARGET/${TTEST_NAME}_5/ttest-random.trs \
     -t lb6 $UAS_ROOT/build/${EXPERIMENT}/$TARGET/${TTEST_NAME}_6/ttest-fixed.trs $UAS_ROOT/build/${EXPERIMENT}/$TARGET/${TTEST_NAME}_6/ttest-random.trs \
-    -t lb7 $UAS_ROOT/build/${EXPERIMENT}/$TARGET/${TTEST_NAME}_7/ttest-fixed.trs $UAS_ROOT/build/${EXPERIMENT}/$TARGET/${TTEST_NAME}_7/ttest-random.trs 
+    -t lb7 $UAS_ROOT/build/${EXPERIMENT}/$TARGET/${TTEST_NAME}_7/ttest-fixed.trs $UAS_ROOT/build/${EXPERIMENT}/$TARGET/${TTEST_NAME}_7/ttest-random.trs \
+    -t lb8 $UAS_ROOT/build/${EXPERIMENT}/$TARGET/${TTEST_NAME}_8/ttest-fixed.trs $UAS_ROOT/build/${EXPERIMENT}/$TARGET/${TTEST_NAME}_8/ttest-random.trs
 
