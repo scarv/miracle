@@ -3,8 +3,8 @@
 # Top level makefile for the project
 #
 
-export USB_PORT = /dev/ttyUSB0
-export USB_BAUD = 9600
+export USB_PORT ?= /dev/ttyUSB0
+export USB_BAUD ?= 9600
 
 export TTEST_NAME       ?= default
 export TTEST_NUM_TRACES ?= 10000
