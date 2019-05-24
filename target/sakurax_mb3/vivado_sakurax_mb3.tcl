@@ -400,14 +400,14 @@ proc cr_bd_system_top { parentCell } {
   set CLK [ create_bd_cell -type ip -vlnv xilinx.com:ip:clk_wiz:6.0 CLK ]
   set_property -dict [ list \
    CONFIG.CLKIN1_JITTER_PS {50.0} \
-   CONFIG.CLKOUT1_JITTER {277.135} \
-   CONFIG.CLKOUT1_PHASE_ERROR {137.956} \
-   CONFIG.CLKOUT1_REQUESTED_OUT_FREQ {12.500} \
-   CONFIG.MMCM_CLKFBOUT_MULT_F {15.125} \
+   CONFIG.CLKOUT1_JITTER {178.502} \
+   CONFIG.CLKOUT1_PHASE_ERROR {104.359} \
+   CONFIG.CLKOUT1_REQUESTED_OUT_FREQ {25} \
+   CONFIG.MMCM_CLKFBOUT_MULT_F {9.125} \
    CONFIG.MMCM_CLKIN1_PERIOD {5.000} \
    CONFIG.MMCM_CLKIN2_PERIOD {10.0} \
-   CONFIG.MMCM_CLKOUT0_DIVIDE_F {60.500} \
-   CONFIG.MMCM_DIVCLK_DIVIDE {4} \
+   CONFIG.MMCM_CLKOUT0_DIVIDE_F {36.500} \
+   CONFIG.MMCM_DIVCLK_DIVIDE {2} \
    CONFIG.PRIM_IN_FREQ {200.000} \
    CONFIG.PRIM_SOURCE {Differential_clock_capable_pin} \
  ] $CLK
@@ -475,6 +475,9 @@ proc cr_bd_system_top { parentCell } {
 
   # Create instance: UART, and set properties
   set UART [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_uartlite:2.0 UART ]
+  set_property -dict [ list \
+   CONFIG.C_BAUDRATE {128000} \
+ ] $UART
 
   # Create interface connections
   connect_bd_intf_net -intf_net AXI_IC_M00_AXI [get_bd_intf_pins AXI_IC/M00_AXI] [get_bd_intf_pins GPIO/S_AXI]
