@@ -50,7 +50,6 @@ run_ttest $1 4 $2
 run_ttest $1 5 $2
 run_ttest $1 6 $2
 run_ttest $1 7 $2
-run_ttest $1 8 $2
 
 ${UAS_ROOT}/experiments/memory-bus/ld_byte/ttest_graph.sh $1 ${TT_NAME}
 
