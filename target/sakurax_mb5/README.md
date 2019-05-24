@@ -12,7 +12,7 @@ bitfile:
 
 ```sh
 $> source bin/conf.sh
-$> make -B -f Makefile.experiment UAS_EXPERIMENT=example/addxor UAS_TARGET=sakurax_mb5 program
+$> make -B -f Makefile.experiment USB_BAUD=128000 UAS_EXPERIMENT=example/addxor UAS_TARGET=sakurax_mb5 program
 ```
 
 This will build the example experiment, combine it with the pre-synthesised
@@ -74,9 +74,9 @@ The wider SoC system implemented on the FPGA consists of:
 - An AXI interconnect
   - AXI Access to 32K of BRAMs
   - 2 GPIO Pins
-  - UART - 9600 Baud
+  - UART - 128000 Baud
 - Processor System Reset Module
-- Clock Generator Core - 12.5 Mhz
+- Clock Generator Core - 25MHz
 
 Notes:
 - The LMB interfaces have no such registering.
