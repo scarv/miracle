@@ -55,7 +55,6 @@ run_ttest sakurax_mb3 7 $1
 
 ${UAS_ROOT}/experiments/memory-bus/ld_byte/ttest_graph.sh sakurax_mb3 ${TT_NAME}
 
-exit
 
 #
 # MB5 Target
