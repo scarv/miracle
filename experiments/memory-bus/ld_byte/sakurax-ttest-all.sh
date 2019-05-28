@@ -59,7 +59,7 @@ ${UAS_ROOT}/experiments/memory-bus/ld_byte/ttest_graph.sh sakurax_mb3 ${TT_NAME}
 #
 # MB5 Target
 #
-make -B -f Makefile.experiment USB_PORT=$1 UAS_EXPERIMENT=memory-bus/ld_byte UAS_TARGET=sakurax_mb5 build
+make -B -f Makefile.experiment USB_PORT=$1 UAS_EXPERIMENT=memory-bus/ld_byte UAS_TARGET=sakurax_mb5 build all
 make -B -f Makefile.experiment USB_PORT=$1 UAS_EXPERIMENT=memory-bus/ld_byte UAS_TARGET=sakurax_mb5 program
 run_ttest sakurax_mb5 0 $1
 run_ttest sakurax_mb5 1 $1
@@ -75,7 +75,7 @@ ${UAS_ROOT}/experiments/memory-bus/ld_byte/ttest_graph.sh sakurax_mb5 ${TT_NAME}
 #
 # MB8 Target
 #
-make -B -f Makefile.experiment USB_PORT=$1 UAS_EXPERIMENT=memory-bus/ld_byte UAS_TARGET=sakurax_mb8 build
+make -B -f Makefile.experiment USB_PORT=$1 UAS_EXPERIMENT=memory-bus/ld_byte UAS_TARGET=sakurax_mb8 build all
 make -B -f Makefile.experiment USB_PORT=$1 UAS_EXPERIMENT=memory-bus/ld_byte UAS_TARGET=sakurax_mb8 program
 run_ttest sakurax_mb8 0 $1
 run_ttest sakurax_mb8 1 $1
