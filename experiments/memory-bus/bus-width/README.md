@@ -1,31 +1,29 @@
 
-# Load Byte 0 Experiment.
+# Bus Width Experiment.
 
 ## Purpose
 
-To identify if loading a single byte of data produces leakage due to
-also loading adjacent bytes within the selected word.
+To work out how wide the data bus of a SoC is.
 
 **Method:**
-- The code kernel executed is a string of nops, followed by a
-  load byte instruction, followed by a string of nops.
-  - The nops act as a baseline to prevent function prelude/exitlude code
-    from interfering.
-  - The load byte instruction always loads data from the address in
-    argument register 0, with an immediate offset of zero.
-  - The base address points to the start of the input data array.
-- The kernel is run such that the input data array always contains either:
-  - a fixed value
-  - A uniformly distributed random value, but where the 0'th byte in the
-    array is the same as the 0'th byte of the fixed value.
-- A TTest in then run, where one trace set is the fixed values, and the
-  other is the random values with the fixed 0th byte.
+- Start with an `N` byte array, which is aligned to the largest bus width
+  which we think is plausible.
+  - In this case, the array is aligned to a 4-byte boundary.
+  - The array is `8` bytes long.
+- Initially, run a T-test such that in each trace:
+  - We load the 0th byte of the array using a *load byte* instruction.
+  - We randomise the entire contents of the `N` byte array.
+- Next for `i=0..N`:
+  - Run a T-test such that the first `i` bytes of the input array are
+    kept constant, while others are randomised per trace.
 
 **Expectations:**
-- If *only* the requested byte is loaded, there should be no information
-  leakage when running a TTest.
-- If data as well as the requested byte is loaded, we should see information
-  leakage, even though we only ever asked for the 0th byte.
+- For an `X` byte wide bus (where `X<N`), we should continue to see leakage
+  for all `i=0..X`.
+- For all `i=X+1..N`, we should see no leakage.
+- This would show that when we ostensibly load a *byte*, we in fact recieve
+  an entire word, only one byte of which is kept and written to an
+  architectural register.
 
 ## Running the experiment
 

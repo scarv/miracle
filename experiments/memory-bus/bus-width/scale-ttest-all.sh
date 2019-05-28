@@ -33,7 +33,7 @@ make -B program_$1_memory-bus-bus-width USB_PORT=$2
 function run_ttest {
 make -B -f Makefile \
         USB_PORT=$3 \
-        TTEST_NAME=${TT_NAME}_$2 \
+        TTEST_NAME=${TT_NAME}/$2 \
         TTEST_FLAGS="-k --fixed-byte-len $2 --fixed-value 0x73b2ccfd6a39f20f" \
         TTEST_NUM_TRACES=10000 \
         TTEST_CAPTURE=./experiments/memory-bus/bus-width/ttest.py \

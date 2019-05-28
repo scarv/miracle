@@ -23,7 +23,8 @@ TARGETS     = sakurax_mb3 \
 EXPERIMENTS = example/add \
               example/xor \
               example/addxor \
-              memory-bus/ld_byte
+              memory-bus/bus-width \
+              memory-bus/per-byte
 
 define tgt_build
 build_${1}_$(subst /,-,${2}) :

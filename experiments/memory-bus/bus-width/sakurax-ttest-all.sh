@@ -22,7 +22,7 @@ TT_NAME=bus-width-200k
 function run_ttest {
 make -B USB_PORT=$3 \
         USB_BAUD=128000 \
-        TTEST_NAME=${TT_NAME}_$2 \
+        TTEST_NAME=${TT_NAME}/$2 \
         TTEST_FLAGS="-k --fixed-byte-len $2 --fixed-value 0x73b2ccfd6a39f20f" \
         TTEST_NUM_TRACES=200000 \
         TTEST_CAPTURE=./experiments/memory-bus/bus-width/ttest.py\
