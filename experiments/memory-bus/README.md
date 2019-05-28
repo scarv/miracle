@@ -38,6 +38,9 @@ time after the original program was finished with it.
 
 4. Can we use this information to better minimise leakage?
 
+See:
+- [registers/README.md](registers/README.md)
+
 
 # 2. Memory Bus Widths
 
