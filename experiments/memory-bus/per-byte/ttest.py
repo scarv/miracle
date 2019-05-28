@@ -14,7 +14,7 @@ import ttest_capture
 # Used to get access to command line arguments.
 argparser = None
 
-class BusWidthTTestcapture(scass.ttest.TTestCapture):
+class PerByteTTestcapture(scass.ttest.TTestCapture):
     """
     Specialised TTest capture variant for the bus-width experiment.
     """
@@ -26,7 +26,7 @@ class BusWidthTTestcapture(scass.ttest.TTestCapture):
 
         Returns: The random data value as a byte string.
 
-        BusWidthTTestcapture functionality:
+        PerByteTTestcapture functionality:
         - The first N bytes of data in any randomly generated value always
           match the first N bytes of the fixed value.
         - By varying N from 0 to about 8, we can see how many extra
@@ -56,7 +56,7 @@ class BusWidthTTestcapture(scass.ttest.TTestCapture):
         self._num_fixed_bytes = args.fixed_byte_len
 
         log.info("---")
-        log.info("NOTE: Using custom BusWidthTTestcapture class")
+        log.info("NOTE: Using custom PerByteTTestcapture class")
         log.info("---")
 
         # Call original function
@@ -85,6 +85,6 @@ if(__name__ == "__main__"):
 
     ttest_capture.main(
         argparser,
-        BusWidthTTestcapture
+        PerByteTTestcapture
     )
 

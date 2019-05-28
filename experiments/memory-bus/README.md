@@ -60,7 +60,9 @@ standards such as AXI, AMBA and Wishbone.
 These standards define the physical signals used to communicate, as well
 as how data is layed out on them.
 
-See: [ld_byte/README.md](ld_byte/README.md)
+See:
+- [bus-width/README.md](bus-width/README.md)
+- [per-byte/README.md](per-byte/README.md)
 
 **Questions:**
 
