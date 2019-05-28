@@ -72,7 +72,7 @@ void experiment_setup_scass(
     cfg -> scass_experiment_init = experiment_init;
     cfg -> scass_experiment_run  = experiment_run ;
 
-    cfg -> experiment_name       = "memory/lb_0";
+    cfg -> experiment_name       = "memory/bus-width";
 
     cfg -> data_in               = data_in;
     cfg -> data_in_len           = EDATA_IN_LEN;

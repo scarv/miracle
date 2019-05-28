@@ -9,21 +9,21 @@
 #
 # Usage:
 #
-#   $> ./experiments/memory-bus/ld_byte/scale-ttest-all.sh <target> <serial port>
+#   $> ./experiments/memory-bus/bus-width/scale-ttest-all.sh <target> <serial port>
 #
 
-TT_NAME=ld_byte_10k
+TT_NAME=bus-width-10k
 
 # Exit on first failed command.
 set -e
 
 #
 # Build
-make -B build_$1_memory-bus-ld_byte
+make -B build_$1_memory-bus-bus-width
 
 #
 # Program
-make -B program_$1_memory-bus-ld_byte USB_PORT=$2
+make -B program_$1_memory-bus-bus-width USB_PORT=$2
 
 #
 # TTests
@@ -36,8 +36,8 @@ make -B -f Makefile \
         TTEST_NAME=${TT_NAME}_$2 \
         TTEST_FLAGS="-k --fixed-byte-len $2 --fixed-value 0x73b2ccfd6a39f20f" \
         TTEST_NUM_TRACES=10000 \
-        TTEST_CAPTURE=./experiments/memory-bus/ld_byte/ttest.py \
-        ttest_$1_memory-bus-ld_byte
+        TTEST_CAPTURE=./experiments/memory-bus/bus-width/ttest.py \
+        ttest_$1_memory-bus-bus-width
 }
 
 pwd
@@ -51,5 +51,5 @@ run_ttest $1 5 $2
 run_ttest $1 6 $2
 run_ttest $1 7 $2
 
-${UAS_ROOT}/experiments/memory-bus/ld_byte/ttest_graph.sh $1 ${TT_NAME}
+${UAS_ROOT}/experiments/memory-bus/bus-width/ttest_graph.sh $1 ${TT_NAME}
 
