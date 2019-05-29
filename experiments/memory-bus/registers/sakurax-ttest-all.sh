@@ -23,7 +23,7 @@ function run_ttest {
 make -B USB_PORT=$3 \
         USB_BAUD=128000 \
         TTEST_NAME=${TT_NAME}/$2 \
-        TTEST_FLAGS="-k --fixed-byte-len $2 --fixed-value 0x73b2ccfd6a39f20f" \
+        TTEST_FLAGS="-k --fixed-value 0x704ce142aa970aed2d0eb33ef3135247" \
         TTEST_NUM_TRACES=200000 \
         TTEST_CAPTURE=./experiments/memory-bus/registers/ttest.py\
         ttest_$1_memory-bus-registers
@@ -48,10 +48,6 @@ run_ttest sakurax_mb3 0 $1
 run_ttest sakurax_mb3 1 $1
 run_ttest sakurax_mb3 2 $1
 run_ttest sakurax_mb3 3 $1
-run_ttest sakurax_mb3 4 $1
-run_ttest sakurax_mb3 5 $1
-run_ttest sakurax_mb3 6 $1
-run_ttest sakurax_mb3 7 $1
 
 ${UAS_ROOT}/experiments/memory-bus/registers/ttest_graph.sh sakurax_mb3 ${TT_NAME}
 
@@ -65,10 +61,6 @@ run_ttest sakurax_mb5 0 $1
 run_ttest sakurax_mb5 1 $1
 run_ttest sakurax_mb5 2 $1
 run_ttest sakurax_mb5 3 $1
-run_ttest sakurax_mb5 4 $1
-run_ttest sakurax_mb5 5 $1
-run_ttest sakurax_mb5 6 $1
-run_ttest sakurax_mb5 7 $1
 
 ${UAS_ROOT}/experiments/memory-bus/registers/ttest_graph.sh sakurax_mb5 ${TT_NAME}
 
@@ -81,10 +73,6 @@ run_ttest sakurax_mb8 0 $1
 run_ttest sakurax_mb8 1 $1
 run_ttest sakurax_mb8 2 $1
 run_ttest sakurax_mb8 3 $1
-run_ttest sakurax_mb8 4 $1
-run_ttest sakurax_mb8 5 $1
-run_ttest sakurax_mb8 6 $1
-run_ttest sakurax_mb8 7 $1
 
 ${UAS_ROOT}/experiments/memory-bus/registers/ttest_graph.sh sakurax_mb8 ${TT_NAME}
 

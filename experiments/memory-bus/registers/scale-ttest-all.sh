@@ -34,7 +34,7 @@ function run_ttest {
 make -B -f Makefile \
         USB_PORT=$3 \
         TTEST_NAME=${TT_NAME}/$2 \
-        TTEST_FLAGS="-k --fixed-byte-len $2 --fixed-value 0x73b2ccfd6a39f20f" \
+        TTEST_FLAGS="-k --fixed-value 0x704ce142aa970aed2d0eb33ef3135247" \
         TTEST_NUM_TRACES=10000 \
         TTEST_CAPTURE=./experiments/memory-bus/registers/ttest.py \
         ttest_$1_memory-bus-registers
@@ -46,10 +46,6 @@ run_ttest $1 0 $2
 run_ttest $1 1 $2
 run_ttest $1 2 $2
 run_ttest $1 3 $2
-run_ttest $1 4 $2
-run_ttest $1 5 $2
-run_ttest $1 6 $2
-run_ttest $1 7 $2
 
 ${UAS_ROOT}/experiments/memory-bus/registers/ttest_graph.sh $1 ${TT_NAME}
 
