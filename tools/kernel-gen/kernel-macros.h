@@ -34,6 +34,26 @@
     .warning "ARG_3 register not defined"
 #endif
 
+// Scratch register 0
+#ifndef TMP_0
+    .warning "TMP_0 register not defined"
+#endif
+
+// Scratch register 1
+#ifndef TMP_1
+    .warning "TMP_1 register not defined"
+#endif
+
+// Scratch register 2
+#ifndef TMP_2
+    .warning "TMP_2 register not defined"
+#endif
+
+// Scratch register 3
+#ifndef TMP_3
+    .warning "TMP_3 register not defined"
+#endif
+
 //
 // Load unsigned byte into RD, using register + immediate addressing
 //

@@ -4,6 +4,10 @@
 #define ARG_1 r6
 #define ARG_2 r7
 #define ARG_3 r8
+#define TMP_0 r9
+#define TMP_1 r10
+#define TMP_2 r11
+#define TMP_3 r12
 
 
 #define LOAD_UBYTE_RI(RD,RA,IMM)  lbui RD,RA,IMM 

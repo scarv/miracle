@@ -11,6 +11,18 @@
 // ABI argument register 3
 #define ARG_3 .error "ARG_3 register not defined"
 
+// ABI scratch register 0
+#define TMP_0 .error "TMP_0 register not defined"
+
+// ABI scratch register 1
+#define TMP_1 .error "TMP_1 register not defined"
+
+// ABI scratch register 2
+#define TMP_2 .error "TMP_2 register not defined"
+
+// ABI scratch register 3
+#define TMP_3 .error "TMP_3 register not defined"
+
 //
 // Load unsigned byte into RD, using register + immediate addressing
 //
