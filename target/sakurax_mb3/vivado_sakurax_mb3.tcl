@@ -515,9 +515,9 @@ proc cr_bd_system_top { parentCell } {
   create_bd_addr_seg -range 0x00004000 -offset 0x00000000 [get_bd_addr_spaces CPU_MB3/Instruction] [get_bd_addr_segs BRAM_0/S_AXI/Mem0] SEG_BRAM_0_Mem0
   create_bd_addr_seg -range 0x00004000 -offset 0x00004000 [get_bd_addr_spaces CPU_MB3/Data] [get_bd_addr_segs BRAM_1/S_AXI/Mem0] SEG_BRAM_1_Mem0
   create_bd_addr_seg -range 0x00004000 -offset 0x00004000 [get_bd_addr_spaces CPU_MB3/Instruction] [get_bd_addr_segs BRAM_1/S_AXI/Mem0] SEG_BRAM_1_Mem0
-  create_bd_addr_seg -range 0x00002000 -offset 0x10000000 [get_bd_addr_spaces CPU_MB3/Data] [get_bd_addr_segs DATA_LMB/SLMB/Mem] SEG_DATA_LMB_Mem
+  create_bd_addr_seg -range 0x00004000 -offset 0x10000000 [get_bd_addr_spaces CPU_MB3/Data] [get_bd_addr_segs DATA_LMB/SLMB/Mem] SEG_DATA_LMB_Mem
   create_bd_addr_seg -range 0x00001000 -offset 0x40000000 [get_bd_addr_spaces CPU_MB3/Data] [get_bd_addr_segs GPIO/S_AXI/Reg] SEG_GPIO_Reg
-  create_bd_addr_seg -range 0x00002000 -offset 0x10000000 [get_bd_addr_spaces CPU_MB3/Instruction] [get_bd_addr_segs INST_LMB/SLMB/Mem] SEG_INST_LMB_Mem
+  create_bd_addr_seg -range 0x00004000 -offset 0x10000000 [get_bd_addr_spaces CPU_MB3/Instruction] [get_bd_addr_segs INST_LMB/SLMB/Mem] SEG_INST_LMB_Mem
   create_bd_addr_seg -range 0x00001000 -offset 0x40600000 [get_bd_addr_spaces CPU_MB3/Data] [get_bd_addr_segs UART/S_AXI/Reg] SEG_UART_Reg
 
   # Exclude Address Segments
