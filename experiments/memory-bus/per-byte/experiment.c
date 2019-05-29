@@ -11,7 +11,7 @@
 #define EDATA_OUT_LEN 4
 
 // An address in SRAM
-volatile uint8_t * data_sram = (volatile uint8_t*)(0x10000800);
+volatile uint8_t * data_sram = (volatile uint8_t*)(0x10001a00);
 
 uint8_t   data_in  [EDATA_IN_LEN ];
 uint8_t   data_out [EDATA_OUT_LEN];

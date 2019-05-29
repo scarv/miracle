@@ -7,17 +7,18 @@
 
 #include "experiment.h"
 
-#define EDATA_IN_LEN 16
+#define EDATA_IN_LEN 8
 #define EDATA_OUT_LEN 4
 
 // An address in SRAM
-volatile uint8_t * data_sram = (volatile uint8_t*)(0x10001a00);
+volatile uint8_t * data_sram = (volatile uint8_t*)(0x10000800);
 
 uint8_t   data_in  [EDATA_IN_LEN ];
 uint8_t   data_out [EDATA_OUT_LEN];
 
-//! Declaration for the experiment payload function in experiment.S
+//! Declaration for the experiment payload function in lb_0.S
 extern void     * experiment_payload(
+    uint8_t * data_flash,
     volatile uint8_t * data_sram  
 );
 
@@ -54,6 +55,7 @@ uint8_t experiment_run(
     uas_bsp_trigger_set();
     
     experiment_payload(
+        data_in,
         data_sram
     );
     
@@ -70,7 +72,7 @@ void experiment_setup_scass(
     cfg -> scass_experiment_init = experiment_init;
     cfg -> scass_experiment_run  = experiment_run ;
 
-    cfg -> experiment_name       = "memory/registers";
+    cfg -> experiment_name       = "memory/bus-width";
 
     cfg -> data_in               = data_in;
     cfg -> data_in_len           = EDATA_IN_LEN;
