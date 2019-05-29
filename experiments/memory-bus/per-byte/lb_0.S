@@ -14,63 +14,83 @@ experiment_payload:
     XOR_RR(ARG_3,ARG_3,ARG_3)
 
     ANOP ; ANOP ; ANOP
-    
-    LOAD_UBYTE_RI(ARG_2,ARG_0,0)    // Load from Flash
-    ANOP ; ANOP ; ANOP
-    XOR_RR(ARG_2,ARG_2,ARG_2)       // Clear Destination register
     ANOP ; ANOP ; ANOP
     
-    LOAD_UBYTE_RI(ARG_2,ARG_0,1)    // Load from Flash
+    LOAD_UBYTE_RI(ARG_3,ARG_0,0)    // Load from Flash
     ANOP ; ANOP ; ANOP
-    XOR_RR(ARG_2,ARG_2,ARG_2)       // Clear Destination register
     ANOP ; ANOP ; ANOP
-    
-    LOAD_UBYTE_RI(ARG_2,ARG_0,2)    // Load from Flash
     ANOP ; ANOP ; ANOP
-    XOR_RR(ARG_2,ARG_2,ARG_2)       // Clear Destination register
     ANOP ; ANOP ; ANOP
     
-    LOAD_UBYTE_RI(ARG_2,ARG_0,3)    // Load from Flash
+    LOAD_UBYTE_RI(TMP_0,ARG_0,1)    // Load from Flash
     ANOP ; ANOP ; ANOP
-    XOR_RR(ARG_2,ARG_2,ARG_2)       // Clear Destination register
+    ANOP ; ANOP ; ANOP
+    ANOP ; ANOP ; ANOP
     ANOP ; ANOP ; ANOP
     
-    LOAD_UBYTE_RI(ARG_2,ARG_0,4)    // Load from Flash
+    LOAD_UBYTE_RI(TMP_1,ARG_0,2)    // Load from Flash
     ANOP ; ANOP ; ANOP
-    XOR_RR(ARG_2,ARG_2,ARG_2)       // Clear Destination register
+    ANOP ; ANOP ; ANOP
+    ANOP ; ANOP ; ANOP
+    ANOP ; ANOP ; ANOP
+    
+    LOAD_UBYTE_RI(TMP_2,ARG_0,3)    // Load from Flash
+    ANOP ; ANOP ; ANOP
+    ANOP ; ANOP ; ANOP
+    ANOP ; ANOP ; ANOP
+    ANOP ; ANOP ; ANOP
+    
+    LOAD_UBYTE_RI(TMP_3,ARG_0,4)    // Load from Flash
+    ANOP ; ANOP ; ANOP
+    ANOP ; ANOP ; ANOP
+    ANOP ; ANOP ; ANOP
     ANOP ; ANOP ; ANOP
 
-    ANOP
-    ANOP
-    ANOP
-    ANOP
-    ANOP
-    
-    LOAD_UBYTE_RI(ARG_2,ARG_1,0)    // Load from SRAM
+    XOR_RR(ARG_3,ARG_3,ARG_3)
+    XOR_RR(TMP_0,TMP_0,TMP_0)
+    XOR_RR(TMP_1,TMP_1,TMP_1)
+    XOR_RR(TMP_2,TMP_2,TMP_2)
+    XOR_RR(TMP_3,TMP_3,TMP_3)
     ANOP ; ANOP ; ANOP
-    XOR_RR(ARG_2,ARG_2,ARG_2)       // Clear Destination register
     ANOP ; ANOP ; ANOP
-    
-    LOAD_UBYTE_RI(ARG_2,ARG_1,1)    // Load from SRAM
     ANOP ; ANOP ; ANOP
-    XOR_RR(ARG_2,ARG_2,ARG_2)       // Clear Destination register
     ANOP ; ANOP ; ANOP
     
-    LOAD_UBYTE_RI(ARG_2,ARG_1,2)    // Load from SRAM
+    LOAD_UBYTE_RI(ARG_3,ARG_1,0)    // Load from SRAM
     ANOP ; ANOP ; ANOP
-    XOR_RR(ARG_2,ARG_2,ARG_2)       // Clear Destination register
     ANOP ; ANOP ; ANOP
-    
-    LOAD_UBYTE_RI(ARG_2,ARG_1,3)    // Load from SRAM
     ANOP ; ANOP ; ANOP
-    XOR_RR(ARG_2,ARG_2,ARG_2)       // Clear Destination register
     ANOP ; ANOP ; ANOP
     
-    LOAD_UBYTE_RI(ARG_2,ARG_1,4)    // Load from SRAM
+    LOAD_UBYTE_RI(TMP_0,ARG_1,1)    // Load from SRAM
     ANOP ; ANOP ; ANOP
-    XOR_RR(ARG_2,ARG_2,ARG_2)       // Clear Destination register
+    ANOP ; ANOP ; ANOP
+    ANOP ; ANOP ; ANOP
     ANOP ; ANOP ; ANOP
     
+    LOAD_UBYTE_RI(TMP_1,ARG_1,2)    // Load from SRAM
+    ANOP ; ANOP ; ANOP
+    ANOP ; ANOP ; ANOP
+    ANOP ; ANOP ; ANOP
+    ANOP ; ANOP ; ANOP
+    
+    LOAD_UBYTE_RI(TMP_2,ARG_1,3)    // Load from SRAM
+    ANOP ; ANOP ; ANOP
+    ANOP ; ANOP ; ANOP
+    ANOP ; ANOP ; ANOP
+    ANOP ; ANOP ; ANOP
+    
+    LOAD_UBYTE_RI(TMP_3,ARG_1,4)    // Load from SRAM
+    ANOP ; ANOP ; ANOP
+    ANOP ; ANOP ; ANOP
+    ANOP ; ANOP ; ANOP
+    ANOP ; ANOP ; ANOP
+    
+    XOR_RR(ARG_3,ARG_3,ARG_3)
+    XOR_RR(TMP_0,TMP_0,TMP_0)
+    XOR_RR(TMP_1,TMP_1,TMP_1)
+    XOR_RR(TMP_2,TMP_2,TMP_2)
+    XOR_RR(TMP_3,TMP_3,TMP_3)
     ANOP
     ANOP
     ANOP
