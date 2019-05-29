@@ -19,7 +19,7 @@ MEMORY
 {
    BRAM_0_Mem0 : ORIGIN = 0x50, LENGTH = 0x3FB0
    BRAM_1_Mem0 : ORIGIN = 0x4000, LENGTH = 0x4000
-   INST_LMB_Mem_DATA_LMB_Mem : ORIGIN = 0x10000000, LENGTH = 0x2000
+   INST_LMB_Mem_DATA_LMB_Mem : ORIGIN = 0x10000000, LENGTH = 0x4000
 }
 
 /* Specify the default entry point to the program */
@@ -50,7 +50,7 @@ SECTIONS
    *(.text)
    *(.text.*)
    *(.gnu.linkonce.t.*)
-} > BRAM_0_Mem0
+} > INST_LMB_Mem_DATA_LMB_Mem
 
 .init : {
    KEEP (*(.init))

@@ -90,7 +90,7 @@ Device      | Base          | Range    | High Address
 ------------|---------------|----------|----------------
 UART        | 0x40600000    |  4K      | 0x40600FFF
 GPIO        | 0x40000000    |  4K      | 0x40000FFF
-LMB BRAM    | 0x10000000    |  8K      | 0x10001FFF
+LMB BRAM    | 0x10000000    | 16K      | 0x10003FFF
 AXI BRAM 0  | 0x00000000    | 16K      | 0x00003FFF
 AXI BRAM 1  | 0x00004000    | 16K      | 0x00007FFF
 
