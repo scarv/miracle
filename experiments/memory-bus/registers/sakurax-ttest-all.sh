@@ -49,8 +49,6 @@ run_ttest sakurax_mb3 1 $1
 run_ttest sakurax_mb3 2 $1
 run_ttest sakurax_mb3 3 $1
 
-${UAS_ROOT}/experiments/memory-bus/registers/ttest_graph.sh sakurax_mb3 ${TT_NAME}
-
 
 #
 # MB5 Target
@@ -62,7 +60,6 @@ run_ttest sakurax_mb5 1 $1
 run_ttest sakurax_mb5 2 $1
 run_ttest sakurax_mb5 3 $1
 
-${UAS_ROOT}/experiments/memory-bus/registers/ttest_graph.sh sakurax_mb5 ${TT_NAME}
 
 #
 # MB8 Target
@@ -74,7 +71,6 @@ run_ttest sakurax_mb8 1 $1
 run_ttest sakurax_mb8 2 $1
 run_ttest sakurax_mb8 3 $1
 
-${UAS_ROOT}/experiments/memory-bus/registers/ttest_graph.sh sakurax_mb8 ${TT_NAME}
 
 # Return to previous cwd
 cd -
