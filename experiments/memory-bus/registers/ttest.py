@@ -27,9 +27,13 @@ class RegistersTTestcapture(scass.ttest.TTestCapture):
         Returns: The random data value as a byte string.
         """
         randb = secrets.token_bytes(self.input_data_len)
-        rdata = randb
         
-        assert(len(rdata) == self.input_data_len)
+        rdata = self._fixed_value[0:4] + randb[4:]
+        
+        assert(len(rdata) == self.input_data_len),"%d != %d"%(
+            len(rdata),self.input_data_len)
+
+        #print(rdata.hex())
 
         return rdata
 

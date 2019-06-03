@@ -12,7 +12,7 @@
 #   $> ./experiments/memory-bus/registers/sakurax-ttest-all.sh <serial port>
 #
 
-TT_NAME=registers-200k
+TT_NAME=registers-300k
 
 #
 # TTests
@@ -24,7 +24,7 @@ make -B USB_PORT=$3 \
         USB_BAUD=128000 \
         TTEST_NAME=${TT_NAME}/$2 \
         TTEST_FLAGS="-k --fixed-value 0x704ce142aa970aed2d0eb33ef3135247" \
-        TTEST_NUM_TRACES=200000 \
+        TTEST_NUM_TRACES=300000 \
         TTEST_CAPTURE=./experiments/memory-bus/registers/ttest.py\
         ttest_$1_memory-bus-registers
 }
@@ -45,9 +45,6 @@ pwd
 make -B -f Makefile.experiment USB_PORT=$1 UAS_EXPERIMENT=memory-bus/registers UAS_TARGET=sakurax_mb3 build all
 make -B -f Makefile.experiment USB_PORT=$1 UAS_EXPERIMENT=memory-bus/registers UAS_TARGET=sakurax_mb3 program
 run_ttest sakurax_mb3 0 $1
-run_ttest sakurax_mb3 1 $1
-run_ttest sakurax_mb3 2 $1
-run_ttest sakurax_mb3 3 $1
 
 
 #
@@ -56,9 +53,6 @@ run_ttest sakurax_mb3 3 $1
 make -B -f Makefile.experiment USB_PORT=$1 UAS_EXPERIMENT=memory-bus/registers UAS_TARGET=sakurax_mb5 build all
 make -B -f Makefile.experiment USB_PORT=$1 UAS_EXPERIMENT=memory-bus/registers UAS_TARGET=sakurax_mb5 program
 run_ttest sakurax_mb5 0 $1
-run_ttest sakurax_mb5 1 $1
-run_ttest sakurax_mb5 2 $1
-run_ttest sakurax_mb5 3 $1
 
 
 #
@@ -67,9 +61,6 @@ run_ttest sakurax_mb5 3 $1
 make -B -f Makefile.experiment USB_PORT=$1 UAS_EXPERIMENT=memory-bus/registers UAS_TARGET=sakurax_mb8 build all
 make -B -f Makefile.experiment USB_PORT=$1 UAS_EXPERIMENT=memory-bus/registers UAS_TARGET=sakurax_mb8 program
 run_ttest sakurax_mb8 0 $1
-run_ttest sakurax_mb8 1 $1
-run_ttest sakurax_mb8 2 $1
-run_ttest sakurax_mb8 3 $1
 
 
 # Return to previous cwd

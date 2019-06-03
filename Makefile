@@ -25,7 +25,8 @@ EXPERIMENTS = example/add \
               example/addxor \
               memory-bus/bus-width \
               memory-bus/per-byte \
-              memory-bus/registers
+              memory-bus/registers \
+              memory-bus/aes-sbox
 
 define tgt_build
 build_${1}_$(subst /,-,${2}) :

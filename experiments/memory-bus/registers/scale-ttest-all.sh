@@ -12,7 +12,7 @@
 #   $> ./experiments/memory-bus/registers/scale-ttest-all.sh <target> <serial port>
 #
 
-TT_NAME=registers-10k
+TT_NAME=registers-20k
 
 # Exit on first failed command.
 set -e
@@ -35,7 +35,7 @@ make -B -f Makefile \
         USB_PORT=$3 \
         TTEST_NAME=${TT_NAME}/$2 \
         TTEST_FLAGS="-k --fixed-value 0x704ce142aa970aed2d0eb33ef3135247" \
-        TTEST_NUM_TRACES=10000 \
+        TTEST_NUM_TRACES=20000 \
         TTEST_CAPTURE=./experiments/memory-bus/registers/ttest.py \
         ttest_$1_memory-bus-registers
 }
@@ -43,9 +43,6 @@ make -B -f Makefile \
 pwd
 
 run_ttest $1 0 $2
-run_ttest $1 1 $2
-run_ttest $1 2 $2
-run_ttest $1 3 $2
 
 ${UAS_ROOT}/experiments/memory-bus/registers/ttest_graph.sh $1 ${TT_NAME}
 
