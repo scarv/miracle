@@ -7,19 +7,19 @@
 
 #include "experiment.h"
 
-#define EDATA_IN_LEN 8
-#define EDATA_OUT_LEN 4
-
-// An address in SRAM
-volatile uint8_t * data_sram = (volatile uint8_t*)(0x10000800);
+#define EDATA_IN_LEN  32
+#define EDATA_OUT_LEN 16
 
 uint8_t   data_in  [EDATA_IN_LEN ];
 uint8_t   data_out [EDATA_OUT_LEN];
 
+uint8_t   sbox[256];
+
 //! Declaration for the experiment payload function in lb_0.S
 extern void     * experiment_payload(
-    uint8_t * data_flash,
-    volatile uint8_t * data_sram  
+    uint8_t * data_in ,
+    uint8_t * rnd_key ,
+    uint8_t * sbox
 );
 
 extern void     * experiment_payload_end;
@@ -30,14 +30,6 @@ extern void     * experiment_payload_end;
 uint8_t experiment_init(
     scass_target_cfg * cfg //!< PRNG / data access
 ) {
-
-    for(uint8_t i = 0; i < EDATA_IN_LEN; i++) {
-        data_in[i] = i;
-        data_sram[i] = i;
-    }
-    for(uint8_t i = 0; i < EDATA_OUT_LEN; i++) {
-        data_out[i] = i;
-    }
     return 0;
 }
 
@@ -48,18 +40,22 @@ uint8_t experiment_run(
     scass_target_cfg * cfg //!< PRNG / data access
 ){
 
-    for(int i = 0; i < 8; i ++) {
-        data_sram[i] = data_in[i];
-    }
+    uint8_t * d_in = &data_in[ 0];
+    uint8_t * key  = &data_in[16];
 
     uas_bsp_trigger_set();
     
     experiment_payload(
-        data_in,
-        data_sram
+        d_in,
+        key,
+        sbox
     );
     
     uas_bsp_trigger_clear();
+
+    for(int i =0; i < 16; i ++) {
+        data_out[i] = data_in[i];
+    }
 
     return 0;
 
@@ -72,7 +68,7 @@ void experiment_setup_scass(
     cfg -> scass_experiment_init = experiment_init;
     cfg -> scass_experiment_run  = experiment_run ;
 
-    cfg -> experiment_name       = "memory/bus-width";
+    cfg -> experiment_name       = "memory/aes-sbox";
 
     cfg -> data_in               = data_in;
     cfg -> data_in_len           = EDATA_IN_LEN;
