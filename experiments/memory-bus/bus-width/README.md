@@ -46,6 +46,13 @@
   - These extra bytes do not get committed to architectural state.
   - They are clearly visible in the T-test traces.
 
+- For pre-existing systems, we now know that this is an effect which
+  can be identified reasonably easily.
+
+- For new systems being designed, we have some recommendations about how
+  to augment a given bus standard, or bus standard implementation, to
+  increase leakage resiliance.
+
 ### Discussion:
 
 - Though the results are not supprising from a micro-architecture point of
