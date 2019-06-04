@@ -58,42 +58,42 @@
 - The ARM microcontrollers all use AMBA AHB bus standards to communicate
   intra-chip. This standard allows for transfer sizes which are
   power-of-two numbers of bytes, *upto the width of the bus*.
-- This means that in a 32-bit bus, 1,2 or 4 bytes may be read or written
-  by a bus master.
-- The width of the data transfer is controlled by the `HSIZE` signal,
-  and the address (`HADDR`) does not need to be word aligned.
-- However, it appears that the tested CPU implementations *either* 
-  a) always request an entire word, and throw away un-needed bytes or
-  b) request only what they need, but the *memory device* always
-     returns an entire word.
-- The net result is that more bytes than were requested are driven
-  across the bus.
+  - This means that in a 32-bit bus, 1,2 or 4 bytes may be read or written
+    by a bus master.
+  - The width of the data transfer is controlled by the `HSIZE` signal,
+    and the address (`HADDR`) does not need to be word aligned.
+  - However, it appears that the tested CPU implementations *either* 
+    a) always request an entire word, and throw away un-needed bytes or
+    b) request only what they need, but the *memory device* always
+       returns an entire word.
+  - The net result is that more bytes than were requested are driven
+    across the bus.
 
 - The Xilinx FPGA softcore systems were set-up to use both ARM AXI 4.0
   busses[2], and Xilinx's own Local-Memory-Bus (LMB) standard [3].
-- AXI4 busses allow multiple transaction memory accesses. The number of
-  bytes transfered per beat is specified by `ARSIZE`/`AWSIZE` for
-  reads/writes respectivley. The number of beats in the burst is then
-  controlled by the `ARLEN`/`AWLEN` signals.
-- The AXI4-Lite protocol simplifies this by forcing all bursts to
-  have only 1 beat (`A*LEN = 1`) and all accesses are 
-  *"the full width of the data bus"* (`A*SIZE = 4/8`).
-  Busses may be *"32-bit or 64-bit"* wide.
-- Clearly, the AXI4-Lite protocol is inherently problematic from the
-  perspective of fetching more bytes than are actually required by the
-  core.
-- The full fat AXI4 protocol *may* also suffer from this problem, but
-  that is *heavily* implementation dependent.
+  - AXI4 busses allow multiple transaction memory accesses. The number of
+    bytes transfered per beat is specified by `ARSIZE`/`AWSIZE` for
+    reads/writes respectivley. The number of beats in the burst is then
+    controlled by the `ARLEN`/`AWLEN` signals.
+  - The AXI4-Lite protocol simplifies this by forcing all bursts to
+    have only 1 beat (`A*LEN = 1`) and all accesses are 
+    *"the full width of the data bus"* (`A*SIZE = 4/8`).
+    Busses may be *"32-bit or 64-bit"* wide.
+  - Clearly, the AXI4-Lite protocol is inherently problematic from the
+    perspective of fetching more bytes than are actually required by the
+    core.
+  - The full fat AXI4 protocol *may* also suffer from this problem, but
+    that is *heavily* implementation dependent.
 
 - The Xilinx LMB bus protocol is *"used as the LMB interconnect for Xilinx
   device embedded processor systems. The LMB is a fast, local bus for
   connecting the MicroBlaze™ processor instruction and data ports to
   high-speed peripherals, primarily on-chip block RAM (BRAM)."*[3,
   4 (chapter 3, p163)]
-- Particularly, it allows *single cycle* access to on-chip BRAM.
-- As with AXI4-Lite, it has no way of requesting less than 1-bus widths
-  data from a slave device, meaning that even if a single byte is requested,
-  and entire word of data is returned by the BRAM.
+  - Particularly, it allows *single cycle* access to on-chip BRAM.
+  - As with AXI4-Lite, it has no way of requesting less than 1-bus widths
+    data from a slave device, meaning that even if a single byte is requested,
+    and entire word of data is returned by the BRAM.
 
 - It is clear that this extra, unexpected activity on data memory busses
   has undesirable implications for side-channel resiliance.
