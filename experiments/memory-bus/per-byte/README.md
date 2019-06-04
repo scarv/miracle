@@ -1,13 +1,20 @@
 
 # Per-byte Experiment
 
+- [Purpose](#Purpose)
+- [Method](#Method)
+- [Expectations](#Expectations)
+- [Findings](#Findings)
+- [Running The Experiment](#Running-the-experiment)
+
 ## Purpose
 
 To confirm that for a given bus width `B`, loading any byte from a
 `B`-byte aligned word, will also fetch the bytes within that `B-aligned`
 word, as opposed to the next `B-1` bytes.
 
-**Method:**
+## Method:
+
 - Start with an `N` byte array, which is aligned to a `B`-byte boundary
   - In this case, the array is aligned to a 4-byte boundary.
   - The array is `8` bytes long.
@@ -20,7 +27,8 @@ word, as opposed to the next `B-1` bytes.
   - Run a T-test such that the first `i` bytes of the input array are
     kept constant, while others are randomised per trace.
 
-**Expectations:**
+## Expectations:
+
 If a load byte instruction tries to load a source byte at address `A`,
 it may load one of:
 
@@ -34,6 +42,40 @@ it may load one of:
 - If case 3 is true, then even if all bytes in the input array upto and
   including `A` are kept constant, we should still see data dependent 
   leakage due to the `B-1` other bytes being loaded.
+
+## Findings
+
+### Overview
+
+- We found that, yes, for the target devices, the *memory word containing
+  the byte* is returned.
+
+- This is as opposed to returning the requested byte, plus the following
+  `N` succeeding bytes.
+
+### Discussion
+
+- Again, this was not very supprising given some knowledge about how
+  CPUs and memories are constructed.
+
+- For memories, these are characterised by a bit width `W` and a
+  word depth `D`.
+  - An input address will correspond to a `W-bit` word, and reading an
+    address will return the entire word.
+  - This is opposed to allowing sub-`W` granularity in the address.
+
+- For CPUs, it is clear that a common implementation strategy is to
+  request an entire word and then throw away redundant bytes.
+  - It is possible that this is driven by how the memories work, and not
+    the other way around.
+
+- From a side-channel perspective, this will affect how leakage models are
+  constructed.
+  - When attacking a device which performs a data load, I can now use a
+    modified hamming weight/distance model where I know that extra information
+    can be incorperated.
+  - I also know *which* extra bytes of information to include.
+
 
 ## Running the experiment
 
