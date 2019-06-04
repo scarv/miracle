@@ -1,5 +1,16 @@
 
-# 1. Memory Bus Registers
+# Memory Hierarchy Experiments
+
+- Hypotheses and Ideas:
+  - [Memory Bus Registers](#Memory-Bus-Registers)
+  - [Memory Bus Widths](#Memory-Bus-Widths)
+- Experiments:
+  - [Bus Width](bus-width/README.md)
+  - [Per-Byte](per-byte/README.md)
+  - [Registers](registers/README.md)
+ 
+
+## 1. Memory Bus Registers
 
 Memory busses and interconnects are expensive to drive signals over, or
 to have toggle unnecessarily.
@@ -42,7 +53,7 @@ See:
 - [registers/README.md](registers/README.md)
 
 
-# 2. Memory Bus Widths
+## 2. Memory Bus Widths
 
 Typical micro-controller based SoCs will have some sort of bus
 interconnect, allowing it to talk to memory and peripherals.
@@ -100,9 +111,9 @@ See:
 
 ---
 
-# Experiments
+## Experiments
 
-## Memory hierarchy registers
+### Memory hierarchy registers
 
 How can we identify register stages in the memory hierarchy?
 
@@ -143,7 +154,7 @@ Considerations:
 - Taking care to store zeros to the memory destination locations to stop
   possible pollution between runs.
 
-## Memory bus sub-word handling
+### Memory bus sub-word handling
 
 How can we identify how different data-widths are transported from memory
 into the CPU and back?
