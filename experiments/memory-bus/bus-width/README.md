@@ -31,9 +31,9 @@ Target  | Address 1     | Address 2
 `sakurax_mb3`       | `0x0000_02c0` (AXI BRAM0) | `0x1000_0a00` (LMB BRAM)
 `sakurax_mb5`       | `0x0000_02c0` (AXI BRAM0) | `0x1000_0a00` (LMB BRAM)
 `sakurax_mb8`       | `0x0000_02c0` (AXI BRAM0) | `0x1000_0a00` (LMB BRAM)
-`scale_lpc1114fn28` | `0x1000_0044` (SRAM) | `0x1000_0a00` (SRAM)
-`scale_lpc1313fbd48`| `0x1000_0044` (SRAM) | `0x1000_0a00` (SRAM)
-`scale_lpc812m101`  | `0x1000_0044` (SRAM) | `0x1000_0a00` (SRAM)
+`scale_lpc1114fn28` | `0x1000_0044` (SRAM) | `0x1000_1F00` (SRAM)
+`scale_lpc1313fbd48`| `0x1000_0044` (SRAM) | `0x1000_6F00` (SRAM)
+`scale_lpc812m101`  | `0x1000_0044` (SRAM) | `0x1000_0F00` (SRAM)
 
 ## Expectations:
 - For an `X` byte wide bus (where `X<N`), we should continue to see leakage
