@@ -10,12 +10,12 @@
 #define TMP_3 t3 
 
 
-#define LOAD_UBYTE_RI(RD,RA,IMM)  lbu  RD,RA,IMM 
-#define LOAD_UHALF_RI(RD,RA,IMM)  lhu  RD,RA,IMM
-#define LOAD_WORD_RI(RD,RA,IMM)   lw   RD,RA,IMM
-#define STORE_BYTE_RI(RS,RB,IMM)  sb   RS,RB,IMM 
-#define STORE_HALF_RI(RS,RB,IMM)  sh   RS,RB,IMM
-#define STORE_WORD_RI(RS,RB,IMM)  sw   RS,RB,IMM
+#define LOAD_UBYTE_RI(RD,RA,IMM)  lbu  RD,IMM(RA) 
+#define LOAD_UHALF_RI(RD,RA,IMM)  lhu  RD,IMM(RA)
+#define LOAD_WORD_RI(RD,RA,IMM)   lw   RD,IMM(RA)
+#define STORE_BYTE_RI(RS,RB,IMM)  sb   RS,IMM(RB) 
+#define STORE_HALF_RI(RS,RB,IMM)  sh   RS,IMM(RB)
+#define STORE_WORD_RI(RS,RB,IMM)  sw   RS,IMM(RB)
 #define XOR_RR(RD,RA,RM)          xor  RD,RA,RM
 #define XOR_RI(RD,RA,IMM)         xori RD,RA,IMM
 #define ADD_RR(RD,RN,RM )         add  RD,RN,RM  
