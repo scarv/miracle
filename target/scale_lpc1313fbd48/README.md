@@ -23,6 +23,13 @@ $> make -B -f Makefile.experiment UAS_EXPERIMENT=example/addxor UAS_TARGET=scale
 If you're target device is not connected to `/dev/ttyUSB0`, you also need
 to specify `USB_PORT=<port path>`.
 
+## System Memory Map
+
+Device      | Base          | Range    | High Address
+------------|---------------|----------|----------------
+Flash       | 0x00000000    | 32K      | 0x00007FFF
+SRAM        | 0x10000000    |  8K      | 0x10001FFF
+
 ---
 
 **Useful links:**

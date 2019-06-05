@@ -1,4 +1,5 @@
 
+CFLAGS += -DTARGET=4
 CFLAGS += -DARCH_MICROBLAZE -Wall -O2
 CFLAGS += -mlittle-endian -mxl-barrel-shift -mno-xl-soft-div
 CFLAGS += -mcpu=v10.0 -mno-xl-soft-mul -Wl,--no-relax -Wl,--gc-sections -o

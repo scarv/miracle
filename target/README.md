@@ -15,6 +15,17 @@ experiments*
 - [SAKURA-X Microblaze 5-stage softcore](sakurax_mb5/README.md)
 - [SAKURA-X Microblaze 8-stage softcore](sakurax_mb8/README.md)
 
+Each target platform can be identified in experiment code via the
+`TARGET` pre-processor symbol which is passed via the command line:
+
+Target  | `TARGET` Value
+--------|-----------------------------------------------------
+SCALE ARM M0+ Board / lpc812m101        | `1`
+SCALE ARM M0 Board / lpc1114fn28        | `2`
+SCALE ARM M3 Board / lpc1313fbd48       | `3`
+SAKURA-X Microblaze 3-stage softcore    | `4`
+SAKURA-X Microblaze 5-stage softcore    | `5`
+SAKURA-X Microblaze 8-stage softcore    | `6`
 
 ## Candidate Platforms
 
