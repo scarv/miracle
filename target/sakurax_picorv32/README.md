@@ -49,7 +49,16 @@ We use only the Kintex-7 FPGA for this target, the Spartan-6 companion FPGA
 is left un-programmed.
 
 This target configures the PicoRV32 as follows:
-- **TBD:**
+
+Parameter | Value
+----------|--------------------------------
+`BARREL_SHIFTER`    | `1
+`COMPRESSED_ISA`    | `1
+`ENABLE_DIV`        | `1
+`ENABLE_FAST_MUL`   | `1
+`ENABLE_MUL`        | `1 
+`PROGADDR_RESET`    | `0x00000000`
+`REGS_INIT_ZERO`    | `1
 
 ![System Block Diagram](block-diagram.png)
 
@@ -100,6 +109,6 @@ Pin     | SAKURA-X Pin Name     | RTL Signal Name
 **Useful Links:**
 - [SAKURA-X FPGA Development Platform](http://satoh.cs.uec.ac.jp/SAKURA/hardware/SAKURA-X.html)
   - [Purchasing](http://www.troche.com/sakura/order.html)
-- [Xilinx UG984 Microblaze Processor Reference Guide](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_3/ug984-vivado-microblaze-ref.pdf)
+- [PicoRV32 Repository](https://github.com/cliffordwolf/picorv32)
 - [Xilinx PG144 AXI GPIO v2.0 Product Guide](https://www.xilinx.com/support/documentation/ip_documentation/axi_gpio/v2_0/pg144-axi-gpio.pdf)
 - [Xilinx PG142 AXI UART Lite v2.0 Product Guide](https://www.xilinx.com/support/documentation/ip_documentation/axi_uartlite/v2_0/pg142-axi-uartlite.pdf)
