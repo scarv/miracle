@@ -493,7 +493,7 @@ proc cr_bd_system_top { parentCell } {
    CONFIG.ENABLE_DIV {1} \
    CONFIG.ENABLE_FAST_MUL {1} \
    CONFIG.ENABLE_MUL {1} \
-   CONFIG.PROGADDR_RESET {0xC0000000} \
+   CONFIG.PROGADDR_RESET {0x00000000} \
    CONFIG.REGS_INIT_ZERO {1} \
  ] $PICORV32
 
@@ -562,6 +562,8 @@ proc cr_bd_system_top { parentCell } {
   current_bd_instance $oldCurInst
 
   save_bd_design
+common::send_msg_id "BD_TCL-1000" "WARNING" "This Tcl script was generated from a block design that has not been validated. It is possible that design <$design_name> may result in errors during validation."
+
   close_bd_design $design_name 
 }
 # End of cr_bd_system_top()

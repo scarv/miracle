@@ -14,6 +14,9 @@
 
 TT_NAME=bus-width-200k
 
+# Print commands as they are executed.
+set -x
+
 #
 # TTests
 # arg 0 - target platform
