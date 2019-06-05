@@ -9,7 +9,7 @@
 #elif ARCH_MICROBLAZE
     #include "kernel-macros-microblaze.h"
 #elif ARCH_RV32IMC
-    .error "No macros for ARCH_RV32IMC available yet"
+    #include "kernel-macros-rv32imc.h"
 #else
     .error "No known architecture defined"
 #endif

@@ -17,9 +17,8 @@ _HEAP_SIZE = DEFINED(_HEAP_SIZE) ? _HEAP_SIZE : 0x800;
 
 MEMORY
 {
-   BRAM_0_Mem0 : ORIGIN = 0x50, LENGTH = 0x3FB0
-   BRAM_1_Mem0 : ORIGIN = 0x4000, LENGTH = 0x4000
-   INST_LMB_Mem_DATA_LMB_Mem : ORIGIN = 0x10000000, LENGTH = 0x4000
+   BRAM_0_Mem0 : ORIGIN = 0x0, LENGTH = 0x4000
+   BRAM_1_Mem0 : ORIGIN = 0x1000000, LENGTH = 0x4000
 }
 
 /* Specify the default entry point to the program */
@@ -47,10 +46,11 @@ SECTIONS
 } 
 
 .text : {
+   *(.boot)
    *(.text)
    *(.text.*)
    *(.gnu.linkonce.t.*)
-} > INST_LMB_Mem_DATA_LMB_Mem
+} > BRAM_0_Mem0
 
 .init : {
    KEEP (*(.init))

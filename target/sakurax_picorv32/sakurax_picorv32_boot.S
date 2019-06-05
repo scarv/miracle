@@ -1,5 +1,5 @@
 
-.text
+.section .boot
 .global _start
 _start:
 

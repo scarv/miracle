@@ -1,19 +1,19 @@
 
 CFLAGS += -DTARGET=7
-CFLAGS += -DARCH_MICROBLAZE -Wall -O2
-CFLAGS += -march=rv32imc -mabi=ilp32
+CFLAGS += -DARCH_RV32IMC -Wall -O2
+CFLAGS += -march=rv32imc -mabi=ilp32 -nostartfiles
 CFLAGS += -Wl,-T -Wl,$(UAS_ROOT)/target/sakurax_picorv32/linker.ld
 
-CC      = $(RISCV)/bin/riscv64-unknown-elf-gcc
-LD      = $(RISCV)/bin/riscv64-unknown-elf-ld     
-AS      = $(RISCV)/bin/riscv64-unknown-elf-as     
-OBJDUMP = $(RISCV)/bin/riscv64-unknown-elf-objdump
-OBJCOPY = $(RISCV)/bin/riscv64-unknown-elf-objcopy
+CC      = $(RISCV)/bin/riscv32-unknown-elf-gcc
+LD      = $(RISCV)/bin/riscv32-unknown-elf-ld     
+AS      = $(RISCV)/bin/riscv32-unknown-elf-as     
+OBJDUMP = $(RISCV)/bin/riscv32-unknown-elf-objdump
+OBJCOPY = $(RISCV)/bin/riscv32-unknown-elf-objcopy
 
 TARGET_DIR  = $(UAS_ROOT)/target/sakurax_picorv32
 
-TARGET_SRCS = $(TARGET_DIR)/sakurax_picorv32_bsp.c \
-              $(TARGET_DIR)/sakurax_picorv32_boot.S 
+TARGET_SRCS = $(TARGET_DIR)/sakurax_picorv32_boot.S \
+              $(TARGET_DIR)/sakurax_picorv32_bsp.c
 
 UPDATEMEM       = $(VIVADO_ROOT)/bin/updatemem
 VIVADO          = $(VIVADO_ROOT)/bin/vivado
@@ -23,23 +23,27 @@ IMPL_BITFILE    = $(TARGET_DIR)/bitstream.bit
 DOWNLOAD_BITFILE= $(UAS_EXPERIMENT_BUILD)/download.bit
 
 SEARCH_RAMB     = $(TARGET_DIR)/bitstream_search_ramb.tcl
-MMI_GEN         = $(TARGET_DIR)/bitstream_mmi_gen.py
+MMI_FILE        = $(TARGET_DIR)/sakurax_picorv32.mmi
 
-include fsbl/Makefile.in
-
-$(DOWNLOAD_BITFILE) : $(IMPL_BITFILE) fsbl
+$(MMI_FILE) : $(IMPL_BITFILE)
 	$(VIVADO) -mode tcl -log $(VIVADO_LOG) -nojournal \
         -source $(SEARCH_RAMB) \
-        -tclargs sakurax_picorv32 $(UAS_BUILD)/vivado
-	#$(UPDATEMEM) -force \
-	#-meminfo $(MEMINFO) \
-	#-bit     $(IMPL_BITFILE) \
-	#-data    $(BINOUT) \
-	#-proc    system_top_i/CPU_MB3 \
-	#-out     $(DOWNLOAD_BITFILE)
-	#@rm updatemem.jou updatemem.log
+        -tclargs sakurax-picorv32 $(UAS_BUILD)/vivado
+	mv $(UAS_ROOT)/BRAM_0.mmi $(MMI_FILE)
 
-$(VIVADO_LOG) : $(IMPL_BITFILE) $(BINOUT)
+
+$(DOWNLOAD_BITFILE) : $(IMPL_BITFILE) $(BINOUT) $(MMI_FILE)
+	$(UPDATEMEM) -force \
+	-meminfo $(MMI_FILE) \
+	-bit     $(IMPL_BITFILE) \
+	-data    $(BINOUT) \
+	-proc    dummy \
+	-out     $(DOWNLOAD_BITFILE)
+	@rm updatemem.jou updatemem.log
+
+bitfile : $(DOWNLOAD_BITFILE)
+
+$(VIVADO_LOG) : $(DOWNLOAD_BITFILE) $(BINOUT)
 	$(VIVADO) -mode tcl -log $(VIVADO_LOG) -nojournal \
         -source $(TARGET_DIR)/program_bitstream.tcl \
         -tclargs $(DOWNLOAD_BITFILE)
