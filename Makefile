@@ -16,6 +16,7 @@ export
 TARGETS     = sakurax_mb3 \
               sakurax_mb5 \
               sakurax_mb8 \
+              sakurax_picorv32 \
               scale_lpc1114fn28 \
               scale_lpc1313fbd48 \
               scale_lpc812m101 

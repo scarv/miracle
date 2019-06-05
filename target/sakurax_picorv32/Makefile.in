@@ -31,8 +31,9 @@ $(MMI_FILE) : $(IMPL_BITFILE)
         -tclargs sakurax-picorv32 $(UAS_BUILD)/vivado
 	mv $(UAS_ROOT)/BRAM_0.mmi $(MMI_FILE)
 
+regnerate_mmi_file: $(MMI_FILE)
 
-$(DOWNLOAD_BITFILE) : $(IMPL_BITFILE) $(BINOUT) $(MMI_FILE)
+$(DOWNLOAD_BITFILE) : $(IMPL_BITFILE) $(BINOUT)
 	$(UPDATEMEM) -force \
 	-meminfo $(MMI_FILE) \
 	-bit     $(IMPL_BITFILE) \

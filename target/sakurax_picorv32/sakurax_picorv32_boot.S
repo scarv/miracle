@@ -34,9 +34,6 @@ _start:
     li x29, 0
     li x30, 0
     li x31, 0
-    
-    csrrci  zero, mstatus, 0b1111   // Disable interrupts globally
-    csrw    mie    , zero           // Disable interrupts individually too
 
     li  sp,  0x3ff0
 
