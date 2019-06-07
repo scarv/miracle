@@ -45,9 +45,9 @@ pwd
 #
 # Picorv32 Target
 #
-make -B -f Makefile.experiment USB_PORT=$1 UAS_EXPERIMENT=memory-bus/aes-sbox UAS_TARGET=sakurax_picorv32 build all
-make -B -f Makefile.experiment USB_PORT=$1 UAS_EXPERIMENT=memory-bus/aes-sbox UAS_TARGET=sakurax_picorv32 program
-run_ttest sakurax_picorv32 $1
+#make -B -f Makefile.experiment USB_PORT=$1 UAS_EXPERIMENT=memory-bus/aes-sbox UAS_TARGET=sakurax_picorv32 build all
+#make -B -f Makefile.experiment USB_PORT=$1 UAS_EXPERIMENT=memory-bus/aes-sbox UAS_TARGET=sakurax_picorv32 program
+#run_ttest sakurax_picorv32 $1
 
 
 #
