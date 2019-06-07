@@ -12,7 +12,7 @@
 #   $> ./experiments/memory-bus/aes-sbox/sakurax-ttest-all.sh <serial port>
 #
 
-TT_NAME=aes-sbox-200k
+TT_NAME=aes-sbox-100k
 
 #
 # TTests
@@ -20,11 +20,14 @@ TT_NAME=aes-sbox-200k
 # arg 1 - number of fixed bytes
 # arg 2 - serial port.
 function run_ttest {
-make -B USB_PORT=$3 \
+make -B USB_PORT=$2 \
         USB_BAUD=128000 \
-        TTEST_NAME=${TT_NAME}/$2 \
-        TTEST_FLAGS="-k --fixed-byte-len $2 --fixed-value 0x73b2ccfd6a39f20f" \
-        TTEST_NUM_TRACES=200000 \
+        TTEST_NAME=${TT_NAME} \
+        TTEST_FLAGS="--keep-data \
+                     --fixed-value-len 16 \
+                     --fixed-value 0xd1bdf5360d006e7827fb24e1c01b8b7a \
+                     --key         0xbd59c0df6103cf9d0d6a2add7f92b478" \
+        TTEST_NUM_TRACES=100000 \
         TTEST_CAPTURE=./experiments/memory-bus/aes-sbox/ttest.py\
         ttest_$1_memory-bus-aes-sbox
 }
@@ -40,53 +43,33 @@ cd $UAS_ROOT
 pwd
 
 #
+# Picorv32 Target
+#
+make -B -f Makefile.experiment USB_PORT=$1 UAS_EXPERIMENT=memory-bus/aes-sbox UAS_TARGET=sakurax_picorv32 build all
+make -B -f Makefile.experiment USB_PORT=$1 UAS_EXPERIMENT=memory-bus/aes-sbox UAS_TARGET=sakurax_picorv32 program
+run_ttest sakurax_picorv32 $1
+
+
+#
 # MB3 Target
 #
 make -B -f Makefile.experiment USB_PORT=$1 UAS_EXPERIMENT=memory-bus/aes-sbox UAS_TARGET=sakurax_mb3 build all
 make -B -f Makefile.experiment USB_PORT=$1 UAS_EXPERIMENT=memory-bus/aes-sbox UAS_TARGET=sakurax_mb3 program
-run_ttest sakurax_mb3 0 $1
-run_ttest sakurax_mb3 1 $1
-run_ttest sakurax_mb3 2 $1
-run_ttest sakurax_mb3 3 $1
-run_ttest sakurax_mb3 4 $1
-run_ttest sakurax_mb3 5 $1
-run_ttest sakurax_mb3 6 $1
-run_ttest sakurax_mb3 7 $1
-
-${UAS_ROOT}/experiments/memory-bus/aes-sbox/ttest_graph.sh sakurax_mb3 ${TT_NAME}
-
+run_ttest sakurax_mb3 $1
 
 #
 # MB5 Target
 #
 make -B -f Makefile.experiment USB_PORT=$1 UAS_EXPERIMENT=memory-bus/aes-sbox UAS_TARGET=sakurax_mb5 build all
 make -B -f Makefile.experiment USB_PORT=$1 UAS_EXPERIMENT=memory-bus/aes-sbox UAS_TARGET=sakurax_mb5 program
-run_ttest sakurax_mb5 0 $1
-run_ttest sakurax_mb5 1 $1
-run_ttest sakurax_mb5 2 $1
-run_ttest sakurax_mb5 3 $1
-run_ttest sakurax_mb5 4 $1
-run_ttest sakurax_mb5 5 $1
-run_ttest sakurax_mb5 6 $1
-run_ttest sakurax_mb5 7 $1
-
-${UAS_ROOT}/experiments/memory-bus/aes-sbox/ttest_graph.sh sakurax_mb5 ${TT_NAME}
+run_ttest sakurax_mb5 $1
 
 #
 # MB8 Target
 #
 make -B -f Makefile.experiment USB_PORT=$1 UAS_EXPERIMENT=memory-bus/aes-sbox UAS_TARGET=sakurax_mb8 build all
 make -B -f Makefile.experiment USB_PORT=$1 UAS_EXPERIMENT=memory-bus/aes-sbox UAS_TARGET=sakurax_mb8 program
-run_ttest sakurax_mb8 0 $1
-run_ttest sakurax_mb8 1 $1
-run_ttest sakurax_mb8 2 $1
-run_ttest sakurax_mb8 3 $1
-run_ttest sakurax_mb8 4 $1
-run_ttest sakurax_mb8 5 $1
-run_ttest sakurax_mb8 6 $1
-run_ttest sakurax_mb8 7 $1
-
-${UAS_ROOT}/experiments/memory-bus/aes-sbox/ttest_graph.sh sakurax_mb8 ${TT_NAME}
+run_ttest sakurax_mb8 $1
 
 # Return to previous cwd
 cd -

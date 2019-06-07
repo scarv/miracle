@@ -33,14 +33,10 @@ class AESSBoxTTestcapture(scass.ttest.TTestCapture):
           bytes of data are loaded with a byte based on when leakage
           starts and stops appearing.
         """
-        randb = secrets.token_bytes(self.input_data_len)
-        rdata = randb
 
-        # The first N bytes of random data always match the first
-        # N bytes of the fixed value.
-        if(self._num_fixed_bytes > 0):
-            rdata = self._fixed_value[0:self._num_fixed_bytes] + \
-                    randb[self._num_fixed_bytes:]
+        rdata = self._key + \
+                secrets.token_bytes(self.input_data_len - self._keylen)
+
         assert(len(rdata) == self.input_data_len)
 
         return rdata
@@ -52,27 +48,35 @@ class AESSBoxTTestcapture(scass.ttest.TTestCapture):
         
         # Get the number of bytes in the fixed value to match in the
         # random one.
-        args = argparser.parse_args()
-        self._num_fixed_bytes = args.fixed_byte_len
+        args                  = argparser.parse_args()
+
+        if(args.key.startswith("0x")):
+            args.key = args.key[2:]
+        if(args.fixed_value.startswith("0x")):
+            args.fixed_value = args.fixed_value[2:]
+
+        self._keylen          = 16
+        self._key             = bytes.fromhex(args.key.strip())
 
         log.info("---")
         log.info("NOTE: Using custom AESSBoxTTestcapture class")
-        log.info("---")
 
         # Call original function
         tr = scass.ttest.TTestCapture.prepareTTest(self)
 
-        if(self._num_fixed_bytes > self.input_data_len):
+        self._fixed_value = self._key + self._fixed_value
 
-            log.error("!! Input data length is %d bytes long, but %d fixed bytes specified" % (self.input_data_len,self._num_fixed_bytes))
+        print("Fixed Value: %s" % self._fixed_value.hex())
+        print("Key   Value: %s" % self._key.hex())
 
-            log.error("Setting fixed bytes to input data length")
+        assert(len(self._key) == self._keylen), \
+            "Key must be %d bytes long!" % (self._keylen)
 
-            return False
-
-        else:
-
-            log.info("Number of fixed/random match bytes: %d" % (self._num_fixed_bytes))
+        assert(len(self._fixed_value) == self.input_data_len), \
+            "Fixed value should be %d bytes, not %d" % (
+            self.input_data_len, len(self._fixed_value))
+        
+        log.info("---")
 
         return tr
 
@@ -80,8 +84,8 @@ class AESSBoxTTestcapture(scass.ttest.TTestCapture):
 if(__name__ == "__main__"):
     
     argparser = ttest_capture.parse_args()
-    argparser.add_argument("--fixed-byte-len",type=int,default=0,
-        help="Number of random bytes to set as equal to the fixed value.")
+    argparser.add_argument("--key",type=str, default="",
+        help="A hex string representing the 'key' value to use. If not set, a random value is generated.")
 
     ttest_capture.main(
         argparser,
