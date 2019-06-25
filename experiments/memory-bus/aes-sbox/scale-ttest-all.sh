@@ -12,7 +12,7 @@
 #   $> ./experiments/memory-bus/aes-sbox/scale-ttest-all.sh <target> <serial port>
 #
 
-TT_NAME=aes-sbox-10k
+TT_NAME=aes-sbox-20k
 
 # Exit on first failed command.
 set -e
@@ -38,7 +38,7 @@ make -B -f Makefile \
                      --fixed-value-len 16 \
                      --fixed-value 0xd1bdf5360d006e7827fb24e1c01b8b7a \
                      --key         0xbd59c0df6103cf9d0d6a2add7f92b478" \
-        TTEST_NUM_TRACES=10000 \
+        TTEST_NUM_TRACES=20000 \
         TTEST_CAPTURE=./experiments/memory-bus/aes-sbox/ttest.py \
         ttest_$1_memory-bus-aes-sbox
 }

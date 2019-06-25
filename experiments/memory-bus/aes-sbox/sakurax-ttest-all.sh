@@ -12,7 +12,7 @@
 #   $> ./experiments/memory-bus/aes-sbox/sakurax-ttest-all.sh <serial port>
 #
 
-TT_NAME=aes-sbox-100k
+TT_NAME=aes-sbox-200k
 
 #
 # TTests
@@ -27,7 +27,7 @@ make -B USB_PORT=$2 \
                      --fixed-value-len 16 \
                      --fixed-value 0xd1bdf5360d006e7827fb24e1c01b8b7a \
                      --key         0xbd59c0df6103cf9d0d6a2add7f92b478" \
-        TTEST_NUM_TRACES=100000 \
+        TTEST_NUM_TRACES=200000 \
         TTEST_CAPTURE=./experiments/memory-bus/aes-sbox/ttest.py\
         ttest_$1_memory-bus-aes-sbox
 }
@@ -45,9 +45,9 @@ pwd
 #
 # Picorv32 Target
 #
-#make -B -f Makefile.experiment USB_PORT=$1 UAS_EXPERIMENT=memory-bus/aes-sbox UAS_TARGET=sakurax_picorv32 build all
-#make -B -f Makefile.experiment USB_PORT=$1 UAS_EXPERIMENT=memory-bus/aes-sbox UAS_TARGET=sakurax_picorv32 program
-#run_ttest sakurax_picorv32 $1
+make -B -f Makefile.experiment USB_PORT=$1 UAS_EXPERIMENT=memory-bus/aes-sbox UAS_TARGET=sakurax_picorv32 build all
+make -B -f Makefile.experiment USB_PORT=$1 UAS_EXPERIMENT=memory-bus/aes-sbox UAS_TARGET=sakurax_picorv32 program
+run_ttest sakurax_picorv32 $1
 
 
 #
