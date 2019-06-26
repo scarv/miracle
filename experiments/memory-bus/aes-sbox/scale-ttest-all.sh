@@ -12,7 +12,7 @@
 #   $> ./experiments/memory-bus/aes-sbox/scale-ttest-all.sh <target> <serial port>
 #
 
-TT_NAME=aes-sbox-20k
+TT_NAME=aes-sbox-20k-25mhz
 
 # Exit on first failed command.
 set -e

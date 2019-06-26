@@ -8,8 +8,6 @@ import argparse
 
 import numpy as np
 
-from tqdm import tqdm
-
 acq_path = os.path.expandvars("$UAS_ROOT/external/fw-acquisition")
 sys.path.append(acq_path)
 
@@ -49,45 +47,33 @@ class AESSboxCorrolationAnalysis(scass.cpa.CorrolationAnalysis):
         # Which intermediate AES variable should we try to attack?
         self.var_to_attack = argparser.parse_args().var
 
-
-    def _computeV(self, d, k_guess, V,i,j):
+    def _computeV(self, d, k_guess, V,i,msgbyte):
         """
         Computes the intermedate value for a given message byte d
         and key byte k.
         """
-        try:
 
-            if(self.var_to_attack == "enhanced_sbox"):
-                
-                index = (d^k_guess)
-                sb_out= aes_sbox[index]
-                
-                word  = index & 0xFC
+        if(self.var_to_attack == "sbox_word"):
 
-                lb    = sb_out
-                b3    = aes_sbox[word + 3]
-                b2    = aes_sbox[word + 2]
-                b1    = aes_sbox[word + 1]
-                b0    = aes_sbox[word + 0]
+            index = d^k_guess
+            word  = index & 0xFC
 
-                tr = self.hw(lb) + \
-                     self.hw(b0) + \
-                     self.hw(b1) + \
-                     self.hw(b2) + \
-                     self.hw(b3)
+            b3    = self.hw(aes_sbox[word + 3])
+            b2    = self.hw(aes_sbox[word + 2])
+            b1    = self.hw(aes_sbox[word + 1])
+            b0    = self.hw(aes_sbox[word + 0])
+            lb    = self.hw(aes_sbox[index   ])
 
-                return tr
+            return sum([b0, b1, b2, b3, lb]) 
 
-            else:
+        elif(self.var_to_attack =="sbox_byte"):
+            
+            return self.hw(aes_sbox[d^k_guess])
 
-                return self.hw(aes_sbox[d^k_guess])
+        else:
 
-        except Exception as e:
-            print(hex(d  ))
-            print(hex(k_guess  ))
-            print(hex(d^k_guess))
-            print(e)
-    
+            raise ValueError("Unknow target variable: %s" % self.var_to_attack)
+
     
     def computeH(self, V):
         """
@@ -97,7 +83,7 @@ class AESSboxCorrolationAnalysis(scass.cpa.CorrolationAnalysis):
         H_shape = (self.D, self.K)
         H       = np.empty(H_shape, dtype=self.type_H, order='C')
         
-        for i in tqdm(range(0,self.D)):
+        for i in range(0,self.D):
             for j in range(0,self.K):
                 H[i,j] = V[i,j]
 
@@ -125,9 +111,15 @@ if(__name__ == "__main__"):
     
     if(args.log != ""):
         print("Logging to: %s" % args.log)
-        log.basicConfig(filename=args.log,filemode="w",level=log.INFO)
+        log.basicConfig(filename=args.log,filemode="w",level=log.INFO,
+            format='%(asctime)s %(levelname)-8s %(message)s',
+            datefmt='%Y-%m-%d %H:%M:%S')
     else:
-        log.basicConfig(level=log.INFO)
+        log.basicConfig(level=log.INFO,
+            format='%(asctime)s %(levelname)-8s %(message)s',
+          datefmt='%Y-%m-%d %H:%M:%S')
+    
+    log.getLogger().addHandler(log.StreamHandler(sys.stdout))
 
     # Pass power model and analysis class types
     analyser    = AESSboxCorrolationAnalysis
