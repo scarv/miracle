@@ -116,7 +116,7 @@ uint8_t experiment_run(
         masked_data,
         key,
         masked_sbox,
-        mask_2
+        mask_1
     );
     
     uas_bsp_trigger_clear();

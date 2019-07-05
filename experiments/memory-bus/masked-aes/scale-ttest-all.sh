@@ -39,7 +39,7 @@ make -B -f Makefile \
                      --fixed-value 0xd1bdf5360d006e7827fb24e1c01b8b7a \
                      --key         0xbd59c0df6103cf9d0d6a2add7f92b478  \
                      --mask-refresh-rate $3" \
-        TTEST_NUM_TRACES=2000\
+        TTEST_NUM_TRACES=1000\
         TTEST_CAPTURE=./experiments/memory-bus/masked-aes/ttest.py \
         ttest_$1_memory-bus-masked-aes
 }
