@@ -119,6 +119,7 @@ class AESSBoxTTestcapture(scass.ttest.TTestCapture):
         """
         Overriden so we can print the number of masks we used.
         """
+        self.progress_bar = True
         scass.ttest.TTestCapture.runTTest(self)
 
         log.info("Mask refereshes: %d" % self.mask_refresh_count)

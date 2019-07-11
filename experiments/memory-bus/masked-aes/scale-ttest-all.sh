@@ -12,7 +12,7 @@
 #   $> ./experiments/memory-bus/masked-aes/scale-ttest-all.sh <target> <serial port>
 #
 
-TT_NAME=masked-aes-1k
+TT_NAME=masked-aes-20k
 
 # Exit on first failed command.
 set -e
@@ -39,7 +39,7 @@ make -B -f Makefile \
                      --fixed-value 0xd1bdf536ae4d6e7827fb24e1c01b8b7a \
                      --key         0xbd59c1df6f73cf9d4d6a2add7f92b478  \
                      --mask-refresh-rate $3" \
-        TTEST_NUM_TRACES=20000\
+        TTEST_NUM_TRACES=5000\
         TTEST_CAPTURE=./experiments/memory-bus/masked-aes/ttest.py \
         ttest_$1_memory-bus-masked-aes
 }
@@ -48,12 +48,13 @@ pwd
 
 EPATH=$UAS_BUILD/memory-bus/masked-aes/$1
 
+run_ttest $1 $2 0.0
 run_ttest $1 $2 1.0
+exit
 run_ttest $1 $2 0.001
 run_ttest $1 $2 0.5
 run_ttest $1 $2 0.25
 run_ttest $1 $2 0.125
-run_ttest $1 $2 0.0
 
 $UAS_ROOT/external/fw-acquisition/ttest_multi_analyse.py \
 --graph-ttest $EPATH/ttest-compare.svg \

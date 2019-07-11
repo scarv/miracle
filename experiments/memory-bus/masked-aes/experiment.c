@@ -13,13 +13,10 @@
 uint8_t   data_in  [EDATA_IN_LEN ];
 uint8_t   data_out [EDATA_OUT_LEN];
 
-uint8_t * message          = &data_in[ 0];
-uint8_t * key              = &data_in[16];
+uint8_t * key              = &data_in[ 0];
+uint8_t * message          = &data_in[16];
 uint8_t * mask_1           = &data_in[EDATA_IN_LEN-2];
 uint8_t * mask_2           = &data_in[EDATA_IN_LEN-1];
-
-uint8_t   prev_mask_1 = 0;
-uint8_t   prev_mask_2 = 0;
 
 uint8_t   masked_data[ 16] = {0};
 uint8_t   masked_key [ 16] = {0};
@@ -49,8 +46,7 @@ uint8_t   sbox[256] = {
 extern void     * experiment_payload(
     uint8_t * data_in ,
     uint8_t * rnd_key ,
-    uint8_t * sbox    ,
-    uint8_t * mask
+    uint8_t * sbox    
 );
 
 extern void     * experiment_payload_end;
@@ -67,30 +63,19 @@ uint8_t experiment_init(
 /*!
 @brief Updates the masked sbox and key with the new mask.
 */
-void updated_mask (
-    uint8_t * sbox,
-    uint8_t * key,
-    uint8_t * masked_sbox,
-    uint8_t * masked_key,
-    uint8_t   new_mask_1,
-    uint8_t   new_mask_2
-) {
-    if(prev_mask_1 != *mask_1) {
-        // Create a masked version of the key.
-        for(int i = 0; i < 16; i ++) {
-            masked_key [i] = key[i]     ^ new_mask_1;
-            masked_data[i] = message[i] ^ new_mask_1;
-        }
-        prev_mask_1 = *mask_1;
+void updated_mask () {
+
+    // Create a masked version of the key.
+    for(int i = 0; i < 16; i ++) {
+        masked_key [i] = key[i]     ^ *mask_1;
+        masked_data[i] = message[i] ^ *mask_1;
     }
 
-    if(prev_mask_2 != * mask_2) {
-        // Create the masked SBOX.
-        for(int i = 0; i < 256; i ++) {
-            masked_sbox[i ^ new_mask_1] = sbox[i] ^ new_mask_2;
-        }
-        prev_mask_2 = *mask_2;
+    // Create the masked SBOX.
+    for(int i = 0; i < 256; i ++) {
+        masked_sbox[i ^ *mask_1] = sbox[i] ^ *mask_2;
     }
+
 }
 
 /*!
@@ -101,29 +86,18 @@ uint8_t experiment_run(
 ){
 
     // Update the masked sbox and key before doing anything else.
-    updated_mask(
-        sbox,
-        key,
-        masked_sbox,
-        masked_key,
-        *mask_1,
-        *mask_2
-    );
+    updated_mask();
 
     uas_bsp_trigger_set();
     
     experiment_payload(
-        masked_data,
-        key,
-        masked_sbox,
-        mask_1
+        masked_data ,
+        key         ,
+        masked_sbox
     );
     
     uas_bsp_trigger_clear();
 
-    for(int i =0; i < 16; i ++) {
-        data_out[i] = data_in[i];
-    }
 
     return 0;
 
