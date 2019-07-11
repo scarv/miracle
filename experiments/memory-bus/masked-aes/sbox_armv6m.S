@@ -1,30 +1,43 @@
 
+.syntax unified
+
 // 
 // r0 - Address of the input message byte array
 // r1 - Address of the key byte array
 // r2 - Address of the SBOX array
 // r3 - The mask
 // 
-    
-ldrb r6, [r3, #0]
-movs r5, #0
-movs r6, #0
-movs r7, #0
-mov  r8, r7
+
+mov     r4, r0
+adds    r4, r4, #16             // End of loop value
+
+nop
+ldrb    r5, [r3]
+ldrb    r5, [r0]                // Load masked message byte
+ldrb    r6, [r1]                // Load key byte
 
 l0:
-    nop
-    ldrb r5, [r1, r7] // Load round key byte i
-    ldrb r6, [r0, r7] // Load input data byte i
-    eor  r5, r6       // XOR data byte and key byte
-    ldrb r4, [r2, r5] // Load SBOX[data ^ key]
-    strb r4, [r0, r7] // Store back.
-    ldrb r5, [r3, #0]
-    movs r6, #0
-    movs r4, #1
-    add  r7, r7, r4
-    cmp  r7, #16
-    bne  l0
+
+    eors r5, r5, r6             // r5 = key ^ masked message
+
+    ldrb r6, [r2, r5]           // r6 = masked_sbox[key^masked message]
+    nop   
+    ldrb r5, [r0    ]           // Load masked message byte for next loop
+
+    strb r6, [r0    ]           // store back to message array
+    
+    adds r0, r0, #1             // Increment data pointer
+    cmp  r0, r4                 // Continue loop?
+
+    ldrb r6, [r1    ]           // Load key byte
+
+    adds r1, r1, #1             // Increment key  pointer
+    blt  l0
+
+eors r5, r5, r6             // r5 = key ^ masked message
+
+ldrb r6, [r2, r5]           // r6 = masked_sbox[key^masked message]
+strb r6, [r0, r5]           // store back to message array
 
 l0_end:
 
