@@ -2,3 +2,4 @@
 *.swo
 *.vim
 build/
+*__pycache__*

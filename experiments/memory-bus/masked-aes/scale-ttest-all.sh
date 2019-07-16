@@ -12,7 +12,7 @@
 #   $> ./experiments/memory-bus/masked-aes/scale-ttest-all.sh <target> <serial port>
 #
 
-TT_NAME=masked-aes-20k
+TT_NAME=masked-aes-50k
 
 # Exit on first failed command.
 set -e
@@ -39,7 +39,7 @@ make -B -f Makefile \
                      --fixed-value 0xd1bdf536ae4d6e7827fb24e1c01b8b7a \
                      --key         0xbd59c1df6f73cf9d4d6a2add7f92b478  \
                      --mask-refresh-rate $3" \
-        TTEST_NUM_TRACES=5000\
+        TTEST_NUM_TRACES=50000\
         TTEST_CAPTURE=./experiments/memory-bus/masked-aes/ttest.py \
         ttest_$1_memory-bus-masked-aes
 }
@@ -50,7 +50,6 @@ EPATH=$UAS_BUILD/memory-bus/masked-aes/$1
 
 run_ttest $1 $2 0.0
 run_ttest $1 $2 1.0
-exit
 run_ttest $1 $2 0.001
 run_ttest $1 $2 0.5
 run_ttest $1 $2 0.25
@@ -59,20 +58,20 @@ run_ttest $1 $2 0.125
 $UAS_ROOT/external/fw-acquisition/ttest_multi_analyse.py \
 --graph-ttest $EPATH/ttest-compare.svg \
 -t refresh_0.0 \
-   $EPATH/masked-aes-20k-25mhz_0.0/ttest-fixed.trs \
-   $EPATH/masked-aes-20k-25mhz_0.0/ttest-random.trs \
+   $EPATH/masked-aes-20k_0.0/ttest-fixed.trs \
+   $EPATH/masked-aes-20k_0.0/ttest-random.trs \
 -t refresh_0.001 \
-   $EPATH/masked-aes-20k-25mhz_0.001/ttest-fixed.trs \
-   $EPATH/masked-aes-20k-25mhz_0.001/ttest-random.trs \
+   $EPATH/masked-aes-20k_0.001/ttest-fixed.trs \
+   $EPATH/masked-aes-20k_0.001/ttest-random.trs \
 -t refresh_0.125 \
-   $EPATH/masked-aes-20k-25mhz_0.125/ttest-fixed.trs \
-   $EPATH/masked-aes-20k-25mhz_0.125/ttest-random.trs \
+   $EPATH/masked-aes-20k_0.125/ttest-fixed.trs \
+   $EPATH/masked-aes-20k_0.125/ttest-random.trs \
 -t refresh_0.25 \
-   $EPATH/masked-aes-20k-25mhz_0.25/ttest-fixed.trs \
-   $EPATH/masked-aes-20k-25mhz_0.25/ttest-random.trs \
+   $EPATH/masked-aes-20k_0.25/ttest-fixed.trs \
+   $EPATH/masked-aes-20k_0.25/ttest-random.trs \
 -t refresh_0.5 \
-   $EPATH/masked-aes-20k-25mhz_0.5/ttest-fixed.trs \
-   $EPATH/masked-aes-20k-25mhz_0.5/ttest-random.trs \
+   $EPATH/masked-aes-20k_0.5/ttest-fixed.trs \
+   $EPATH/masked-aes-20k_0.5/ttest-random.trs \
 -t refresh_1.0 \
-   $EPATH/masked-aes-20k-25mhz_1.0/ttest-fixed.trs \
-   $EPATH/masked-aes-20k-25mhz_1.0/ttest-random.trs
+   $EPATH/masked-aes-20k_1.0/ttest-fixed.trs \
+   $EPATH/masked-aes-20k_1.0/ttest-random.trs
