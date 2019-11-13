@@ -37,8 +37,6 @@ $(OBJDUMP_OUT) : $(BINOUT)
 $(HEX_OUT) : $(BINOUT)
 	$(OBJCOPY) ${OBJCOPY_FLAGS} -O ihex $< $@
 
-program: $(HEX_OUT) $(OBJDUMP_OUT)
-
 clean:
 	rm -rf build/*
 
