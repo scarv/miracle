@@ -1,4 +1,8 @@
 
+#
+# NOTE: This file expects to be "included" into $UAS_ROOT/Makefile.program
+#
+
 UPDATEMEM       = $(VIVADO_ROOT)/bin/updatemem
 VIVADO          = $(VIVADO_ROOT)/bin/vivado
 VIVADO_LOG      = $(UAS_EXPERIMENT_BUILD)/vivado.log
@@ -17,11 +21,11 @@ $(MMI_FILE) : $(IMPL_BITFILE)
 
 regnerate_mmi_file: $(MMI_FILE)
 
-$(DOWNLOAD_BITFILE) : $(IMPL_BITFILE) $(BINOUT)
+$(DOWNLOAD_BITFILE) : $(IMPL_BITFILE) $(call map_experiment_elf)
 	$(UPDATEMEM) -force \
 	-meminfo $(MMI_FILE) \
 	-bit     $(IMPL_BITFILE) \
-	-data    $(BINOUT) \
+	-data    $(call map_experiment_elf) \
 	-proc    dummy \
 	-out     $(DOWNLOAD_BITFILE)
 	@rm updatemem.jou updatemem.log

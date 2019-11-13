@@ -1,5 +1,5 @@
 
-UAS_EXPERIMENT      ?= translation/nops
+UAS_EXPERIMENT      ?= example/add
 UAS_TARGET          ?= scale_lpc1114fn28
 UAS_EXPERIMENT_SRC  ?= $(UAS_ROOT)/experiments/$(UAS_EXPERIMENT)
 UAS_EXPERIMENT_BUILD = $(UAS_BUILD)/$(UAS_EXPERIMENT)/$(UAS_TARGET)
@@ -10,3 +10,30 @@ USB_BAUD            ?= 9600
 TARGET_DIR           = $(UAS_ROOT)/target/$(UAS_TARGET)
 
 TARGET_BUILD_MAKEFILE= $(TARGET_DIR)/build/build.mk
+
+#
+# Given the global variables defining build directory, experiment name
+# and target device, return a name for the experiment binary elf file.
+define map_experiment_elf
+$(UAS_BUILD)/$(UAS_EXPERIMENT)/$(UAS_TARGET)/program.elf
+endef
+#
+# Given the global variables defining build directory, experiment name
+# and target device, return a name for the experiment disassembly file.
+define map_experiment_dis
+$(UAS_BUILD)/$(UAS_EXPERIMENT)/$(UAS_TARGET)/program.dis
+endef
+
+#
+# Given the global variables defining build directory, experiment name
+# and target device, return a name for the experiment hex memory file.
+define map_experiment_hex
+$(UAS_BUILD)/$(UAS_EXPERIMENT)/$(UAS_TARGET)/program.hex
+endef
+
+#
+# Given the current target device environment variable, return where
+# the makefile defining its "program" target *should* be.
+define map_target_program_makefile
+$(UAS_ROOT)/target/$(UAS_TARGET)/program/program.mk
+endef

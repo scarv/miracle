@@ -1,0 +1,8 @@
+
+include $(UAS_ROOT)/Makefile.common
+
+#
+# include the makefile which *should* contain a target called "program",
+# specific to the current target device.
+include $(call map_target_program_makefile)
+

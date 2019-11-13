@@ -1,4 +1,6 @@
 
+#include <stdlib.h>
+
 #include "scass/scass_target.h"
 
 #include "uas_bsp.h"
@@ -15,6 +17,16 @@ int main(int argc, char ** argv) {
 
     // The main configuration object for target/host communication
     scass_target_cfg scass_cfg;
+
+    scass_cfg.scass_experiment_pre_run  = NULL;
+    scass_cfg.scass_experiment_post_run = NULL;
+
+    scass_cfg.experiment_cycles         = 0;
+    scass_cfg.experiment_instrret       = 0;
+
+    scass_cfg.randomness                = NULL;
+    scass_cfg.randomness_len            = 0;
+    scass_cfg.num_variables             = 0;
 
     scass_cfg.scass_io_rd_char = uas_bsp_uart_rd_char;
     scass_cfg.scass_io_wr_char = uas_bsp_uart_wr_char;

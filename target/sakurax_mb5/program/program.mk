@@ -1,4 +1,8 @@
 
+#
+# NOTE: This file expects to be "included" into $UAS_ROOT/Makefile.program
+#
+
 UPDATEMEM       = $(VIVADO_ROOT)/bin/updatemem
 VIVADO          = $(VIVADO_ROOT)/bin/vivado
 VIVADO_LOG      = $(UAS_EXPERIMENT_BUILD)/vivado.log
@@ -7,11 +11,11 @@ MEMINFO         = $(TARGET_DIR)/program/sakurax_mb5.mmi
 IMPL_BITFILE    = $(TARGET_DIR)/program/bitstream.bit
 DOWNLOAD_BITFILE= $(UAS_EXPERIMENT_BUILD)/download.bit
 
-$(DOWNLOAD_BITFILE) : $(IMPL_BITFILE) $(BINOUT)
+$(DOWNLOAD_BITFILE) : $(IMPL_BITFILE) $(call map_experiment_elf)
 	$(UPDATEMEM) -force \
 	-meminfo $(MEMINFO) \
 	-bit     $(IMPL_BITFILE) \
-	-data    $(BINOUT) \
+	-data    $(call map_experiment_elf) \
 	-proc    system_top_i/CPU_MB5 \
 	-out     $(DOWNLOAD_BITFILE)
 	@rm updatemem.jou updatemem.log

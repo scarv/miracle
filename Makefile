@@ -6,10 +6,6 @@
 export USB_PORT ?= /dev/ttyUSB0
 export USB_BAUD ?= 9600
 
-export TTEST_NAME       ?= default
-export TTEST_NUM_TRACES ?= 10000
-export TTEST_FLAGS      ?= 
-
 # Make all variables available to submake shells.
 export
 
@@ -47,7 +43,7 @@ BUILD_TARGETS += $(call map_tgt_build,${1},${2})
 endef
 
 define tgt_program
-program_${1}_$(subst /,-,${2}) :
+program_${1}_$(subst /,-,${2}) : $(call map_tgt_build,${1},${2})
 	$(MAKE) -f Makefile.program UAS_TARGET=${1} UAS_EXPERIMENT=${2} program
 endef
 

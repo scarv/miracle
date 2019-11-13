@@ -1,9 +1,9 @@
 
 include $(UAS_ROOT)/Makefile.common
 
-BINOUT     = $(UAS_BUILD)/$(UAS_EXPERIMENT)/$(UAS_TARGET)/program.elf
-OBJDUMP_OUT= $(UAS_BUILD)/$(UAS_EXPERIMENT)/$(UAS_TARGET)/program.objdump
-HEX_OUT    = $(UAS_BUILD)/$(UAS_EXPERIMENT)/$(UAS_TARGET)/program.hex
+BINOUT     = $(call map_experiment_elf)
+OBJDUMP_OUT= $(call map_experiment_dis)
+HEX_OUT    = $(call map_experiment_hex)
 
 CFLAGS    ?= 
 
