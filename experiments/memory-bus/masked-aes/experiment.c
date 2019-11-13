@@ -3,7 +3,6 @@
 #include <string.h>
 
 #include "uas_bsp.h"
-#include "uas_prng.h"
 
 #include "experiment.h"
 
@@ -40,6 +39,12 @@ uint8_t   sbox[256] = {
   0x70, 0x3e, 0xb5, 0x66, 0x48, 0x03, 0xf6, 0x0e, 0x61, 0x35, 0x57, 0xb9, 0x86, 0xc1, 0x1d, 0x9e,
   0xe1, 0xf8, 0x98, 0x11, 0x69, 0xd9, 0x8e, 0x94, 0x9b, 0x1e, 0x87, 0xe9, 0xce, 0x55, 0x28, 0xdf,
 0x8c, 0xa1, 0x89, 0x0d, 0xbf, 0xe6, 0x42, 0x68, 0x41, 0x99, 0x2d, 0x0f, 0xb0, 0x54, 0xbb, 0x16     
+};
+
+//! Variables which the SCASS framework can control.
+scass_target_var  experiment_variables [] = {
+{"data_in" , EDATA_IN_LEN , data_in , SCASS_FLAGS_TTEST_IN},
+{"data_out", EDATA_OUT_LEN, data_out, SCASS_FLAG_OUTPUT   }
 };
 
 //! Declaration for the experiment payload function in lb_0.S
@@ -112,11 +117,9 @@ void experiment_setup_scass(
 
     cfg -> experiment_name       = "memory/masked-aes";
 
-    cfg -> data_in               = data_in;
-    cfg -> data_in_len           = EDATA_IN_LEN;
-
-    cfg -> data_out              = data_out;
-    cfg -> data_out_len          = EDATA_OUT_LEN;
+    cfg -> variables             = experiment_variables ;
+    cfg -> num_variables         = 2                    ;
+    cfg -> randomness_len        = 0                    ;
 
 }
 

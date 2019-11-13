@@ -3,7 +3,6 @@
 #include <string.h>
 
 #include "uas_bsp.h"
-#include "uas_prng.h"
 
 #include "experiment.h"
 
@@ -12,6 +11,12 @@
 
 uint8_t           data_in  [EDATA_IN_LEN ];
 uint8_t           data_out [EDATA_OUT_LEN];
+
+//! Variables which the SCASS framework can control.
+scass_target_var  experiment_variables [] = {
+{"data_in" , EDATA_IN_LEN , data_in , SCASS_FLAGS_TTEST_IN},
+{"data_out", EDATA_OUT_LEN, data_out, SCASS_FLAG_OUTPUT   }
+};
 
 //! Declaration for the experiment payload function in xor.S
 extern void     * experiment_payload(
@@ -67,11 +72,9 @@ void experiment_setup_scass(
 
     cfg -> experiment_name       = "example/xor";
 
-    cfg -> data_in               = data_in;
-    cfg -> data_in_len           = EDATA_IN_LEN;
-
-    cfg -> data_out              = data_out;
-    cfg -> data_out_len          = EDATA_OUT_LEN;
+    cfg -> variables             = experiment_variables ;
+    cfg -> num_variables         = 2                    ;
+    cfg -> randomness_len        = 0                    ;
 
 }
 

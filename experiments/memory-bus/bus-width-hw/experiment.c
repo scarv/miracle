@@ -3,7 +3,6 @@
 #include <string.h>
 
 #include "uas_bsp.h"
-#include "uas_prng.h"
 
 #include "experiment.h"
 

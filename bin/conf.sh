@@ -16,7 +16,7 @@ if [ -z $VIVADO_ROOT ] ; then
 fi
 
 if [ -z $UAS_MICROBLAZE_TOOLCHAIN_ROOT ] ; then
-    export UAS_MICROBLAZE_TOOLCHAIN_ROOT=/opt/Xilinx/SDK/2018.1/gnu/microblaze/lin/bin
+    export UAS_MICROBLAZE_TOOLCHAIN_ROOT=/opt/Xilinx/SDK/2019.1/gnu/microblaze/lin/bin
 fi
 
 mkdir -p $UAS_BUILD

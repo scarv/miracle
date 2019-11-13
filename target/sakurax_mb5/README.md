@@ -24,19 +24,18 @@ The `vivado_sakurax_mb5.tcl` script can re-build the entire vivado project.
 From the project root, run:
 
 ```sh
-$> make -f Makefile.experiment UAS_TARGET=sakurax_mb5 recreate-vivado-project
+$> ./target/sakurax_mb5/flow/recreate-vivado-project.sh
 ```
 
 This will (re-)create `$UAS_BUILD/vivado/sakurax_mb5/`, containing the
 entire project, system block design and configuration.
-See `target/sakurax_mb5/Makefile.in` to see exactly how this is done.
 
 If you edit the system, re-implement it, then copy the output
-bitfile over to `$UAS_ROOT/target/sakurax_mb5/bitstream.bit` to use
+bitfile over to `$UAS_ROOT/target/sakurax_mb5/program/bitstream.bit` to use
 the auto-program make targets described above.
 
 - You may also need to re-generate the memory map information file
-  `target/sakurax_mb5/sakurax_mb5.mmi` to make sure that the ELF
+  `target/sakurax_mb5/program/sakurax_mb5.mmi` to make sure that the ELF
   programs can be correctly combined with the bitfile before programming.
 
 ## Target Information
@@ -65,7 +64,7 @@ This target configures the Microblaze as follows:
 - Implementation Strategy: Performance Optimised
 - MMU: None
 
-![System Block Diagram](block-diagram.png)
+![System Block Diagram](docs/block-diagram.png)
 
 The wider SoC system implemented on the FPGA consists of:
 - The Microblaze CPU

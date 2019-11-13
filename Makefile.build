@@ -1,0 +1,44 @@
+
+include $(UAS_ROOT)/Makefile.common
+
+BINOUT     = $(UAS_BUILD)/$(UAS_EXPERIMENT)/$(UAS_TARGET)/program.elf
+OBJDUMP_OUT= $(UAS_BUILD)/$(UAS_EXPERIMENT)/$(UAS_TARGET)/program.objdump
+HEX_OUT    = $(UAS_BUILD)/$(UAS_EXPERIMENT)/$(UAS_TARGET)/program.hex
+
+CFLAGS    ?= 
+
+#
+# Makefile which defines the experiment sources
+include $(UAS_EXPERIMENT_SRC)/Makefile.in
+
+#
+# Makefile which contains the "main" function and BSP headers
+include $(UAS_ROOT)/target/share/Makefile.in
+
+#
+# Makefile which defines target specific source code to include.
+include $(TARGET_BUILD_MAKEFILE)
+
+CFLAGS    += -I$(UAS_ROOT)/experiments/$(UAS_EXPERIMENT)
+CFLAGS    += -I$(UAS_ROOT)/target/share
+CFLAGS    += -I$(UAS_ROOT)/target/$(UAS_TARGET)
+
+SRCS       = $(UAS_SRCS) $(TARGET_SRCS) $(EXPERIMENT_SRCS)
+
+all: $(BINOUT) $(OBJDUMP_OUT) $(HEX_OUT)
+
+$(BINOUT) : $(SRCS)
+	-mkdir -p $(dir $(BINOUT))
+	$(CC) $(CFLAGS) $^ -o $@
+
+$(OBJDUMP_OUT) : $(BINOUT)
+	$(OBJDUMP) -D $< > $@
+
+$(HEX_OUT) : $(BINOUT)
+	$(OBJCOPY) ${OBJCOPY_FLAGS} -O ihex $< $@
+
+program: $(HEX_OUT) $(OBJDUMP_OUT)
+
+clean:
+	rm -rf build/*
+

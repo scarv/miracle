@@ -1,6 +1,5 @@
 
 UAS_SRCS = $(UAS_ROOT)/target/share/uas_bsp.c \
-           $(UAS_ROOT)/target/share/uas_prng.c \
            $(UAS_ROOT)/external/fw-acquisition/target/scass/scass_target.c \
            $(UAS_ROOT)/target/share/uas_main.c
 
