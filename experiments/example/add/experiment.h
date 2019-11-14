@@ -22,7 +22,8 @@ uint8_t experiment_init(
 @returns 0 if successful, non-zero otherwise.
 */
 uint8_t experiment_run(
-    scass_target_cfg * cfg //!< PRNG / data access
+    scass_target_cfg * cfg  ,//!< PRNG / data access
+    char               fixed //!< used fixed variants of variables?
 );
 
 /*!
