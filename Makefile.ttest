@@ -15,7 +15,7 @@ TTEST_TT_GRAPH     = $(UAS_EXPERIMENT_BUILD)/$(TTEST_NAME)/ttest-ttrace.svg
 TTEST_TT_AVG       = $(UAS_EXPERIMENT_BUILD)/$(TTEST_NAME)/ttest-averages.svg
 TTEST_LOG          = $(UAS_EXPERIMENT_BUILD)/$(TTEST_NAME)/ttest.log
 
-TTEST_FLAGS       ?=
+TTEST_FLAGS       ?= --zero-fixed
 
 $(TTEST_TRS_RANDOM): $(TTEST_TRS_FIXED)
 $(TTEST_TRS_FIXED) : 
