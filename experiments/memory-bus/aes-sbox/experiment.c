@@ -63,7 +63,8 @@ uint8_t experiment_init(
 @details Runs the experiment, then finishes.
 */
 uint8_t experiment_run(
-    scass_target_cfg * cfg //!< PRNG / data access
+    scass_target_cfg * cfg ,//!< PRNG / data access
+    char               fixed //!< used fixed variants of variables?
 ){
 
     uas_bsp_trigger_set();

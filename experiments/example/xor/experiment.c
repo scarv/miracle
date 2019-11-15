@@ -6,19 +6,20 @@
 
 #include "experiment.h"
 
-#define EDATA_IN_LEN 8
-#define EDATA_OUT_LEN 4
-
-uint8_t           data_in  [EDATA_IN_LEN ];
-uint8_t           data_out [EDATA_OUT_LEN];
+uint32_t    din_lhs_fixed;
+uint32_t    din_rhs_fixed;
+uint32_t    din_lhs;
+uint32_t    din_rhs;
+uint32_t    dout   ;
 
 //! Variables which the SCASS framework can control.
 scass_target_var  experiment_variables [] = {
-{"data_in" , EDATA_IN_LEN , data_in , SCASS_FLAGS_TTEST_IN},
-{"data_out", EDATA_OUT_LEN, data_out, SCASS_FLAG_OUTPUT   }
+{"lhs" , 4, &din_lhs, &din_lhs_fixed, SCASS_FLAGS_TTEST_IN},
+{"rhs" , 4, &din_rhs, &din_rhs_fixed, SCASS_FLAGS_TTEST_IN},
+{"dout", 4, &dout   , &dout         , SCASS_FLAG_OUTPUT   }
 };
 
-//! Declaration for the experiment payload function in xor.S
+//! Declaration for the experiment payload function in add.S
 extern void     * experiment_payload(
     uint32_t   a,
     uint32_t   b,
@@ -33,13 +34,6 @@ extern void     * experiment_payload_end;
 uint8_t experiment_init(
     scass_target_cfg * cfg //!< PRNG / data access
 ) {
-
-    for(uint8_t i = 0; i < EDATA_IN_LEN; i++) {
-        data_in[i] = i;
-    }
-    for(uint8_t i = 0; i < EDATA_OUT_LEN; i++) {
-        data_out[i] = i;
-    }
     return 0;
 }
 
@@ -47,15 +41,16 @@ uint8_t experiment_init(
 @details Runs a bunch of NOPS in sequence, then finishes.
 */
 uint8_t experiment_run(
-    scass_target_cfg * cfg //!< PRNG / data access
+    scass_target_cfg * cfg, //!< PRNG / data access
+    char               fixed //!< used fixed variants of variables?
 ){
 
-    uint32_t in_a = ((uint32_t*)data_in)[0];
-    uint32_t in_b = ((uint32_t*)data_in)[1];
+    uint32_t in_a = fixed ? din_lhs_fixed : din_lhs;
+    uint32_t in_b = fixed ? din_rhs_fixed : din_rhs;
 
     uas_bsp_trigger_set();
     
-    experiment_payload(in_a, in_b, (uint32_t*)data_out);
+    experiment_payload(in_a, in_b, &dout);
     
     uas_bsp_trigger_clear();
 

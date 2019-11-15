@@ -1,7 +1,9 @@
 
 /*!
 @file experiment.h
-@brief Experiment header file for the NOPS translation experiment.
+@brief Experiment header file
+@details All experiments implement the functions declared in this header,
+allowing the SCASS framework to drive them.
 */
 
 #include "scass/scass_target.h"
@@ -13,7 +15,7 @@
 @brief Initialise any data needed for the experiment.
 @returns 0 if successful, non-zero otherwise.
 */
-uint8_t experiment_init (
+uint8_t experiment_init(
     scass_target_cfg * cfg //!< PRNG / data access
 );
 
@@ -22,7 +24,8 @@ uint8_t experiment_init (
 @returns 0 if successful, non-zero otherwise.
 */
 uint8_t experiment_run(
-    scass_target_cfg * cfg //!< PRNG / data access
+    scass_target_cfg * cfg  ,//!< PRNG / data access
+    char               fixed //!< used fixed variants of variables?
 );
 
 /*!
