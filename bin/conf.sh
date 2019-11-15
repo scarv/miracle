@@ -3,7 +3,7 @@
 echo "------------------------- Project Setup -------------------------------"
 
 export UAS_ROOT=$PWD
-export UAS_BUILD=$UAS_ROOT/build
+export UAS_BUILD=$UAS_ROOT/work
 export SCALE_SW=$UAS_ROOT/external/scale-sw
 export SCALE_HW=$UAS_ROOT/external/scale-hw
 

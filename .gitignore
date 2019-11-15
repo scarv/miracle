@@ -1,5 +1,5 @@
 *.swp
 *.swo
 *.vim
-build/
+work/
 *__pycache__*
