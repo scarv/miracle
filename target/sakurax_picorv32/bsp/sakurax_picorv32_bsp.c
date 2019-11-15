@@ -1,8 +1,8 @@
 
 /*!
-@defgroup bsp-sakurax-mb5 Sakura X Microblaze-5
-@file target_bsp.c
-@brief Contains BSP function definitions specific to the SAKURAX MB5 FPGA
+@defgroup bsp-sakurax-picorv32 Sakura X PicoRV32
+@file sakurax_picorv32_bsp.c
+@brief Contains BSP function definitions specific to the SAKURAX MB3 FPGA
     bitstream image.
 @details 
 */

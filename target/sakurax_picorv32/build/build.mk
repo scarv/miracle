@@ -11,5 +11,5 @@ OBJDUMP = $(RISCV)/bin/riscv32-unknown-elf-objdump
 OBJCOPY = $(RISCV)/bin/riscv32-unknown-elf-objcopy
 
 TARGET_SRCS = $(TARGET_DIR)/srcs/boot.S \
-              $(TARGET_DIR)/bsp/target_bsp.c
+              $(TARGET_DIR)/bsp/sakurax_picorv32_bsp.c
 

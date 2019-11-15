@@ -42,21 +42,28 @@ $(call tgt_build,${1},${2})
 BUILD_TARGETS += $(call map_tgt_build,${1},${2})
 endef
 
-define tgt_program
+define add_tgt_program
 program_${1}_$(subst /,-,${2}) : $(call map_tgt_build,${1},${2})
 	$(MAKE) -f Makefile.program UAS_TARGET=${1} UAS_EXPERIMENT=${2} program
 endef
 
-define tgt_ttest
+define add_tgt_ttest
 ttest_${1}_$(subst /,-,${2}) :
 	$(MAKE) -f Makefile.ttest UAS_TARGET=${1} UAS_EXPERIMENT=${2} ttest
 endef
 
+define add_tgt_device_test
+test_device_${1} :
+	./external/fw-acquisition/bin/device-test.py -b $(USB_BAUD) $(USB_PORT)
+endef
+
+$(foreach TGT,$(TARGETS), $(eval $(call add_tgt_device_test,$(TGT))))
+
 $(foreach TGT,$(TARGETS), $(foreach EXP,$(EXPERIMENTS), $(eval $(call add_tgt_build,$(TGT),$(EXP)))))
 
-$(foreach TGT,$(TARGETS), $(foreach EXP,$(EXPERIMENTS), $(eval $(call tgt_program,$(TGT),$(EXP)))))
+$(foreach TGT,$(TARGETS), $(foreach EXP,$(EXPERIMENTS), $(eval $(call add_tgt_program,$(TGT),$(EXP)))))
 
-$(foreach TGT,$(TARGETS), $(foreach EXP,$(EXPERIMENTS), $(eval $(call tgt_ttest,$(TGT),$(EXP)))))
+$(foreach TGT,$(TARGETS), $(foreach EXP,$(EXPERIMENTS), $(eval $(call add_tgt_ttest,$(TGT),$(EXP)))))
 
 build-all: $(BUILD_TARGETS)
 

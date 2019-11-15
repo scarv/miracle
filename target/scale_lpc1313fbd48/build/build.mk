@@ -15,6 +15,6 @@ OBJCOPY = $(UAS_ARM_TOOLCHAIN_ROOT)/arm-none-eabi-objcopy
 
 TARGET_SRCS = $(UAS_ROOT)/external/scale-hw/share/lpc13xx/crt0.S \
               $(UAS_ROOT)/external/scale-hw/share/lpc13xx/lpc13xx.S \
-              $(UAS_ROOT)/target/scale_lpc1313fbd48/bsp/target_bsp.c \
+              $(UAS_ROOT)/target/scale_lpc1313fbd48/bsp/scale_lpc1313fbd48_bsp.c \
               $(UAS_ROOT)/external/scale-hw/target/lpc1313fbd48/scale.c
 

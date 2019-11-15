@@ -1,8 +1,8 @@
 
 /*!
-@defgroup bsp-lpc812m101 LPC812M101 (ARM M0+)
-@file target_bsp.c
-@brief Contains BSP function definitions specific to the lpc81x SoC
+@defgroup bsp-lpc1114 LPC1114 (ARM M0)
+@file scale_lpc1114fn28_bsp.c
+@brief Contains BSP function definitions specific to the lpc111x SoC
 @details Mostly acts as a wrapper around the SCALE BSP for the SoC
 */
 

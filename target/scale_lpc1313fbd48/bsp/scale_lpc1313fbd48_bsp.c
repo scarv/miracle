@@ -1,7 +1,7 @@
 
 /*!
-@defgroup bsp-lpc1114 LPC1114 (ARM M0)
-@file target_bsp.c
+@defgroup bsp-lpc1313 LPC1313 (ARM M3)
+@file scale_lpc1313fbd48_bsp.c
 @brief Contains BSP function definitions specific to the lpc111x SoC
 @details Mostly acts as a wrapper around the SCALE BSP for the SoC
 */
@@ -22,11 +22,8 @@ uint8_t uas_bsp_init_target(){
     
     if(scale_init(&SCALE_CONF)) {
         scale_gpio_wr(SCALE_GPIO_PIN_GPO, 1);
-        scale_gpio_wr(SCALE_GPIO_PIN_TRG, 0);
         return 0;
     } else {
-        scale_gpio_wr(SCALE_GPIO_PIN_GPO, 0);
-        scale_gpio_wr(SCALE_GPIO_PIN_TRG, 1);
         return 1;
     }
 }

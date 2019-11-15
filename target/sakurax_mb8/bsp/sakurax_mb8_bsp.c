@@ -1,7 +1,7 @@
 
 /*!
 @defgroup bsp-sakurax-mb8 Sakura X Microblaze-8
-@file target_bsp.c
+@file sakurax_mb8_bsp.c
 @brief Contains BSP function definitions specific to the SAKURAX MB8 FPGA
     bitstream image.
 @details 

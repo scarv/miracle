@@ -26,6 +26,7 @@ int main(int argc, char ** argv) {
 
     scass_cfg.randomness                = NULL;
     scass_cfg.randomness_len            = 0;
+    scass_cfg.randomness_refresh_rate   = 0;
     scass_cfg.num_variables             = 0;
 
     scass_cfg.scass_io_rd_char = uas_bsp_uart_rd_char;

@@ -11,5 +11,5 @@ AS      = $(UAS_MICROBLAZE_TOOLCHAIN_ROOT)/microblaze-xilinx-elf-as
 OBJDUMP = $(UAS_MICROBLAZE_TOOLCHAIN_ROOT)/microblaze-xilinx-elf-objdump
 OBJCOPY = $(UAS_MICROBLAZE_TOOLCHAIN_ROOT)/microblaze-xilinx-elf-objcopy
 
-TARGET_SRCS = $(TARGET_DIR)/bsp/target_bsp.c 
+TARGET_SRCS = $(TARGET_DIR)/bsp/sakurax_mb5_bsp.c 
 
