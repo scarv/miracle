@@ -13,13 +13,13 @@ experiments*
 
 ## Implemented Platforms
 
-- [SCALE ARM M0+ Board / lpc812m101](targets-scale_lpc812m101)
-- [SCALE ARM M0 Board / lpc1114fn28](targets-scale_lpc1114fn28)
-- [SCALE ARM M3 Board / lpc1313fbd48](targets-scale_lpc1313fbd48)
-- [SAKURA-X Microblaze 3-stage softcore](targets-sakurax_mb3)
-- [SAKURA-X Microblaze 5-stage softcore](targets-sakurax_mb5)
-- [SAKURA-X Microblaze 8-stage softcore](targets-sakurax_mb8)
-- [SAKURA-X PicoRV32 multi-cycle softcore](targets-sakurax_picorv32)
+- @ref targets-lpc812m101
+- @ref targets-lpc1114fn28
+- @ref targets-lpc1313fbd48
+- @ref targets-sakurax-mb3
+- @ref targets-sakurax-mb5
+- @ref targets-sakurax-mb8
+- @ref targets-sakurax-picorv32
 
 Each target platform can be identified in experiment code via the
 `TARGET` pre-processor symbol which is passed via the command line:
