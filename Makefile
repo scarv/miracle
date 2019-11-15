@@ -20,11 +20,11 @@ TARGETS     = sakurax_mb3 \
 EXPERIMENTS = example/add \
               example/xor \
               example/addxor \
-              memory-bus/bus-width \
-              memory-bus/per-byte \
-              memory-bus/registers \
-              memory-bus/aes-sbox \
-              memory-bus/masked-aes
+#             memory-bus/bus-width \
+#             memory-bus/per-byte \
+#             memory-bus/registers \
+#             memory-bus/aes-sbox \
+#             memory-bus/masked-aes
 
 BUILD_TARGETS = 
 
