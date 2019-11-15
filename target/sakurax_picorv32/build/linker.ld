@@ -11,7 +11,7 @@
 /*******************************************************************/
 
 _STACK_SIZE = DEFINED(_STACK_SIZE) ? _STACK_SIZE : 0x400;
-_HEAP_SIZE = DEFINED(_HEAP_SIZE) ? _HEAP_SIZE : 0x800;
+_HEAP_SIZE = DEFINED(_HEAP_SIZE)   ? _HEAP_SIZE  : 0x800;
 
 /* Define Memories in the system */
 
@@ -29,27 +29,58 @@ ENTRY(_start)
 
 SECTIONS
 {
-.vectors.reset 0x0 : {
-   KEEP (*(.vectors.reset))
-} 
-
-.vectors.sw_exception 0x8 : {
-   KEEP (*(.vectors.sw_exception))
-} 
-
-.vectors.interrupt 0x10 : {
-   KEEP (*(.vectors.interrupt))
-} 
-
-.vectors.hw_exception 0x20 : {
-   KEEP (*(.vectors.hw_exception))
-} 
 
 .text : {
    *(.boot)
    *(.text)
    *(.text.*)
    *(.gnu.linkonce.t.*)
+} > BRAM_0_Mem0
+
+.data : {
+   . = ALIGN(4);
+   __data_start = .;
+   *(.data)
+   *(.data.*)
+   *(.gnu.linkonce.d.*)
+   __data_end = .;
+} > BRAM_0_Mem0
+
+.bss (NOLOAD) : {
+   . = ALIGN(4);
+   __bss_start = .;
+   *(.bss)
+   *(.bss.*)
+   *(.gnu.linkonce.b.*)
+   *(COMMON)
+   . = ALIGN(4);
+   __bss_end = .;
+} > BRAM_0_Mem0
+
+.rodata : {
+   __rodata_start = .;
+   *(.rodata)
+   *(.rodata.*)
+   *(.gnu.linkonce.r.*)
+   __rodata_end = .;
+} > BRAM_0_Mem0
+
+.sdata2 : {
+   . = ALIGN(8);
+   __sdata2_start = .;
+   *(.sdata2)
+   *(.sdata2.*)
+   *(.gnu.linkonce.s2.*)
+   . = ALIGN(8);
+   __sdata2_end = .;
+} > BRAM_0_Mem0
+
+.sbss2 : {
+   __sbss2_start = .;
+   *(.sbss2)
+   *(.sbss2.*)
+   *(.gnu.linkonce.sb2.*)
+   __sbss2_end = .;
 } > BRAM_0_Mem0
 
 .init : {
@@ -82,40 +113,6 @@ SECTIONS
    PROVIDE(___DTORS_END___ = .);
 } > BRAM_0_Mem0
 
-.rodata : {
-   __rodata_start = .;
-   *(.rodata)
-   *(.rodata.*)
-   *(.gnu.linkonce.r.*)
-   __rodata_end = .;
-} > BRAM_0_Mem0
-
-.sdata2 : {
-   . = ALIGN(8);
-   __sdata2_start = .;
-   *(.sdata2)
-   *(.sdata2.*)
-   *(.gnu.linkonce.s2.*)
-   . = ALIGN(8);
-   __sdata2_end = .;
-} > BRAM_0_Mem0
-
-.sbss2 : {
-   __sbss2_start = .;
-   *(.sbss2)
-   *(.sbss2.*)
-   *(.gnu.linkonce.sb2.*)
-   __sbss2_end = .;
-} > BRAM_0_Mem0
-
-.data : {
-   . = ALIGN(4);
-   __data_start = .;
-   *(.data)
-   *(.data.*)
-   *(.gnu.linkonce.d.*)
-   __data_end = .;
-} > BRAM_0_Mem0
 
 .got : {
    *(.got)
@@ -174,17 +171,6 @@ SECTIONS
    *(.tbss.*)
    *(.gnu.linkonce.tb.*)
    __tbss_end = .;
-} > BRAM_0_Mem0
-
-.bss (NOLOAD) : {
-   . = ALIGN(4);
-   __bss_start = .;
-   *(.bss)
-   *(.bss.*)
-   *(.gnu.linkonce.b.*)
-   *(COMMON)
-   . = ALIGN(4);
-   __bss_end = .;
 } > BRAM_0_Mem0
 
 _SDA_BASE_ = __sdata_start + ((__sbss_end - __sdata_start) / 2 );
