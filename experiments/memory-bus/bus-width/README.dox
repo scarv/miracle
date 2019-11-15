@@ -1,11 +1,12 @@
+/*!
 
-# Bus Width Experiment.
+@defgroup experiments-memory-bus-width Memory Bus Width
+@brief Can we discover memory bus widths from leakage analysis?
+@ingroup  experiments-memory
 
-- [Purpose](#Purpose)
-- [Method](#Method)
-- [Expectations](#Expectations)
-- [Findings](#Findings)
-- [Running The Experiment](#Running-the-experiment)
+@tableofcontents
+
+@todo Re-write and re-document this experiment
 
 ## Purpose:
 
@@ -146,10 +147,8 @@ Target  | Address 1     | Address 2
 
 **For a specific target and fixed byte width:**
 
-```sh
-make -B USB_PORT=<port> ttest_<target>_memory-bus-width TTEST_CAPTURE=./experiments/memory-bus/bus-width/ttest.py TTEST_FLAGS="--fixed-byte-len N"
-rt
-```
+    make -B USB_PORT=\<port\> ttest_\<target\>_memory-bus-width TTEST_CAPTURE=./experiments/memory-bus/bus-width/ttest.py TTEST_FLAGS="--fixed-byte-len N"
+    rt
 
 Note:
 - The `TTEST_CAPTURE` variable sets the script used to administer the ttest.
@@ -163,9 +162,7 @@ Where:
 
 **For a scale target for all fixed byte widths:**
 
-```sh
-./experiments/memory-bus/bus-width/scale-ttest_all.sh <target> <serial port>
-```
+    ./experiments/memory-bus/bus-width/scale-ttest_all.sh \<target\> \<port\>
 
 Where:
 - `<target>` is the target platform.
@@ -173,9 +170,8 @@ Where:
 
 **For all FPGA targets for all fixed byte widths:**
 
-```sh
-./experiments/memory-bus/bus-width/sakurax-ttest_all.sh <serial port>
-```
+    ./experiments/memory-bus/bus-width/sakurax-ttest_all.sh \<port\>
+
 Where:
 - `<serial port>` is the serial port to communicate with the target over.
 
@@ -186,3 +182,5 @@ Where:
 2. [ARM AMBA AXI and ACE Protocol Specification AXI3, AXI4, AXI5, ACE and ACE5](https://static.docs.arm.com/ihi0022/fb/IHI0022F_b_amba_axi_protocol_spec.pdf)
 3. [Xilinx Local Memory Bus (LMB) v3.0 LogiCORE IP Product Guide](https://www.xilinx.com/support/documentation/ip_documentation/lmb_v10/v3_0/pg113-lmb-v10.pdf)
 4. [Xilinx UG984 Microblaze Processor Reference Guide](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_3/ug984-vivado-microblaze-ref.pdf)
+
+*/

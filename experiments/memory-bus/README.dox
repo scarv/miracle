@@ -1,14 +1,10 @@
+/*!
 
-# Memory Hierarchy Experiments
+@defgroup experiments-memory Memory Hierarchy
+@brief How does the memory hierarchy affect leakage assumptions?
+@ingroup  experiments
 
-- Hypotheses and Ideas:
-  - [Memory Bus Registers](#Memory-Bus-Registers)
-  - [Memory Bus Widths](#Memory-Bus-Widths)
-- Experiments:
-  - [Bus Width](bus-width/README.md)
-  - [Per-Byte](per-byte/README.md)
-  - [Registers](registers/README.md)
- 
+@tableofcontents 
 
 ## 1. Memory Bus Registers
 
@@ -50,7 +46,7 @@ time after the original program was finished with it.
 4. Can we use this information to better minimise leakage?
 
 See:
-- [registers/README.md](registers/README.md)
+- [registers/README.md](experiments-memory-registers)
 
 
 ## 2. Memory Bus Widths
@@ -75,8 +71,8 @@ These standards define the physical signals used to communicate, as well
 as how data is layed out on them.
 
 See:
-- [bus-width/README.md](bus-width/README.md)
-- [per-byte/README.md](per-byte/README.md)
+- [bus-width/README.md](memory-bus-width)
+- [per-byte/README.md](memory-bus-per-byte)
 
 **Questions:**
 
@@ -197,8 +193,4 @@ Variants:
 When we store data not naturally aligned to the width of the data bus,
 how is that handled?
 
-TODO:
-
----
-
-[Back Home](../../README.md)
+*/

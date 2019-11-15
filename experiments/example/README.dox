@@ -1,3 +1,10 @@
+/*!
+
+@defgroup experiments-example Example Experiments
+@brief Templates and demonstrations.
+@ingroup  experiments
+
+@tableofcontents 
 
 # Example Experiment
 
@@ -15,6 +22,8 @@
 
 ## Experiment Run:
 
+@todo revise this list
+
 1. Sample two pseudo random values.
 2. Set the trigger.
 3. Run the experiment payload function.
@@ -25,3 +34,5 @@
    - XOR the two operands into arg reg 0.
    - Run 10 architectural nop instructions.
 4. Clear the trigger.
+
+*/

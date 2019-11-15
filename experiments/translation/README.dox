@@ -1,0 +1,6 @@
+/*!
+@defgroup experiments-translation Translation
+@brief Experiments in how assembler mnemonics are translated into machine code.
+@ingroup  experiments
+
+*/

@@ -1,11 +1,13 @@
+/*!
 
-# Per-byte Experiment
+@defgroup experiments-memory-bus-per-byte Memory Bus Per Byte Width
+@brief Can we discover memory bus widths from leakage analysis?
+@ingroup  experiments-memory
 
-- [Purpose](#Purpose)
-- [Method](#Method)
-- [Expectations](#Expectations)
-- [Findings](#Findings)
-- [Running The Experiment](#Running-the-experiment)
+@tableofcontents
+
+@todo Re-write and re-document this experiment. Possibly remove it.
+
 
 ## Purpose
 
@@ -81,10 +83,9 @@ it may load one of:
 
 **For a specific target and fixed byte width:**
 
-```sh
-make -B USB_PORT=<port> ttest_<target>_memory-per-byte TTEST_CAPTURE=./experiments/memory-bus/per-byte/ttest.py TTEST_FLAGS="--fixed-byte-len N"
-rt
-```
+    make -B USB_PORT=\<port\> ttest_\<target\>_memory-per-byte TTEST_CAPTURE=./experiments/memory-bus/per-byte/ttest.py TTEST_FLAGS="--fixed-byte-len N"
+    rt
+
 
 Note:
 - The `TTEST_CAPTURE` variable sets the script used to administer the ttest.
@@ -98,9 +99,9 @@ Where:
 
 **For a scale target for all fixed byte widths:**
 
-```sh
-./experiments/memory-bus/per-byte/scale-ttest_all.sh <target> <serial port>
-```
+
+    ./experiments/memory-bus/per-byte/scale-ttest_all.sh \<target\> \<serial port\>
+
 
 Where:
 - `<target>` is the target platform.
@@ -108,9 +109,10 @@ Where:
 
 **For all FPGA targets for all fixed byte widths:**
 
-```sh
-./experiments/memory-bus/per-byte/sakurax-ttest_all.sh <serial port>
-```
+
+    ./experiments/memory-bus/per-byte/sakurax-ttest_all.sh \<serial port\>
+
 Where:
 - `<serial port>` is the serial port to communicate with the target over.
 
+*/

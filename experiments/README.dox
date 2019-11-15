@@ -1,0 +1,5 @@
+/*!
+@defgroup experiments Experiments
+@brief The complete set of experiments used in the uArch Leakage study.
+
+*/

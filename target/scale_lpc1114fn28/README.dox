@@ -1,3 +1,9 @@
+/*!
+@defgroup targets-lpc1114fn28 ARM M0 (NXP lpc1114fn28)
+@brief ARM M0 target platform.
+@ingroup targets
+
+@tableofcontents
 
 # SCALE ARM M0 Board / lpc1114fn28
 
@@ -14,7 +20,7 @@ Specifically, it targets the `lpc1114` SoC from NXP, containing a
 
 To build and run an experiment on the target:
 
-```sh
+```
 $> source bin/conf.sh
 $> export UAS_ARM_TOOLCHAIN_ROOT=<path to 2016q3 ARM embedded toolchain>
 $> make -B -f Makefile.experiment UAS_EXPERIMENT=example/addxor UAS_TARGET=scale_lpc1114fn28 program
@@ -37,3 +43,4 @@ SRAM        | 0x10000000    |  8K      | 0x10001FFF
 - [ARM Cortex M0 Technical reference](https://static.docs.arm.com/ddi0432/c/DDI0432C_cortex_m0_r0p0_trm.pdf)
 - [ARM v6-M Architecture Reference Manual](https://static.docs.arm.com/ddi0419/e/DDI0419E_armv6m_arm.pdf)
 
+*/

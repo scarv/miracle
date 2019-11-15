@@ -1,5 +1,12 @@
+/*!
 
-# Latent Execution Leakage
+@defgroup experiments-speculation Speculation
+@brief Even micro-controllers do some speculative operations, can we exploit them?
+@ingroup  experiments
+
+@tableofcontents 
+
+# Speculative Execution
 
 **This is Dan's "spectre for side-channels" idea.**
 
@@ -87,6 +94,4 @@ Notes:
 - Does clearing or leaving the intermediate values in the pipeline
   increase or decrease total leakage?
 
----
-
-[Back Home](../../README.md)
+*/

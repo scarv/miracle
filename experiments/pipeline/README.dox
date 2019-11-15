@@ -1,3 +1,9 @@
+/*!
+@defgroup experiments-pipeline Pipelining
+@brief How do pipelined CPU implementations behave under leakage analysis.
+@ingroup  experiments
+
+@tableofcontents 
 
 # Pipeline Registers
 
@@ -281,6 +287,4 @@ Experimental approaches:
   value is written too. If the number of registers is >1 and is spread
   over time, this is a likely contributor to multi-cycle leakage.
 
----
-
-[Back Home](../../README.md)
+*/

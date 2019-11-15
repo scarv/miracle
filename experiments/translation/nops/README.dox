@@ -1,11 +1,17 @@
-# NOP Instructions
+/*!
+
+@defgroup experiments-translation-nops NOP Translation
+@brief How are NOP mnemonics actually encoded?
+@ingroup  experiments-translation
+
+@section nop-instructions NOP Instructions
 
 [Kaufmann et al.](https://doi.org/10.1007/978-3-319-48965-0_36)
 describe an timing attack on Curve25519.  The attack is based on
 what couldn be described as the "security unaware translation" of
 intended semantics into an associated concrete, executable form.
 In short, on their experimental platform the tool chain compiles
-an $( 64 \times 64 )$-bit integer multiplication *instruction*
+a 64x64-bit integer multiplication *instruction*
 into use of a Windows run-time library *function*; the function
 implements a form of early-termination, leading to data-dependent
 execution time and hence information leakage which is capitalised
@@ -35,7 +41,7 @@ instruction whose semantics are the same.  Likewise, processor cores
 may execute NOPs in different ways; for example, they may or may not
 be squashed at the decode stage.
 
-**Questions:**
+@subsection nop-instructions-questions Questions:
 
 1. For each target (processor plus tool-chain), can we produce some
    form of systematic survey of, e.g., pseudo-instructions; in some
@@ -61,7 +67,5 @@ be squashed at the decode stage.
    leakage barriers than the defined NOP for a given architecture
    or for a particular CPU?
 
----
 
-[Back Home](../../README.md)
-
+*/

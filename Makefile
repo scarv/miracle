@@ -68,5 +68,10 @@ $(foreach TGT,$(TARGETS), $(foreach EXP,$(EXPERIMENTS), $(eval $(call add_tgt_tt
 build-all: $(BUILD_TARGETS)
 
 docs-bsp:
-	mkdir -p build/docs
+	mkdir -p $(UAS_BUILD)/docs
 	doxygen docs/bsp.doxyfile
+
+docs-experiments:
+	mkdir -p $(UAS_BUILD)/docs
+	doxygen docs/experiments.doxyfile
+

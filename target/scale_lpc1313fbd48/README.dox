@@ -1,3 +1,9 @@
+/*!
+@defgroup targets-lpc1313fbd48 ARM M3 (NXP lpc1313fbd48)
+@brief ARM M3 target platform.
+@ingroup targets
+
+@tableofcontents
 
 # SCALE ARM M3 Board / lpc1313fbd48
 
@@ -14,7 +20,7 @@ Specifically, it targets the `lpc1313` SoC from NXP, containing a
 
 To build and run an experiment on the target:
 
-```sh
+```
 $> source bin/conf.sh
 $> export UAS_ARM_TOOLCHAIN_ROOT=<path to 2016q3 ARM embedded toolchain>
 $> make -B -f Makefile.experiment UAS_EXPERIMENT=example/addxor UAS_TARGET=scale_lpc1313fbd48 program
@@ -37,3 +43,4 @@ SRAM        | 0x10000000    |  8K      | 0x10001FFF
 - [ARM Cortex M3 Technical Reference Manual](https://static.docs.arm.com/ddi0337/h/DDI0337H_cortex_m3_r2p0_trm.pdf)
 - [ARM v7-M Architecture Reference Manual](https://static.docs.arm.com/ddi0403/ed/DDI0403E_d_armv7m_arm.pdf)
 
+*/

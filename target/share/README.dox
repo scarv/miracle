@@ -1,3 +1,9 @@
+/*!
+@defgroup targets-bsp Board Support Package
+@brief Target abstraction and experiment support layer.
+@ingroup targets
+
+@tableofcontents
 
 # Board Support Package
 
@@ -9,7 +15,8 @@ It is designed to make porting different experiments between different target
 devices as easy as possible.
 
 - You can generate API documentation by running:
-```sh
+```
 $> make docs-bsp  
 ```
 
+*/

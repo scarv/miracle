@@ -1,7 +1,12 @@
+/*!
+@defgroup targets-sakurax-mb5 SakuraX Microblaze 5-stage
+@ingroup targets
 
-# Sakura-X Microblaze 3 Stage
+@tableofcontents
 
-*Description of the Sakura-X FPGA Microblaze 3 stage softcore target.*
+# Sakura-X Microblaze 5 Stage
+
+*Description of the Sakura-X FPGA Microblaze 5 stage softcore target.*
 
 ---
 
@@ -12,7 +17,7 @@ bitfile:
 
 ```sh
 $> source bin/conf.sh
-$> make -B -f Makefile.experiment USB_BAUD=128000 UAS_EXPERIMENT=example/addxor UAS_TARGET=sakurax_mb3 program
+$> make -B -f Makefile.experiment USB_BAUD=128000 UAS_EXPERIMENT=example/addxor UAS_TARGET=sakurax_mb5 program
 ```
 
 This will build the example experiment, combine it with the pre-synthesised
@@ -20,22 +25,22 @@ bitfile and program the FPGA via the Xilinx hardware server.
 
 ## Re-creating the Vivado Project
 
-The `vivado_sakurax_mb3.tcl` script can re-build the entire vivado project.
+The `vivado_sakurax_mb5.tcl` script can re-build the entire vivado project.
 From the project root, run:
 
 ```sh
-$> ./target/sakurax_mb3/flow/recreate-vivado-project.sh
+$> ./target/sakurax_mb5/flow/recreate-vivado-project.sh
 ```
 
-This will (re-)create `$UAS_BUILD/vivado/sakurax_mb3/`, containing the
+This will (re-)create `$UAS_BUILD/vivado/sakurax_mb5/`, containing the
 entire project, system block design and configuration.
 
 If you edit the system, re-implement it, then copy the output
-bitfile over to `$UAS_ROOT/target/sakurax_mb3/program/bitstream.bit` to use
+bitfile over to `$UAS_ROOT/target/sakurax_mb5/program/bitstream.bit` to use
 the auto-program make targets described above.
 
 - You may also need to re-generate the memory map information file
-  `target/sakurax_mb3/program/sakurax_mb3.mmi` to make sure that the ELF
+  `target/sakurax_mb5/program/sakurax_mb5.mmi` to make sure that the ELF
   programs can be correctly combined with the bitfile before programming.
 
 ## Target Information
@@ -53,7 +58,7 @@ We use only the Kintex-7 FPGA for this target, the Spartan-6 companion FPGA
 is left un-programmed.
 
 This target configures the Microblaze as follows:
-- Pipeline Stages: 3
+- Pipeline Stages: 5
 - Instruction & Data AXI Bus
 - Instruction & Data Local Memory Bus
 - HW Integer Divider: Enabled
@@ -61,7 +66,7 @@ This target configures the Microblaze as follows:
 - Barrel Shifter: Enabled
 - Exception Catching / Raising
 - Debug Interface Support
-- Implementation Strategy: Area Optimised
+- Implementation Strategy: Performance Optimised
 - MMU: None
 
 ![System Block Diagram](docs/block-diagram.png)
@@ -116,3 +121,5 @@ Pin     | SAKURA-X Pin Name     | RTL Signal Name
 - [Xilinx UG984 Microblaze Processor Reference Guide](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_3/ug984-vivado-microblaze-ref.pdf)
 - [Xilinx PG144 AXI GPIO v2.0 Product Guide](https://www.xilinx.com/support/documentation/ip_documentation/axi_gpio/v2_0/pg144-axi-gpio.pdf)
 - [Xilinx PG142 AXI UART Lite v2.0 Product Guide](https://www.xilinx.com/support/documentation/ip_documentation/axi_uartlite/v2_0/pg142-axi-uartlite.pdf)
+
+*/

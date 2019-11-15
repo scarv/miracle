@@ -1,3 +1,10 @@
+/*!
+
+@defgroup experiments-logic-gating Logic Gating
+@brief How does logic gating as a digital design technique affect leakage?
+@ingroup  experiments
+
+@tableofcontents 
 
 # Logic gating
 
@@ -86,6 +93,4 @@ ALU.
 
   - Which parameter values corrolate with high/low leakage.
 
----
-
-[Back Home](../../README.md)
+*/
