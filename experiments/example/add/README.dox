@@ -1,0 +1,7 @@
+/*!
+
+@defgroup experiments-example-add Add Example Experiment
+@ingroup experiments-example
+@brief A skeleton experiment looking for leakage from addition instructions.
+
+*/
