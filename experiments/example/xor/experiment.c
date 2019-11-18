@@ -1,6 +1,6 @@
 
 /*!
-@ingroup experiments-example-add
+@ingroup experiments-example-xor
 @{
 */
 
@@ -26,10 +26,11 @@ scass_target_var  experiment_variables [] = {
 };
 
 /*!
-@brief Declaration for the experiment payload function in add.S
-@details Adds numbers A and B, putting the result in data_out.
+@brief Declaration for the experiment payload function in xor.S
+@details XORs the values A and B.
         Pads the prelude and exitlude to the operation with lots
         of NOPs.
+@note data_out is un-used
 */
 extern void     * experiment_payload(
     uint32_t   a,

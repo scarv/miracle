@@ -4,38 +4,38 @@
 @ingroup experiments-example
 @brief A skeleton experiment looking for leakage from load-byte instructions.
 
-@section experiments-example-add-purpose Purpose
+@section experiments-example-ld-byte-purpose Purpose
 
 This experiment acts as an example or skeleton for building other more
 complex experiments.
 You can study the code and flow around this to understand the rest of
 the project.
 
-@section experiments-example-add-flow Flow
+@section experiments-example-ld-byte-flow Flow
 
-@subsection experiments-example-add-building Building
+@subsection experiments-example-ld-byte-building Building
 
 For a given target, build this experiment with:
 
 ```
-$> make build_<TARGET>_example-add
+$> make build_<TARGET>_example-ld-byte
 ```
 
-@subsection experiments-example-add-program Program
+@subsection experiments-example-ld-byte-program Program
 
 Program a particular target with this experiment.
 This will automatically re-build the experiment if needed.
 
 ```
-$> make program_<TARGET>_example-add
+$> make program_<TARGET>_example-ld-byte
 ```
 
-@subsection experiments-example-add-run Running
+@subsection experiments-example-ld-byte-run Running
 
 The following analyses can be run on this experiment:
 
 ```
-$> make ttest_<TARGET>_example-add
+$> make ttest_<TARGET>_example-ld-byte
 ```
 
 

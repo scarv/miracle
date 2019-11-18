@@ -1,6 +1,6 @@
 
 /*!
-@ingroup experiments-example-add
+@ingroup experiments-example-ld-word
 @{
 */
 
