@@ -14,6 +14,11 @@
 
 #include "uas_bsp.h"
 
+#define UAS_BSP_SCRATCH_SIZE 256;
+
+//! Scratch space memory for experiments, placed by the linker.
+uint8_t scratch_space [UAS_BSP_SCRATCH_SIZE];
+
 //! A list of available memory spaces we can treat as scratch space.
 uas_bsp_memory_space_t * uas_bsp_memory_spaces = {
 {"SCRATCH", scratch_space, UAS_BSP_SCRATCH_SIZE},
