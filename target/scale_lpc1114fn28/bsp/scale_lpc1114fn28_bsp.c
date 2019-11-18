@@ -14,6 +14,17 @@
 
 #include "uas_bsp.h"
 
+
+//! A list of available memory spaces we can treat as scratch space.
+uas_bsp_memory_space_t * uas_bsp_memory_spaces = {
+{"SCRATCH", scratch_space, UAS_BSP_SCRATCH_SIZE},
+};
+
+//! Get the number of elements in the uas_bsp_memory_spaces array.
+size_t uas_bsp_get_num_memory_spaces(){
+    return 1;
+}
+
 scale_conf_t scale_conf;
 
 /*!

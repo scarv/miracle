@@ -12,6 +12,22 @@
 #define UAS_BSP_H
 
 /*!
+@brief Describes a contiguous region of memory space on a target device.
+@details Used to describe different data accessible regions of memory.
+*/
+typedef struct uas_bsp_memory_space_t {
+    char    * name;
+    uint8_t * base_addr;
+    size_t    size;
+};
+
+//! A list of available memory spaces we can treat as scratch space.
+extern uas_bsp_memory_space_t * uas_bsp_memory_spaces;
+
+//! Get the number of elements in the uas_bsp_memory_spaces array.
+size_t uas_bsp_get_num_memory_spaces();
+
+/*!
 @brief Initialise the target platform.
 @details Used to setup things like GPIO, Clock frequency and UART etc.
 @returns 0 on success, non-zero on failure.

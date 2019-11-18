@@ -29,6 +29,21 @@ static volatile uint32_t * GPIO = (uint32_t*)0x40000000;
 const uint32_t GPIO_TRIGGER = 0x00000001;
 const uint32_t GPIO_GPO     = 0x00000002;
 
+#define UAS_BSP_SCRATCH_SIZE 255;
+
+uint8_t scratch_space [255];
+
+
+//! A list of available memory spaces we can treat as scratch space.
+uas_bsp_memory_space_t * uas_bsp_memory_spaces = {
+{"SCRATCH", scratch_space, UAS_BSP_SCRATCH_SIZE},
+};
+
+//! Get the number of elements in the uas_bsp_memory_spaces array.
+size_t uas_bsp_get_num_memory_spaces(){
+    return 1;
+}
+
 /*!
 */
 uint8_t uas_bsp_init_target(){
