@@ -11,6 +11,9 @@
 #ifndef UAS_BSP_H
 #define UAS_BSP_H
 
+#define XSTR(a) STR(a)
+#define STR(a) #a
+
 /*!
 @brief Describes a contiguous region of memory space on a target device.
 @details Used to describe different data accessible regions of memory.

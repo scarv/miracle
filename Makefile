@@ -21,8 +21,8 @@ EXPERIMENTS = example/add \
               example/xor \
               example/ld-byte \
               example/ld-half \
-              example/ld-word
-#             memory-bus/bus-width \
+              example/ld-word \
+              memory-bus/bus-width-bytes-0
 #             memory-bus/per-byte \
 #             memory-bus/registers \
 #             memory-bus/aes-sbox \
