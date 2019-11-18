@@ -1,0 +1,6 @@
+
+EXPERIMENT_SRCS = $(UAS_EXPERIMENT_SRC)/experiment.c \
+                  $(UAS_EXPERIMENT_SRC)/ld-word.S
+
+CFLAGS  += -I$(UAS_ROOT)/tools/kernel-gen
+
