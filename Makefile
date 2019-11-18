@@ -51,7 +51,7 @@ endef
 
 define add_tgt_ttest
 ttest_${1}_$(subst /,-,${2}) :
-	$(MAKE) -f Makefile.ttest UAS_TARGET=${1} UAS_EXPERIMENT=${2} ttest
+	$(MAKE) -f Makefile.ttest UAS_TARGET=${1} UAS_EXPERIMENT=${2} ttest-analyse
 endef
 
 define add_tgt_device_test
