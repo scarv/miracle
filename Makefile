@@ -49,8 +49,13 @@ program_${1}_$(subst /,-,${2}) : $(call map_tgt_build,${1},${2})
 	$(MAKE) -f Makefile.program UAS_TARGET=${1} UAS_EXPERIMENT=${2} program
 endef
 
-define add_tgt_ttest
-ttest_${1}_$(subst /,-,${2}) :
+define add_tgt_capture
+capture_${1}_$(subst /,-,${2}) :
+	$(MAKE) -f Makefile.ttest UAS_TARGET=${1} UAS_EXPERIMENT=${2} ttest-capture
+endef
+
+define add_tgt_analyse
+analyse_${1}_$(subst /,-,${2}) :
 	$(MAKE) -f Makefile.ttest UAS_TARGET=${1} UAS_EXPERIMENT=${2} ttest-analyse
 endef
 
@@ -65,7 +70,9 @@ $(foreach TGT,$(TARGETS), $(foreach EXP,$(EXPERIMENTS), $(eval $(call add_tgt_bu
 
 $(foreach TGT,$(TARGETS), $(foreach EXP,$(EXPERIMENTS), $(eval $(call add_tgt_program,$(TGT),$(EXP)))))
 
-$(foreach TGT,$(TARGETS), $(foreach EXP,$(EXPERIMENTS), $(eval $(call add_tgt_ttest,$(TGT),$(EXP)))))
+$(foreach TGT,$(TARGETS), $(foreach EXP,$(EXPERIMENTS), $(eval $(call add_tgt_capture,$(TGT),$(EXP)))))
+
+$(foreach TGT,$(TARGETS), $(foreach EXP,$(EXPERIMENTS), $(eval $(call add_tgt_analyse,$(TGT),$(EXP)))))
 
 build-all: $(BUILD_TARGETS)
 
