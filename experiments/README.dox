@@ -2,4 +2,47 @@
 @defgroup experiments Experiments
 @brief The complete set of experiments used in the uArch Leakage study.
 
+@section experiments-flow-make  Make Flow
+
+- The top level makefile (`$UAS_ROOT/Makefile`) is used to automate
+  the building, running and analysing of experiments.
+
+- It contains a manually managed list of target devices  and experiments.
+
+  - Each target corresponds to a directory under `$UAS_ROOT/target/`.
+
+  - Each experiment corresponds to a directory under `$UAS_ROOT/experiments`.
+
+  - Experiments are organised in a directory structure of the form
+    `$UAS_ROOT/experiments/catagory/experiment-name`.
+
+
+@section experiments-flow-build Building Experiments
+
+- The special target `build-all` will compile all of the experiments for
+  their respective target platform.
+
+- To build a specific experiment for a specific target, run:
+  ```
+  $> make build_TARGET_EXPERIMENT
+  ```
+  Where `TARGET` corresponds to one of the targets in `$UAS_ROOT/targets`
+  and `EXPERIMENT` corresponds too one of the experiment names.
+  Note that experiments are written into the top level makefile as
+  directory paths, but automatically have `/` characters replaced with
+  `-`.
+
+@section experiments-flow-prog  Programming Devices
+
+@todo
+
+@section experiments-flow-captu Capturing Experiment Data
+
+@todo
+
+@section experiments-flow-anal  Analysing Captured Data
+
+@todo
+
+
 */

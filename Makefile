@@ -35,33 +35,48 @@ EXPERIMENTS = example/add \
 
 BUILD_TARGETS = 
 
-define map_tgt_build
-build_${1}_$(subst /,-,${2})
+FLOW_TARGETS  = 
+
+define map_exp
+$(subst /,-,${1})
+endef
+
+define map_tgt
+${1}_${2}_$(call map_exp,${3})
 endef
 
 define tgt_build
-$(call map_tgt_build,${1},${2}) :
+$(call map_tgt,build,${1},${2}) :
 	$(MAKE) -f Makefile.build UAS_TARGET=${1} UAS_EXPERIMENT=${2} all
 endef
 
 define add_tgt_build
 $(call tgt_build,${1},${2})
-BUILD_TARGETS += $(call map_tgt_build,${1},${2})
+BUILD_TARGETS += $(call map_tgt,build,${1},${2})
 endef
 
 define add_tgt_program
-program_${1}_$(subst /,-,${2}) : $(call map_tgt_build,${1},${2})
+$(call map_tgt,program,${1},${2}) : $(call map_tgt,build,${1},${2})
 	$(MAKE) -f Makefile.program UAS_TARGET=${1} UAS_EXPERIMENT=${2} program
 endef
 
 define add_tgt_capture
-capture_${1}_$(subst /,-,${2}) :
+$(call map_tgt,capture,${1},${2}) :
 	$(MAKE) -f Makefile.ttest UAS_TARGET=${1} UAS_EXPERIMENT=${2} ttest-capture
 endef
 
 define add_tgt_analyse
-analyse_${1}_$(subst /,-,${2}) :
+$(call map_tgt,analyse,${1},${2}) :
 	$(MAKE) -f Makefile.ttest UAS_TARGET=${1} UAS_EXPERIMENT=${2} ttest-analyse
+endef
+
+define add_tgt_flow
+flow-$(call map_exp,${1}) : \
+            $(call map_tgt,build,${UAS_TARGET},${1}) \
+            $(call map_tgt,program,${UAS_TARGET},${1}) \
+            $(call map_tgt,capture,${UAS_TARGET},${1}) \
+            $(call map_tgt,analyse,${UAS_TARGET},${1}) 
+FLOW_TARGETS += flow-$(call map_exp,${1})
 endef
 
 define add_tgt_device_test
@@ -69,7 +84,12 @@ test_device_${1} :
 	./external/fw-acquisition/bin/device-test.py -b $(USB_BAUD) $(USB_PORT)
 endef
 
-$(foreach TGT,$(TARGETS), $(eval $(call add_tgt_device_test,$(TGT))))
+$(foreach EXP,$(EXPERIMENTS), $(eval $(call add_tgt_flow,$(EXP))))
+
+#
+# Run every experiment available for the given target.
+# Expects UAS_TARGET to be passed as a command line option.
+run-all-experiments-for-target: $(FLOW_TARGETS)
 
 $(foreach TGT,$(TARGETS), $(foreach EXP,$(EXPERIMENTS), $(eval $(call add_tgt_build,$(TGT),$(EXP)))))
 
