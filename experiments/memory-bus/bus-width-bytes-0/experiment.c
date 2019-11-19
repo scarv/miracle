@@ -71,7 +71,7 @@ void experiment_setup_scass(
     cfg -> experiment_name       = "memory/bus-width-" XSTR(DOFF);
 
     cfg -> variables             = experiment_variables ;
-    cfg -> num_variables         = 2                    ;
+    cfg -> num_variables         = 1                    ;
     cfg -> randomness_len        = 0                    ;
 
 }
