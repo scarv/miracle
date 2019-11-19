@@ -6,6 +6,11 @@
 export USB_PORT ?= /dev/ttyUSB0
 export USB_BAUD ?= 9600
 
+#
+# Used by the SCALE targets, enables re-programmng without using
+# the physical buttons on the boards,
+export PROGRAM_WITH_OPENOCD=0
+
 # Make all variables available to submake shells.
 export
 

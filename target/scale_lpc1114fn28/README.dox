@@ -29,6 +29,10 @@ $> make -B -f Makefile.experiment UAS_EXPERIMENT=example/addxor UAS_TARGET=scale
 If you're target device is not connected to `/dev/ttyUSB0`, you also need
 to specify `USB_PORT=<port path>`.
 
+This target can be programmed using either the `lpc21isp` program, or
+using OpenOCD. This can be controlled using the `PROGRAM_WITH_OPENOCD`
+top level makefile option.
+
 ## System Memory Map
 
 Device      | Base          | Range    | High Address
