@@ -21,7 +21,7 @@ scass_target_var  experiment_variables [] = {
 
 //! Declaration for the experiment payload function in load-byte.S
 extern void     * experiment_payload(
-    uint8_t * data,
+    uint8_t * data
 );
 
 extern void     * experiment_payload_end;
@@ -52,7 +52,7 @@ uint8_t experiment_run(
     uas_bsp_trigger_set();
     
     experiment_payload(
-        data_in,
+        data_in
     );
     
     uas_bsp_trigger_clear();

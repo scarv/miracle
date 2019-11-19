@@ -1,7 +1,7 @@
 
 CFLAGS += -DTARGET=7
 CFLAGS += -DARCH_RV32IMC -Wall -O2
-CFLAGS += -march=rv32imc -mabi=ilp32 -nostartfiles
+CFLAGS += -march=rv32imc -mabi=ilp32 -nostartfiles -mcmodel=medany
 CFLAGS += -Wl,-T -Wl,$(UAS_ROOT)/target/sakurax_picorv32/build/linker.ld
 
 CC      = $(RISCV)/bin/riscv32-unknown-elf-gcc
