@@ -6,21 +6,17 @@ TTEST_NAME          ?= default
 
 TTEST_SCOPE_CONFIG = $(UAS_ROOT)/target/$(UAS_TARGET)/capture/picoscope5000.cfg
 TTEST_POWER_CHANNEL= B
-TTEST_TRS_FIXED    = $(UAS_EXPERIMENT_BUILD)/$(TTEST_NAME)/ttest-fixed.trs
-TTEST_TRS_RANDOM   = $(UAS_EXPERIMENT_BUILD)/$(TTEST_NAME)/ttest-random.trs
-TTEST_TRS_COMPARE  = $(UAS_EXPERIMENT_BUILD)/$(TTEST_NAME)/ttest-compare
+TTEST_PREFIX       = $(UAS_EXPERIMENT_BUILD)/$(TTEST_NAME)/ttest
+TTEST_TRS_FIXED    = $(TTEST_PREFIX)-fixedbits.npy.gz
+TTEST_TRS_TRACES   = $(TTEST_PREFIX)-traces.npy.gz
 
 TTEST_TT_GRAPH     = $(UAS_EXPERIMENT_BUILD)/$(TTEST_NAME)/ttest-ttrace.svg
 TTEST_TT_AVG       = $(UAS_EXPERIMENT_BUILD)/$(TTEST_NAME)/ttest-averages.svg
 TTEST_LOG          = $(UAS_EXPERIMENT_BUILD)/$(TTEST_NAME)/ttest.log
 
-TTEST_STD_FIXED    = $(call map_single_traceset_std_graph,$(TTEST_TRS_FIXED))
-TTEST_STD_RANDOM   = $(call map_single_traceset_std_graph,$(TTEST_TRS_RANDOM))
-TTEST_STD_COMPARE  = $(call map_multi_traceset_std_graph,$(TTEST_TRS_COMPARE))
-
 TTEST_FLAGS       ?= --zero-fixed
 
-ttest-capture: $(TTEST_TRS_FIXED) $(TTEST_TRS_RANDOM)
+ttest-capture:
 	@mkdir -p $(dir $(TTEST_LOG))
 	$(TTEST_CAPTURE) $(TTEST_FLAGS) \
         -n $(TTEST_NUM_TRACES) \
@@ -29,27 +25,17 @@ ttest-capture: $(TTEST_TRS_FIXED) $(TTEST_TRS_RANDOM)
            $(USB_PORT) \
            $(TTEST_SCOPE_CONFIG) \
            $(TTEST_POWER_CHANNEL) \
-           $(TTEST_TRS_FIXED) \
-           $(TTEST_TRS_RANDOM)
+           $(TTEST_PREFIX) 
 
-$(eval $(call tgt_traceset_std_analysis,$(TTEST_TRS_FIXED)))
-$(eval $(call tgt_traceset_std_analysis,$(TTEST_TRS_RANDOM)))
-
-$(eval $(call tgt_multi_traceset_std_analysis,$(TTEST_TRS_COMPARE),\
-    $(TTEST_TRS_FIXED) \
-    $(TTEST_TRS_RANDOM),\
-    --avg-trace --stddev))
 
 ttest-analyse:
 	$(TTEST_ANALYSE) \
         --graph-ttest       $(TTEST_TT_GRAPH) \
         $(TTEST_TRS_FIXED) \
-        $(TTEST_TRS_RANDOM)
-	$(STD_PLOTS) --avg-trace --minmax $(TTEST_TRS_RANDOM) $(TTEST_TRS_RANDOM).avg.svg
-	$(STD_PLOTS) --avg-trace --minmax $(TTEST_TRS_FIXED) $(TTEST_TRS_FIXED).avg.svg
-	$(STD_PLOTS) --stddev $(TTEST_TRS_RANDOM) $(TTEST_TRS_RANDOM).std.svg
-	$(STD_PLOTS) --stddev $(TTEST_TRS_FIXED)  $(TTEST_TRS_FIXED).std.svg
-	$(STD_PLOTS) --range $(TTEST_TRS_RANDOM) $(TTEST_TRS_RANDOM).rng.svg
-	$(STD_PLOTS) --range $(TTEST_TRS_FIXED)  $(TTEST_TRS_FIXED).rng.svg
-	$(STD_PLOTS) --transpose-over-time $(TTEST_TRS_RANDOM) $(TTEST_TRS_RANDOM).tsp.png
-	$(STD_PLOTS) --transpose-over-time $(TTEST_TRS_FIXED)  $(TTEST_TRS_FIXED).tsp.png
+        $(TTEST_TRS_TRACES)
+	$(STD_PLOTS) --avg-trace --minmax $(TTEST_TRS_TRACES) $(TTEST_TRS_TRACES).avg.svg
+	$(STD_PLOTS) --avg-trace --minmax $(TTEST_TRS_TRACES) $(TTEST_TRS_TRACES).avg.svg
+	$(STD_PLOTS) --stddev $(TTEST_TRS_TRACES) $(TTEST_TRS_TRACES).std.svg
+	$(STD_PLOTS) --stddev $(TTEST_TRS_TRACES) $(TTEST_TRS_TRACES).std.svg
+	$(STD_PLOTS) --range $(TTEST_TRS_TRACES) $(TTEST_TRS_TRACES).rng.svg
+	$(STD_PLOTS) --range $(TTEST_TRS_TRACES) $(TTEST_TRS_TRACES).rng.svg
