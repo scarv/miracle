@@ -8,10 +8,6 @@ HEX_OUT    = $(call map_experiment_hex)
 CFLAGS    ?= 
 
 #
-# Makefile which defines the experiment sources
-include $(UAS_EXPERIMENT_SRC)/Makefile.in
-
-#
 # Makefile which contains the "main" function and BSP headers
 include $(UAS_ROOT)/target/share/Makefile.in
 
@@ -23,8 +19,6 @@ CFLAGS    += -I$(UAS_ROOT)/experiments/$(UAS_EXPERIMENT)
 CFLAGS    += -I$(UAS_ROOT)/target/share
 CFLAGS    += -I$(UAS_ROOT)/target/$(UAS_TARGET)
 
-SRCS       = $(UAS_SRCS) $(TARGET_SRCS) $(EXPERIMENT_SRCS)
-
 TARGETS   =
 
 #
@@ -34,10 +28,10 @@ TARGETS   =
 # 2. Experiment source code
 # 3. CFLAGS
 #
-define add_build_target
+define add_experiment_build_target
 
 $(call map_experiment_elf,${1}) : ${2}
-	-mkdir -p $(dir $${@})
+	-mkdir -p $(dir $(call map_experiment_elf,${1}))
 	$(CC) ${3} $${^} -o $${@}
 
 $(call map_experiment_dis,${1}) : $(call map_experiment_elf,${1})
@@ -52,5 +46,11 @@ TARGETS += $(call map_experiment_hex,${1})
 
 endef
 
+
+#
+# Makefile which defines the experiment sources
+include $(UAS_EXPERIMENT_SRC)/Makefile.in
+
 all: $(TARGETS)
+	@echo $(TARGETS)
 
