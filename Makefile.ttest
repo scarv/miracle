@@ -1,4 +1,12 @@
 
+#
+# This makefile wraps (perhaps needlessly) the TTest capture and analysis
+# scripts contained in ./extern/fw-acquisition.
+# It is called / executed by the 
+# ./experiments/<experiment name>/Makefile.capture/analyse 
+# Makefiles.
+#
+
 include $(UAS_ROOT)/Makefile.common
 
 TTEST_NUM_TRACES    ?= 10000

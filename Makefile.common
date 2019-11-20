@@ -18,6 +18,8 @@ TARGET_DIR           = $(UAS_ROOT)/target/$(UAS_TARGET)
 
 TARGET_BUILD_MAKEFILE= $(TARGET_DIR)/build/build.mk
 
+EXPERIMENT_CAPTURE_MAKEFILE = $(EXPERIMENT_SRCS)/Makefile.capture
+
 #
 # Given the global variables defining build directory, experiment name
 # and target device, return a name for the experiment binary elf file.

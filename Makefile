@@ -62,12 +62,12 @@ endef
 
 define add_tgt_capture
 $(call map_tgt,capture,${1},${2}) :
-	$(MAKE) -f Makefile.ttest UAS_TARGET=${1} UAS_EXPERIMENT=${2} ttest-capture
+	$(MAKE) -f experiments/${2}/Makefile.capture UAS_TARGET=${1} UAS_EXPERIMENT=${2} capture
 endef
 
 define add_tgt_analyse
 $(call map_tgt,analyse,${1},${2}) :
-	$(MAKE) -f Makefile.ttest UAS_TARGET=${1} UAS_EXPERIMENT=${2} ttest-analyse
+	$(MAKE) -f experiments/${2}/Makefile.analyse UAS_TARGET=${1} UAS_EXPERIMENT=${2} analyse
 endef
 
 define add_tgt_flow

@@ -1,0 +1,7 @@
+
+analyse-ttest:
+	$(MAKE) -f $(UAS_ROOT)/Makefile.ttest ttest-analyse
+
+analyse: analyse-ttest
+
+
