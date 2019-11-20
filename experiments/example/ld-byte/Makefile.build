@@ -4,3 +4,5 @@ EXPERIMENT_SRCS = $(UAS_EXPERIMENT_SRC)/experiment.c \
 
 CFLAGS  += -I$(UAS_ROOT)/tools/kernel-gen
 
+$(eval $(call add_experiment_build_target,,$(EXPERIMENT_SRCS),$(CFLAGS)))
+

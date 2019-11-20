@@ -30,7 +30,7 @@ TARGETS   =
 #
 define add_experiment_build_target
 
-$(call map_experiment_elf,${1}) : ${2}
+$(call map_experiment_elf,${1}) : ${2} $(UAS_SRCS) $(TARGET_SRCS)
 	-mkdir -p $(dir $(call map_experiment_elf,${1}))
 	$(CC) ${3} $${^} -o $${@}
 
@@ -49,7 +49,7 @@ endef
 
 #
 # Makefile which defines the experiment sources
-include $(UAS_EXPERIMENT_SRC)/Makefile.in
+include $(UAS_EXPERIMENT_SRC)/Makefile.build
 
 all: $(TARGETS)
 	@echo $(TARGETS)

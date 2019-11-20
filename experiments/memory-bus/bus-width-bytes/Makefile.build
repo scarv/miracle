@@ -3,8 +3,7 @@ BUS_WIDTH_DLEN   ?= 128
 BUS_WIDTH_OFFSET ?= 5
 BUS_WIDTH_IDX    ?= 5
 
-EXPERIMENT_SRCS = $(UAS_SRCS) $(TARGET_SRCS) \
-                  $(UAS_EXPERIMENT_SRC)/experiment.c \
+EXPERIMENT_SRCS = $(UAS_EXPERIMENT_SRC)/experiment.c \
                   $(UAS_EXPERIMENT_SRC)/load-byte.S
 
 CFLAGS  += -I$(UAS_ROOT)/tools/kernel-gen \
