@@ -30,7 +30,8 @@ ttest-capture:
 
 ttest-analyse:
 	$(TTEST_ANALYSE) \
-        --graph-ttest       $(TTEST_TT_GRAPH) \
+        --abs \
+        --graph-ttest $(TTEST_TT_GRAPH) \
         $(TTEST_TRS_FIXED) \
         $(TTEST_TRS_TRACES)
 	$(STD_PLOTS) --avg-trace --minmax $(TTEST_TRS_TRACES) $(TTEST_TRS_TRACES).avg.svg

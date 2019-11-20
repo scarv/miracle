@@ -6,21 +6,29 @@
 
 #include "experiment.h"
 
-#define DLEN 8
+#ifndef DLEN
+    #define DLEN 128
+#endif
+#ifndef DIDX
+    #define DIDX 5
+#endif
 #ifndef DOFF
-    #define DOFF 0
+    #define DOFF 5
 #endif
 
-uint8_t  din_fixed [DLEN];
-uint8_t  din_rand  [DLEN];
+uint8_t  zeros     [DLEN];
+uint8_t  din_fixed       ;
+uint8_t  din_rand        ;
+uint8_t  din       [DLEN];
 
 //! Variables which the SCASS framework can control.
 scass_target_var  experiment_variables [] = {
-{"din" , 1, din_rand+DOFF, din_fixed+DOFF, SCASS_FLAGS_TTEST_IN},
+{"din" , 1, &din_rand, &din_fixed, SCASS_FLAGS_TTEST_IN},
 };
 
 //! Declaration for the experiment payload function in load-byte.S
 extern void     * experiment_payload(
+    uint8_t * zeros,
     uint8_t * data
 );
 
@@ -33,8 +41,7 @@ uint8_t experiment_init(
     scass_target_cfg * cfg //!< SCASS Framework configuration object.
 ) {
     for(int i = 0; i < DLEN; i ++) {
-        din_fixed[i] = 0;
-        din_rand [i] = 0;
+        din[i] = 0;
     }
     return 0;
 }
@@ -47,12 +54,13 @@ uint8_t experiment_run(
     char               fixed //!< used fixed variants of variables?
 ){
 
-    uint8_t * data_in = fixed ? din_fixed : din_rand;
+    din[DIDX] = fixed ? din_fixed : din_rand;
 
     uas_bsp_trigger_set();
     
     experiment_payload(
-        data_in
+        zeros,
+        din + DOFF
     );
     
     uas_bsp_trigger_clear();
