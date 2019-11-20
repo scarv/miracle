@@ -1,6 +1,16 @@
 
-capture-ttest:
-	$(MAKE) -f $(UAS_ROOT)/Makefile.ttest ttest-capture
+include $(UAS_ROOT)/Makefile.common
+include $(UAS_EXPERIMENT_SRC)/Makefile.common
 
-capture: capture-ttest
+$(eval $(call add_capture_target,5,0))
+$(eval $(call add_capture_target,5,1))
+$(eval $(call add_capture_target,5,2))
+$(eval $(call add_capture_target,5,3))
+$(eval $(call add_capture_target,5,4))
+$(eval $(call add_capture_target,5,5))
+$(eval $(call add_capture_target,5,6))
+$(eval $(call add_capture_target,5,7))
+$(eval $(call add_capture_target,5,8))
+
+capture: $(CAPTURE_TARGETS)
 
