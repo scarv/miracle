@@ -25,18 +25,32 @@ CFLAGS    += -I$(UAS_ROOT)/target/$(UAS_TARGET)
 
 SRCS       = $(UAS_SRCS) $(TARGET_SRCS) $(EXPERIMENT_SRCS)
 
-all: $(BINOUT) $(OBJDUMP_OUT) $(HEX_OUT)
+TARGETS   =
 
-$(BINOUT) : $(SRCS)
-	-mkdir -p $(dir $(BINOUT))
-	$(CC) $(CFLAGS) $^ -o $@
+#
+# Add a new build target
+#
+# 1. Experiment variant
+# 2. Experiment source code
+# 3. CFLAGS
+#
+define add_build_target
 
-$(OBJDUMP_OUT) : $(BINOUT)
-	$(OBJDUMP) -D $< > $@
+$(call map_experiment_elf,${1}) : ${2}
+	-mkdir -p $(dir $${@})
+	$(CC) ${3} $${^} -o $${@}
 
-$(HEX_OUT) : $(BINOUT)
-	$(OBJCOPY) ${OBJCOPY_FLAGS} -O ihex $< $@
+$(call map_experiment_dis,${1}) : $(call map_experiment_elf,${1})
+	$(OBJDUMP) -D $${<} > $${@}
 
-clean:
-	rm -rf build/*
+$(call map_experiment_hex,${1}) : $(call map_experiment_elf,${1})
+	$(OBJCOPY) ${OBJCOPY_FLAGS} -O ihex $${<} $${@}
+
+TARGETS += $(call map_experiment_elf,${1})
+TARGETS += $(call map_experiment_dis,${1})
+TARGETS += $(call map_experiment_hex,${1})
+
+endef
+
+all: $(TARGETS)
 
