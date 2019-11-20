@@ -1,5 +1,6 @@
 
 UAS_EXPERIMENT      ?= example/add
+UAS_VARIANT         ?=
 UAS_TARGET          ?= scale_lpc1114fn28
 UAS_EXPERIMENT_SRC  ?= $(UAS_ROOT)/experiments/$(UAS_EXPERIMENT)
 UAS_EXPERIMENT_BUILD = $(UAS_BUILD)/$(UAS_EXPERIMENT)/$(UAS_TARGET)
