@@ -47,7 +47,7 @@ endef
 
 define tgt_build
 $(call map_tgt,build,${1},${2}) :
-	$(MAKE) -f Makefile.build UAS_TARGET=${1} UAS_EXPERIMENT=${2} all
+	$(MAKE) -j 4 -f Makefile.build UAS_TARGET=${1} UAS_EXPERIMENT=${2} all
 endef
 
 define add_tgt_build

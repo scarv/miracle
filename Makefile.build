@@ -52,5 +52,4 @@ endef
 include $(UAS_EXPERIMENT_SRC)/Makefile.build
 
 all: $(TARGETS)
-	@echo $(TARGETS)
 

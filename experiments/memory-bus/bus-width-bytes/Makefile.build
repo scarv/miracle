@@ -1,14 +1,25 @@
 
-BUS_WIDTH_DLEN   ?= 128
-BUS_WIDTH_OFFSET ?= 5
-BUS_WIDTH_IDX    ?= 5
+include $(UAS_EXPERIMENT_SRC)/Makefile.conf
 
 EXPERIMENT_SRCS = $(UAS_EXPERIMENT_SRC)/experiment.c \
                   $(UAS_EXPERIMENT_SRC)/load-byte.S
 
-CFLAGS  += -I$(UAS_ROOT)/tools/kernel-gen \
-           -DDOFF=$(BUS_WIDTH_OFFSET) \
-           -DDIDX=$(BUS_WIDTH_IDX)
+CFLAGS  += -I$(UAS_ROOT)/tools/kernel-gen
 
-$(eval $(call add_experiment_build_target,,$(EXPERIMENT_SRCS),$(CFLAGS)))
+EFLAGS =
+EVAR   =
+
+define add_param_build
+$(call add_experiment_build_target,-${1}-${2}-${3},\
+$(EXPERIMENT_SRCS),\
+$(CFLAGS) -DDLEN=${1} -DDIDX=${2} -DDOFF=${3})
+endef
+
+$(foreach LEN, $(BUS_WIDTH_LENGTHS),\
+    $(foreach OFF, $(BUS_WIDTH_OFFSETS),\
+        $(foreach IDX, $(BUS_WIDTH_IDX),\
+            $(eval $(call add_param_build,$(LEN),$(IDX),$(OFF))) \
+          ) \
+     ) \
+)
 
