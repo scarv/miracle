@@ -15,12 +15,12 @@
     #define DLEN 128
 #endif
 
-uint8_t  zeros     [DLEN];
-uint8_t  din_fixed       ;
-uint8_t  din_rand        ;
-uint8_t  din       [DLEN];
-uint8_t  dindex          ;
-uint8_t  doffset         ;
+uint8_t  zeros     [DLEN]; //!< Array of zero'd bytes
+uint8_t  din_fixed       ; //!< TTest fixed input value.
+uint8_t  din_rand        ; //!< TTest random input value.
+uint8_t  din       [DLEN]; //!< Array of zeros except for TTest variable.
+uint8_t  dindex          ; //!< Index into DIN to load/modify.
+uint8_t  doffset         ; //!< Offset of DIN to load during experiment_run
 
 //! Variables which the SCASS framework can control.
 scass_target_var  experiment_variables [] = {
@@ -34,8 +34,6 @@ extern void     * experiment_payload(
     uint8_t * zeros,
     uint8_t * data
 );
-
-extern void     * experiment_payload_end;
 
 /*!
 @details Does nothing.
