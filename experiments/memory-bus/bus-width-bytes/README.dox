@@ -1,6 +1,6 @@
 /*!
 
-@defgroup experiments-memory-bus-width Memory Bus Width - Bytes
+@defgroup experiments-memory-bus-width-bytes Memory Bus Width - Bytes
 @brief Can we discover memory bus widths from leakage analysis?
 @ingroup  experiments-memory
 
@@ -43,6 +43,8 @@ When capturing the data:
   - Load the `O`'th byte from the `din` array. This is the critical
     operation we observe in the TTest.
   - Load the `O`'th byte from the `zeros` array again to flush the path.
+  - Each load byte instruction is inter-spersed with `NOP` instructions so
+    there is no chance of leakage from one instruction being missattributed.
 - Repeat the experiment, strobing through different values of `O` and `I`.
 
 When interpreting the results:

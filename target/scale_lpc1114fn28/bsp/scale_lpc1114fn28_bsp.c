@@ -1,6 +1,7 @@
 
 /*!
-@defgroup bsp-lpc1114 LPC1114 (ARM M0)
+@ingroup targets-bsp
+@{
 @file scale_lpc1114fn28_bsp.c
 @brief Contains BSP function definitions specific to the lpc111x SoC
 @details Mostly acts as a wrapper around the SCALE BSP for the SoC
@@ -62,3 +63,4 @@ volatile void * uas_bsp_trigger_clear(){
     return NULL;
 }
 
+//! }@

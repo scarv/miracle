@@ -1,6 +1,7 @@
 
 /*!
-@defgroup bsp-lpc1313 LPC1313 (ARM M3)
+@ingroup targets-bsp
+@{
 @file scale_lpc1313fbd48_bsp.c
 @brief Contains BSP function definitions specific to the lpc111x SoC
 @details Mostly acts as a wrapper around the SCALE BSP for the SoC
@@ -58,3 +59,4 @@ volatile void * uas_bsp_trigger_clear(){
     return NULL;
 }
 
+//! }@

@@ -1,5 +1,10 @@
 
 /*!
+@ingroup targets-bsp
+@{
+*/
+
+/*!
 @file experiment.h
 @brief Experiment header file
 @details All experiments implement the functions declared in this header,
@@ -36,3 +41,5 @@ void experiment_setup_scass(
 );
 
 #endif
+
+//! }@

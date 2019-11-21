@@ -1,9 +1,14 @@
 
 /*!
+@ingroup targets-bsp
+@{
+*/
+
+/*!
 @file uas_bsp.h
 @brief Board support package header
-@details Contains abstraction functions for target specific IO
-    interractions and configurations
+@details Contains declarations of abstraction functions for target specific IO
+interractions and configurations.
 */
 
 #include <stdint.h>
@@ -96,3 +101,5 @@ void    uas_bsp_uart_wr_strn(
 );
 
 #endif
+
+//! }@

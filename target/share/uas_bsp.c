@@ -1,6 +1,12 @@
 
 #include "uas_bsp.h"
 
+/*!
+@file uas_bsp.c
+@brief Board support package implementation code.
+@details Contains definitions of abstraction functions for target specific IO
+interractions and configurations.
+*/
 
 /*!
 @note Implemented over uart_wr_char

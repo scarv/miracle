@@ -1,4 +1,9 @@
 
+/*!
+@ingroup targets-bsp
+@{
+*/
+
 #include <stdlib.h>
 
 #include "scass/scass_target.h"
@@ -48,3 +53,4 @@ int main(int argc, char ** argv) {
     }
 
 }
+//! }@

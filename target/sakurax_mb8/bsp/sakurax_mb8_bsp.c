@@ -1,6 +1,7 @@
 
 /*!
-@defgroup bsp-sakurax-mb8 Sakura X Microblaze-8
+@ingroup targets-bsp
+@{
 @file sakurax_mb8_bsp.c
 @brief Contains BSP function definitions specific to the SAKURAX MB8 FPGA
     bitstream image.
@@ -81,3 +82,4 @@ volatile void * uas_bsp_trigger_clear(){
 }
 
 
+//! }@

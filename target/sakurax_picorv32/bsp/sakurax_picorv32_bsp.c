@@ -1,6 +1,7 @@
 
 /*!
-@defgroup bsp-sakurax-picorv32 Sakura X PicoRV32
+@ingroup targets-bsp
+@{
 @file sakurax_picorv32_bsp.c
 @brief Contains BSP function definitions specific to the SAKURAX MB3 FPGA
     bitstream image.
@@ -81,3 +82,4 @@ volatile void * uas_bsp_trigger_clear(){
 }
 
 
+//! }@

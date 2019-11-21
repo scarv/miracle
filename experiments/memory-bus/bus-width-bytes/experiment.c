@@ -1,4 +1,9 @@
 
+/*!
+@ingroup experiments-memory-bus-width-bytes
+@{
+*/
+
 #include <stdlib.h>
 #include <string.h>
 
@@ -82,4 +87,6 @@ void experiment_setup_scass(
     cfg -> randomness_len        = 0                    ;
 
 }
+
+//! @}
 
