@@ -33,6 +33,10 @@ EXPERIMENTS = example/add \
 #             memory-bus/aes-sbox \
 #             memory-bus/masked-aes
 
+docs:
+	mkdir -p $(UAS_BUILD)/docs
+	doxygen docs/experiments.doxyfile
+
 BUILD_TARGETS = 
 
 FLOW_TARGETS  = 
@@ -101,11 +105,4 @@ $(foreach TGT,$(TARGETS), $(foreach EXP,$(EXPERIMENTS), $(eval $(call add_tgt_an
 
 build-all: $(BUILD_TARGETS)
 
-docs-bsp:
-	mkdir -p $(UAS_BUILD)/docs
-	doxygen docs/bsp.doxyfile
-
-docs-experiments:
-	mkdir -p $(UAS_BUILD)/docs
-	doxygen docs/experiments.doxyfile
 
