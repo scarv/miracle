@@ -1,5 +1,6 @@
 /*!
 @defgroup targets-sakurax-picorv32 SakuraX PicoRV32 CPU
+@brief Multi-cycle implementation of the RISC-V RV32IMC architecture.
 @ingroup targets
 
 @tableofcontents

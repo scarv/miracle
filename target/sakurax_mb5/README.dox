@@ -1,5 +1,6 @@
 /*!
 @defgroup targets-sakurax-mb5 SakuraX Microblaze 5-stage
+@brief 5-Stage pipelined Xilinx Microblaze Softcore Target.
 @ingroup targets
 
 @tableofcontents

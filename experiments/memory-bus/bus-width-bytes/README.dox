@@ -1,50 +1,75 @@
 /*!
 
-@defgroup experiments-memory-bus-width Memory Bus Width
+@defgroup experiments-memory-bus-width Memory Bus Width - Bytes
 @brief Can we discover memory bus widths from leakage analysis?
 @ingroup  experiments-memory
 
 @tableofcontents
 
-@todo Re-write and re-document this experiment
+## Background
+
+CPUs with a 32-bit internal datapath or word width will often use
+a 32-bit wide memory bus.
+
+Most bus standards work in terms of word widths only, and for reads
+in particular, cannot specify a sub-word memory access.
+Write accesses use per-byte strobe lines.
 
 ## Purpose:
 
-- To work out how wide the data bus of a SoC is.
-- To identify if, given a load byte instruction, multiple bytes are in
-  fact loaded.
+Generally, this experiment seeks to answer the question:
+"When loading a byte from memory, is *only* that byte operated on by
+the memory hierarchy and the SoC, or do we also get other surrounding
+bytes?"
+
+Specific questions arrising from this:
+- Given that other bytes are also operated on, which bytes are these?
+- Do the loaded bytes correspond to a particular memory word alignment?
 
 ## Method:
 
-- Start with an `N` byte array, which is aligned to the largest bus width
-  which we think is plausible.
-  - In this case, the array is aligned to a 4-byte boundary.
-  - The array is `8` bytes long.
-- Initially, run a T-test such that in each trace:
-  - We load the 0th byte of the array using a *load byte* instruction.
-  - We randomise the entire contents of the `N` byte array.
-- Next for `i=0..N`:
-  - Run a T-test such that the first `i` bytes of the input array are
-    kept constant, while others are randomised per trace.
+When capturing the data:
 
-Target  | Address 1     | Address 2
--------------------|-------------------------|----------------------
-`sakurax_mb3`       | `0x0000_02c0` (AXI BRAM0) | `0x1000_0a00` (LMB BRAM)
-`sakurax_mb5`       | `0x0000_02c0` (AXI BRAM0) | `0x1000_0a00` (LMB BRAM)
-`sakurax_mb8`       | `0x0000_02c0` (AXI BRAM0) | `0x1000_0a00` (LMB BRAM)
-`scale_lpc1114fn28` | `0x1000_0044` (SRAM) | `0x1000_1F00` (SRAM)
-`scale_lpc1313fbd48`| `0x1000_0044` (SRAM) | `0x1000_6F00` (SRAM)
-`scale_lpc812m101`  | `0x1000_0044` (SRAM) | `0x1000_0F00` (SRAM)
+- Define 2 `N` byte arrays:
+  - The `zeros` array, which always contains zeros.
+  - The `din` array, which contains all zeros except from some byte index
+    `I`, which acts as the fixed/random variable in a TTest.
+- The variable `O`, is an offset into the `din` and `zeros` arrays.
+- For each value of `O` in some range, execute the following sequence of
+  operations.
+  - Load the `O`'th byte from the `zeros` array. This is to *flush* the
+    memory load data path from any previous accesses so that they don't
+    polute the experimnet.
+  - Load the `O`'th byte from the `din` array. This is the critical
+    operation we observe in the TTest.
+  - Load the `O`'th byte from the `zeros` array again to flush the path.
+- Repeat the experiment, strobing through different values of `O` and `I`.
+
+When interpreting the results:
+
+- If `O` == `I`, we should expect to see first order leakage in a
+  standard non-specific TTest.
+- If `O` != `I`
+  - If we see leakage, this means that despite asking for a constantly
+    zero'd byte, we still see the `I`'th byte being manipulated by the
+    SoC.
+  - If we do not see leakage, then the `I`'th byte has not been manipulated.
 
 ## Expectations:
-- For an `X` byte wide bus (where `X<N`), we should continue to see leakage
-  for all `i=0..X`.
-- For all `i=X+1..N`, we should see no leakage.
-- This would show that when we ostensibly load a *byte*, we in fact recieve
-  an entire word, only one byte of which is kept and written to an
-  architectural register.
+
+We expect to see either:
+
+- No leakage when loading bytes other than the one at position `I`.
+
+- Leakage when loading all bytes in the range `I-(I%4)` to `(I-(I%4))+3).
+
+  - This would imply that whenever a byte is loaded, the entire word in
+    which it resides is in fact manipulated and presented to the CPU,
+    which then throws away the extra bytes.
 
 ## Findings
+
+@todo Re-write bus-width-bytes experiment findings with new results.
 
 ### Overview:
 
@@ -145,36 +170,25 @@ Target  | Address 1     | Address 2
 
 ## Running the experiment
 
-**For a specific target and fixed byte width:**
+To run all stages of the experiment for a particular target device:
 
-    make -B USB_PORT=\<port\> ttest_\<target\>_memory-bus-width TTEST_CAPTURE=./experiments/memory-bus/bus-width/ttest.py TTEST_FLAGS="--fixed-byte-len N"
-    rt
-
-Note:
-- The `TTEST_CAPTURE` variable sets the script used to administer the ttest.
-  The default script will not work with this experiment, you *must* use
-  the one shown in the example above.
+```
+make -B USB_PORT=[PORT] UAS_TARGET=[TARGET] flow-memory-bus-bus-width-bytes
+```
 
 Where:
--  `<target>` is the desired target platform to run on.
-- `N` is the number of bytes in the "random" trace set to make identical
-  to the fixed value.
+- `[PORT]` Is the UART/Serial port to communicate with it over.
+- `[TARGET]` Is one of the target names listed in @ref targets
 
-**For a scale target for all fixed byte widths:**
+This will run all of the build, program, capture and analyse steps for
+the experiment on the specified target.
 
-    ./experiments/memory-bus/bus-width/scale-ttest_all.sh \<target\> \<port\>
+The individual steps of the experiment are run with the following commands:
 
-Where:
-- `<target>` is the target platform.
-- `<serial port>` is the serial port to communicate with the target over.
-
-**For all FPGA targets for all fixed byte widths:**
-
-    ./experiments/memory-bus/bus-width/sakurax-ttest_all.sh \<port\>
-
-Where:
-- `<serial port>` is the serial port to communicate with the target over.
-
+- Build: `make build_[TARGET]_memory-bus-width-bytes`
+- Program: `make program_[TARGET]_memory-bus-width-bytes`
+- Capture: `make capture_[TARGET]_memory-bus-width-bytes USB_PORT=[PORT]`
+- Analyse: `make program_[TARGET]_memory-bus-width-bytes`
 
 ## References
 
