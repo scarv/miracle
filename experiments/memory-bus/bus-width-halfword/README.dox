@@ -1,0 +1,34 @@
+/*!
+
+@defgroup experiments-memory-bus-width-halfwords Memory Bus Width - Halfwords 
+@brief Just how much data do we get when loading a halfword?
+@ingroup  experiments-memory
+
+## Background
+
+This experiment is a repeat of @ref experiments-memory-bus-width-bytes
+but using halfword load operations rather than byte loads.
+
+## Running the experiment
+
+To run all stages of the experiment for a particular target device:
+
+```
+make -B USB_PORT=[PORT] UAS_TARGET=[TARGET] flow-memory-bus-bus-width-halfword
+```
+
+Where:
+- `[PORT]` Is the UART/Serial port to communicate with it over.
+- `[TARGET]` Is one of the target names listed in @ref targets
+
+This will run all of the build, program, capture and analyse steps for
+the experiment on the specified target.
+
+The individual steps of the experiment are run with the following commands:
+
+- Build: `make build_[TARGET]_memory-bus-width-halfword`
+- Program: `make program_[TARGET]_memory-bus-width-halfword`
+- Capture: `make capture_[TARGET]_memory-bus-width-halfword USB_PORT=[PORT]`
+- Analyse: `make program_[TARGET]_memory-bus-width-halfword`
+
+*/
