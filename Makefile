@@ -28,11 +28,8 @@ EXPERIMENTS = example/add \
               example/ld-half \
               example/ld-word \
               memory-bus/bus-width-bytes \
-              memory-bus/bus-width-halfword
-#             memory-bus/per-byte \
-#             memory-bus/registers \
-#             memory-bus/aes-sbox \
-#             memory-bus/masked-aes
+              memory-bus/bus-width-halfword \
+              memory-bus/bus-width-word
 
 docs:
 	mkdir -p $(UAS_BUILD)/docs
