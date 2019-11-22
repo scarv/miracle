@@ -1,8 +1,8 @@
 /*!
 
 @defgroup experiments-memory-bus-width-halfwords Memory Bus Width - Halfwords 
-@brief Just how much data do we get when loading a halfword?
 @ingroup  experiments-memory
+@brief Just how much data do we get when loading a halfword?
 
 ## Background
 
