@@ -1,12 +1,15 @@
 /*!
 
-@defgroup experiments-memory-bus-width-halfwords Memory Bus Width - Halfwords 
+@defgroup experiments-memory-bus-width-ld-halfwords Bus Width - Load Halfword
 @ingroup  experiments-memory
 @brief Just how much data do we get when loading a halfword?
 
+@sa @ref experiments-memory-bus-width-ld-words
+@sa @ref experiments-memory-bus-width-ld-bytes
+
 ## Background
 
-This experiment is a repeat of @ref experiments-memory-bus-width-bytes
+This experiment is a repeat of @ref experiments-memory-bus-width-ld-bytes
 but using halfword load operations rather than byte loads.
 
 ## Running the experiment

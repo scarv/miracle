@@ -1,10 +1,11 @@
 /*!
 
-@defgroup experiments-memory-bus-width-bytes Memory Bus Width - Bytes
+@defgroup experiments-memory-bus-width-ld-bytes Bus Width - Load Byte
 @brief Can we discover memory bus widths from leakage analysis?
 @ingroup  experiments-memory
 
-@tableofcontents
+@sa @ref experiments-memory-bus-width-ld-words
+@sa @ref experiments-memory-bus-width-ld-halfwords
 
 ## Background
 
