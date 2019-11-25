@@ -1,0 +1,86 @@
+
+include $(UAS_ROOT)/Makefile.common
+
+TTPREFIX    = $(UAS_EXPERIMENT_BUILD)/ttest
+TTEST_LOG   = $(UAS_EXPERIMENT_BUILD)/$(TTEST_NAME)/ttest.log
+TTEST_SCOPE_CONFIG = $(UAS_ROOT)/target/$(UAS_TARGET)/capture/picoscope5000.cfg
+TTEST_POWER_CHANNEL= B
+TTEST_TRS_FIXED    = $(TTPREFIX)-fixedbits.npy.gz
+TTEST_TRS_TRACES   = $(TTPREFIX)-traces.npy.gz
+
+CAPTURE_TARGETS = 
+ANALYSE_TARGETS = 
+
+
+define map_ttest_dir
+$(TTPREFIX)-${1}-${2}
+endef
+
+define map_ttest_prefix
+$(call map_ttest_dir,${1},${2})/ttest
+endef
+
+define map_ttest_traces_npy
+$(call map_ttest_prefix,${1},${2})-traces.npy.gz
+endef
+
+define map_ttest_fixed_npy
+$(call map_ttest_prefix,${1},${2})-fixedbits.npy.gz
+endef
+
+define map_ttest_graph
+$(UAS_EXPERIMENT_BUILD)/ttrace-${1}-${2}-ttrace.svg
+endef
+
+#
+# Add a parameterised TTest capture target.
+#
+# 1. Index argument value
+# 2. Offset argument value
+#
+define add_capture_target
+
+capture-${1}-${2} :
+	-mkdir -p $(call map_ttest_dir,${1},${2})
+	@echo "    --- Index = ${1}, Offset = ${2} ---"
+	$(TTEST_CAPTURE) \
+        --zero-fixed \
+        --set idx=${1} off=${2} \
+        -n $(TTEST_NUM_TRACES) \
+        -l $(call map_ttest_dir,${1},${2})/ttest.log \
+        -b $(USB_BAUD) \
+           $(USB_PORT) \
+           $(TTEST_SCOPE_CONFIG) \
+           $(TTEST_POWER_CHANNEL) \
+          $(call map_ttest_prefix,${1},${2}) 
+
+CAPTURE_TARGETS += capture-${1}-${2}
+
+endef
+
+
+#
+# Add a parameterised TTest analysis target.
+#
+# 1. Index argument value
+# 2. Offset argument value
+#
+define add_analyse_target
+
+analyse-${1}-${2}:
+	$(TTEST_ANALYSE) \
+        --abs \
+        --graph-ttest $(call map_ttest_graph,${1},${2}) \
+        $(call map_ttest_fixed_npy,${1},${2}) \
+        $(call map_ttest_traces_npy,${1},${2})
+	$(STD_PLOTS) --avg-trace --minmax $(call map_ttest_traces_npy,${1},${2}) $(call map_ttest_traces_npy,${1},${2}).avg.svg
+	$(STD_PLOTS) --avg-trace --minmax $(call map_ttest_traces_npy,${1},${2}) $(call map_ttest_traces_npy,${1},${2}).avg.svg
+	$(STD_PLOTS) --stddev             $(call map_ttest_traces_npy,${1},${2}) $(call map_ttest_traces_npy,${1},${2}).std.svg
+	$(STD_PLOTS) --stddev             $(call map_ttest_traces_npy,${1},${2}) $(call map_ttest_traces_npy,${1},${2}).std.svg
+	$(STD_PLOTS) --range              $(call map_ttest_traces_npy,${1},${2}) $(call map_ttest_traces_npy,${1},${2}).rng.svg
+	$(STD_PLOTS) --range              $(call map_ttest_traces_npy,${1},${2}) $(call map_ttest_traces_npy,${1},${2}).rng.svg
+
+ANALYSE_TARGETS += analyse-${1}-${2}
+
+endef
+

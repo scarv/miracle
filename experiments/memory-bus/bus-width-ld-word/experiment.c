@@ -1,6 +1,6 @@
 
 /*!
-@ingroup experiments-memory-bus-width-halfwords
+@ingroup experiments-memory-bus-width-ld-words
 @{
 */
 

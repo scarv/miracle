@@ -4,8 +4,12 @@
 @brief Can we discover memory bus widths from leakage analysis?
 @ingroup  experiments-memory
 
-@sa @ref experiments-memory-bus-width-ld-words
+@sa @ref experiments-memory-bus-width-ld-bytes
 @sa @ref experiments-memory-bus-width-ld-halfwords
+@sa @ref experiments-memory-bus-width-ld-words
+@sa @ref experiments-memory-bus-width-st-bytes
+@sa @ref experiments-memory-bus-width-st-halfwords
+@sa @ref experiments-memory-bus-width-st-words
 
 ## Background
 
@@ -72,7 +76,7 @@ We expect to see either:
 
 ## Findings
 
-@todo Re-write bus-width-bytes experiment findings with new results.
+@todo Re-write bus-width-ld-bytes experiment findings with new results.
 
 ### Overview:
 
@@ -176,7 +180,7 @@ We expect to see either:
 To run all stages of the experiment for a particular target device:
 
 ```
-make -B USB_PORT=[PORT] UAS_TARGET=[TARGET] flow-memory-bus-bus-width-bytes
+make -B USB_PORT=[PORT] UAS_TARGET=[TARGET] flow-memory-bus-bus-width-ld-bytes
 ```
 
 Where:
@@ -188,10 +192,10 @@ the experiment on the specified target.
 
 The individual steps of the experiment are run with the following commands:
 
-- Build: `make build_[TARGET]_memory-bus-width-bytes`
-- Program: `make program_[TARGET]_memory-bus-width-bytes`
-- Capture: `make capture_[TARGET]_memory-bus-width-bytes USB_PORT=[PORT]`
-- Analyse: `make program_[TARGET]_memory-bus-width-bytes`
+- Build: `make build_[TARGET]_memory-bus-width-ld-bytes`
+- Program: `make program_[TARGET]_memory-bus-width-ld-bytes`
+- Capture: `make capture_[TARGET]_memory-bus-width-ld-bytes USB_PORT=[PORT]`
+- Analyse: `make program_[TARGET]_memory-bus-width-ld-bytes`
 
 ## References
 

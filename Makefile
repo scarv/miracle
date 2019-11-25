@@ -27,9 +27,12 @@ EXPERIMENTS = example/add \
               example/ld-byte \
               example/ld-half \
               example/ld-word \
+              memory-bus/bus-width-st-bytes \
+              memory-bus/bus-width-st-halfword \
+              memory-bus/bus-width-st-word \
               memory-bus/bus-width-ld-bytes \
               memory-bus/bus-width-ld-halfword \
-              memory-bus/bus-width-ld-word
+              memory-bus/bus-width-ld-word \
 
 docs:
 	mkdir -p $(UAS_BUILD)/docs

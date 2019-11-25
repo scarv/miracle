@@ -1,6 +1,6 @@
 
 /*!
-@ingroup experiments-memory-bus-width-ld-bytes
+@ingroup experiments-memory-bus-width-st-halfwords
 @{
 */
 
@@ -12,27 +12,27 @@
 #include "experiment.h"
 
 #ifndef DLEN
-    #define DLEN 128
+    #define DLEN 32
 #endif
 
-uint8_t  zeros     [DLEN]; //!< Array of zero'd bytes
-uint8_t  din_fixed       ; //!< TTest fixed input value.
-uint8_t  din_rand        ; //!< TTest random input value.
-uint8_t  din       [DLEN]; //!< Array of zeros except for TTest variable.
+uint32_t zeros     [DLEN]; //!< Array of zero'd bytes
+uint32_t din_fixed       ; //!< TTest fixed input value.
+uint32_t din_rand        ; //!< TTest random input value.
+uint32_t din       [DLEN]; //!< Array of zeros except for TTest variable.
 uint8_t  dindex          ; //!< Index into DIN to load/modify.
 uint8_t  doffset         ; //!< Offset of DIN to load during experiment_run
 
 //! Variables which the SCASS framework can control.
 scass_target_var  experiment_variables [] = {
-{"din" , 1, &din_rand, &din_fixed, SCASS_FLAGS_TTEST_IN},
+{"din" , 4, &din_rand, &din_fixed, SCASS_FLAGS_TTEST_IN},
 {"idx" , 1, &dindex  , &dindex   , SCASS_FLAG_INPUT    },
 {"off" , 1, &doffset , &doffset  , SCASS_FLAG_INPUT    }
 };
 
 //! Declaration for the experiment payload function in load-byte.S
 extern void     * experiment_payload(
-    uint8_t * zeros,
-    uint8_t * data
+    uint32_t * zeros,
+    uint32_t * data
 );
 
 /*!
@@ -78,7 +78,7 @@ void experiment_setup_scass(
     cfg -> scass_experiment_init = experiment_init;
     cfg -> scass_experiment_run  = experiment_run ;
 
-    cfg -> experiment_name       = "memory/bus-width-bytes";
+    cfg -> experiment_name       = "memory/bus-width-st-word";
 
     cfg -> variables             = experiment_variables ;
     cfg -> num_variables         = 3                    ;

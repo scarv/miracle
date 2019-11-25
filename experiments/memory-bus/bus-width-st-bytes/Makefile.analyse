@@ -1,0 +1,17 @@
+
+include $(UAS_ROOT)/Makefile.common
+include $(UAS_EXPERIMENT_SRC)/Makefile.common
+
+$(eval $(call add_analyse_target,5,5))
+$(eval $(call add_analyse_target,5,0))
+$(eval $(call add_analyse_target,5,1))
+$(eval $(call add_analyse_target,5,2))
+$(eval $(call add_analyse_target,5,3))
+$(eval $(call add_analyse_target,5,4))
+$(eval $(call add_analyse_target,5,6))
+$(eval $(call add_analyse_target,5,7))
+$(eval $(call add_analyse_target,5,8))
+
+analyse: $(ANALYSE_TARGETS)
+
+
