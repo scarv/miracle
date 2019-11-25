@@ -1,0 +1,74 @@
+
+#include "kernel-macros.h"
+
+.text
+
+.global experiment_payload
+experiment_payload:
+    
+    FUNC_ENTER
+
+    XOR_RR(ARG_3,ARG_3,ARG_3)
+    XOR_RR(TMP_0,TMP_0,TMP_0)
+    XOR_RR(TMP_1,TMP_1,TMP_1)
+    
+    LOAD_UBYTE_RI(TMP_0,ARG_0, 0)
+
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    
+    LOAD_UBYTE_RI(TMP_0,ARG_0, 0)
+
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+
+    LOAD_UBYTE_RI(TMP_1,ARG_1, 0)
+
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+
+    LOAD_UBYTE_RI(TMP_0,ARG_2, 0)
+
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    
+    LOAD_UBYTE_RI(TMP_0,ARG_0, 0)
+
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+
+    FUNC_RETURN
+
+.global experiment_payload_end
+experiment_payload_end:
+

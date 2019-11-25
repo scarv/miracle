@@ -1,0 +1,52 @@
+/*!
+
+@defgroup experiments-memory-registers-ld-byte Registers - Load Byte
+@brief Are there un-documented registers in the memory load path?
+@ingroup  experiments-memory
+
+## Background
+
+
+## Purpose:
+
+
+## Method:
+
+
+## Expectations:
+
+
+## Findings
+
+@todo Re-write bus-width-ld-bytes experiment findings with new results.
+
+## Running the experiment
+
+To run all stages of the experiment for a particular target device:
+
+```
+make -B USB_PORT=[PORT] UAS_TARGET=[TARGET] flow-memory-bus-registers-ld-byte
+```
+
+Where:
+- `[PORT]` Is the UART/Serial port to communicate with it over.
+- `[TARGET]` Is one of the target names listed in @ref targets
+
+This will run all of the build, program, capture and analyse steps for
+the experiment on the specified target.
+
+The individual steps of the experiment are run with the following commands:
+
+- Build: `make build_[TARGET]_memory-bus-registers-ld-byte`
+- Program: `make program_[TARGET]_memory-bus-registers-ld-byte`
+- Capture: `make capture_[TARGET]_memory-bus-registers-ld-byte USB_PORT=[PORT]`
+- Analyse: `make program_[TARGET]_memory-bus-registers-ld-byte`
+
+## References
+
+1. [ARM AMBA 5 AHB Protocol Specification AHB5, AHB-Lite](https://static.docs.arm.com/ihi0033/bb/IHI0033B_B_amba_5_ahb_protocol_spec.pdf)
+2. [ARM AMBA AXI and ACE Protocol Specification AXI3, AXI4, AXI5, ACE and ACE5](https://static.docs.arm.com/ihi0022/fb/IHI0022F_b_amba_axi_protocol_spec.pdf)
+3. [Xilinx Local Memory Bus (LMB) v3.0 LogiCORE IP Product Guide](https://www.xilinx.com/support/documentation/ip_documentation/lmb_v10/v3_0/pg113-lmb-v10.pdf)
+4. [Xilinx UG984 Microblaze Processor Reference Guide](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_3/ug984-vivado-microblaze-ref.pdf)
+
+*/
