@@ -35,6 +35,7 @@ EXPERIMENTS = example/add \
               memory-bus/bus-width-ld-word \
               memory-bus/registers-ld-byte
 
+.PHONY: docs
 docs:
 	mkdir -p $(UAS_BUILD)/docs
 	doxygen docs/experiments.doxyfile
