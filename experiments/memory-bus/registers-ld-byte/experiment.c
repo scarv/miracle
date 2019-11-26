@@ -88,6 +88,7 @@ void experiment_setup_scass(
     cfg -> variables             = experiment_variables ;
     cfg -> num_variables         = 4                    ;
     cfg -> randomness_len        = experiment_variables[0].size;
+    cfg -> randomness_refresh_rate = 1;
 
 }
 
