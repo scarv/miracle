@@ -1,6 +1,6 @@
 
 /*!
-@ingroup experiments-memory-bus-width-ld-bytes
+@ingroup experiments-memory-registers-ld-byte
 @{
 */
 

@@ -4,6 +4,9 @@
 @ingroup  experiments-memory
 @brief Are there un-documented registers in the memory load path?
 
+@see @ref experiments-memory-registers-ld-byte
+@see @ref experiments-memory-registers-st-byte
+
 ## Background
 
 While pipeline registers and registers inside the CPU more generally
