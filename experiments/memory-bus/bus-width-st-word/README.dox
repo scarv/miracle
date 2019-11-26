@@ -1,6 +1,6 @@
 /*!
 
-@defgroup experiments-memory-bus-width-st-words Bus Width - Store Byte
+@defgroup experiments-memory-bus-width-st-words Bus Width - Store Word
 @brief Can we discover memory bus widths from leakage analysis?
 @ingroup  experiments-memory
 
