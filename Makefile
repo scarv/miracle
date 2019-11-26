@@ -33,6 +33,7 @@ EXPERIMENTS = example/add \
               memory-bus/bus-width-ld-bytes \
               memory-bus/bus-width-ld-halfword \
               memory-bus/bus-width-ld-word \
+              memory-bus/registers-st-byte \
               memory-bus/registers-ld-byte
 
 .PHONY: docs
