@@ -1,20 +1,69 @@
 /*!
 
 @defgroup experiments-memory-registers-ld-byte Registers - Load Byte
-@brief Are there un-documented registers in the memory load path?
 @ingroup  experiments-memory
+@brief Are there un-documented registers in the memory load path?
 
 ## Background
 
+While pipeline registers and registers inside the CPU more generally
+must be considered from a leakage perspective, so too must any registers
+in the memory hierarchy.
+These tend to be even more opaque than CPU registers.
+One may assume for a given pipeline stage, that some data is
+registered by that stage.
+Pipeline structure (however roughly) is often available to the programmer.
+Even the number of stages and their names can help with this.
+For the memory hierarchy, such information is almost never available,
+so techniques for deducing such behaviour emprically are needed.
 
 ## Purpose:
 
+To discover if there are any un-expected registers which could cause
+hamming weight or distance leakage related to the data load path.
 
 ## Method:
+
+- Start with two arrays:
+  - A `zeros` array, which contains only zeros.
+  - A `din` array, which is all zeros except for two elements.
+    - `idx1` and `idx2` are indicies within the array, which point
+      to variables which are randomised or fixed as part of a TTest.
+    - The exact values of `idx1` and `idx2` are parameters to the test,
+      allowing the affect of crossing word boundaries to be investigated.
+  - Before each run of the experiment, the array elements at
+    `idx1` and `idx2` are both set to either fixed or random values.
+    - Both the fixed or random values are xor'd with *the same* mask
+      variable, which is uniformly random and re-generated for each
+      test iteration.
+    - Hence, when loading the values at `idx1` and `idx2`, we should
+      only see leakage iff their values are combined.
+- Run the following experiment kernel
+  - Load a byte from the zeros array to clear the load data path and
+    assoicated registers as best we can.
+  - Load the value at `idx1` into a CPU register.
+  - Load the value at `idx2` into a different CPU register.
+  - Load a byte from the zeros array again.
 
 
 ## Expectations:
 
+If there are no state elements in the data load path, we should
+not see the values at `idx1` and `idx2` interract, and hence not see
+any first order leakage peaks.
+
+If there are state elements which remember the last loaded value, we
+would expect that loading the value at `idx1` will set it's value
+in a register.
+Then loading the value at `idx2` causes an overwrite, which, because
+they are masked with the same value, will cause first order
+hamming distance leakage.
+We would expect then that the first load of `idx1` would never leak,
+but the load of `idx2` would always leak iff there is some intermediate
+storage of loaded values.
+
+Clearly, this would undermine a masking scheme which doesn't
+compensate for the effect.
 
 ## Findings
 
