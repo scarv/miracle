@@ -1,0 +1,53 @@
+/*!
+
+@defgroup experiments-memory-registers-implicit-ld-2 Implicit Memory Read 2
+@ingroup  experiments-memory
+@brief Do we accidentally do a load to undocumented registers on a store?
+
+@see @ref experiments-memory-registers-ld-byte
+@see @ref experiments-memory-registers-st-byte
+@see @ref experiments-memory-registers-implicit-ld-1
+@see @ref experiments-memory-registers-implicit-ld-2
+
+@note This experiment is identical to 
+@ref experiments-memory-registers-implicit-ld-1 but it does a store then a load, rather than load then store.
+
+## Purpose:
+
+To discover if the RAMS on the target device implicitly load memory
+data into a register when it is over-written by a store.
+
+## Method:
+
+@todo registers-implicit-ld-2 method.
+
+## Expectations:
+
+
+## Findings
+
+@todo Re-write registers-implicit-ld-2 experiment findings with new results.
+
+## Running the experiment
+
+To run all stages of the experiment for a particular target device:
+
+```
+make -B USB_PORT=[PORT] UAS_TARGET=[TARGET] flow-memory-bus-registers-implicit-ld-2
+```
+
+Where:
+- `[PORT]` Is the UART/Serial port to communicate with it over.
+- `[TARGET]` Is one of the target names listed in @ref targets
+
+This will run all of the build, program, capture and analyse steps for
+the experiment on the specified target.
+
+The individual steps of the experiment are run with the following commands:
+
+- Build: `make build_[TARGET]_memory-bus-registers-implicit-ld-2`
+- Program: `make program_[TARGET]_memory-bus-registers-implicit-ld-2`
+- Capture: `make capture_[TARGET]_memory-bus-registers-implicit-ld-2 USB_PORT=[PORT]`
+- Analyse: `make program_[TARGET]_memory-bus-registers-implicit-ld-2`
+
+*/
