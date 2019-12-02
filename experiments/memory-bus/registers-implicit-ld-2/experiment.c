@@ -15,12 +15,16 @@
     #define DLEN 128
 #endif
 
+#define RLEN 1
+
 uint8_t  zeros     [DLEN]; //!< TTest fixed input value.
 uint8_t  di1_fixed,di1_rand ; //!< TTest random input values.
 uint8_t  di2_fixed,di2_rand ; //!< TTest random input values.
 uint8_t  din       [DLEN]; //!< Array of zeros except for TTest variable.
 uint8_t  dindex1         ; //!< Index into DIN to load/modify.
 uint8_t  dindex2         ; //!< Offset of DIN to load during experiment_run
+
+uint8_t  randomness[RLEN]; //!< Array of random bytes managed by SCASS.
 
 //! Variables which the SCASS framework can control.
 scass_target_var  experiment_variables [] = {
@@ -87,7 +91,8 @@ void experiment_setup_scass(
 
     cfg -> variables             = experiment_variables ;
     cfg -> num_variables         = 4                    ;
-    cfg -> randomness_len        = experiment_variables[0].size;
+    cfg -> randomness            = randomness;
+    cfg -> randomness_len        = RLEN;
     cfg -> randomness_refresh_rate = 1;
 
 }
