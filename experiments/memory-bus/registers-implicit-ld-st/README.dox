@@ -1,16 +1,16 @@
 /*!
 
-@defgroup experiments-memory-registers-implicit-ld-2 Implicit Memory Read 2
+@defgroup experiments-memory-registers-implicit-ld-st Implicit Load/Store
 @ingroup  experiments-memory
 @brief Do we accidentally do a load to undocumented registers on a store?
 
 @see @ref experiments-memory-registers-ld-byte
 @see @ref experiments-memory-registers-st-byte
-@see @ref experiments-memory-registers-implicit-ld-1
-@see @ref experiments-memory-registers-implicit-ld-2
+@see @ref experiments-memory-registers-implicit-st-ld
+@see @ref experiments-memory-registers-implicit-ld-st
 
 @note This experiment is identical to 
-@ref experiments-memory-registers-implicit-ld-1 but it does a store then a load, rather than load then store.
+@ref experiments-memory-registers-implicit-st-ld but it does a store then a load, rather than load then store.
 
 ## Purpose:
 
@@ -19,21 +19,21 @@ data into a register when it is over-written by a store.
 
 ## Method:
 
-@todo registers-implicit-ld-2 method.
+@todo registers-implicit-ld-st method.
 
 ## Expectations:
 
 
 ## Findings
 
-@todo Re-write registers-implicit-ld-2 experiment findings with new results.
+@todo Re-write registers-implicit-ld-st experiment findings with new results.
 
 ## Running the experiment
 
 To run all stages of the experiment for a particular target device:
 
 ```
-make -B USB_PORT=[PORT] UAS_TARGET=[TARGET] flow-memory-bus-registers-implicit-ld-2
+make -B USB_PORT=[PORT] UAS_TARGET=[TARGET] flow-memory-bus-registers-implicit-ld-st
 ```
 
 Where:
@@ -45,9 +45,9 @@ the experiment on the specified target.
 
 The individual steps of the experiment are run with the following commands:
 
-- Build: `make build_[TARGET]_memory-bus-registers-implicit-ld-2`
-- Program: `make program_[TARGET]_memory-bus-registers-implicit-ld-2`
-- Capture: `make capture_[TARGET]_memory-bus-registers-implicit-ld-2 USB_PORT=[PORT]`
-- Analyse: `make program_[TARGET]_memory-bus-registers-implicit-ld-2`
+- Build: `make build_[TARGET]_memory-bus-registers-implicit-ld-st`
+- Program: `make program_[TARGET]_memory-bus-registers-implicit-ld-st`
+- Capture: `make capture_[TARGET]_memory-bus-registers-implicit-ld-st USB_PORT=[PORT]`
+- Analyse: `make program_[TARGET]_memory-bus-registers-implicit-ld-st`
 
 */

@@ -11,7 +11,6 @@ experiment_payload:
     XOR_RR(ARG_3,ARG_3,ARG_3)
     XOR_RR(TMP_0,TMP_0,TMP_0)
     XOR_RR(TMP_1,TMP_1,TMP_1)
-    
 
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
@@ -39,7 +38,7 @@ experiment_payload:
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
-    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP; XOR_RR(TMP_1,TMP_1,TMP_1);
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;

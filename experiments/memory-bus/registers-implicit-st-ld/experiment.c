@@ -105,7 +105,7 @@ void experiment_setup_scass(
     cfg -> scass_experiment_pre_run  = experiment_pre_run ;
     cfg -> scass_experiment_run  = experiment_run ;
 
-    cfg -> experiment_name       = "memory/registers-implicit-ld-1";
+    cfg -> experiment_name       = "memory/registers-implicit-st-ld";
 
     cfg -> variables             = experiment_variables ;
     cfg -> num_variables         = 4                    ;
