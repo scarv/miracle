@@ -35,8 +35,8 @@ endef
 #
 # Add a parameterised TTest capture target.
 #
-# 1. Index argument value
-# 2. Offset argument value
+# 1. Index1 argument value
+# 2. Index2 argument value
 #
 define add_capture_target
 
@@ -62,8 +62,8 @@ endef
 #
 # Add a parameterised TTest analysis target.
 #
-# 1. Index argument value
-# 2. Offset argument value
+# 1. Index1 argument value
+# 2. Index2 argument value
 #
 define add_analyse_target
 

@@ -12,7 +12,6 @@ experiment_payload:
     XOR_RR(TMP_0,TMP_0,TMP_0)
     XOR_RR(TMP_1,TMP_1,TMP_1)
     
-    LOAD_UBYTE_RI(TMP_0,ARG_0, 0)
 
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
@@ -35,7 +34,7 @@ experiment_payload:
     ANOP; ANOP; ANOP; ANOP;
 
     // Load idx2
-    LOAD_UBYTE_RI(TMP_0,ARG_2, 0)
+    LOAD_UBYTE_RI(TMP_0,ARG_1, 0)
 
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
@@ -47,7 +46,7 @@ experiment_payload:
     ANOP; ANOP; ANOP; ANOP;
 
     // Store zero to idx1
-    STORE_BYTE_RI(TMP_1,ARG_1, 0)
+    STORE_BYTE_RI(TMP_1,ARG_2, 0)
 
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;

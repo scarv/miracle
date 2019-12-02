@@ -53,6 +53,25 @@ uint8_t experiment_init(
     return 0;
 }
 
+    
+/*!
+@brief Automatically called before every experiment run.
+@param cfg - The scass_target_cfg object associated with the experiment.
+@param fixed - Use fixed variants of each variable
+@returns 0 on success, non-zero on failure.
+@details Clears the din array to zeros.
+*/
+uint8_t experiment_pre_run(
+    scass_target_cfg * cfg,
+    char               fixed
+){
+    for(int i = 0; i < DLEN; i ++) {
+        din  [i] = 0;
+    }
+    return 0;
+}
+
+
 /*!
 @details Runs the experiment, then finishes.
 */
@@ -60,18 +79,16 @@ uint8_t experiment_run(
     scass_target_cfg * cfg,  //!< SCASS Framework configuration object.
     char               fixed //!< used fixed variants of variables?
 ){
-    
-    uint8_t mask = cfg -> randomness[0];
 
-    din[dindex1] = (fixed ? di1_fixed: di1_rand) ^ mask;
-    din[dindex2] = (fixed ? di2_fixed: di2_rand) ^ mask;
+    din[dindex1] = fixed ? di1_fixed: di1_rand;
+    din[dindex2] = fixed ? di2_fixed: di2_rand;
 
     uas_bsp_trigger_set();
     
     experiment_payload(
         zeros,
-        &din[dindex1],
-        &din[dindex2]
+        din+dindex1 ,
+        din+dindex2 
     );
     
     uas_bsp_trigger_clear();
@@ -85,6 +102,7 @@ void experiment_setup_scass(
 ){
 
     cfg -> scass_experiment_init = experiment_init;
+    cfg -> scass_experiment_pre_run  = experiment_pre_run ;
     cfg -> scass_experiment_run  = experiment_run ;
 
     cfg -> experiment_name       = "memory/registers-implicit-ld-1";
@@ -92,8 +110,8 @@ void experiment_setup_scass(
     cfg -> variables             = experiment_variables ;
     cfg -> num_variables         = 4                    ;
     cfg -> randomness            = randomness;
-    cfg -> randomness_len        = RLEN;
-    cfg -> randomness_refresh_rate = 1;
+    cfg -> randomness_len        = 0;
+    cfg -> randomness_refresh_rate = 0;
 
 }
 
