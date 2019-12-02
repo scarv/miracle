@@ -1,6 +1,6 @@
 
 /*!
-@ingroup experiments-memory-registers-ld-byte
+@ingroup experiments-memory-registers-implicit-ld-ld
 @{
 */
 
@@ -34,7 +34,7 @@ scass_target_var  experiment_variables [] = {
 {"idx2", 1, &dindex2 , &dindex2  , SCASS_FLAG_INPUT    },
 };
 
-//! Declaration for the experiment payload function in load-byte.S
+//! Declaration for the experiment payload function in ldst-byte.S
 extern void     * experiment_payload(
     uint8_t * zeros,
     uint8_t * data1,
@@ -60,18 +60,16 @@ uint8_t experiment_run(
     scass_target_cfg * cfg,  //!< SCASS Framework configuration object.
     char               fixed //!< used fixed variants of variables?
 ){
-    
-    uint8_t mask = cfg -> randomness[0];
 
-    din[dindex1] = (fixed ? di1_fixed: di1_rand) ^ mask;
-    din[dindex2] = (fixed ? di2_fixed: di2_rand) ^ mask;
+    din[dindex1] = (fixed ? di1_fixed: di1_rand);
+    din[dindex2] = (fixed ? di2_fixed: di2_rand);
 
     uas_bsp_trigger_set();
     
     experiment_payload(
         zeros,
-        &din[dindex1],
-        &din[dindex2]
+        din+dindex1,
+        din+dindex2 
     );
     
     uas_bsp_trigger_clear();
@@ -87,13 +85,13 @@ void experiment_setup_scass(
     cfg -> scass_experiment_init = experiment_init;
     cfg -> scass_experiment_run  = experiment_run ;
 
-    cfg -> experiment_name       = "memory/registers-ld-byte";
+    cfg -> experiment_name       = "memory/registers-implicit-ld-ld";
 
     cfg -> variables             = experiment_variables ;
     cfg -> num_variables         = 4                    ;
     cfg -> randomness            = randomness;
-    cfg -> randomness_len        = RLEN;
-    cfg -> randomness_refresh_rate = 1;
+    cfg -> randomness_len        = 0;
+    cfg -> randomness_refresh_rate = 0;
 
 }
 

@@ -1,6 +1,6 @@
 /*!
 
-@defgroup experiments-memory-registers-implicit-ld-st Implicit Load/Store
+@defgroup experiments-memory-registers-implicit-st-st Implicit Store/Store
 @ingroup  experiments-memory
 @brief Do we accidentally do a load to undocumented registers on a store?
 
@@ -19,21 +19,21 @@ data into a register when it is over-written by a store.
 
 ## Method:
 
-@todo registers-implicit-ld-st method.
+@todo registers-implicit-st-st method.
 
 ## Expectations:
 
 
 ## Findings
 
-@todo Re-write registers-implicit-ld-st experiment findings with new results.
+@todo Re-write registers-implicit-st-st experiment findings with new results.
 
 ## Running the experiment
 
 To run all stages of the experiment for a particular target device:
 
 ```
-make -B USB_PORT=[PORT] UAS_TARGET=[TARGET] flow-memory-bus-registers-implicit-ld-st
+make -B USB_PORT=[PORT] UAS_TARGET=[TARGET] flow-memory-bus-registers-implicit-st-st
 ```
 
 Where:
@@ -45,9 +45,9 @@ the experiment on the specified target.
 
 The individual steps of the experiment are run with the following commands:
 
-- Build: `make build_[TARGET]_memory-bus-registers-implicit-ld-st`
-- Program: `make program_[TARGET]_memory-bus-registers-implicit-ld-st`
-- Capture: `make capture_[TARGET]_memory-bus-registers-implicit-ld-st USB_PORT=[PORT]`
-- Analyse: `make program_[TARGET]_memory-bus-registers-implicit-ld-st`
+- Build: `make build_[TARGET]_memory-bus-registers-implicit-st-st`
+- Program: `make program_[TARGET]_memory-bus-registers-implicit-st-st`
+- Capture: `make capture_[TARGET]_memory-bus-registers-implicit-st-st USB_PORT=[PORT]`
+- Analyse: `make program_[TARGET]_memory-bus-registers-implicit-st-st`
 
 */

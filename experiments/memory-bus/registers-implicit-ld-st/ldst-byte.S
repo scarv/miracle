@@ -32,7 +32,7 @@ experiment_payload:
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
 
-    // Load idx2
+    // Load idx1 / TTest variable 1
     LOAD_UBYTE_RI(TMP_0,ARG_1, 0)
 
     ANOP; ANOP; ANOP; ANOP;
@@ -44,7 +44,7 @@ experiment_payload:
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
 
-    // Store zero to idx1
+    // Store zero to idx2 /  overwrite TTest variable 2
     STORE_BYTE_RI(TMP_1,ARG_2, 0)
 
     ANOP; ANOP; ANOP; ANOP;

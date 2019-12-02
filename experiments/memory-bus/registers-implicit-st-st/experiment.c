@@ -1,6 +1,6 @@
 
 /*!
-@ingroup experiments-memory-registers-st-byte
+@ingroup experiments-memory-registers-implicit-st-st
 @{
 */
 
@@ -34,12 +34,12 @@ scass_target_var  experiment_variables [] = {
 {"idx2", 1, &dindex2 , &dindex2  , SCASS_FLAG_INPUT    },
 };
 
-//! Declaration for the experiment payload function in store-byte.S
+//! Declaration for the experiment payload function in ldst-byte.S
 extern void     * experiment_payload(
-    uint8_t * idx1,
-    uint8_t * idx2, 
-    uint8_t   d1  ,
-    uint8_t   d2
+    uint8_t * data1,
+    uint8_t * data2,
+    uint8_t   a1,
+    uint8_t   a2
 );
 
 /*!
@@ -48,19 +48,8 @@ extern void     * experiment_payload(
 uint8_t experiment_init(
     scass_target_cfg * cfg //!< SCASS Framework configuration object.
 ) {
-    return 0;
-}
- 
-/*!
-@brief Runs prior to each experiment. Used for setup.
-*/
-uint8_t experiment_pre_run(
-        scass_target_cfg * cfg,
-        char               fixed
-){
     for(int i = 0; i < DLEN; i ++) {
         din  [i] = 0;
-        zeros[i] = 0;
     }
     return 0;
 }
@@ -72,19 +61,17 @@ uint8_t experiment_run(
     scass_target_cfg * cfg,  //!< SCASS Framework configuration object.
     char               fixed //!< used fixed variants of variables?
 ){
-    
-    uint8_t mask = cfg -> randomness[0];
 
-    uint8_t d1 = (fixed ? di1_fixed: di1_rand) ^ mask;
-    uint8_t d2 = (fixed ? di2_fixed: di2_rand) ^ mask;
+    uint8_t a1 = (fixed ? di1_fixed: di1_rand);
+    uint8_t a2 = (fixed ? di2_fixed: di2_rand);
 
     uas_bsp_trigger_set();
     
     experiment_payload(
-        &din[dindex1],
-        &din[dindex2],
-        d1           ,
-        d2
+        din+dindex1,
+        din+dindex2,
+        a1,
+        a2
     );
     
     uas_bsp_trigger_clear();
@@ -97,17 +84,16 @@ void experiment_setup_scass(
     scass_target_cfg * cfg //!< The config object to setup.
 ){
 
-    cfg -> scass_experiment_init    = experiment_init;
-    cfg -> scass_experiment_pre_run = experiment_pre_run;
-    cfg -> scass_experiment_run     = experiment_run ;
+    cfg -> scass_experiment_init = experiment_init;
+    cfg -> scass_experiment_run  = experiment_run ;
 
-    cfg -> experiment_name       = "memory/registers-st-byte";
+    cfg -> experiment_name       = "memory/registers-implicit-st-st";
 
     cfg -> variables             = experiment_variables ;
     cfg -> num_variables         = 4                    ;
     cfg -> randomness            = randomness;
-    cfg -> randomness_len        = RLEN;
-    cfg -> randomness_refresh_rate = 1;
+    cfg -> randomness_len        = 0;
+    cfg -> randomness_refresh_rate = 0;
 
 }
 

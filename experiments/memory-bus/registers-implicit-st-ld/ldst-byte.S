@@ -32,7 +32,7 @@ experiment_payload:
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
 
-    // Store zero to idx1
+    // Store zero to idx1, overwriting TTest variable 1
     STORE_BYTE_RI(TMP_0,ARG_1, 0)
 
     ANOP; ANOP; ANOP; ANOP;

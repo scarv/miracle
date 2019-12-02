@@ -4,10 +4,10 @@
 @ingroup  experiments-memory
 @brief Do we accidentally do a load to undocumented registers on a store?
 
-@see @ref experiments-memory-registers-ld-byte
-@see @ref experiments-memory-registers-st-byte
 @see @ref experiments-memory-registers-implicit-st-ld
 @see @ref experiments-memory-registers-implicit-ld-st
+@see @ref experiments-memory-registers-implicit-ld-ld
+@see @ref experiments-memory-registers-implicit-st-st
 
 @note This experiment is identical to 
 @ref experiments-memory-registers-implicit-ld-st but it does a load then a store, rather than store then load.

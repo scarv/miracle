@@ -1,6 +1,6 @@
 
 /*!
-@ingroup experiments-memory-registers-implicit-ld-1
+@ingroup experiments-memory-registers-implicit-st-ld
 @{
 */
 
