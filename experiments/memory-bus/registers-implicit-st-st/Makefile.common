@@ -66,8 +66,22 @@ endef
 # 2. Offset argument value
 #
 define add_analyse_target
+	
+analyse-${1}-${2}-cpa:
+	$(CPA_HW) \
+        --trace-filter-out $(call map_ttest_fixed_npy,${1},${2}) \
+        --logfile $(call map_ttest_dir,${1},${2})/cpa-2.log \
+        --graph   $(call map_ttest_dir,${1},${2})/../${1}-${2}-cpa-1.svg \
+        $(call map_ttest_traces_npy,${1},${2}) \
+        $(call map_ttest_prefix,${1},${2})-var-di1.npy.gz
+	$(CPA_HW) \
+        --trace-filter-out $(call map_ttest_fixed_npy,${1},${2}) \
+        --logfile $(call map_ttest_dir,${1},${2})/cpa-2.log \
+        --graph   $(call map_ttest_dir,${1},${2})/../${1}-${2}-cpa-2.svg \
+        $(call map_ttest_traces_npy,${1},${2}) \
+        $(call map_ttest_prefix,${1},${2})-var-di2.npy.gz
 
-analyse-${1}-${2}:
+analyse-${1}-${2}-ttest:
 	$(TTEST_ANALYSE) \
         --abs \
         --graph-ttest $(call map_ttest_graph,${1},${2}) \
@@ -80,7 +94,7 @@ analyse-${1}-${2}:
 	$(STD_PLOTS) --range              $(call map_ttest_traces_npy,${1},${2}) $(call map_ttest_traces_npy,${1},${2}).rng.svg
 	$(STD_PLOTS) --range              $(call map_ttest_traces_npy,${1},${2}) $(call map_ttest_traces_npy,${1},${2}).rng.svg
 
-ANALYSE_TARGETS += analyse-${1}-${2}
+ANALYSE_TARGETS += analyse-${1}-${2}-cpa analyse-${1}-${2}-ttest
 
 endef
 

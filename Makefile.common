@@ -10,6 +10,7 @@ UAS_EXPERIMENT_BUILD = $(UAS_BUILD)/$(UAS_EXPERIMENT)/$(UAS_TARGET)
 TTEST_CAPTURE       ?= $(UAS_ROOT)/external/fw-acquisition/bin/ttest_capture.py
 TTEST_ANALYSE       ?= $(UAS_ROOT)/external/fw-acquisition/bin/ttest_analyse.py
 STD_PLOTS           ?= $(UAS_ROOT)/external/fw-acquisition/bin/trace-plots.py
+CPA_HW              ?= $(UAS_ROOT)/external/fw-acquisition/bin/cpa-hw.py
 
 USB_PORT            ?= /dev/ttyUSB0
 USB_BAUD            ?= 9600
