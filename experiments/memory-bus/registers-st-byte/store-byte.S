@@ -7,6 +7,15 @@
 experiment_payload:
     
     FUNC_ENTER
+    
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
 
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
@@ -17,7 +26,7 @@ experiment_payload:
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
     
-    STORE_BYTE_RI(ARG_1,ARG_0, 0)
+    STORE_BYTE_RI(ARG_2,ARG_0, 0)
 
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
@@ -28,7 +37,7 @@ experiment_payload:
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
 
-    STORE_BYTE_RI(ARG_2,ARG_1, 0)
+    STORE_BYTE_RI(ARG_3,ARG_1, 0)
 
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
