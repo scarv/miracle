@@ -28,5 +28,10 @@
 #define MNOP                      nop           
 #define MULTIPLY_RR (RD,RA,RB)    muls RD,RM,RD 
 
-#define FUNC_ENTER                push {r4, r5, r6, r7, lr}
+#define FUNC_ENTER                push {r4, r5, r6, r7, lr} ; \
+                                  eor   r4, r4 ; \
+                                  eor   r5, r5 ; \
+                                  eor   r6, r6 ; \
+                                  eor   r7, r7 ; \
+
 #define FUNC_RETURN               pop  {r4, r5, r6, r7, pc}

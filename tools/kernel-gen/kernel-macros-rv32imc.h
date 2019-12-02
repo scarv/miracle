@@ -26,6 +26,10 @@
 #define MNOP                      nop           
 #define MULTIPLY_RR (RD,RA,RB)    mul  RD,RM,RD 
 
-#define FUNC_ENTER                nop
+#define FUNC_ENTER                xor t0, t0, t0;\
+                                  xor t1, t1, t1;\
+                                  xor t2, t2, t2;\
+                                  xor t3, t3, t3;\
+
 #define FUNC_RETURN               ret  ;\
                                   nop
