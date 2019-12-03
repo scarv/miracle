@@ -261,12 +261,13 @@ endef
 #
 define tgt_cpa_hw_ttest
 
+$(call map_ttest_cpa_hw_plot,${1},${2}) : $(CPA_HW)
 $(call map_ttest_cpa_hw_plot,${1},${2}) : $(call map_ttest_traces_npy,${1}) \
                                           $(call map_ttest_var_npy,${1},${2})
 	$(CPA_HW) \
         --trace-filter-out $(call map_ttest_fixed_npy,${1}) \
         --graph  $${@} \
-        $${^}
+        $(call map_ttest_traces_npy,${1}) $(call map_ttest_var_npy,${1},${2})
 
 endef
 
@@ -281,6 +282,7 @@ endef
 #
 define tgt_cpa_hd_ttest
 
+$(call map_ttest_cpa_hd_plot,${1},${2},${3}) : $(CPA_HD)
 $(call map_ttest_cpa_hd_plot,${1},${2},${3}) :\
         $(call map_ttest_traces_npy,${1}) \
         $(call map_ttest_var_npy,${1},${2})\
@@ -288,7 +290,9 @@ $(call map_ttest_cpa_hd_plot,${1},${2},${3}) :\
 	$(CPA_HD) \
         --trace-filter-out $(call map_ttest_fixed_npy,${1}) \
         --graph  $${@} \
-        $${^}
+	    $(call map_ttest_traces_npy,${1}) \
+	    $(call map_ttest_var_npy,${1},${2})\
+	    $(call map_ttest_var_npy,${1},${3})
 
 endef
 
