@@ -3,7 +3,7 @@ include $(UAS_ROOT)/Makefile.common
 
 ANALYSE_TARGETS = 
 
-IDX2S = 16 19 20 64
+IDX2S = 16 19 20
 
 define add_analysis_targets
 

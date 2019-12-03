@@ -12,15 +12,15 @@
 #include "experiment.h"
 
 #ifndef DLEN
-    #define DLEN 128
+    #define DLEN 32
 #endif
 
 #define RLEN 1
 
-uint8_t  zeros     [DLEN]; //!< TTest fixed input value.
-uint8_t  di1_fixed,di1_rand ; //!< TTest random input values.
-uint8_t  di2_fixed,di2_rand ; //!< TTest random input values.
-uint8_t  din       [DLEN]; //!< Array of zeros except for TTest variable.
+uint32_t  zeros     [DLEN]; //!< TTest fixed input value.
+uint32_t  di1_fixed,di1_rand ; //!< TTest random input values.
+uint32_t  di2_fixed,di2_rand ; //!< TTest random input values.
+uint32_t  din       [DLEN]; //!< Array of zeros except for TTest variable.
 uint8_t  dindex1         ; //!< Index into DIN to load/modify.
 uint8_t  dindex2         ; //!< Offset of DIN to load during experiment_run
 
@@ -28,17 +28,17 @@ uint8_t  randomness[RLEN]; //!< Array of random bytes managed by SCASS.
 
 //! Variables which the SCASS framework can control.
 scass_target_var  experiment_variables [] = {
-{"di1" , 1, &di1_rand, &di1_fixed, SCASS_FLAGS_TTEST_IN},
-{"di2" , 1, &di2_rand, &di2_fixed, SCASS_FLAGS_TTEST_IN},
+{"di1" , 4, &di1_rand, &di1_fixed, SCASS_FLAGS_TTEST_IN},
+{"di2" , 4, &di2_rand, &di2_fixed, SCASS_FLAGS_TTEST_IN},
 {"idx1", 1, &dindex1 , &dindex1  , SCASS_FLAG_INPUT    },
 {"idx2", 1, &dindex2 , &dindex2  , SCASS_FLAG_INPUT    },
 };
 
 //! Declaration for the experiment payload function in ldst-byte.S
 extern void     * experiment_payload(
-    uint8_t * zeros,
-    uint8_t * data1,
-    uint8_t * data2
+    uint32_t * zeros,
+    uint32_t * data1,
+    uint32_t * data2
 );
 
 /*!

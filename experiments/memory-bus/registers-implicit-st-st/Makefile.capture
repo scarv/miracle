@@ -6,12 +6,10 @@ CAPTURE_TARGETS =
 $(eval $(call tgt_ttest_capture,-16-16,--set idx1=16 idx2=16 --zero-fixed))
 $(eval $(call tgt_ttest_capture,-16-19,--set idx1=16 idx2=19 --zero-fixed))
 $(eval $(call tgt_ttest_capture,-16-20,--set idx1=16 idx2=20 --zero-fixed))
-$(eval $(call tgt_ttest_capture,-16-64,--set idx1=16 idx2=64 --zero-fixed))
 
 CAPTURE_TARGETS += $(call map_ttest_capture_tgt,-16-16)
 CAPTURE_TARGETS += $(call map_ttest_capture_tgt,-16-19)
 CAPTURE_TARGETS += $(call map_ttest_capture_tgt,-16-20)
-CAPTURE_TARGETS += $(call map_ttest_capture_tgt,-16-64)
 
 capture: $(CAPTURE_TARGETS)
 

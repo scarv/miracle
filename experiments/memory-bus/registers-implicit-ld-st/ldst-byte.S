@@ -8,7 +8,6 @@ experiment_payload:
     
     FUNC_ENTER
 
-    XOR_RR(ARG_3,ARG_3,ARG_3)
     XOR_RR(TMP_0,TMP_0,TMP_0)
     XOR_RR(TMP_1,TMP_1,TMP_1)
 
@@ -16,24 +15,16 @@ experiment_payload:
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
-    ANOP; ANOP; ANOP; ANOP;
-    ANOP; ANOP; ANOP; ANOP;
-    ANOP; ANOP; ANOP; ANOP;
-    ANOP; ANOP; ANOP; ANOP;
     
-    LOAD_UBYTE_RI(TMP_0,ARG_0, 0)
+    LOAD_WORD_RI(TMP_0,ARG_0, 0)
 
-    ANOP; ANOP; ANOP; ANOP;
-    ANOP; ANOP; ANOP; ANOP;
-    ANOP; ANOP; ANOP; ANOP;
-    ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
 
     // Load idx1 / TTest variable 1
-    LOAD_UBYTE_RI(TMP_0,ARG_1, 0)
+    LOAD_WORD_RI(ARG_1,ARG_1, 0)
 
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
@@ -45,23 +36,15 @@ experiment_payload:
     ANOP; ANOP; ANOP; ANOP;
 
     // Store zero to idx2 /  overwrite TTest variable 2
-    STORE_BYTE_RI(TMP_1,ARG_2, 0)
+    STORE_WORD_RI(TMP_1,ARG_2, 0)
 
-    ANOP; ANOP; ANOP; ANOP;
-    ANOP; ANOP; ANOP; ANOP;
-    ANOP; ANOP; ANOP; ANOP;
-    ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
     
-    LOAD_UBYTE_RI(TMP_0,ARG_0, 0)
+    LOAD_WORD_RI(TMP_0,ARG_0, 0)
 
-    ANOP; ANOP; ANOP; ANOP;
-    ANOP; ANOP; ANOP; ANOP;
-    ANOP; ANOP; ANOP; ANOP;
-    ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
