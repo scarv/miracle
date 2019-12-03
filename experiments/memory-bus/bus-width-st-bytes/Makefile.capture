@@ -1,16 +1,28 @@
 
 include $(UAS_ROOT)/Makefile.common
-include $(UAS_EXPERIMENT_SRC)/Makefile.common
 
-$(eval $(call add_capture_target,5,5))
-$(eval $(call add_capture_target,5,0))
-$(eval $(call add_capture_target,5,1))
-$(eval $(call add_capture_target,5,2))
-$(eval $(call add_capture_target,5,3))
-$(eval $(call add_capture_target,5,4))
-$(eval $(call add_capture_target,5,6))
-$(eval $(call add_capture_target,5,7))
-$(eval $(call add_capture_target,5,8))
+CAPTURE_TARGETS = 
+
+$(eval $(call tgt_ttest_capture,-5-0,--set idx=5 off=0 --zero-fixed))
+$(eval $(call tgt_ttest_capture,-5-1,--set idx=5 off=1 --zero-fixed))
+$(eval $(call tgt_ttest_capture,-5-2,--set idx=5 off=2 --zero-fixed))
+$(eval $(call tgt_ttest_capture,-5-3,--set idx=5 off=3 --zero-fixed))
+$(eval $(call tgt_ttest_capture,-5-4,--set idx=5 off=4 --zero-fixed))
+$(eval $(call tgt_ttest_capture,-5-5,--set idx=5 off=5 --zero-fixed))
+$(eval $(call tgt_ttest_capture,-5-6,--set idx=5 off=6 --zero-fixed))
+$(eval $(call tgt_ttest_capture,-5-7,--set idx=5 off=7 --zero-fixed))
+$(eval $(call tgt_ttest_capture,-5-8,--set idx=5 off=8 --zero-fixed))
+
+CAPTURE_TARGETS += $(call map_ttest_capture_tgt,-5-0)
+CAPTURE_TARGETS += $(call map_ttest_capture_tgt,-5-1)
+CAPTURE_TARGETS += $(call map_ttest_capture_tgt,-5-2)
+CAPTURE_TARGETS += $(call map_ttest_capture_tgt,-5-3)
+CAPTURE_TARGETS += $(call map_ttest_capture_tgt,-5-4)
+CAPTURE_TARGETS += $(call map_ttest_capture_tgt,-5-5)
+CAPTURE_TARGETS += $(call map_ttest_capture_tgt,-5-6)
+CAPTURE_TARGETS += $(call map_ttest_capture_tgt,-5-7)
+CAPTURE_TARGETS += $(call map_ttest_capture_tgt,-5-8)
 
 capture: $(CAPTURE_TARGETS)
+
 

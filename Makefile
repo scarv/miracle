@@ -22,12 +22,7 @@ TARGETS     = sakurax_mb3 \
               scale_lpc1313fbd48 \
               scale_lpc812m101 
 
-EXPERIMENTS = example/add \
-              example/xor \
-              example/ld-byte \
-              example/ld-half \
-              example/ld-word \
-              memory-bus/bus-width-st-bytes \
+EXPERIMENTS = memory-bus/bus-width-st-bytes \
               memory-bus/bus-width-st-halfword \
               memory-bus/bus-width-st-word \
               memory-bus/bus-width-ld-bytes \

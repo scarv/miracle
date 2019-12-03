@@ -1,12 +1,29 @@
 
 include $(UAS_ROOT)/Makefile.common
-include $(UAS_EXPERIMENT_SRC)/Makefile.common
 
-$(eval $(call add_analyse_target,16,16))
-$(eval $(call add_analyse_target,16,19))
-$(eval $(call add_analyse_target,16,20))
-$(eval $(call add_analyse_target,16,64))
+ANALYSE_TARGETS = 
+
+IDX2S = 16 19 20 64
+
+define add_analysis_targets
+
+$(eval $(call tgt_ttest_analyse,-16-${1}))
+
+ANALYSE_TARGETS += $(call map_ttest_analyse_tgt,-16-${1})
+
+$(eval $(call tgt_cpa_hw_ttest,-16-${1},di1))
+$(eval $(call tgt_cpa_hw_ttest,-16-${1},di2))
+
+ANALYSE_TARGETS += $(call map_ttest_cpa_hw_plot,-16-${1},di1)
+ANALYSE_TARGETS += $(call map_ttest_cpa_hw_plot,-16-${1},di2)
+
+$(eval $(call tgt_cpa_hd_ttest,-16-${1},di1,di2))
+
+ANALYSE_TARGETS += $(call map_ttest_cpa_hd_plot,-16-${1},di1,di2)
+
+endef
+
+$(foreach IDX2,$(IDX2S),$(eval $(call add_analysis_targets,$(IDX2))))
 
 analyse: $(ANALYSE_TARGETS)
-
 
