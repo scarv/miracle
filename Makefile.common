@@ -5,6 +5,8 @@ UAS_TARGET          ?= scale_lpc1114fn28
 UAS_EXPERIMENT_SRC  ?= $(UAS_ROOT)/experiments/$(UAS_EXPERIMENT)
 UAS_EXPERIMENT_BUILD = $(UAS_BUILD)/$(UAS_EXPERIMENT)/$(UAS_TARGET)
 
+TARGET_DIR           = $(UAS_ROOT)/target/$(UAS_TARGET)
+
 #
 # Standard scripts from fw-acquisition
 TTEST_CAPTURE       ?= $(UAS_ROOT)/external/fw-acquisition/bin/ttest_capture.py
@@ -13,14 +15,20 @@ STD_PLOTS           ?= $(UAS_ROOT)/external/fw-acquisition/bin/trace-plots.py
 CPA_HW              ?= $(UAS_ROOT)/external/fw-acquisition/bin/cpa-hw.py
 CPA_HD              ?= $(UAS_ROOT)/external/fw-acquisition/bin/cpa-hd.py
 
+TTEST_SCOPE_CONFIG   = $(UAS_ROOT)/target/$(UAS_TARGET)/capture/picoscope5000.cfg
+TTEST_POWER_CHANNEL  = B
+
 USB_PORT            ?= /dev/ttyUSB0
 USB_BAUD            ?= 9600
-
-TARGET_DIR           = $(UAS_ROOT)/target/$(UAS_TARGET)
 
 TARGET_BUILD_MAKEFILE= $(TARGET_DIR)/build/build.mk
 
 EXPERIMENT_CAPTURE_MAKEFILE = $(EXPERIMENT_SRCS)/Makefile.capture
+
+#
+# Experiment Build Macros
+# ------------------------------------------------------------
+#
 
 #
 # Given the global variables defining build directory, experiment name
@@ -47,5 +55,166 @@ endef
 # the makefile defining its "program" target *should* be.
 define map_target_program_makefile
 $(UAS_ROOT)/target/$(UAS_TARGET)/program/program.mk
+endef
+
+#
+# TTest Macros
+# ------------------------------------------------------------
+#
+
+#
+# Return a directory path for storing a ttest and it's results in.
+#
+# 1 - The name of the TTest
+#
+define map_ttest_dir
+$(UAS_EXPERIMENT_BUILD)/ttest${1}
+endef
+
+#
+# Return a file path for the TTest Logfile
+#
+# 1  - The name of the TTest
+#
+define map_ttest_logfile
+$(call map_ttest_dir,${1})/ttest.log
+endef
+
+#
+# Return a file path for the TTest traces file
+#
+# 1  - The name of the TTest
+#
+define map_ttest_traces_npy
+$(call map_ttest_dir,${1})/traces.npy.gz
+endef
+
+#
+# Return a file path for the TTest Fixed traces mapping file.
+#
+# 1  - The name of the TTest
+#
+define map_ttest_fixed_npy
+$(call map_ttest_dir,${1})/fixedbits.npy.gz
+endef
+
+#
+# Return a file path for the TTest graph plot
+#
+# 1  - The name of the TTest
+#
+define map_ttest_tgraph
+$(call map_ttest_dir,${1})/ttrace.svg
+endef
+
+#
+# Return a makefile target name for capturing a ttest
+#
+# 1  - The name of the TTest
+#
+define map_ttest_capture_tgt
+capture-ttest${1}
+endef
+
+#
+# Return a makefile target name for analysing part of a ttest
+#
+# 1 - The name of the TTest
+# 2 - Friendly name of the thing being analysed.
+#
+define map_ttest_analyse_tgt
+analyse-ttest${1}-${2}
+endef
+
+
+#
+# Return a file path for the average trace plot.
+#
+# 1 - Uniqifying name. Can be empty.
+#
+define map_ttest_avg_trace_plot
+$(UAS_EXPERIMENT_BUILD)/avg-trace${1}.svg
+endef
+
+#
+# Return a file path for the standard deviation trace plot.
+#
+# 1 - Uniqifying name. Can be empty.
+#
+define map_ttest_std_trace_plot
+$(UAS_EXPERIMENT_BUILD)/std-trace${1}.svg
+endef
+
+#
+# Return a file path for the range trace plot.
+#
+# 1 - Uniqifying name. Can be empty.
+#
+define map_ttest_rng_trace_plot
+$(UAS_EXPERIMENT_BUILD)/rng-trace${1}.svg
+endef
+
+#
+# Add a parameterised TTest capture target.
+#
+# 1. TTest Name
+# 2. Arguments to the TTest capture script
+#
+define tgt_ttest_capture
+
+.PHONY : $(call map_ttest_traces_npy,${1})
+$(call map_ttest_traces_npy,${1}) : 
+	-mkdir -p $(call map_ttest_dir,${1})
+	$(TTEST_CAPTURE) \
+	    ${2} \
+	    -n $(TTEST_NUM_TRACES) \
+	    -l $(call map_ttest_logfile,${1}) \
+	    -b $(USB_BAUD) \
+	    $(USB_PORT) \
+	    $(TTEST_SCOPE_CONFIG) \
+	    $(TTEST_POWER_CHANNEL) \
+	    $(call map_ttest_traces_npy,${1}) \
+	    $(call map_ttest_fixed_npy,${1}) 
+
+$(call map_ttest_fixed_npy,${1} ): $(call map_ttest_traces_npy,${1})
+$(call map_ttest_logfile,${1})   : $(call map_ttest_traces_npy,${1})
+
+$(call map_ttest_capture_tgt,${1}): $(call map_ttest_traces_npy,${1}) \
+                                    $(call map_ttest_fixed_npy,${1}) 
+
+endef
+
+
+#
+# Add a target for analysing the results of a TTest
+#
+# 1. TTest Name
+#
+define tgt_ttest_analyse
+
+$(call map_ttest_tgraph,${1}) : $(call map_ttest_fixed_npy,${1}) \
+                                $(call map_ttest_traces_npy,${1})
+	$(TTEST_ANALYSE) \
+	    --abs \
+	    --graph-ttest $(call map_ttest_tgraph,${1}) \
+	    $(call map_ttest_fixed_npy,${1}) \
+	    $(call map_ttest_traces_npy,${1})
+
+
+$(call map_ttest_avg_trace_plot,${1}) : $(call map_ttest_traces_npy,${1})
+	$(STD_PLOTS) --avg-trace --minmax $${<} $${@}
+
+$(call map_ttest_std_trace_plot,${1}) : $(call map_ttest_traces_npy,${1})
+	$(STD_PLOTS) --stddev $${<} $${@}
+
+$(call map_ttest_rng_trace_plot,${1}) : $(call map_ttest_traces_npy,${1})
+	$(STD_PLOTS) --range  $${<} $${@}
+
+
+$(call map_ttest_analyse_tgt,${1}) : $(call map_ttest_tgraph,${1})   \
+                                     $(call map_ttest_avg_trace_plot,${1}) \
+                                     $(call map_ttest_std_trace_plot,${1}) \
+                                     $(call map_ttest_rng_trace_plot,${1})
+
 endef
 

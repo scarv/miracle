@@ -1,11 +1,17 @@
 
 include $(UAS_ROOT)/Makefile.common
-include $(UAS_EXPERIMENT_SRC)/Makefile.common
 
-$(eval $(call add_analyse_target,16,16))
-$(eval $(call add_analyse_target,16,19))
-$(eval $(call add_analyse_target,16,20))
-$(eval $(call add_analyse_target,16,64))
+ANALYSE_TARGETS = 
+
+$(eval $(call tgt_ttest_analyse,-16-16))
+$(eval $(call tgt_ttest_analyse,-16-19))
+$(eval $(call tgt_ttest_analyse,-16-20))
+$(eval $(call tgt_ttest_analyse,-16-64))
+
+ANALYSE_TARGETS += $(call map_ttest_analyse_tgt,-16-16)
+ANALYSE_TARGETS += $(call map_ttest_analyse_tgt,-16-19)
+ANALYSE_TARGETS += $(call map_ttest_analyse_tgt,-16-20)
+ANALYSE_TARGETS += $(call map_ttest_analyse_tgt,-16-64)
 
 analyse: $(ANALYSE_TARGETS)
 
