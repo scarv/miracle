@@ -12,6 +12,8 @@
 #define __hash #
 #define f(x) x
 
+#define MOVE(RD,RS)               mov  RD, RS
+#define ZERO_REG(RD)              eor  RD,RD
 #define LOAD_UBYTE_RI(RD,RB,IMM)  ldrb RD,[RB,f(__hash)IMM]
 #define LOAD_UHALF_RI(RD,RB,IMM)  ldrh RD,[RB,f(__hash)IMM]
 #define LOAD_WORD_RI(RD,RB,IMM)   ldr  RD,[RB,f(__hash)IMM]

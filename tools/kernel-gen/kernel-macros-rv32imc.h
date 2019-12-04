@@ -10,6 +10,8 @@
 #define TMP_3 t3 
 
 
+#define MOVE(RD,RS)               mv   RD, RS
+#define ZERO_REG(RD)              xor  RD,RD,RD
 #define LOAD_UBYTE_RI(RD,RA,IMM)  lbu  RD,IMM(RA) 
 #define LOAD_UHALF_RI(RD,RA,IMM)  lhu  RD,IMM(RA)
 #define LOAD_WORD_RI(RD,RA,IMM)   lw   RD,IMM(RA)

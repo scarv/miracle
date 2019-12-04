@@ -9,7 +9,8 @@
 #define TMP_2 r11
 #define TMP_3 r12
 
-
+#define MOVE(RD,RS)               ori  RD, RS, 0
+#define ZERO_REG(RD)              xor  RD,RD,RD
 #define LOAD_UBYTE_RI(RD,RA,IMM)  lbui RD,RA,IMM 
 #define LOAD_UHALF_RI(RD,RA,IMM)  lhui RD,RA,IMM
 #define LOAD_WORD_RI(RD,RA,IMM)   lwi  RD,RA,IMM

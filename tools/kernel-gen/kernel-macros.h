@@ -55,6 +55,20 @@
 #endif
 
 //
+// Move register A to register B
+//
+#ifndef MOVE
+    .warning "Macro 'MOVE' not defined"
+#endif
+
+//
+// Set the value of a register to zero.
+//
+#ifndef ZERO_REG
+    .warning "Macro 'ZERO_REG' not defined"
+#endif
+
+//
 // Load unsigned byte into RD, using register + immediate addressing
 //
 #ifndef LOAD_UBYTE_RI
