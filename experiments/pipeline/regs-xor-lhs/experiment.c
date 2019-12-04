@@ -1,8 +1,8 @@
 
 /*!
-@defgroup experiments-memory-registers-implicit-ld-ld-code Experiment Code
+@defgroup experiments-pipeline-reg-xor-lhs-code Experiment Code
 @{
-@ingroup  experiments-memory-registers-implicit-ld-ld
+@ingroup  experiments-pipeline-reg-xor-lhs
 */
 
 #include <stdlib.h>
