@@ -1,8 +1,8 @@
 /*!
 
-@defgroup experiments-memory-registers-implicit-st-ld Implicit Store/Load
+@defgroup experiments-memory-registers-implicit-st-st-2 Implicit Store/Store 2
 @ingroup  experiments-memory
-@brief Is there implicit leakage on a load-after-store?
+@brief Is there implicit leakage on a store-after-store?
 
 @see @ref experiments-memory-registers-implicit-st-ld
 @see @ref experiments-memory-registers-implicit-ld-st
@@ -10,15 +10,24 @@
 @see @ref experiments-memory-registers-implicit-st-st-1
 @see @ref experiments-memory-registers-implicit-st-st-2
 
+This acts as an analogue to the
+@ref experiments-memory-registers-implicit-ld-ld
+experiment, but does a sequence of two stores, rather than two loads.
+
+It also acts as an analogue to the
+@ref experiments-memory-registers-implicit-st-st-1
+experiment.
+This experiment stores the TTest variables from CPU registers to memory,
+overwriting zeros in the memory.
+The other experiment stores zeros, overwriting the TTest variables in
+memory.
+
 ## Purpose:
 
-This acts as an analogue to the
-@ref experiments-memory-registers-implicit-ld-st
-experiment, but does a store followed by a load, rather than a load
-followed by a store.
+To discover if, when overwriting memory locations, the old data is
+implicitly loaded into a micro-architectural register.
 
-The idea is to check if and when memory words are implicitly written
-to micro-architectural registers.
+This has implications for things like leakage aware stack-erasure.
 
 ## Method:
 
@@ -28,18 +37,17 @@ to micro-architectural registers.
   - `idx1` - Index of the arrays to load first.
   - `idx2` - Index of the arrays to load second.
 - For each pair of values of `idx1` and `idx2`:
-  - Zero the content of `din`, except for the elements at `idx1` and
-    `idx2`, which are Fixed/Random TTest variables.
-  - **Load** a word from the zeros array into a temporary register, assuming
-    that this will "clear" the memory load data-path.
-  - **Store** zeros to the word at `din[idx1]`.
+  - Zero the content of `din`.
+  - **Store** zero to the addresses `din[idx1]` and `din[idx2]` to clear
+    the store data path as best we can.
+  - **Store** TTest variable 1 to the word at `din[idx1]`.
     - This may load the old data at `din[idx1]` into a micro-architectural
       register.
   - Execute a simple ALU instruction (`xor`) on a temporary register
     which does not store any TTest variables.
     This is assumed to clear pipeline registers which the load
     instructions might use.
-  - **Load** the word at address `din[idx2]` into a temporary register.
+  - **Store** TTest variable 2 to the word at `din[idx1]`.
     - Potentially overwriting the micro-architectural registers with
       the original data being overwritten by the store.
 - Each step is separated in time by some NOP instructions to make the
@@ -52,20 +60,17 @@ to micro-architectural registers.
 
 ## Expectations:
 
-- If the first load instruction moves the contents of `din[idx1]` into
-  a micro-architectural register, and...
-- The store instruction, which zeros the contents of `din[idx2]`, moves
-  the *old* contents of `din[idx2]` into the same micro-architectural
-  register, then...
-- We should see hamming distance leakage between the two TTest variables
-  when the store instruction is executed.
+- If store instructions implicitly load the *old* data at the address
+  they are storing to into a micro-architectural registers, then
+  we should see hamming distance leakage between consecutivley over-written
+  values, even if we are over-writing the memory locations with zeros.
 
 ## Running the experiment
 
 To run all stages of the experiment for a particular target device:
 
 ```
-make -B USB_PORT=[PORT] UAS_TARGET=[TARGET] flow-memory-bus-registers-implicit-st-ld
+make -B USB_PORT=[PORT] UAS_TARGET=[TARGET] flow-memory-bus-registers-implicit-st-st-2
 ```
 
 Where:
@@ -77,9 +82,9 @@ the experiment on the specified target.
 
 The individual steps of the experiment are run with the following commands:
 
-- Build: `make build_[TARGET]_memory-bus-registers-implicit-st-ld`
-- Program: `make program_[TARGET]_memory-bus-registers-implicit-st-ld`
-- Capture: `make capture_[TARGET]_memory-bus-registers-implicit-st-ld USB_PORT=[PORT]`
-- Analyse: `make analyse_[TARGET]_memory-bus-registers-implicit-st-ld`
+- Build: `make build_[TARGET]_memory-bus-registers-implicit-st-st-2`
+- Program: `make program_[TARGET]_memory-bus-registers-implicit-st-st-2`
+- Capture: `make capture_[TARGET]_memory-bus-registers-implicit-st-st-2 USB_PORT=[PORT]`
+- Analyse: `make analyse_[TARGET]_memory-bus-registers-implicit-st-st-2`
 
 */

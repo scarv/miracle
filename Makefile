@@ -31,7 +31,8 @@ EXPERIMENTS = memory-bus/bus-width-st-bytes \
               memory-bus/registers-implicit-ld-ld \
               memory-bus/registers-implicit-ld-st \
               memory-bus/registers-implicit-st-ld \
-              memory-bus/registers-implicit-st-st \
+              memory-bus/registers-implicit-st-st-1 \
+              memory-bus/registers-implicit-st-st-2 \
 
 .PHONY: docs
 docs:
