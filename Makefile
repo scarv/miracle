@@ -33,6 +33,9 @@ EXPERIMENTS = memory-bus/bus-width-st-bytes \
               memory-bus/registers-implicit-st-ld \
               memory-bus/registers-implicit-st-st-1 \
               memory-bus/registers-implicit-st-st-2 \
+              pipeline/regs-xor-lhs \
+              pipeline/regs-xor-rhs \
+
 
 .PHONY: docs
 docs:

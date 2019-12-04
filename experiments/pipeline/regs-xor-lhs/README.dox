@@ -1,0 +1,38 @@
+/*!
+
+@defgroup experiments-pipeline-reg-xor-lhs Registers - XOR - LHS
+@ingroup  experiments-pipeline
+@brief Do we see leakage from pipeline registers with the XOR instruction?
+
+## Purpose:
+
+
+## Method:
+
+
+## Expectations:
+
+
+## Running the experiment
+
+To run all stages of the experiment for a particular target device:
+
+```
+make -B USB_PORT=[PORT] UAS_TARGET=[TARGET] flow-pipeline-regs-xor-lhs
+```
+
+Where:
+- `[PORT]` Is the UART/Serial port to communicate with it over.
+- `[TARGET]` Is one of the target names listed in @ref targets
+
+This will run all of the build, program, capture and analyse steps for
+the experiment on the specified target.
+
+The individual steps of the experiment are run with the following commands:
+
+- Build: `make build_[TARGET]_pipeline-regs-xor-lhs`
+- Program: `make program_[TARGET]_pipeline-regs-xor-lhs`
+- Capture: `make capture_[TARGET]_pipeline-regs-xor-lhs USB_PORT=[PORT]`
+- Analyse: `make analyse_[TARGET]_pipeline-regs-xor-lhs`
+
+*/
