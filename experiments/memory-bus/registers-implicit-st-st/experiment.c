@@ -1,7 +1,8 @@
 
 /*!
-@ingroup experiments-memory-registers-implicit-st-st
+@defgroup experiments-memory-registers-implicit-st-st-code Experiment Code
 @{
+@ingroup experiments-memory-registers-implicit-st-st
 */
 
 #include <stdlib.h>
@@ -36,10 +37,9 @@ scass_target_var  experiment_variables [] = {
 
 //! Declaration for the experiment payload function in ldst-byte.S
 extern void     * experiment_payload(
+    uint32_t * zeros,
     uint32_t * data1,
-    uint32_t * data2,
-    uint32_t   a1,
-    uint32_t   a2
+    uint32_t * data2
 );
 
 /*!
@@ -80,16 +80,15 @@ uint8_t experiment_run(
     char               fixed //!< used fixed variants of variables?
 ){
 
-    uint32_t a1 = (fixed ? di1_fixed: di1_rand);
-    uint32_t a2 = (fixed ? di2_fixed: di2_rand);
+    din[dindex1] = (fixed ? di1_fixed: di1_rand);
+    din[dindex2] = (fixed ? di2_fixed: di2_rand);
 
     uas_bsp_trigger_set();
     
     experiment_payload(
+        zeros      ,
         din+dindex1,
-        din+dindex2,
-        a1,
-        a2
+        din+dindex2
     );
     
     uas_bsp_trigger_clear();

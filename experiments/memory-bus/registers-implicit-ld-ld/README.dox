@@ -2,31 +2,55 @@
 
 @defgroup experiments-memory-registers-implicit-ld-ld Implicit Load/Load
 @ingroup  experiments-memory
-@brief Do we accidentally do a load to undocumented registers on a store?
+@brief Is there implicit leakage on load-after-load?
 
 @see @ref experiments-memory-registers-implicit-st-ld
 @see @ref experiments-memory-registers-implicit-ld-st
 @see @ref experiments-memory-registers-implicit-ld-ld
 @see @ref experiments-memory-registers-implicit-st-st
 
-@note This experiment is identical to 
-@ref experiments-memory-registers-implicit-st-ld but it does a store then a load, rather than load then store.
-
 ## Purpose:
 
 To discover if the RAMS on the target device implicitly load memory
-data into a register when it is over-written by a store.
+data into a register, which is then only overwritten by subsequent loads.
 
 ## Method:
 
-@todo registers-implicit-ld-ld method.
+- Take a `DLEN` array of words called `zeros`, which is always zero.
+- Take a `DLEN` array of words called `din`.
+- Take a pair of input vairables:
+  - `idx1` - Index of the arrays to load first.
+  - `idx2` - Index of the arrays to load second.
+- For each pair of values of `idx1` and `idx2`:
+  - Zero the content of `din`, except for the elements at `idx1` and
+    `idx2`, which are Fixed/Random TTest variables.
+  - **Load** a word from the zeros array into a temporary register, assuming
+    that this will "clear" the memory load data-path.
+  - **Load** the word at `din[idx1]` into argument register 1.
+    - This may load the data into a micro-architectural register.
+  - Execute a simple ALU instruction (`xor`) on a temporary register
+    which does not store any TTest variables.
+    This is assumed to clear pipeline registers which the load
+    instructions might use.
+  - **Load** the word at `din[idx2]` into argument register 2.
+    - Potentially overwriting the micro-architectural registers with
+      the new data.
+- Each step is separated in time by some NOP instructions to make the
+  results easier to interpret.
+
+@note The assumption that the ALU instruction clears pipeline registers
+    is not a realistic one for super-scalar micro-architectures.
+    It is more reasonable for scalar, in-order micro-architectures of the
+    kind which are most realistically subject to power side-channel attack.
 
 ## Expectations:
 
-
-## Findings
-
-@todo Re-write registers-implicit-ld-ld experiment findings with new results.
+- We should expect both load word operations from `din` to leak the
+  hamming weight of the values loaded from memory.
+- If there are registers on the load data-path which are implicitly
+  and only updated on a memory data load, we should also see
+  hamming distance leakage between the first and second TTest variables
+  when the second variable is loaded into a register.
 
 ## Running the experiment
 
@@ -48,6 +72,6 @@ The individual steps of the experiment are run with the following commands:
 - Build: `make build_[TARGET]_memory-bus-registers-implicit-ld-ld`
 - Program: `make program_[TARGET]_memory-bus-registers-implicit-ld-ld`
 - Capture: `make capture_[TARGET]_memory-bus-registers-implicit-ld-ld USB_PORT=[PORT]`
-- Analyse: `make program_[TARGET]_memory-bus-registers-implicit-ld-ld`
+- Analyse: `make analyse_[TARGET]_memory-bus-registers-implicit-ld-ld`
 
 */

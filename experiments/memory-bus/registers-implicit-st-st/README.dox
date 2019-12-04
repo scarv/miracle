@@ -2,31 +2,60 @@
 
 @defgroup experiments-memory-registers-implicit-st-st Implicit Store/Store
 @ingroup  experiments-memory
-@brief Do we accidentally do a load to undocumented registers on a store?
+@brief Is there implicit leakage on a store-after-store?
 
 @see @ref experiments-memory-registers-implicit-st-ld
 @see @ref experiments-memory-registers-implicit-ld-st
 @see @ref experiments-memory-registers-implicit-ld-ld
 @see @ref experiments-memory-registers-implicit-st-st
 
-@note This experiment is identical to 
-@ref experiments-memory-registers-implicit-st-ld but it does a store then a load, rather than load then store.
+This acts as an analogue to the
+@ref experiments-memory-registers-implicit-ld-ld
+experiment, but does a sequence of two stores, rather than two loads.
 
 ## Purpose:
 
-To discover if the RAMS on the target device implicitly load memory
-data into a register when it is over-written by a store.
+To discover if, when overwriting memory locations, the old data is
+implicitly loaded into a micro-architectural register.
+
+This has implications for things like leakage aware stack-erasure.
 
 ## Method:
 
-@todo registers-implicit-st-st method.
+- Take a `DLEN` array of words called `zeros`, which is always zero.
+- Take a `DLEN` array of words called `din`.
+- Take a pair of input vairables:
+  - `idx1` - Index of the arrays to load first.
+  - `idx2` - Index of the arrays to load second.
+- For each pair of values of `idx1` and `idx2`:
+  - Zero the content of `din`, except for the elements at `idx1` and
+    `idx2`, which are Fixed/Random TTest variables.
+  - **Store** zero to the zeros array, assuming
+    that this will "clear" the memory store data-path.
+  - **Store** zeros to the word at `din[idx1]`.
+    - This may load the old data at `din[idx1]` into a micro-architectural
+      register.
+  - Execute a simple ALU instruction (`xor`) on a temporary register
+    which does not store any TTest variables.
+    This is assumed to clear pipeline registers which the load
+    instructions might use.
+  - **Store** zeros to the word at `din[idx2]`.
+    - Potentially overwriting the micro-architectural registers with
+      the original data being overwritten by the store.
+- Each step is separated in time by some NOP instructions to make the
+  results easier to interpret.
+
+@note The assumption that the ALU instruction clears pipeline registers
+    is not a realistic one for super-scalar micro-architectures.
+    It is more reasonable for scalar, in-order micro-architectures of the
+    kind which are most realistically subject to power side-channel attack.
 
 ## Expectations:
 
-
-## Findings
-
-@todo Re-write registers-implicit-st-st experiment findings with new results.
+- If store instructions implicitly load the *old* data at the address
+  they are storing to into a micro-architectural registers, then
+  we should see hamming distance leakage between consecutivley over-written
+  values, even if we are over-writing the memory locations with zeros.
 
 ## Running the experiment
 
@@ -48,6 +77,6 @@ The individual steps of the experiment are run with the following commands:
 - Build: `make build_[TARGET]_memory-bus-registers-implicit-st-st`
 - Program: `make program_[TARGET]_memory-bus-registers-implicit-st-st`
 - Capture: `make capture_[TARGET]_memory-bus-registers-implicit-st-st USB_PORT=[PORT]`
-- Analyse: `make program_[TARGET]_memory-bus-registers-implicit-st-st`
+- Analyse: `make analyse_[TARGET]_memory-bus-registers-implicit-st-st`
 
 */

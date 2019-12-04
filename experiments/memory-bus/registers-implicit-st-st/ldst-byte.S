@@ -15,17 +15,17 @@ experiment_payload:
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
     
-    // Clear index 1 and index 2
+    // Clear the store path as best we can by writing zero
+    // to the zeros array.
     STORE_WORD_RI(TMP_0,ARG_0, 0)
+
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP;
+
+    // Store zeros to din+index1
     STORE_WORD_RI(TMP_0,ARG_1, 0)
-
-    ANOP; ANOP; ANOP; ANOP;
-    ANOP; ANOP; ANOP; ANOP;
-    ANOP; ANOP; ANOP; ANOP;
-    ANOP; ANOP; ANOP; ANOP;
-
-    // Store arg 2 to din+index1
-    STORE_WORD_RI(ARG_2,ARG_0, 0)
 
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
@@ -36,16 +36,16 @@ experiment_payload:
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
 
-    // Store arg 3 to din+index2
-    STORE_WORD_RI(ARG_3,ARG_1, 0)
+    // Store zeros to din+index2
+    STORE_WORD_RI(TMP_0,ARG_2, 0)
 
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
     
-    // Store 0 to din+index2
-    STORE_WORD_RI(TMP_0,ARG_1, 0)
+    // Store 0 to the zeros array.
+    STORE_WORD_RI(TMP_0,ARG_0, 0)
 
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;

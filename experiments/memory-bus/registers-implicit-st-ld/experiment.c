@@ -1,7 +1,8 @@
 
 /*!
-@ingroup experiments-memory-registers-implicit-st-ld
+@defgroup experiments-memory-registers-implicit-st-ld-code Experiment Code
 @{
+@ingroup experiments-memory-registers-implicit-st-ld
 */
 
 #include <stdlib.h>
