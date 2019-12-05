@@ -4,14 +4,38 @@
 @ingroup  experiments-pipeline
 @brief Do we see leakage from pipeline registers with the XOR instruction?
 
+@see @ref experiments-pipeline-reg-xor-lhs
+@see @ref experiments-pipeline-reg-xor-rhs
+@see @ref experiments-pipeline-reg-xor-nop
+
 ## Purpose:
 
+Can we observe hamming distance leakage between the "left" operands
+of consecutive XOR instructions, which might undermine masked
+implementations.
 
 ## Method:
 
+- Execute two XOR instructions in sequence.
+  - The destination register is all zeros.
+  - The "right" hand argument is all zeros.
+  - The "left" hand argument is a TTest variable.
+    - The first XOR instruction LHS sources TTest variable 1
+    - The first XOR instruction LHS sources TTest variable 2
+  - Both TTest variables are single bytes, masked with *the same*
+    uniform random variable.
+
+@note This experiment is modified for targets implementing ARMv6M and
+    ARMv7m architectures, since these only have 2 operand XOR instructions
+    with source/destination register behaviour.
+    In this case, the destination register is the "Left" argument and
+    cannot be zero'd.
 
 ## Expectations:
 
+- There should be no hamming weight leakage in any case.
+- If there is overwrite between the two TTest variables, this
+  will manifest as detectable hamming distance leakage.
 
 ## Running the experiment
 

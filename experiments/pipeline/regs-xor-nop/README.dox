@@ -4,14 +4,44 @@
 @ingroup  experiments-pipeline
 @brief Does an architectural NOP act as a pipeline leakage barrier?
 
+@see @ref experiments-pipeline-reg-xor-lhs
+@see @ref experiments-pipeline-reg-xor-rhs
+@see @ref experiments-pipeline-reg-xor-nop
+
 ## Purpose:
 
+Can we use an architectural NOP to separate two adjacent XOR instructions
+which would otherwise leak the hamming distance of their operands?
+
+In [1], the authors assert that for an ARM M3 CPU, "inserting a nop
+instruction will not prevent the leakage since the nop instruction does not
+pass the instruction decoder and, consequently, it can not modify the two
+pipeline registers ra and rb."
+
+It is useful to be able to test if this is true across other ARM processors,
+and other CPU architectures.
+
+1. Le Corre, Yann, Johann Großschädl, and Daniel Dinu. "Micro-architectural power simulator for leakage assessment of cryptographic software on ARM Cortex-M3 processors." International Workshop on Constructive Side-Channel Analysis and Secure Design. Springer, Cham, 2018.
 
 ## Method:
 
+- Execute two XOR instructions in sequence:
+  - The destination register is all zeros.
+  - The left and right operands are TTest variables 1 and 2 respectively.
+  - Both operands are masked with *the same* random variable.
+
+@note This experiment is modified for targets implementing ARMv6M and
+    ARMv7m architectures, since these only have 2 operand XOR instructions
+    with source/destination register behaviour.
+    In this case, the destination register is the "Left" argument and
+    is always overwritten with the result.
 
 ## Expectations:
 
+- If a NOP instruction prevents the leakage, we should see no hamming
+  distance leakage between the operands.
+- If as the paper [1] suggests, the NOP instruction does not escape the
+  decoder, then hamming distance leakage should still be present.
 
 ## Running the experiment
 
