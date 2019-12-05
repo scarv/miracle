@@ -19,12 +19,17 @@ if [ -z $UAS_MICROBLAZE_TOOLCHAIN_ROOT ] ; then
     export UAS_MICROBLAZE_TOOLCHAIN_ROOT=/opt/Xilinx/SDK/2019.1/gnu/microblaze/lin/bin
 fi
 
+if [ -z $OPENOCD ] ; then
+    export OPENOCD=openocd
+fi
+
 mkdir -p $UAS_BUILD
 
 echo "UAS_ROOT  = $UAS_ROOT"
 echo "UAS_BUILD = $UAS_BUILD"
 echo "SCALE_SW  = $SCALE_SW"
 echo "SCALE_HW  = $SCALE_HW"
+echo "OPENOCD   = $OPENOCD"
 echo "---"
 echo "UAS_ARM_TOOLCHAIN_ROOT        = $UAS_ARM_TOOLCHAIN_ROOT"
 echo "UAS_MICROBLAZE_TOOLCHAIN_ROOT = $UAS_MICROBLAZE_TOOLCHAIN_ROOT"
