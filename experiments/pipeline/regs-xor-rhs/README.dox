@@ -7,6 +7,8 @@
 @see @ref experiments-pipeline-reg-xor-lhs
 @see @ref experiments-pipeline-reg-xor-rhs
 @see @ref experiments-pipeline-reg-xor-nop
+@see @ref experiments-pipeline-reg-xor-mov-lhs
+@see @ref experiments-pipeline-reg-xor-mov-rhs
 
 ## Purpose:
 

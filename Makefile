@@ -36,6 +36,8 @@ EXPERIMENTS = memory-bus/bus-width-st-bytes \
               pipeline/regs-xor-lhs \
               pipeline/regs-xor-rhs \
               pipeline/regs-xor-nop \
+              pipeline/regs-xor-mov-lhs \
+              pipeline/regs-xor-mov-rhs \
 
 
 .PHONY: docs

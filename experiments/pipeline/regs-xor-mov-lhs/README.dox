@@ -1,0 +1,86 @@
+/*!
+
+@defgroup experiments-pipeline-reg-xor-mov-lhs Registers - XOR - MOV LHS
+@ingroup  experiments-pipeline
+@brief Does an architectural MOVE act as a pipeline leakage barrier?
+
+@see @ref experiments-pipeline-reg-xor-lhs
+@see @ref experiments-pipeline-reg-xor-rhs
+@see @ref experiments-pipeline-reg-xor-nop
+@see @ref experiments-pipeline-reg-xor-mov-lhs
+@see @ref experiments-pipeline-reg-xor-mov-rhs
+
+## Purpose:
+
+Does an architectural "move" instruction act as a leakage barrier
+for *both* operands of an XOR instruction, or just one?
+
+Processors with energy efficiecy optimisations around only altering
+register values when needed might only alter a subset of pipeline
+registers when executing unary instructions.
+This would imply that other pipeline registers are un-changed,
+leading to hamming distance leakage between non-adjacent instructions.
+
+## Method:
+
+- Execute an XOR instruction, with only the "left" operand set to
+  TTest variable 1. The Right operand is zeros.
+- Execute an architectural move register-register instruction, with zeros
+  in the source and destination registers, where source `!=` destination.
+- Execute an XOR instruction, with only the "left" operand set to
+  TTest variable 2. The Right operand is zeros.
+- Both TTest variables are masked with the same random byte.
+
+@note For the ARMv6M and ARMv7M architectures, the `mov` assembler mnemonic
+    is used, which compiles directly into an architectural move instruction.
+
+@note For the Microblaze architectures, there is no equivilet `mov`
+    instruction or assembler pseudo-mnemonic. Hence, an `ori rd, rs, 0`
+    instruction is used.
+
+@note For the RISC-V architectures *without* the compressed instruction set,
+    there is no equivalent `mov`instruction or assembler pseudo-mnemonic.
+    Hence, the `mv rd, rs` instruction is used, which is translated
+    into the 32-bit `addi rd, rs, 0` instruction.
+
+@note For the RISC-V architectures *with* the compressed instruction set,
+    there is an architectural 16-bit `mv`instruction.
+    Hence, the `mv rd, rs` instruction is used, which is translated
+    directly into the 16-bit architectural move.
+
+@note This experiment is modified for targets implementing ARMv6M and
+    ARMv7m architectures, since these only have 2 operand XOR instructions
+    with source/destination register behaviour.
+    In this case, the destination register is the "Left" argument and
+    is always zero'd.
+
+## Expectations:
+
+- There should be no hamming weight leakage, owing to the simple masking.
+- There should be hamming distance leakage iff the pipeline register(s)
+  which hold the "left" xor instruction operand are un-modified by
+  the architectural move instruction.
+
+## Running the experiment
+
+To run all stages of the experiment for a particular target device:
+
+```
+make -B USB_PORT=[PORT] UAS_TARGET=[TARGET] flow-pipeline-regs-xor-mov-lhs
+```
+
+Where:
+- `[PORT]` Is the UART/Serial port to communicate with it over.
+- `[TARGET]` Is one of the target names listed in @ref targets
+
+This will run all of the build, program, capture and analyse steps for
+the experiment on the specified target.
+
+The individual steps of the experiment are run with the following commands:
+
+- Build: `make build_[TARGET]_pipeline-regs-xor-mov-lhs`
+- Program: `make program_[TARGET]_pipeline-regs-xor-mov-lhs`
+- Capture: `make capture_[TARGET]_pipeline-regs-xor-mov-lhs USB_PORT=[PORT]`
+- Analyse: `make analyse_[TARGET]_pipeline-regs-xor-mov-lhs`
+
+*/
