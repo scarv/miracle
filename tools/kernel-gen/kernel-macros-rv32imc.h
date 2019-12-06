@@ -10,6 +10,7 @@
 #define TMP_3 t3 
 
 
+#define GOTO(LABEL)               j    LABEL
 #define MOVE(RD,RS)               mv   RD, RS
 #define ZERO_REG(RD)              xor  RD,RD,RD
 #define LOAD_UBYTE_RI(RD,RA,IMM)  lbu  RD,IMM(RA) 

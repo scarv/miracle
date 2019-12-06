@@ -12,6 +12,7 @@
 #define __hash #
 #define f(x) x
 
+#define GOTO(LABEL)               b    LABEL
 #define MOVE(RD,RS)               mov  RD, RS
 #define ZERO_REG(RD)              eor  RD,RD
 #define LOAD_UBYTE_RI(RD,RB,IMM)  ldrb RD,[RB,f(__hash)IMM]
