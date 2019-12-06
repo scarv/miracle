@@ -1,0 +1,38 @@
+/*!
+
+@defgroup experiments-speculation-jump-shadow-0 Registers - XOR - LHS
+@ingroup  experiments-pipeline
+@brief Do we see leakage from un-executed instructions?
+
+## Purpose:
+
+
+## Method:
+
+
+## Expectations:
+
+
+## Running the experiment
+
+To run all stages of the experiment for a particular target device:
+
+```
+make -B USB_PORT=[PORT] UAS_TARGET=[TARGET] flow-speculation-jump-shadow-0
+```
+
+Where:
+- `[PORT]` Is the UART/Serial port to communicate with it over.
+- `[TARGET]` Is one of the target names listed in @ref targets
+
+This will run all of the build, program, capture and analyse steps for
+the experiment on the specified target.
+
+The individual steps of the experiment are run with the following commands:
+
+- Build: `make build_[TARGET]_speculation-jump-shadow-0`
+- Program: `make program_[TARGET]_speculation-jump-shadow-0`
+- Capture: `make capture_[TARGET]_speculation-jump-shadow-0 USB_PORT=[PORT]`
+- Analyse: `make analyse_[TARGET]_speculation-jump-shadow-0`
+
+*/

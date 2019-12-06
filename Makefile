@@ -38,6 +38,7 @@ EXPERIMENTS = memory-bus/bus-width-st-bytes \
               pipeline/regs-xor-nop \
               pipeline/regs-xor-mov-lhs \
               pipeline/regs-xor-mov-rhs \
+              speculation/jump-shadow-0 \
 
 
 .PHONY: docs
