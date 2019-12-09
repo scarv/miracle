@@ -48,7 +48,7 @@ uint8_t experiment_run(
     char               fixed //!< used fixed variants of variables?
 ){
 
-    uint8_t d1 = (fixed ? di1_fixed: di1_rand) ^ randomness[0];
+    uint8_t d1 = (fixed ? di1_fixed: di1_rand);
 
     uas_bsp_trigger_set();
     

@@ -34,6 +34,7 @@ experiment_payload:
         #else
 
             // Just exit the loop/experiment immediately.
+            .error "Unknown architecture"
 
         #endif
 
