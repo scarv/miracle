@@ -19,6 +19,7 @@ experiment_payload:
     XOR_RR(TMP_0, TMP_0 , ARG_0)
     #endif
 
+    XOR_RR(TMP_1, TMP_1 , TMP_1) // Clear the pipeline as best we can.
     ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP;
 
@@ -33,6 +34,7 @@ experiment_payload:
     
     test_1:
 
+        XOR_RR(TMP_1, TMP_1 , TMP_1) // Clear the pipeline as best we can.
         ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP;
         ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP;
 
@@ -46,6 +48,7 @@ experiment_payload:
     
     test_2:
 
+        XOR_RR(TMP_1, TMP_1 , TMP_1) // Clear the pipeline as best we can.
         ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP;
         ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP;
         
@@ -60,6 +63,7 @@ experiment_payload:
 
     test_3:
 
+        XOR_RR(TMP_1, TMP_1 , TMP_1) // Clear the pipeline as best we can.
         ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP;
         ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP;
         
@@ -75,6 +79,7 @@ experiment_payload:
 
     test_4:
 
+        XOR_RR(TMP_1, TMP_1 , TMP_1) // Clear the pipeline as best we can.
         ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP;
         ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP;
         
@@ -91,6 +96,7 @@ experiment_payload:
     
     test_end:
 
+    XOR_RR(TMP_1, TMP_1 , TMP_1) // Clear the pipeline as best we can.
     ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP;
 
