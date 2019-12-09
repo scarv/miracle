@@ -4,6 +4,10 @@
 @ingroup  experiments-speculation
 @brief Do we see leakage from un-executed/partially executed instructions?
 
+@see @ref experiments-speculation-jump-shadow-0
+@see @ref experiments-speculation-loop-0
+@see @ref experiments-speculation-loop-1
+
 ## Purpose:
 
 Without a branch predictor, almost all scalar CPU pipelines must do

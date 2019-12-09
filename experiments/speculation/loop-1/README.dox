@@ -1,8 +1,12 @@
 /*!
 
-@defgroup experiments-speculation-loop-1 Static Branch Shadow - Delayed
+@defgroup experiments-speculation-loop-1 Loop Branch Shadow 1
 @ingroup  experiments-speculation
 @brief Do we see leakage from un-executed/partially executed instructions?
+
+@see @ref experiments-speculation-jump-shadow-0
+@see @ref experiments-speculation-loop-0
+@see @ref experiments-speculation-loop-1
 
 ## Purpose:
 
@@ -11,23 +15,19 @@ Identical to @ref experiments-speculation-loop-1 but with a single
 
 ## Method:
 
+See  @ref experiments-speculation-loop-1 .
 
 
 ## Expectations:
 
-- If there is no partial execution of the `xor` instructions in the
-  shadow of the branches, then there will be no leakage.
+- If either the "always predict taken" or "always predict taken if backwards"
+  static branch prediction rules are implemented, then we should never
+  see the `xor` instruction leakage.
 
-- If the instructions enter the pipeline in the shadow of the branch,
-  but do not get far enough into the pipeline to start reading their
-  operands, there will be no leakage.
+  - Note that this experiment assumes that the target device has a leaky
+    branch shadow of depth at-least `2`.
 
-- If the instruction enter far enough into the pipeline to read their
-  operands, there will be hamming weight leakage.
-
-- If the instructions progress far enough down the pipeline to
-  compute their result, then there will be hamming weight leakage
-  of the result as well as the inputs.
+  - If that assumption does not hold, no leakage will be visible.
 
 ## Running the experiment
 
