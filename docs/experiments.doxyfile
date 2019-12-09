@@ -4,10 +4,10 @@
 # Project related configuration options
 #---------------------------------------------------------------------------
 DOXYFILE_ENCODING      = UTF-8
-PROJECT_NAME           = "Micro-architectural leakage Experiments"
+PROJECT_NAME           = "Micro-architectural Leakage Experiments"
 PROJECT_NUMBER         =
 PROJECT_BRIEF          =
-PROJECT_LOGO           =
+PROJECT_LOGO           = docs/logo.png
 OUTPUT_DIRECTORY       = work/docs/experiments
 CREATE_SUBDIRS         = NO
 ALLOW_UNICODE_NAMES    = NO

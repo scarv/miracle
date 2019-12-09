@@ -2,3 +2,9 @@
 .contents{
     max-width: 800px;
 }
+
+#projectlogo img{
+    height:50px;
+    margin:3px;
+}
+
