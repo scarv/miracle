@@ -1,0 +1,52 @@
+/*!
+
+@defgroup experiments-speculation-loop-0 Static Branch Shadow
+@ingroup  experiments-speculation
+@brief Do we see leakage from un-executed/partially executed instructions?
+
+## Purpose:
+
+
+## Method:
+
+
+
+## Expectations:
+
+- If there is no partial execution of the `xor` instructions in the
+  shadow of the branches, then there will be no leakage.
+
+- If the instructions enter the pipeline in the shadow of the branch,
+  but do not get far enough into the pipeline to start reading their
+  operands, there will be no leakage.
+
+- If the instruction enter far enough into the pipeline to read their
+  operands, there will be hamming weight leakage.
+
+- If the instructions progress far enough down the pipeline to
+  compute their result, then there will be hamming weight leakage
+  of the result as well as the inputs.
+
+## Running the experiment
+
+To run all stages of the experiment for a particular target device:
+
+```
+make -B USB_PORT=[PORT] UAS_TARGET=[TARGET] flow-speculation-loop-0
+```
+
+Where:
+- `[PORT]` Is the UART/Serial port to communicate with it over.
+- `[TARGET]` Is one of the target names listed in @ref targets
+
+This will run all of the build, program, capture and analyse steps for
+the experiment on the specified target.
+
+The individual steps of the experiment are run with the following commands:
+
+- Build: `make build_[TARGET]_speculation-loop-0`
+- Program: `make program_[TARGET]_speculation-loop-0`
+- Capture: `make capture_[TARGET]_speculation-loop-0 USB_PORT=[PORT]`
+- Analyse: `make analyse_[TARGET]_speculation-loop-0`
+
+*/
