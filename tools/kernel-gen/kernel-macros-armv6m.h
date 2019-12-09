@@ -24,7 +24,7 @@
 #define XOR_RR(RD,RA,RM)          eor  RD,RM 
 #define XOR_RI(RD,RA,IMM)         .error "No xor reg imm on ARMv6M"
 #define ADD_RR(RD,RN,RM )         add  RD,RN,RM  
-#define ADD_RI(RD,RA,IMM)         adds RD,RD,IM 
+#define ADD_RI(RD,RA,IMM)         adds RD,f(__hash)IMM
 #define SHIFT_LEFT_RI(RD,RA,IMM)  lsls RD,RD,RS 
 #define SHIFT_RIGHT_RI(RD,RA,IMM) lsrs RD,RD,RS 
 #define ANOP                      nop

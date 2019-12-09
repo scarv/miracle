@@ -22,7 +22,7 @@
 #define XOR_RR(RD,RA,RM)          xor  RD,RA,RM
 #define XOR_RI(RD,RA,IMM)         xori RD,RA,IMM
 #define ADD_RR(RD,RN,RM )         add  RD,RN,RM  
-#define ADD_RI(RD,RA,IMM)         addi RD,RD,IM 
+#define ADD_RI(RD,RA,IMM)         addi RD,RD,IMM
 #define SHIFT_LEFT_RI(RD,RA,IMM)   sll RD,RD,RS 
 #define SHIFT_RIGHT_RI(RD,RA,IMM)  srl RD,RD,RS 
 #define ANOP                      nop
