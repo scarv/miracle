@@ -41,6 +41,7 @@ EXPERIMENTS = memory-bus/bus-width-st-bytes \
               speculation/jump-shadow-0 \
               speculation/loop-0 \
               speculation/loop-1 \
+              speculation/unpredictable-0 \
 
 
 .PHONY: docs
