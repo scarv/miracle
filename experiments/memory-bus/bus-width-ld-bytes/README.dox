@@ -74,11 +74,10 @@ We expect to see either:
     which it resides is in fact manipulated and presented to the CPU,
     which then throws away the extra bytes.
 
-## Findings
-
-@todo Re-write bus-width-ld-bytes experiment findings with new results.
-
 ### Overview:
+
+@note This is somewhat out of date, but kept for posterity, and because
+    it makes a good scaffold for updating results in the future.
 
 - All targets are 32-bit platforms, and unsupprisingly, we found that the
   bus widths are 32-bits wide for all targets.

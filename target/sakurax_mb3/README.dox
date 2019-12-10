@@ -17,8 +17,10 @@ To build and run an experiment on the target using the pre-synthesised
 bitfile:
 
 ```sh
+$> export VIVADO_ROOT=[path to vivado installation]
+$> source $VIVADO_ROOT/settings64.sh
 $> source bin/conf.sh
-$> make -B -f Makefile.experiment USB_BAUD=128000 UAS_EXPERIMENT=example/addxor UAS_TARGET=sakurax_mb3 program
+$> make -B USB_BAUD=128000 UAS_TARGET=sakurax_mb3 flow-pipeline-regs-xor-lhs
 ```
 
 This will build the example experiment, combine it with the pre-synthesised

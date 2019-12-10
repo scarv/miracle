@@ -34,23 +34,10 @@ Specific questions arrising from this:
 
 ## Method:
 
-When capturing the data:
+- Identical to @ref experiments-memory-bus-width-ld-bytes
+  but instead of loading a TTest variable from memory, we overwrite
+  the variable in memory with zeros.
 
-@todo Re-write data capture method.
-
-When interpreting the results:
-
-@todo Re-write results interpretation.
-
-## Expectations:
-
-We expect to see either:
-
-@todo Re-write expectations.
-
-## Findings
-
-@todo Write @ref experiments-memory-bus-width-st-bytes findings
 
 ## Running the experiment
 

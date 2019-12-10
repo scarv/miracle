@@ -25,7 +25,7 @@ experiment_payload:
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
 
-    // Store zeros to din+index1
+    // Store TTest variable 1 to din+index1
     STORE_WORD_RI(ARG_2,ARG_0, 0)
 
     ANOP; ANOP; ANOP; ANOP;
@@ -37,7 +37,7 @@ experiment_payload:
     ANOP; ANOP; ANOP; ANOP;
     ANOP; ANOP; ANOP; ANOP;
 
-    // Store zeros to din+index2
+    // Store TTest variable 2 to din+index2
     STORE_WORD_RI(ARG_3,ARG_1, 0)
 
     ANOP; ANOP; ANOP; ANOP;

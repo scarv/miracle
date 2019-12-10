@@ -2,10 +2,22 @@
 @defgroup experiments Experiments
 @brief The complete set of experiments used in the uArch Leakage study.
 
+
+- @ref experiments-flow-make
+  - @ref experiments-flow-build
+  - @ref experiments-flow-prog
+  - @ref experiments-flow-capture
+  - @ref experiments-flow-anal
+- @ref experiments-flow-all
+
 @section experiments-flow-make  Make Flow
 
 - The top level makefile (`$UAS_ROOT/Makefile`) is used to automate
   the building, running and analysing of experiments.
+
+  - The `Makefile.common` contains standard target definitions and
+    file path mapping macros which make automating experiment data
+    capture and analysis much easier.
 
 - It contains a manually managed list of target devices  and experiments.
 
@@ -14,10 +26,12 @@
   - Each experiment corresponds to a directory under `$UAS_ROOT/experiments`.
 
   - Experiments are organised in a directory structure of the form
-    `$UAS_ROOT/experiments/catagory/experiment-name`.
+    `$UAS_ROOT/experiments/[catagory]/[experiment-name]`.
 
+- If you're lucky, you can type make, and then hit `TAB` to see the list
+  of possible targets.
 
-@section experiments-flow-build Building Experiments
+@subsection experiments-flow-build Building Experiments
 
 - The special target `build-all` will compile all of the experiments for
   their respective target platform.
@@ -32,17 +46,92 @@
   directory paths, but automatically have `/` characters replaced with
   `-`.
 
-@section experiments-flow-prog  Programming Devices
+@subsection experiments-flow-prog  Programming Devices
 
-@todo
+- Devices are programmed with different experiments using the
+  top level makefile:
+  ```
+  $> make program_[TARGET]_[EXPERIMENT]
+  ```
 
-@section experiments-flow-captu Capturing Experiment Data
+- Each device must have a makefile named
+  `target/[TARGET]/program/program.mk`
+  which implements a target called `program`.
 
-@todo
+  - This target is responsible for reading the `UAS_EXPERIMENT` environment
+    variable, and programming the target device with the relevent
+    executable.
 
-@section experiments-flow-anal  Analysing Captured Data
+  - Some targets (such as the `scale_*` ones) can be programmed 
+    either with a dedicated program, or using openocd. This can be
+    controlled by adding `PROGRAM_WITH_OPENOCD=1` to the make command
+    line. The full list of targets supporting openocd are:
 
-@todo
+    - @ref targets-lpc1114fn28
+    - @ref targets-lpc1313fbd48
+    - @ref targets-lpc812m101
+  
+  - The `sakurax_*` targets all require Xilinx Vivado to program.
+    The `VIVADO_ROOT` environment variable must be set, and you must
+    source `$VIVADO_ROOT/settings64.sh` before programming on of the
+    FPGA targets.
+    Targets using Vivado are:
 
+    - @ref targets-sakurax-mb3
+    - @ref targets-sakurax-mb5
+    - @ref targets-sakurax-mb8
+    - @ref targets-sakurax-picorv32
+
+@subsection experiments-flow-capture Capturing Experiment Data
+
+Given that you have programmed a device with a particular
+experiment, data is captured by running:
+
+```
+$> make capture_[TARGET]_[EXPERIMENT]
+```
+
+potentially with the `USB_PORT` and `USB_BAUD` variables added
+depending on the target, and how it is communicating with the
+host PC.
+
+What data is captured for the experiment and how is defined
+per experiment in `experiments/[CATAGORY]/[EXPERIMENT]/Makefile.capture`.
+
+@subsection experiments-flow-anal  Analysing Captured Data
+
+After capturing the data, you can run the per-experiment
+analysis on it by running:
+
+```
+$> make analyse_[TARGET]_[EXPERIMENT]
+```
+
+How the experiment is analysed is defined
+per experiment in `experiments/[CATAGORY]/[EXPERIMENT]/Makefile.analyse`.
+
+
+@section experiments-flow-all Putting it all together
+
+There are two commands to make this all less tedious:
+
+- Run all build, program, capture and analyse steps for a given experiment
+  and target:
+  ```
+  $> make -B UAS_TARGET=[TARGET DEVICE] flow-[EXPERIMENT]
+  ```
+  Where `[TARGET DEVICE]` is the device to run the experiment for, and
+  `[EXPERIMENT]` is the name of the experiment to run.
+
+  - You may need to set `USB_PORT` and `USB_BAUD` for this to work,
+    depending on the target device and how it is connected to the host PC.
+
+- Run all steps for all experiments for a given target device:
+  ```
+  $> make -B UAS_TARGET=[TARGET DEVICE] run-all-experiments-for-target
+  ```
+  
+  - You may need to set `USB_PORT` and `USB_BAUD` for this to work,
+    depending on the target device and how it is connected to the host PC.
 
 */
