@@ -362,11 +362,27 @@ $(call map_ttest_ttrace_plot,${1}) : $(call map_ttest_ttrace_npy,${1})
         --title "T-Statistic Trace" \
         $${@} $(call map_ttest_ttrace_npy,${1}) 
 
+$(call map_ttest_avg_trace_plot,${1}) : $(PLOT)
+$(call map_ttest_avg_trace_plot,${1}) : $(call map_ttest_ttrace_npy,${1}) 
+	@mkdir -p $(dir $(call map_ttest_ttrace_plot,${1}))
+	$(PLOT) --layout overlap \
+        --title "Average power Trace" \
+        $${@} $(call map_ttest_avg_trace_npy,${1}) 
+
+$(call map_ttest_std_trace_plot,${1}) : $(PLOT)
+$(call map_ttest_std_trace_plot,${1}) : $(call map_ttest_ttrace_npy,${1}) 
+	@mkdir -p $(dir $(call map_ttest_ttrace_plot,${1}))
+	$(PLOT) --layout overlap \
+        --title "Power Trace Standard Deviation" \
+        $${@} $(call map_ttest_std_trace_npy,${1}) 
+
 $(call map_ttest_analyse_tgt,${1}) : \
     $(call map_ttest_ttrace_npy,${1}) \
     $(call map_ttest_ttrace_plot,${1}) \
     $(call map_ttest_avg_trace_npy,${1}) \
+    $(call map_ttest_avg_trace_plot,${1}) \
     $(call map_ttest_std_trace_npy,${1}) \
+    $(call map_ttest_std_trace_plot,${1}) \
     $(call map_ttest_min_trace_npy,${1}) \
     $(call map_ttest_max_trace_npy,${1}) \
     $(call map_ttest_rng_trace_npy,${1})
