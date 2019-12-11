@@ -23,6 +23,9 @@ $> source bin/conf.sh
 $> make -B USB_BAUD=128000 UAS_TARGET=sakurax_picorv32 flow-pipeline-regs-xor-lhs
 ```
 
+@note You *must* set the `USB_BAUD` make parameter to `128000`, since the
+    target UART only operates at this speed.
+
 This will build the example experiment, combine it with the pre-synthesised
 bitfile and program the FPGA via the Xilinx hardware server.
 

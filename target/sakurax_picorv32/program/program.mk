@@ -31,12 +31,10 @@ $(DOWNLOAD_BITFILE) : $(IMPL_BITFILE) $(call map_experiment_elf)
 	@rm updatemem.jou updatemem.log
 
 bitfile : $(DOWNLOAD_BITFILE)
-
-$(VIVADO_LOG) : $(DOWNLOAD_BITFILE) $(BINOUT)
+	
+.PHONY: program
+program: $(DOWNLOAD_BITFILE) $(BINOUT)
 	$(VIVADO) -mode tcl -log $(VIVADO_LOG) -nojournal \
         -source $(TARGET_DIR)/program/program_bitstream.tcl \
         -tclargs $(DOWNLOAD_BITFILE)
 	@rm -f $(dir $(VIVADO_LOG))/vivado*backup.log
-	
-program: $(VIVADO_LOG)
-
