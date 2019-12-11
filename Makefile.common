@@ -121,6 +121,15 @@ $(UAS_EXPERIMENT_BUILD)/ttrace${1}.svg
 endef
 
 #
+# Return a file path for the TTest trace numpy dump file.
+#
+# 1  - The name of the TTest
+#
+define map_ttest_ttrace_npy
+$(UAS_EXPERIMENT_BUILD)/ttrace${1}.npy
+endef
+
+#
 # Return a makefile target name for capturing a ttest
 #
 # 1  - The name of the TTest
@@ -150,12 +159,30 @@ $(UAS_EXPERIMENT_BUILD)/avg-trace${1}.svg
 endef
 
 #
+# Return a file path for the average trace numpy dump.
+#
+# 1 - Uniqifying name. Can be empty.
+#
+define map_ttest_avg_trace_npy
+$(UAS_EXPERIMENT_BUILD)/avg-trace${1}.npy
+endef
+
+#
 # Return a file path for the standard deviation trace plot.
 #
 # 1 - Uniqifying name. Can be empty.
 #
 define map_ttest_std_trace_plot
 $(UAS_EXPERIMENT_BUILD)/std-trace${1}.svg
+endef
+
+#
+# Return a file path for the standard deviation trace numpy dump.
+#
+# 1 - Uniqifying name. Can be empty.
+#
+define map_ttest_std_trace_npy
+$(UAS_EXPERIMENT_BUILD)/std-trace${1}.npy
 endef
 
 #
@@ -168,7 +195,17 @@ $(UAS_EXPERIMENT_BUILD)/rng-trace${1}.svg
 endef
 
 #
+# Return a file path for the range trace numpy dump.
+#
+# 1 - Uniqifying name. Can be empty.
+#
+define map_ttest_rng_trace_npy
+$(UAS_EXPERIMENT_BUILD)/rng-trace${1}.npy
+endef
+
+#
 # Return a file path for a hamming weight cpa analysis of a given variable.
+# Used for plotting the graph.
 #
 # 1. TTest Name
 # 2. Variable Name
@@ -178,7 +215,19 @@ $(UAS_EXPERIMENT_BUILD)/cpa-hw${1}-${2}.svg
 endef
 
 #
+# Return a file path for a hamming weight cpa analysis of a given variable.
+# Used for dumping the numpy array to file.
+#
+# 1. TTest Name
+# 2. Variable Name
+#
+define map_ttest_cpa_hw_npy
+$(UAS_EXPERIMENT_BUILD)/cpa-hw${1}-${2}.svg
+endef
+
+#
 # Return a file path for a hamming distance cpa analysis of two variables.
+# Used for plotting the graph.
 #
 # 1. TTest Name
 # 2. Variable 1 Name
@@ -186,6 +235,18 @@ endef
 #
 define map_ttest_cpa_hd_plot
 $(UAS_EXPERIMENT_BUILD)/cpa-hd${1}-${2}-${3}.svg
+endef
+
+#
+# Return a file path for a hamming distance cpa analysis of two variables.
+# Used for dumping the numpy array to file.
+#
+# 1. TTest Name
+# 2. Variable 1 Name
+# 3. Variable 2 Name
+#
+define map_ttest_cpa_hd_npy
+$(UAS_EXPERIMENT_BUILD)/cpa-hd${1}-${2}-${3}.npy
 endef
 
 #
@@ -226,26 +287,27 @@ endef
 #
 define tgt_ttest_analyse
 
-$(call map_ttest_tgraph,${1}) : $(call map_ttest_fixed_npy,${1}) \
+$(call map_ttest_ttrace_npy,${1}) : $(call map_ttest_fixed_npy,${1}) \
                                 $(call map_ttest_traces_npy,${1})
 	$(TTEST_ANALYSE) \
 	    --abs \
+	    --ttrace-dump $(call map_ttest_ttrace_npy,${1}) \
 	    --graph-ttest $(call map_ttest_tgraph,${1}) \
 	    $(call map_ttest_fixed_npy,${1}) \
 	    $(call map_ttest_traces_npy,${1})
 
 
-$(call map_ttest_avg_trace_plot,${1}) : $(call map_ttest_traces_npy,${1})
+$(call map_ttest_avg_trace_npy,${1}) : $(call map_ttest_traces_npy,${1})
 	$(STD_PLOTS) --avg-trace --minmax $${<} $${@}
 
-$(call map_ttest_std_trace_plot,${1}) : $(call map_ttest_traces_npy,${1})
+$(call map_ttest_std_trace_npy,${1}) : $(call map_ttest_traces_npy,${1})
 	$(STD_PLOTS) --stddev $${<} $${@}
 
-$(call map_ttest_rng_trace_plot,${1}) : $(call map_ttest_traces_npy,${1})
+$(call map_ttest_rng_trace_npy,${1}) : $(call map_ttest_traces_npy,${1})
 	$(STD_PLOTS) --range  $${<} $${@}
 
 
-$(call map_ttest_analyse_tgt,${1}) : $(call map_ttest_tgraph,${1})   \
+$(call map_ttest_analyse_tgt,${1}) : $(call map_ttest_ttrace_npy,${1})   \
                                      $(call map_ttest_avg_trace_plot,${1}) \
                                      $(call map_ttest_std_trace_plot,${1}) \
                                      $(call map_ttest_rng_trace_plot,${1})
@@ -261,12 +323,12 @@ endef
 #
 define tgt_cpa_hw_ttest
 
-$(call map_ttest_cpa_hw_plot,${1},${2}) : $(CPA_HW)
-$(call map_ttest_cpa_hw_plot,${1},${2}) : $(call map_ttest_traces_npy,${1}) \
-                                          $(call map_ttest_var_npy,${1},${2})
+$(call map_ttest_cpa_hw_npy,${1},${2}) : $(CPA_HW)
+$(call map_ttest_cpa_hw_npy,${1},${2}) : $(call map_ttest_traces_npy,${1}) \
+                                         $(call map_ttest_var_npy,${1},${2})
 	$(CPA_HW) \
         --trace-filter-out $(call map_ttest_fixed_npy,${1}) \
-        --graph  $${@} \
+        --dump $${@} \
         $(call map_ttest_traces_npy,${1}) $(call map_ttest_var_npy,${1},${2})
 
 endef
@@ -282,14 +344,14 @@ endef
 #
 define tgt_cpa_hd_ttest
 
-$(call map_ttest_cpa_hd_plot,${1},${2},${3}) : $(CPA_HD)
-$(call map_ttest_cpa_hd_plot,${1},${2},${3}) :\
+$(call map_ttest_cpa_hd_npy,${1},${2},${3}) : $(CPA_HD)
+$(call map_ttest_cpa_hd_npy,${1},${2},${3}) :\
         $(call map_ttest_traces_npy,${1}) \
         $(call map_ttest_var_npy,${1},${2})\
         $(call map_ttest_var_npy,${1},${3})
 	$(CPA_HD) \
         --trace-filter-out $(call map_ttest_fixed_npy,${1}) \
-        --graph  $${@} \
+        --dump $${@} \
 	    $(call map_ttest_traces_npy,${1}) \
 	    $(call map_ttest_var_npy,${1},${2})\
 	    $(call map_ttest_var_npy,${1},${3})
