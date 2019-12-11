@@ -1,5 +1,10 @@
-
-include $(UAS_ROOT)/Makefile.common
+#
+# This makefile contains common code for adding analysis and capture
+# targets to the regs-* experiments.
+#
+# It expects to be *included* by the Makefile.capture and Makefile.analyse
+# files for each of the experiments.
+#
 
 ANALYSE_TARGETS = 
 

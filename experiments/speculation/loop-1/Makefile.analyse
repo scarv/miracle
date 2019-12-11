@@ -11,7 +11,7 @@ ANALYSE_TARGETS += $(call map_ttest_analyse_tgt,${1})
 
 $(eval $(call tgt_cpa_hw_ttest,${1},di1))
 
-ANALYSE_TARGETS += $(call map_ttest_cpa_hw_plot,${1},di1)
+ANALYSE_TARGETS += $(call map_cpa_hw_analyse_tgt,${1},di1)
 
 endef
 
