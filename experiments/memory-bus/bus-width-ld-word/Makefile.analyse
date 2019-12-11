@@ -11,5 +11,13 @@ ANALYSE_TARGETS += $(call map_ttest_analyse_tgt,-1-0)
 ANALYSE_TARGETS += $(call map_ttest_analyse_tgt,-1-1)
 ANALYSE_TARGETS += $(call map_ttest_analyse_tgt,-1-2)
 
+$(eval $(call tgt_cpa_hw_ttest,-1-0,din))
+$(eval $(call tgt_cpa_hw_ttest,-1-1,din))
+$(eval $(call tgt_cpa_hw_ttest,-1-2,din))
+
+ANALYSE_TARGETS += $(call map_cpa_hw_analyse_tgt,-1-0,din)
+ANALYSE_TARGETS += $(call map_cpa_hw_analyse_tgt,-1-1,din)
+ANALYSE_TARGETS += $(call map_cpa_hw_analyse_tgt,-1-2,din)
+
 analyse: $(ANALYSE_TARGETS)
 
