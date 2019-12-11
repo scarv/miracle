@@ -11,7 +11,8 @@ TARGET_DIR           = $(UAS_ROOT)/target/$(UAS_TARGET)
 # Standard scripts from fw-acquisition
 TTEST_CAPTURE       ?= $(UAS_ROOT)/external/fw-acquisition/bin/ttest_capture.py
 TTEST_ANALYSE       ?= $(UAS_ROOT)/external/fw-acquisition/bin/ttest_analyse.py
-STD_PLOTS           ?= $(UAS_ROOT)/external/fw-acquisition/bin/trace-plots.py
+DUMP_TRACES         ?= $(UAS_ROOT)/external/fw-acquisition/bin/dump-stat-traces.py
+PLOT                ?= $(UAS_ROOT)/external/fw-acquisition/bin/simple-plot.py
 CPA_HW              ?= $(UAS_ROOT)/external/fw-acquisition/bin/cpa-hw.py
 CPA_HD              ?= $(UAS_ROOT)/external/fw-acquisition/bin/cpa-hd.py
 
@@ -116,8 +117,8 @@ endef
 #
 # 1  - The name of the TTest
 #
-define map_ttest_tgraph
-$(UAS_EXPERIMENT_BUILD)/ttrace${1}.svg
+define map_ttest_ttrace_plot
+$(UAS_EXPERIMENT_BUILD)/plot/ttrace${1}.svg
 endef
 
 #
@@ -126,7 +127,7 @@ endef
 # 1  - The name of the TTest
 #
 define map_ttest_ttrace_npy
-$(UAS_EXPERIMENT_BUILD)/ttrace${1}.npy
+$(UAS_EXPERIMENT_BUILD)/trace/ttrace${1}.npy
 endef
 
 #
@@ -148,6 +149,29 @@ define map_ttest_analyse_tgt
 analyse-ttest${1}-${2}
 endef
 
+#
+# Return a makefile target name for doing a hamming weight analysis on
+# the captured TTest traces.
+#
+# 1 - The name of the TTest
+# 2 - The variable whos hamming weight we are considering.
+#
+define map_cpa_hw_analyse_tgt
+analyse-cpa_hw${1}-${2}
+endef
+
+#
+# Return a makefile target name for doing a hamming distance analysis on
+# the captured TTest traces.
+#
+# 1 - The name of the TTest
+# 2 - Variable 1
+# 3 - Variable 2
+#
+define map_cpa_hd_analyse_tgt
+analyse-cpa_hd${1}-${2}-${3}
+endef
+
 
 #
 # Return a file path for the average trace plot.
@@ -155,7 +179,7 @@ endef
 # 1 - Uniqifying name. Can be empty.
 #
 define map_ttest_avg_trace_plot
-$(UAS_EXPERIMENT_BUILD)/avg-trace${1}.svg
+$(UAS_EXPERIMENT_BUILD)/plot/avg-trace${1}.svg
 endef
 
 #
@@ -164,7 +188,7 @@ endef
 # 1 - Uniqifying name. Can be empty.
 #
 define map_ttest_avg_trace_npy
-$(UAS_EXPERIMENT_BUILD)/avg-trace${1}.npy
+$(UAS_EXPERIMENT_BUILD)/trace/avg-trace${1}.npy
 endef
 
 #
@@ -173,7 +197,7 @@ endef
 # 1 - Uniqifying name. Can be empty.
 #
 define map_ttest_std_trace_plot
-$(UAS_EXPERIMENT_BUILD)/std-trace${1}.svg
+$(UAS_EXPERIMENT_BUILD)/plot/std-trace${1}.svg
 endef
 
 #
@@ -182,8 +206,28 @@ endef
 # 1 - Uniqifying name. Can be empty.
 #
 define map_ttest_std_trace_npy
-$(UAS_EXPERIMENT_BUILD)/std-trace${1}.npy
+$(UAS_EXPERIMENT_BUILD)/trace/std-trace${1}.npy
 endef
+
+
+#
+# Return a file path for the minimum trace numpy dump.
+#
+# 1 - Uniqifying name. Can be empty.
+#
+define map_ttest_min_trace_npy
+$(UAS_EXPERIMENT_BUILD)/trace/min-trace${1}.npy
+endef
+
+#
+# Return a file path for the maximum trace numpy dump.
+#
+# 1 - Uniqifying name. Can be empty.
+#
+define map_ttest_max_trace_npy
+$(UAS_EXPERIMENT_BUILD)/trace/max-trace${1}.npy
+endef
+
 
 #
 # Return a file path for the range trace plot.
@@ -191,7 +235,7 @@ endef
 # 1 - Uniqifying name. Can be empty.
 #
 define map_ttest_rng_trace_plot
-$(UAS_EXPERIMENT_BUILD)/rng-trace${1}.svg
+$(UAS_EXPERIMENT_BUILD)/plot/rng-trace${1}.svg
 endef
 
 #
@@ -200,7 +244,7 @@ endef
 # 1 - Uniqifying name. Can be empty.
 #
 define map_ttest_rng_trace_npy
-$(UAS_EXPERIMENT_BUILD)/rng-trace${1}.npy
+$(UAS_EXPERIMENT_BUILD)/trace/rng-trace${1}.npy
 endef
 
 #
@@ -211,7 +255,7 @@ endef
 # 2. Variable Name
 #
 define map_ttest_cpa_hw_plot
-$(UAS_EXPERIMENT_BUILD)/cpa-hw${1}-${2}.svg
+$(UAS_EXPERIMENT_BUILD)/plot/cpa-hw${1}-${2}.svg
 endef
 
 #
@@ -222,7 +266,7 @@ endef
 # 2. Variable Name
 #
 define map_ttest_cpa_hw_npy
-$(UAS_EXPERIMENT_BUILD)/cpa-hw${1}-${2}.svg
+$(UAS_EXPERIMENT_BUILD)/trace/cpa-hw${1}-${2}.npy
 endef
 
 #
@@ -234,7 +278,7 @@ endef
 # 3. Variable 2 Name
 #
 define map_ttest_cpa_hd_plot
-$(UAS_EXPERIMENT_BUILD)/cpa-hd${1}-${2}-${3}.svg
+$(UAS_EXPERIMENT_BUILD)/plot/cpa-hd${1}-${2}-${3}.svg
 endef
 
 #
@@ -246,7 +290,7 @@ endef
 # 3. Variable 2 Name
 #
 define map_ttest_cpa_hd_npy
-$(UAS_EXPERIMENT_BUILD)/cpa-hd${1}-${2}-${3}.npy
+$(UAS_EXPERIMENT_BUILD)/trace/cpa-hd${1}-${2}-${3}.npy
 endef
 
 #
@@ -288,29 +332,44 @@ endef
 define tgt_ttest_analyse
 
 $(call map_ttest_ttrace_npy,${1}) : $(call map_ttest_fixed_npy,${1}) \
-                                $(call map_ttest_traces_npy,${1})
+                                    $(call map_ttest_traces_npy,${1})
+	@mkdir -p $(dir $(call map_ttest_ttrace_npy,${1}))
 	$(TTEST_ANALYSE) \
 	    --abs \
 	    --ttrace-dump $(call map_ttest_ttrace_npy,${1}) \
-	    --graph-ttest $(call map_ttest_tgraph,${1}) \
 	    $(call map_ttest_fixed_npy,${1}) \
 	    $(call map_ttest_traces_npy,${1})
 
 
-$(call map_ttest_avg_trace_npy,${1}) : $(call map_ttest_traces_npy,${1})
-	$(STD_PLOTS) --avg-trace --minmax $${<} $${@}
-
-$(call map_ttest_std_trace_npy,${1}) : $(call map_ttest_traces_npy,${1})
-	$(STD_PLOTS) --stddev $${<} $${@}
-
+$(call map_ttest_max_trace_npy,${1}) : $(call map_ttest_min_trace_npy,${1})
+$(call map_ttest_min_trace_npy,${1}) : $(call map_ttest_avg_trace_npy,${1})
+$(call map_ttest_avg_trace_npy,${1}) : $(call map_ttest_std_trace_npy,${1})
+$(call map_ttest_std_trace_npy,${1}) : $(call map_ttest_rng_trace_npy,${1})
 $(call map_ttest_rng_trace_npy,${1}) : $(call map_ttest_traces_npy,${1})
-	$(STD_PLOTS) --range  $${<} $${@}
+	@mkdir -p $(dir $(call map_ttest_avg_trace_npy,${1}))
+	$(DUMP_TRACES) \
+        --avg-trace $(call map_ttest_avg_trace_npy,${1}) \
+        --min       $(call map_ttest_min_trace_npy,${1}) \
+        --max       $(call map_ttest_max_trace_npy,${1}) \
+	    --stddev    $(call map_ttest_std_trace_npy,${1}) \
+	    --range     $(call map_ttest_rng_trace_npy,${1}) \
+        $${<}   
 
+$(call map_ttest_ttrace_plot,${1}) : $(PLOT)
+$(call map_ttest_ttrace_plot,${1}) : $(call map_ttest_ttrace_npy,${1}) 
+	@mkdir -p $(dir $(call map_ttest_ttrace_plot,${1}))
+	$(PLOT) --layout overlap --abs --critical-value 4.5 \
+        --title "T-Statistic Trace" \
+        $${@} $(call map_ttest_ttrace_npy,${1}) 
 
-$(call map_ttest_analyse_tgt,${1}) : $(call map_ttest_ttrace_npy,${1})   \
-                                     $(call map_ttest_avg_trace_plot,${1}) \
-                                     $(call map_ttest_std_trace_plot,${1}) \
-                                     $(call map_ttest_rng_trace_plot,${1})
+$(call map_ttest_analyse_tgt,${1}) : \
+    $(call map_ttest_ttrace_npy,${1}) \
+    $(call map_ttest_ttrace_plot,${1}) \
+    $(call map_ttest_avg_trace_npy,${1}) \
+    $(call map_ttest_std_trace_npy,${1}) \
+    $(call map_ttest_min_trace_npy,${1}) \
+    $(call map_ttest_max_trace_npy,${1}) \
+    $(call map_ttest_rng_trace_npy,${1})
 
 endef
 
@@ -330,6 +389,16 @@ $(call map_ttest_cpa_hw_npy,${1},${2}) : $(call map_ttest_traces_npy,${1}) \
         --trace-filter-out $(call map_ttest_fixed_npy,${1}) \
         --dump $${@} \
         $(call map_ttest_traces_npy,${1}) $(call map_ttest_var_npy,${1},${2})
+
+$(call map_ttest_cpa_hw_plot,${1},${2}) : $(PLOT)
+$(call map_ttest_cpa_hw_plot,${1},${2}) : $(call map_ttest_cpa_hw_npy,${1},${2})
+	$(PLOT) --layout overlap --ymax 1.0 \
+        --title "Hamming Weight CPA: ${2}" \
+        $${@} $${<}
+
+$(call map_cpa_hw_analyse_tgt,${1},${2}) : \
+    $(call map_ttest_cpa_hw_npy,${1},${2}) \
+    $(call map_ttest_cpa_hw_plot,${1},${2})
 
 endef
 
@@ -355,6 +424,16 @@ $(call map_ttest_cpa_hd_npy,${1},${2},${3}) :\
 	    $(call map_ttest_traces_npy,${1}) \
 	    $(call map_ttest_var_npy,${1},${2})\
 	    $(call map_ttest_var_npy,${1},${3})
+
+$(call map_ttest_cpa_hd_plot,${1},${2},${3}) : $(PLOT)
+$(call map_ttest_cpa_hd_plot,${1},${2},${3}) : $(call map_ttest_cpa_hd_npy,${1},${2},${3})
+	$(PLOT) --layout overlap --ymax 1.0 \
+        --title "Hamming Distance CPA: ${2} - ${3}" \
+        $${@} $${<}
+
+$(call map_cpa_hd_analyse_tgt,${1},${2},${3}) : \
+    $(call map_ttest_cpa_hd_npy,${1},${2},${3}) \
+    $(call map_ttest_cpa_hd_plot,${1},${2},${3})
 
 endef
 

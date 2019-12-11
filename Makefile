@@ -64,29 +64,71 @@ define map_tgt
 ${1}_${2}_$(call map_exp,${3})
 endef
 
+
+#
+# Add an experiment compile/build target for the given target and
+# experiment combination.
+#
+# 1. Target device.
+# 2. Experiment Name.
+#
 define tgt_build
+.PHONY: $(call map_tgt,build,${1},${2})
 $(call map_tgt,build,${1},${2}) :
-	$(MAKE) -j 4 -f Makefile.build UAS_TARGET=${1} UAS_EXPERIMENT=${2} all
+	$(MAKE) -f Makefile.build UAS_TARGET=${1} UAS_EXPERIMENT=${2} all
 endef
 
+
+#
+# Add a build target name to the BUILD_TARGETS variable, so we can
+# make the build-all phony target work.
+#
+# 1. Target device.
+# 2. Experiment Name.
+#
 define add_tgt_build
 $(call tgt_build,${1},${2})
 BUILD_TARGETS += $(call map_tgt,build,${1},${2})
 endef
 
+
+#
+# Add a top level target to program a given device with a given experiment.
+#
+# 1. Target device.
+# 2. Experiment Name.
+#
 define add_tgt_program
+.PHONY: $(call map_tgt,program,${1},${2})
 $(call map_tgt,program,${1},${2}) : $(call map_tgt,build,${1},${2})
 	$(MAKE) -f Makefile.program UAS_TARGET=${1} UAS_EXPERIMENT=${2} program
 endef
 
+
+#
+# Add a top level target to capture data from an experiment on a given
+# target device.
+#
+# 1. Target device.
+# 2. Experiment Name.
+#
 define add_tgt_capture
-$(call map_tgt,capture,${1},${2}) :
+.PHONY: $(call map_tgt,capture,${1},${2})
+$(call map_tgt,capture,${1},${2}) : $(call map_tgt,program,${1},${2})
 	$(MAKE) -f experiments/${2}/Makefile.capture UAS_TARGET=${1} UAS_EXPERIMENT=${2} capture
 endef
 
+
+#
+# Add a top level target to analyse captured data from an experiment on a
+# given target device.
+#
+# 1. Target device.
+# 2. Experiment Name.
+#
 define add_tgt_analyse
 $(call map_tgt,analyse,${1},${2}) :
-	$(MAKE) -j 2 -f experiments/${2}/Makefile.analyse UAS_TARGET=${1} UAS_EXPERIMENT=${2} analyse
+	$(MAKE) -f experiments/${2}/Makefile.analyse UAS_TARGET=${1} UAS_EXPERIMENT=${2} analyse
 ALL_ANALYSIS_TARGETS += $(call map_tgt,analyse,${1},${2}) 
 endef
 
@@ -94,8 +136,7 @@ define add_tgt_flow
 flow-$(call map_exp,${1}) : \
             $(call map_tgt,build,${UAS_TARGET},${1}) \
             $(call map_tgt,program,${UAS_TARGET},${1}) \
-            $(call map_tgt,capture,${UAS_TARGET},${1}) \
-            $(call map_tgt,analyse,${UAS_TARGET},${1}) 
+            $(call map_tgt,capture,${UAS_TARGET},${1})
 FLOW_TARGETS += flow-$(call map_exp,${1})
 TGT_ANALYSIS_TARGETS += $(call map_tgt,analyse,${UAS_TARGET},${1}) 
 endef

@@ -3,26 +3,13 @@ include $(UAS_ROOT)/Makefile.common
 
 ANALYSE_TARGETS = 
 
-$(eval $(call tgt_ttest_analyse,-5-0))
-$(eval $(call tgt_ttest_analyse,-5-1))
-$(eval $(call tgt_ttest_analyse,-5-2))
-$(eval $(call tgt_ttest_analyse,-5-3))
-$(eval $(call tgt_ttest_analyse,-5-4))
-$(eval $(call tgt_ttest_analyse,-5-5))
-$(eval $(call tgt_ttest_analyse,-5-6))
-$(eval $(call tgt_ttest_analyse,-5-7))
-$(eval $(call tgt_ttest_analyse,-5-8))
+$(eval $(call tgt_ttest_analyse,-1-0))
+$(eval $(call tgt_ttest_analyse,-1-1))
+$(eval $(call tgt_ttest_analyse,-1-2))
 
-ANALYSE_TARGETS += $(call map_ttest_analyse_tgt,-5-0)
-ANALYSE_TARGETS += $(call map_ttest_analyse_tgt,-5-1)
-ANALYSE_TARGETS += $(call map_ttest_analyse_tgt,-5-2)
-ANALYSE_TARGETS += $(call map_ttest_analyse_tgt,-5-3)
-ANALYSE_TARGETS += $(call map_ttest_analyse_tgt,-5-4)
-ANALYSE_TARGETS += $(call map_ttest_analyse_tgt,-5-5)
-ANALYSE_TARGETS += $(call map_ttest_analyse_tgt,-5-6)
-ANALYSE_TARGETS += $(call map_ttest_analyse_tgt,-5-7)
-ANALYSE_TARGETS += $(call map_ttest_analyse_tgt,-5-8)
+ANALYSE_TARGETS += $(call map_ttest_analyse_tgt,-1-0)
+ANALYSE_TARGETS += $(call map_ttest_analyse_tgt,-1-1)
+ANALYSE_TARGETS += $(call map_ttest_analyse_tgt,-1-2)
 
 analyse: $(ANALYSE_TARGETS)
-
 
