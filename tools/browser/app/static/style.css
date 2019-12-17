@@ -1,0 +1,48 @@
+html {
+    font-family: sans-serif;
+    background: #eee;
+    padding:0px;
+}
+
+body {
+    margin:0px;
+    padding:0px;
+    background: white;
+}
+
+.navtable {
+    margin: 0px;
+    border-bottom: 2px solid black;
+    width: 100%;
+    padding: 5px;
+}
+
+.logo {
+    height:50px;
+}
+
+html body div.heading {
+    padding: 15px;
+    display: inline;
+    font-size: x-large;
+    font-weight: bolder;
+}
+
+html body div.item {
+    padding: 15px;
+    width: 140px;
+    display: inline;
+    text-align:right;
+    font-size: large;
+}
+
+div.content{
+    padding:15px;
+}
+
+div.footer{
+    text-align:center;
+    font-size: small;
+    padding: 15px;
+    border-top: 1px solid black;
+}

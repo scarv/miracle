@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+<title>{% block title %}{% endblock %} - UArch Leakage Study</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<table class="navtable">
+<tr>
+<td>
+    <div class="heading">
+        SCARV Micro-architectural Leakage Study
+    </div>
+</td>
+<td rowspan="2" style="text-align:right;">
+    <img class="logo" src="{{ url_for('static', filename='logo.png') }}" />
+</td>
+</tr>
+<tr>
+    <td>
+        <div class="item"><a href="/">Home</a></div>
+        <div class="item"><a href="/targets">Targets</a></div>
+        <div class="item"><a href="/experiments">Experiments</a></div>
+    </td>
+</tr>
+</table>
+<div class="content">
+  <header>
+    {% block header %}{% endblock %}
+  </header>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+</div>
+<footer>
+<div class="footer">
+    This work has been supported in part by EPSRC via grant 
+    <a href="https://gow.epsrc.ukri.org/NGBOViewGrant.aspx?GrantRef=EP/R012288/1">EP/R012288/1</a>,
+    under the
+    <a href="http://www.ukrise.org">RISE</a>
+    programme.
+</div
+</footer>
+</body>
+</html>
