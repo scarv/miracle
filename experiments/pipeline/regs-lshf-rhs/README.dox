@@ -1,0 +1,73 @@
+/*!
+
+@defgroup experiments-pipeline-regs-lshf-rhs Registers - Left Shift - RHS
+@ingroup  experiments-pipeline
+@brief Do we see leakage from pipeline registers with the Left Shift instruction?
+
+@see @ref experiments-pipeline-reg-xor-lhs
+@see @ref experiments-pipeline-reg-xor-rhs
+@see @ref experiments-pipeline-reg-xor-nop
+@see @ref experiments-pipeline-reg-xor-mov-lhs
+@see @ref experiments-pipeline-reg-xor-mov-rhs
+@see @ref experiments-pipeline-regs-lshf-lhs
+@see @ref experiments-pipeline-regs-lshf-rhs
+@see @ref experiments-pipeline-regs-rshf-lhs
+@see @ref experiments-pipeline-regs-rshf-rhs
+
+## Purpose:
+
+Cryptographic code often contains shifts and rotations by constant
+values.
+A shift by immediate will hence often have one sensitive operand
+and one in-sensitive operand.
+It is important to know which pipeline registers the operands
+occupy in order to avoid overwrite hamming distance leakage.
+
+## Method:
+
+- Execute an XOR instruction, followed by a left shift by immediate.
+- The XOR instruction has TTest variable 1 in it's "right" operand.
+- The Shift instruction shifts TTest variable 2 left by 31
+  and places the result in a zero'd register.
+- All TTest variables are masked with the same mask value, hence we
+  should only see leakage if one variable over-writes another.
+
+@note This experiment is modified for targets implementing ARMv6M and
+    ARMv7m architectures, since these only have 2 operand XOR instructions
+    with source/destination register behaviour.
+    In this case, the destination register is the "Left" argument and
+    cannot be zero'd.
+
+## Expectations:
+
+- If the right operand of the XOR instruction is overwritten by the
+  left operand of the shift instruction, we should see hamming distance
+  leakage between the two, implying that they share a pipeline register
+  datapath when being executed.
+- If the right operand of the XOR instruction is overwritten by the
+  right operand of the shift instruction (that is, the constant shift
+  amount) then we should see no hamming distance leakage.
+
+## Running the experiment
+
+To run all stages of the experiment for a particular target device:
+
+```
+make -B USB_PORT=[PORT] UAS_TARGET=[TARGET] flow-pipeline-regs-lshf-rhs
+```
+
+Where:
+- `[PORT]` Is the UART/Serial port to communicate with it over.
+- `[TARGET]` Is one of the target names listed in @ref targets
+
+This will run all of the build, program, capture and analyse steps for
+the experiment on the specified target.
+
+The individual steps of the experiment are run with the following commands:
+
+- Build: `make build_[TARGET]_pipeline-regs-lshf-rhs`
+- Program: `make program_[TARGET]_pipeline-regs-lshf-rhs`
+- Capture: `make capture_[TARGET]_pipeline-regs-lshf-rhs USB_PORT=[PORT]`
+- Analyse: `make analyse_[TARGET]_pipeline-regs-lshf-rhs`
+
+*/

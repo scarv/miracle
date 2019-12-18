@@ -1,0 +1,3 @@
+
+include $(UAS_ROOT)/Makefile.common
+include $(UAS_EXPERIMENT_SRC)/../regs-analyse.mk
