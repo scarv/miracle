@@ -38,6 +38,7 @@ EXPERIMENTS = memory-bus/bus-width-st-bytes \
               pipeline/regs-xor-nop \
               pipeline/regs-xor-mov-lhs \
               pipeline/regs-xor-mov-rhs \
+              pipeline/cmov-operands \
               speculation/jump-shadow-0 \
               speculation/loop-0 \
               speculation/loop-1 \

@@ -1,0 +1,13 @@
+
+include $(UAS_ROOT)/Makefile.common
+
+CAPTURE_TARGETS = 
+
+$(eval $(call tgt_ttest_capture,-sel-1,--set sel=1 --zero-fixed))
+$(eval $(call tgt_ttest_capture,-sel-0,--set sel=0 --zero-fixed))
+
+CAPTURE_TARGETS += $(call map_ttest_capture_tgt,-sel-1)
+CAPTURE_TARGETS += $(call map_ttest_capture_tgt,-sel-0)
+
+capture: $(CAPTURE_TARGETS)
+

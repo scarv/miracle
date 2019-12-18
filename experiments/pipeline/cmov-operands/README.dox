@@ -1,0 +1,68 @@
+/*!
+
+@defgroup experiments-pipeline-cmov-operands Conditional Move Operands
+@ingroup  experiments-pipeline
+@brief For a conditional register move, do we see all/both operands leak?
+
+## Purpose:
+
+Conditional move operations (set `a` to `b` or `c`, depending on `d`)
+are common in some Cryptographic workloads.
+How the compiler expresses them is of some importance, they
+should be constant time, so as not to leak the control bit.
+If the values being moved are also secret, it is important to know how
+the compiler accesses those values.
+If we are only expecting the selected value to leak, but actually see
+both values leak independently of the select bit, then this might
+undermine our security assumptions.
+
+## Method:
+
+- Create a function which takes three arguments:
+  - Data in 1 (A TTest variable)
+  - Data in 2 (A TTest variable)
+  - A select bit.
+- If the select bit is set, the function returns d1.
+- If the select bit is clear, the function returns d2.
+- The select operation is implemented using the C ternary (`?`) operator.
+- Run the experiment `N` times:
+  - For `select = 0`
+  - For `select = 1`
+- For each `select` case, do we see any sort of leakage from the *unselected*
+  variable?
+
+@note This is mostly a test of how the compiler implements the C
+    ternary operator.
+
+## Expectations:
+
+- If the target architecture supports a dedicated conditional move
+  instruction, then we might only see one value leak, i.e. the selected one.
+- If the architecture does not support such an instruction, it will be
+  important to note *how* the compiler expresses the conditional move.
+  - Does the implementation produce a constant-time code?
+  - Does the implementation operate on the value which is *not* selected?
+
+## Running the experiment
+
+To run all stages of the experiment for a particular target device:
+
+```
+make -B USB_PORT=[PORT] UAS_TARGET=[TARGET] flow-pipeline-cmov-operands
+```
+
+Where:
+- `[PORT]` Is the UART/Serial port to communicate with it over.
+- `[TARGET]` Is one of the target names listed in @ref targets
+
+This will run all of the build, program, capture and analyse steps for
+the experiment on the specified target.
+
+The individual steps of the experiment are run with the following commands:
+
+- Build: `make build_[TARGET]_pipeline-cmov-operands`
+- Program: `make program_[TARGET]_pipeline-cmov-operands`
+- Capture: `make capture_[TARGET]_pipeline-cmov-operands USB_PORT=[PORT]`
+- Analyse: `make analyse_[TARGET]_pipeline-cmov-operands`
+
+*/
