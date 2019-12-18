@@ -25,8 +25,8 @@
 #define XOR_RI(RD,RA,IMM)         .error "Not implemented XOR RRI ARM7-M"
 #define ADD_RR(RD,RN,RM )         add  RD,RN,RM  
 #define ADD_RI(RD,RA,IMM)         adds RD,f(__hash)IMM
-#define SHIFT_LEFT_RI(RD,RA,IMM)  lsls RD,RD,RS 
-#define SHIFT_RIGHT_RI(RD,RA,IMM) lsrs RD,RD,RS 
+#define SHIFT_LEFT_RI(RD,RA,IMM)  lsl  RD,RA,f(__hash)IMM
+#define SHIFT_RIGHT_RI(RD,RA,IMM) lsr  RD,RA,f(__hash)IMM
 #define ANOP                      nop
 #define MNOP                      nop           
 #define MULTIPLY_RR (RD,RA,RB)    muls RD,RM,RD 
