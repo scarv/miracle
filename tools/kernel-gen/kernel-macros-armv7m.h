@@ -8,6 +8,7 @@
 #define TMP_1 r5
 #define TMP_2 r6
 #define TMP_3 r7
+#define STACK sp
 
 #define __hash #
 #define f(x) x
@@ -24,7 +25,7 @@
 #define XOR_RR(RD,RA,RM)          eor  RD,RM
 #define XOR_RI(RD,RA,IMM)         .error "Not implemented XOR RRI ARM7-M"
 #define ADD_RR(RD,RN,RM )         add  RD,RN,RM  
-#define ADD_RI(RD,RA,IMM)         adds RD,f(__hash)IMM
+#define ADD_RI(RD,RA,IMM)         add  RD,f(__hash)IMM
 #define SHIFT_LEFT_RI(RD,RA,IMM)  lsl  RD,RA,f(__hash)IMM
 #define SHIFT_RIGHT_RI(RD,RA,IMM) lsr  RD,RA,f(__hash)IMM
 #define ANOP                      nop

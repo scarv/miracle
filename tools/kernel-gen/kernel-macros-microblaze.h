@@ -8,6 +8,7 @@
 #define TMP_1 r10
 #define TMP_2 r11
 #define TMP_3 r12
+#define STACK r1
 
 #define GOTO(LABEL)               bri  LABEL
 #define MOVE(RD,RS)               ori  RD, RS, 0
@@ -21,7 +22,7 @@
 #define XOR_RR(RD,RA,RM)          xor  RD,RA,RM
 #define XOR_RI(RD,RA,IMM)         xori RD,RA,IMM
 #define ADD_RR(RD,RN,RM )         add  RD,RN,RM  
-#define ADD_RI(RD,RA,IMM)         addi RD,RD,IMM
+#define ADD_RI(RD,RA,IMM)         addi RD,RA,IMM
 #define SHIFT_LEFT_RI(RD,RA,IMM)  bslli RD,RA,IMM
 #define SHIFT_RIGHT_RI(RD,RA,IMM) bsrli RD,RA,IMM
 #define ANOP                      nop

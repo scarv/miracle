@@ -8,6 +8,7 @@
 #define TMP_1 t1 
 #define TMP_2 t2 
 #define TMP_3 t3 
+#define STACK sp
 
 
 #define GOTO(LABEL)               j    LABEL
