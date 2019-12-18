@@ -32,23 +32,23 @@ experiment_payload:
 
 #elif defined(ARCH_MICROBLAZE)
 
-    xor     ARG_0, ARG_1        // Mask thing being rotated.
+    xor     ARG_0, ARG_0, ARG_1 // Mask thing being rotated.
 
     bsrli   ARG_0, ARG_2, 24
     bslli   TMP_1, ARG_2, 8
     or      ARG_0, ARG_0, TMP_1
     
-    xor     ARG_0, ARG_1        // Unmask thing being rotated.
+    xor     ARG_0, ARG_0, ARG_1 // Unmask thing being rotated.
 
 #elif defined(ARCH_RV32IMC)
     
-    xor     ARG_0, ARG_1        // Mask thing being rotated.
+    xor     ARG_0, ARG_0, ARG_1 // Mask thing being rotated.
 
     srli    ARG_0, ARG_2, 24
     slli    TMP_1, ARG_2, 8
     or      ARG_0, ARG_0, TMP_1
     
-    xor     ARG_0, ARG_1        // Unmask thing being rotated.
+    xor     ARG_0, ARG_0, ARG_1 // Unmask thing being rotated.
 
 #else
     

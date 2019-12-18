@@ -39,7 +39,7 @@ feature.
 To run all stages of the experiment for a particular target device:
 
 ```
-make -B USB_PORT=[PORT] UAS_TARGET=[TARGET] flow-rosita-rotate-unprotected
+make -B USB_PORT=[PORT] UAS_TARGET=[TARGET] flow-rosita-rotate-protected
 ```
 
 Where:
@@ -51,9 +51,9 @@ the experiment on the specified target.
 
 The individual steps of the experiment are run with the following commands:
 
-- Build: `make build_[TARGET]_rosita-rotate-unprotected`
-- Program: `make program_[TARGET]_rosita-rotate-unprotected`
-- Capture: `make capture_[TARGET]_rosita-rotate-unprotected USB_PORT=[PORT]`
-- Analyse: `make analyse_[TARGET]_rosita-rotate-unprotected`
+- Build: `make build_[TARGET]_rosita-rotate-protected`
+- Program: `make program_[TARGET]_rosita-rotate-protected`
+- Capture: `make capture_[TARGET]_rosita-rotate-protected USB_PORT=[PORT]`
+- Analyse: `make analyse_[TARGET]_rosita-rotate-protected`
 
 */
