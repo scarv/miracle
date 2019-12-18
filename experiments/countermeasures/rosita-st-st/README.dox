@@ -9,9 +9,10 @@
     Ciphers" by Shelton et al.
 
 @see @ref experiments-countermeasures-rosita-ld-ld
-@see @ref experiments-countermeasures-rosita-ld-st
+@see @ref experiments-countermeasures-rosita-st-st
 @see @ref experiments-memory-registers-implicit-ld-ld
-@see @ref experiments-memory-registers-implicit-st-st
+@see @ref experiments-memory-registers-implicit-st-st-1
+@see @ref experiments-memory-registers-implicit-st-st-2
 
 ## Purpose:
 
