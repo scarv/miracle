@@ -1,8 +1,8 @@
 
 /*!
-@defgroup experiments-rosita-rotate-protected-code Experiment Code
+@defgroup experiments-countermeasures-rosita-rotate-protected-code Experiment Code
 @{
-@ingroup  experiments-rosita-rotate-protected
+@ingroup  experiments-countermeasures-rosita-rotate-protected
 */
 
 #include <stdlib.h>

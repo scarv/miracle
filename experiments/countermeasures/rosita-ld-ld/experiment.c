@@ -1,8 +1,8 @@
 
 /*!
-@defgroup experiments-rosita-ld-ld-code Experiment Code
+@defgroup experiments-countermeasures-rosita-ld-ld-code Experiment Code
 @{
-@ingroup  experiments-rosita-ld-ld
+@ingroup  experiments-countermeasures-rosita-ld-ld
 */
 
 #include <stdlib.h>
