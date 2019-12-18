@@ -49,6 +49,8 @@ EXPERIMENTS = memory-bus/bus-width-st-bytes \
               speculation/unpredictable-0 \
               countermeasures/rosita-rotate-unprotected \
               countermeasures/rosita-rotate-protected \
+              countermeasures/rosita-ld-ld \
+              countermeasures/rosita-st-st \
 
 
 .PHONY: docs

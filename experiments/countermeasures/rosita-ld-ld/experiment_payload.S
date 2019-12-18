@@ -1,0 +1,48 @@
+
+#include "kernel-macros.h"
+
+.text
+
+.global experiment_payload
+experiment_payload:
+    
+    FUNC_ENTER
+
+    ADD_RI(STACK,STACK,-16)
+    
+    ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP;
+
+    LOAD_WORD_RI(TMP_0, ARG_0, 0)
+    LOAD_WORD_RI(TMP_1, ARG_1, 0)
+
+    ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP;
+    
+    STORE_WORD_RI(ARG_2, STACK,4)
+    LOAD_WORD_RI( ARG_2, STACK,4)
+    
+    ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP;
+
+    LOAD_WORD_RI(TMP_0, ARG_0, 0)
+    
+    STORE_WORD_RI(ARG_2, STACK,4)
+    LOAD_WORD_RI( ARG_2, STACK,4)
+
+    LOAD_WORD_RI(TMP_1, ARG_1, 0)
+    
+    ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP;
+    ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP; ANOP;
+    
+    ADD_RI(STACK,STACK, 16)
+
+    FUNC_RETURN
+
+.global experiment_payload_end
+experiment_payload_end:
+
