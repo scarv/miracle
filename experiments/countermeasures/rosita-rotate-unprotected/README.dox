@@ -1,0 +1,59 @@
+/*!
+
+@defgroup experiments-countermeasures-rosita-rotate-unprotected ROSITA Rotate Unprotected
+@ingroup  experiments-countermeasures
+@brief Replicate the secure rotaton countermeasure from the ROSITA paper.
+
+@note This experiment is based on the paper
+    "ROSITA: Towards Automatic Elimination ofPower-Analysis Leakage in Ciphers"
+    by Shelton et al.
+
+@note This experiment implements the "un-secure" / "un-protected" version of
+the rotation.
+
+@see @ref experiments-countermeasures-rosita-rotate-protected.
+@see @ref experiments-countermeasures-rosita-rotate-unprotected.
+
+## Purpose:
+
+To check the general-purpose usefulness of the secure rotation
+gadget proposed in the paper across multiple architectures and targets.
+
+@note The gadget is only really needed for the ARM THUMB architecture,
+since the problem it solves is due to implicit over-write behaviour in
+the rotate instruction, rather than any other micro-architectural
+feature.
+
+## Method:
+
+- Re-implement the code from the paper in section `V.D`.
+
+## Expectations:
+
+- If the countermeasure works across multiple architectures, we should
+  see no 1st order leakage.
+- If there is leakage, we must investigate why.
+
+## Running the experiment
+
+To run all stages of the experiment for a particular target device:
+
+```
+make -B USB_PORT=[PORT] UAS_TARGET=[TARGET] flow-rosita-rotate-unprotected
+```
+
+Where:
+- `[PORT]` Is the UART/Serial port to communicate with it over.
+- `[TARGET]` Is one of the target names listed in @ref targets
+
+This will run all of the build, program, capture and analyse steps for
+the experiment on the specified target.
+
+The individual steps of the experiment are run with the following commands:
+
+- Build: `make build_[TARGET]_rosita-rotate-unprotected`
+- Program: `make program_[TARGET]_rosita-rotate-unprotected`
+- Capture: `make capture_[TARGET]_rosita-rotate-unprotected USB_PORT=[PORT]`
+- Analyse: `make analyse_[TARGET]_rosita-rotate-unprotected`
+
+*/
