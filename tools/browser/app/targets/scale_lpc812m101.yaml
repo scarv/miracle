@@ -1,0 +1,21 @@
+---
+name: scale_lpc812m101
+type:
+  implementation: ASIC
+  device_name: LPC812M101
+  device_link:
+  device_manufacturer_name: NXP
+  device_manufacturer_link:
+  board_name: SCALE M0+
+  board_link:
+  board_manufacturer_name: Daniel Page
+  board_manufacturer_link:
+cpu:
+    link:
+    name: ARM M0+
+    arch_name: ARMv6-M
+    arch_link: https://static.docs.arm.com/ddi0419/e/DDI0419E_armv6m_arm.pdf
+    manufacturer_name: ARM
+    manufacturer_link:
+    pipeline_depth: 2
+

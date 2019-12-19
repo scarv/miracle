@@ -1,0 +1,20 @@
+---
+name: sakurax_mb3
+type:
+  implementation: FPGA
+  device_name: Kintex 7  XC7K70T/160T
+  device_link: https://www.xilinx.com/products/silicon-devices/fpga/kintex-7.html
+  device_manufacturer_name: Xilinx
+  device_manufacturer_link: https://www.xilinx.com
+  board_name: SASEBO GIII
+  board_link: http://satoh.cs.uec.ac.jp/SAKURA/hardware/SAKURA-X.html
+  board_manufacturer_name: Satoh Lab, Morita tech
+  board_manufacturer_link: http://satoh.cs.uec.ac.jp/SAKURA/hardware/SAKURA-X.html
+cpu:
+    arch_name: Microblaze
+    arch_link: https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_3/ug984-vivado-microblaze-ref.pdf
+    link: https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_3/ug984-vivado-microblaze-ref.pdf
+    name: Microblaze
+    manufacturer_name: Xilinx
+    manufacturer_link: https://www.xilinx.com/products/design-tools/microblaze.html
+    pipeline_depth: 3

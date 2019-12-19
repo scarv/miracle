@@ -5,6 +5,28 @@
 {% endblock %}
 
 {% block content %}
-List of target devices in the study.
+<table>
+<tr>
+<th>Target Name</th>
+<th>Implementation</th>
+<th>Device Name</th>
+<th>Board Name</th>
+<th>CPU Architecture</th>
+<th>CPU Core</th>
+<th>CPU Pipeline Depth</th>
+</tr>
+{% for tname in targets.keys() | sort %}
+    {% set target = targets[tname] %}
+    <tr>
+    <td><a href="/target/{{target.name}}">{{target.name}}</a></td>
+    <td>{{target.type_implementation}}</td>
+    <td>{{target.type_device_manufacturer_name}} {{target.type_device_name}}</td>
+    <td>{{target.type_board_name}}</td>
+    <td>{{target.cpu_arch_name}}</td>
+    <td>{{target.cpu_name}}</td>
+    <td>{{target.cpu_pipeline_depth}}</td>
+    </tr>
+{% endfor %}
+</table>
 {% endblock %}
 

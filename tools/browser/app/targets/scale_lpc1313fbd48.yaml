@@ -1,0 +1,21 @@
+---
+name: scale_lpc1313fbd48
+type:
+  implementation: ASIC
+  device_name: LPC1313FBD48
+  device_link:
+  device_manufacturer_name: NXP
+  device_manufacturer_link:
+  board_name: SCALE M3
+  board_link:
+  board_manufacturer_name: Daniel Page
+  board_manufacturer_link:
+cpu: 
+    link: https://static.docs.arm.com/ddi0337/h/DDI0337H_cortex_m3_r2p0_trm.pdf
+    name: ARM M3
+    arch_name: ARMv7-M
+    arch_link: https://static.docs.arm.com/ddi0403/ed/DDI0403E_d_armv7m_arm.pdf
+    manufacturer_name: ARM
+    manufacturer_link:
+    pipeline_depth: 3
+
