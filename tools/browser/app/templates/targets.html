@@ -5,15 +5,34 @@
 {% endblock %}
 
 {% block content %}
-<table>
+
+<p>
+This is the current set of devices which have been analysed as
+part of the study.
+</p>
+
+<p>
+Clicking through will given more information on each device,
+and links to the relevent CPU, Architecture and manufacturer documentation.
+</p>
+
+<p>
+Targets are broken down by CPU type, SoC / Device type and development
+board.
+This allows for differences between the same CPU implemented by
+different manufacturers, or the same SoC integrated on different
+circuit boards to be captured.
+</p>
+
+<table class="targets_table">
 <tr>
 <th>Target Name</th>
-<th>Implementation</th>
+<th>Type</th>
 <th>Device Name</th>
 <th>Board Name</th>
 <th>CPU Architecture</th>
 <th>CPU Core</th>
-<th>CPU Pipeline Depth</th>
+<th>Pipeline Depth</th>
 </tr>
 {% for tname in targets.keys() | sort %}
     {% set target = targets[tname] %}

@@ -2,7 +2,7 @@
 name: sakurax_mb8
 type:
   implementation: FPGA
-  device_name: Kintex 7 XC7K70T/160T
+  device_name: XC7K70T/160T
   device_link: https://www.xilinx.com/products/silicon-devices/fpga/kintex-7.html
   device_manufacturer_name: Xilinx
   device_manufacturer_link: https://www.xilinx.com
