@@ -20,6 +20,7 @@ experiments*
 - @ref targets-sakurax-mb5
 - @ref targets-sakurax-mb8
 - @ref targets-sakurax-picorv32
+- @ref targets-cw308-stm32f0
 
 Each target platform can be identified in experiment code via the
 `TARGET` pre-processor symbol which is passed via the command line:
@@ -33,6 +34,7 @@ Target Name  | Description  | `TARGET` Value
 `sakurax_mb5       ` | SAKURA-X Microblaze 5-stage softcore    | `5`
 `sakurax_mb8       ` | SAKURA-X Microblaze 8-stage softcore    | `6`
 `sakurax_picorv32  ` | SAKURA-X PicoRV32 multi-cycle softcore  | `7`
+`cw308_stm32f0     ` | ST Mico ARM M0 Board / STM32-F0         | `9`
 
 ## Candidate Platforms
 
