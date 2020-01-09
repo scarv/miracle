@@ -162,7 +162,11 @@ RECURSIVE              = YES
 EXCLUDE                = target/cw308_stm32f0/bsp/CMSIS \
                          target/cw308_stm32f0/bsp/Legacy \
                          target/cw308_stm32f0/bsp/stm32f0 \
-                         target/cw308_stm32f0/bsp/stm32f0_hal*
+                         target/cw308_stm32f0/bsp/stm32f0_hal* \
+                         target/cw308_stm32f1/bsp/CMSIS \
+                         target/cw308_stm32f1/bsp/Legacy \
+                         target/cw308_stm32f1/bsp/stm32f1 \
+                         target/cw308_stm32f1/bsp/stm32f1_hal*
 EXCLUDE_SYMLINKS       = NO
 EXCLUDE_PATTERNS       =
 EXCLUDE_SYMBOLS        =

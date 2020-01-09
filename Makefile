@@ -21,7 +21,8 @@ TARGETS     = sakurax_mb3 \
               scale_lpc1114fn28 \
               scale_lpc1313fbd48 \
               scale_lpc812m101 \
-              cw308_stm32f0
+              cw308_stm32f0 \
+              cw308_stm32f1
 
 EXPERIMENTS = memory-bus/bus-width-st-bytes \
               memory-bus/bus-width-st-halfword \
