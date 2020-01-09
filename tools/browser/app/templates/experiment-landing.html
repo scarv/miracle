@@ -6,6 +6,14 @@
 
 {% block content %}
 
+<h2>Results for Device</h2>
+
+<ul>
+{% for target in experiment.targetNames | sort %}
+<li><a href="{{url_for("experiments.experiment_results_page",catagory=experiment.catagory,experiment_name=experiment.shortname,target_name=target)}}">{{target}}</a></li>
+{% endfor %}
+</ul>
+
 {% endblock %}
 
 

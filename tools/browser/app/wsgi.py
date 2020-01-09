@@ -38,6 +38,8 @@ def create_app(test_config=None):
         targets.bp.target_devices[target_name].discoverExperimentsForTarget(
             experiments.bp.experiments
         )
+    
+    experiments.bp.targets = targets.bp.target_devices
 
     return app
 

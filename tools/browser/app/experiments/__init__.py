@@ -63,6 +63,18 @@ def experiment_landing_page(catagory,experiment_name):
         experiment = bp.experiments[catagory+"/"+experiment_name]
     )
 
+@bp.route("/experiments/<string:catagory>/<string:experiment_name>/<string:target_name>")
+def experiment_results_page(catagory,experiment_name, target_name):
+    experiment_name = catagory+"/"+experiment_name
+    experiment      = bp.experiments[experiment_name]
+    results         = experiment.getResultsForTarget(target_name)
+    return render_template(
+        "experiment-results.html",
+        experiment = experiment,
+        target     = bp.targets[target_name],
+        results    = results
+    )
+
 # Call any one-time startup functions
 if(__name__ != "__main__"):
     pass

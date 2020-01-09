@@ -1,0 +1,54 @@
+{% extends 'master.html' %}
+
+{% block header %}
+<h1>{% block title %}{{target.name}} - {{experiment.name}}{% endblock %}</h1>
+{% endblock %}
+
+{% macro trace_type_table(type, label) %}
+{% set tracelist = results.getTracesOfType(type) %}
+{% if tracelist | length > 0 %}
+<tr>
+<td style="vertical-align:text-top;"><h3>{{label}}</h3><td>
+<table class="list_table">
+<tr>
+<td>Trace</td><td>Actions</td>
+</tr>
+{% for trace in tracelist | sort %}
+<tr>
+<td>{{trace.name}}</td>
+<td>
+Download
+Plot
+Compare
+</td>
+</tr>
+{% endfor %}
+</table>
+</td>
+{% endif %}
+{% endmacro %}
+
+
+{% block content %}
+
+<h2>Experiment Details:</h2>
+
+TBD
+
+<h2>Experiment Traces:</h2>
+
+<table>
+<tr>{{ trace_type_table("ttrace","T-Statistic Traces:") }}</tr>
+<tr>{{ trace_type_table("cpa-hd","CPA Hamming Distance:") }}</tr>
+<tr>{{ trace_type_table("cpa-hw","CPA Hamming Weight:") }}</tr>
+<tr>{{ trace_type_table("avg","Average Trace:") }}</tr>
+<tr>{{ trace_type_table("std","Standard Deviation:") }}</tr>
+<tr>{{ trace_type_table("rng","Range:") }}</tr>
+<tr>{{ trace_type_table("min","Min Trace:") }}</tr>
+<tr>{{ trace_type_table("max","Max Trace:") }}</tr>
+</table>
+
+{% endblock %}
+
+
+

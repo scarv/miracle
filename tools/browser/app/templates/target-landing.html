@@ -94,7 +94,7 @@
 {% for experiment in target.experiments %}
 <td><a href="{{url_for("experiments.experiments_list")}}#catagory-{{experiment.catagory}}">{{experiment.catagory}}</a></td>
 <td><a href="{{url_for("experiments.experiment_landing_page",catagory=experiment.catagory,experiment_name=experiment.shortname)}}">{{experiment.shortname}}</a></td>
-<td>Go to results</td>
+<td><a href="{{url_for("experiments.experiment_results_page",catagory=experiment.catagory,experiment_name=experiment.shortname,target_name=target.name)}}">Go to results</a></td>
 </tr>
 {% endfor %}
 </table>

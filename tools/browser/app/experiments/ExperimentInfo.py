@@ -1,6 +1,8 @@
 
 import os
 
+from .ExperimentResultsSet import ExperimentResultsSet
+
 class ExperimentInfo:
     """
     Contains all relevent information on a single experiment.
@@ -30,7 +32,17 @@ class ExperimentInfo:
         
         for target_name in os.listdir(self.results_dir):
             if(os.path.isdir(os.path.join(self.results_dir,target_name))):
-                self._targets[target_name] = None
+                results_set = ExperimentResultsSet(self, target_name)
+                self._targets[target_name] = results_set
+
+
+    def getResultsForTarget(self, target_name):
+        """
+        Returns an ExperimentResultsSet object representing the results
+        of this experiment for the given target, or None if no such
+        results are present.
+        """
+        return self._targets.get(target_name, None)
 
     
     @property
