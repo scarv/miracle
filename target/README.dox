@@ -21,6 +21,7 @@ experiments*
 - @ref targets-sakurax-mb8
 - @ref targets-sakurax-picorv32
 - @ref targets-cw308-stm32f0
+- @ref targets-cw308-stm32f1
 
 Each target platform can be identified in experiment code via the
 `TARGET` pre-processor symbol which is passed via the command line:
