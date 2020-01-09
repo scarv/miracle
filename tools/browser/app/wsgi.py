@@ -1,18 +1,19 @@
 
-import os
+import  os
+import  logging as log
 
-from flask import Flask
+from    flask   import Flask
+
+from    config  import DefaultConfig
 
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
 
-    if test_config is None:
-        # load the instance config, if it exists, when not testing
-        app.config.from_pyfile('config.py', silent=True)
-    else:
-        # load the test config if passed in
-        app.config.from_mapping(test_config)
+    # Load the application configuration
+    app.config.from_object(DefaultConfig())
+
+    log.basicConfig(level=app.config["LOG_LEVEL"])
 
     # ensure the instance folder exists
     try:
@@ -23,18 +24,25 @@ def create_app(test_config=None):
     import pages
     app.register_blueprint(pages.bp)
     app.add_url_rule('/',endpoint="index")
-
-    import targets
-    app.register_blueprint(targets.bp)
     
     import experiments
     app.register_blueprint(experiments.bp)
+
+    for experiment_results_dir in app.config["EXPERIMENT_DIRS"]:
+        experiments.discoverExperimentsInDirectory(experiment_results_dir)
+
+    import targets
+    app.register_blueprint(targets.bp)
+
+    for target_name in targets.bp.target_devices:
+        targets.bp.target_devices[target_name].discoverExperimentsForTarget(
+            experiments.bp.experiments
+        )
 
     return app
 
 def main():
     app = create_app()
-
     app.run()
 
 if(__name__ == "__main__"):

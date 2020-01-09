@@ -1,9 +1,10 @@
 
 import os
+import logging  as log
 
 import yaml
 
-from flask import (
+from flask      import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
 
@@ -21,6 +22,7 @@ class TargetDevice:
     def __init__(self, name):
         
         self.name = name
+        self.experiments = []
 
     def fromYAML(filepath):
         """
@@ -52,13 +54,24 @@ class TargetDevice:
 
         return tr
 
+    def discoverExperimentsForTarget(self, experiments):
+        """
+        Given a dictionary of ExperimentInfo, keyed by experiment name, build
+        a list of experiments inside this TargetDevice instance of all
+        experiments which have results pertaining to this device.
+        """
+
+        for ename in experiments:
+            if(self.name in experiments[ename].targetNames):
+                self.experiments.append(experiments[ename])
+
 
 def discoverTargets():
     """
     Called once at app startup. Responsible for building the collection
     of target devices which live inside the blueprint.
     """
-    print("Discovering target devices in %s" % targets_dir)
+    log.info("Discovering target devices in %s" % targets_dir)
 
     for filename in os.listdir(targets_dir):
         fullpath = os.path.join(targets_dir, filename)
@@ -67,7 +80,7 @@ def discoverTargets():
             device = TargetDevice.fromYAML(fullpath)
             bp.target_devices[device.name] = device
 
-            print("- %s" % device.name)
+            log.info("Discovered Target Device: %s" % device.name)
 
 
 @bp.route("/targets")
@@ -78,14 +91,14 @@ def list_targets():
     return render_template("targets.html", targets=bp.target_devices)
 
 @bp.route("/target/<string:target_name>")
-def show_target(target_name):
+def target_landing_page(target_name):
     """
     Renders the page which shows all information on a particular target
     and which experiment data is available for it.
     """
     tgt = bp.target_devices[target_name]
 
-    return render_template("show_target.html", target=tgt)
+    return render_template("target-landing.html", target=tgt)
 
 #
 # Call any one-time startup functions.

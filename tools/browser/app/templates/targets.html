@@ -24,7 +24,7 @@ different manufacturers, or the same SoC integrated on different
 circuit boards to be captured.
 </p>
 
-<table class="targets_table">
+<table class="list_table">
 <tr>
 <th>Target Name</th>
 <th>Type</th>
@@ -37,7 +37,7 @@ circuit boards to be captured.
 {% for tname in targets.keys() | sort %}
     {% set target = targets[tname] %}
     <tr>
-    <td><a href="/target/{{target.name}}">{{target.name}}</a></td>
+    <td><a href="{{url_for("targets.target_landing_page",target_name=target.name)}}">{{target.name}}</a></td>
     <td>{{target.type_implementation}}</td>
     <td>{{target.type_device_manufacturer_name}} {{target.type_device_name}}</td>
     <td>{{target.type_board_name}}</td>

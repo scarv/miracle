@@ -83,6 +83,22 @@
 </tr>
 </table>
 
+<h2>Available Experiments:</h2>
+
+<table class="list_table">
+<tr>
+<td>Catagory</td>
+<td>Experiment Details</td>
+<td>Results For This Target</td>
+</tr>
+{% for experiment in target.experiments %}
+<td><a href="{{url_for("experiments.experiments_list")}}#catagory-{{experiment.catagory}}">{{experiment.catagory}}</a></td>
+<td><a href="{{url_for("experiments.experiment_landing_page",catagory=experiment.catagory,experiment_name=experiment.shortname)}}">{{experiment.shortname}}</a></td>
+<td>Go to results</td>
+</tr>
+{% endfor %}
+</table>
+
 <p>
 <a href="/targets">Back to target list</a>
 </p>

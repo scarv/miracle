@@ -47,33 +47,25 @@ div.footer{
     border-top: 1px solid black;
 }
 
-.targets_table {
+.list_table {
     border-collapse:collapse;
 }
 
-.targets_table tbody tr:nth-child(1){
+.list_table tbody tr:nth-child(1){
     border-top:2px solid black;
     border-bottom:2px solid black;
 }
 
-.targets_table tbody tr th {
+.list_table tbody tr th {
     padding:5px;
 }
 
-.targets_table tbody tr td {
+.list_table tbody tr td {
     padding:7px;
 }
 
-.targets_table tbody tr:nth-child(odd) {
+.list_table tbody tr:nth-child(odd) {
     background:#DDD;
-}
-
-.targets_table tbody tr td:nth-child(2) {
-    text-align:center;
-}
-
-.targets_table tbody tr td:nth-child(7) {
-    text-align:center;
 }
 
 .target_info_table{

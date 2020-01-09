@@ -5,6 +5,34 @@
 {% endblock %}
 
 {% block content %}
-List of experiments in the study.
+Experiment Catagories:
+<ul>
+{% for catagory in catagories | sort %}
+<li><a href="#catagory-{{catagory}}">{{catagory}}</li>
+{% endfor %}
+</ul>
+
+{% for catagory in catagories | sort %}
+<a name="catagory-{{catagory}}"></a><h2>{{catagory}}</h2>
+
+<table class="list_table">
+<tr>
+<td>Catagory</td>
+<td>Name</td>
+<td>Targets</td>
+</tr>
+{% for ename in experiments.keys() | sort %}
+{% set experiment = experiments[ename] %}
+{% if experiment.catagory == catagory %}
+<tr>
+<td>{{experiment.catagory}}</td>
+<td><a href="{{url_for("experiments.experiment_landing_page",catagory=experiment.catagory,experiment_name=experiment.shortname)}}">{{experiment.shortname}}</a></td>
+<td>{{experiment.targetNames | length}}</td>
+</tr>
+{% endif %}
+{% endfor %}
+</table>
+{% endfor %}
+
 {% endblock %}
 

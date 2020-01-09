@@ -3,6 +3,8 @@
 <head>
 <title>{% block title %}{% endblock %} - UArch Leakage Study</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+{% block css %}{% endblock %}
+{% block javascript %}{% endblock %}
 </head>
 <body>
 <table class="navtable">
