@@ -1,4 +1,4 @@
-CFLAGS += -DTARGET=9
+CFLAGS += -DTARGET=10
 CFLAGS += -DARCH_ARMV7M -Wall -march=armv7-m -mcpu=cortex-m3 -mthumb -O2
 CFLAGS += -mfloat-abi=soft -ffunction-sections -Wl,--gc-sections -lm
 CFLAGS += -T $(UAS_ROOT)/target/cw308_stm32f1/build/linker.ld

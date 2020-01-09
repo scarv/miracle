@@ -35,6 +35,7 @@ Target Name  | Description  | `TARGET` Value
 `sakurax_mb8       ` | SAKURA-X Microblaze 8-stage softcore    | `6`
 `sakurax_picorv32  ` | SAKURA-X PicoRV32 multi-cycle softcore  | `7`
 `cw308_stm32f0     ` | ST Mico ARM M0 Board / STM32-F0         | `9`
+`cw308_stm32f1     ` | ST Mico ARM M0 Board / STM32-F1         | `10`
 
 ## Candidate Platforms
 
