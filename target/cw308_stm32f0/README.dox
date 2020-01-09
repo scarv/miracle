@@ -26,7 +26,7 @@ talk to peripheral devices.
 
 ### Setting up the ChipWhisperer:
 
-Oscillator Frequency: `XXXMHz`
+Oscillator Frequency: `7.37 MHz`
 
 Board setup:
 @image html doc/cw308-setup.jpg
