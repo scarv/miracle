@@ -159,7 +159,10 @@ FILE_PATTERNS          = *.c \
                          *.ucf \
                          *.qsf
 RECURSIVE              = YES
-EXCLUDE                =
+EXCLUDE                = target/cw308_stm32f0/bsp/CMSIS \
+                         target/cw308_stm32f0/bsp/Legacy \
+                         target/cw308_stm32f0/bsp/stm32f0 \
+                         target/cw308_stm32f0/bsp/stm32f0_hal*
 EXCLUDE_SYMLINKS       = NO
 EXCLUDE_PATTERNS       =
 EXCLUDE_SYMBOLS        =
