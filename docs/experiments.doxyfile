@@ -166,7 +166,11 @@ EXCLUDE                = target/cw308_stm32f0/bsp/CMSIS \
                          target/cw308_stm32f1/bsp/CMSIS \
                          target/cw308_stm32f1/bsp/Legacy \
                          target/cw308_stm32f1/bsp/stm32f1 \
-                         target/cw308_stm32f1/bsp/stm32f1_hal*
+                         target/cw308_stm32f1/bsp/stm32f1_hal* \
+                         target/cw308_stm32f2/bsp/CMSIS \
+                         target/cw308_stm32f2/bsp/Legacy \
+                         target/cw308_stm32f2/bsp/stm32f2 \
+                         target/cw308_stm32f2/bsp/stm32f2_hal*
 EXCLUDE_SYMLINKS       = NO
 EXCLUDE_PATTERNS       =
 EXCLUDE_SYMBOLS        =
