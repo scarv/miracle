@@ -1,24 +1,24 @@
 /*!
-@defgroup targets-cw308-stm32f2 ARM M0 - STM32-F2
-@brief ARM M3 - STM32-F2 Target Platform
+@defgroup targets-cw308-stm32f3 ARM M0 - STM32-F3
+@brief ARM M4 - STM32-F3 Target Platform
 @ingroup targets
 
 @tableofcontents
 
-# STM ARM M0 Board / STM32F2
+# STM ARM M0 Board / STM32F3
 
-This target analyses an ST Microelectronics `STM32F215 RET6` SoC using the
+This target analyses an ST Microelectronics `STM32F303 RCT7` SoC using the
 [ChipWhisperer CW308](https://wiki.newae.com/CW308_UFO_Target)
 platform from
 [NewAE](https://newae.com).
 
-The SoC contains an ARM M3 micro-processor, 8Kb of SRAM and 128Kb of flash.
+The SoC contains an ARM M4 micro-processor, 48Kb of SRAM and 256Kb of flash.
 It uses an AHB main bus to talk to the memory, and a AHB-APB Bridge to
 talk to peripheral devices.
 
-- [SoC Datasheet](https://www.st.com/resource/en/datasheet/stm32f215re.pdf)
-- [STM32F2xxx Programming Manual](https://www.st.com/content/ccc/resource/technical/document/programming_manual/5b/ca/8d/83/56/7f/40/08/CD00228163.pdf/files/CD00228163.pdf/jcr:content/translations/en.CD00228163.pdf)
-- [ST Microelectronics Product Webpage](https://www.st.com/en/microcontrollers-microprocessors/stm32f2x5.html)
+- [SoC Datasheet]()
+- [STM32F3xxx Programming Manual]()
+- [ST Microelectronics Product Webpage]()
 - [SEGGER J-Link JTAG interface description](https://www.segger.com/products/debug-probes/j-link/technology/interface-description/#jtag-interface-connection-20-pin)
 
 
@@ -37,7 +37,7 @@ To build and run an experiment on the target:
 ```
 $> source bin/conf.sh
 $> export UAS_ARM_TOOLCHAIN_ROOT=<path to 2016q3 ARM embedded toolchain>
-$> make -B PROGRAM_WITH_OPENOCD=1 USB_BAUD=38400 UAS_TARGET=cw308_stm32f2 flow-pipeline-regs-xor-lhs
+$> make -B PROGRAM_WITH_OPENOCD=1 USB_BAUD=38400 UAS_TARGET=cw308_stm32f3 flow-pipeline-regs-xor-lhs
 ```
 
 @note The USB_BAUD rate for this target is `38400`.

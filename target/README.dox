@@ -23,6 +23,7 @@ experiments*
 - @ref targets-cw308-stm32f0
 - @ref targets-cw308-stm32f1
 - @ref targets-cw308-stm32f2
+- @ref targets-cw308-stm32f3
 
 Each target platform can be identified in experiment code via the
 `TARGET` pre-processor symbol which is passed via the command line:
@@ -39,6 +40,7 @@ Target Name  | Description  | `TARGET` Value
 `cw308_stm32f0     ` | ST Mico ARM M0 Board / STM32-F0         | `9`
 `cw308_stm32f1     ` | ST Mico ARM M3 Board / STM32-F1         | `10`
 `cw308_stm32f2     ` | ST Mico ARM M3 Board / STM32-F2         | `11`
+`cw308_stm32f3     ` | ST Mico ARM M4 Board / STM32-F3         | `12`
 
 ## Candidate Platforms
 
