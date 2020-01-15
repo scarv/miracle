@@ -1,24 +1,28 @@
 {% extends 'master.html' %}
 
 {% block header %}
-<h1>Target: {{target.name}}</h1>
+<h1>Target: {{target.target_name}}</h1>
 {% endblock %}
 
 {% block content %}
 <h2>Target Details:</h2>
 
+<p>
+{{target.target_description}}
+</p>
+
 <table class="target_info_table">
 <tr>
     <td>Implementation Type:</td>
-    <td>{{target.type_implementation}}</td>
+    <td>{{target.target_implementation}}</td>
     <td></td>
 </tr>
 <tr>
     <td>CPU Name:</td>
-    <td>{{target.cpu_name}}</td>
+    <td>{{target.cpu_core_name}}</td>
     <td>
-        {% if target.cpu_link %}
-        <a href="{{target.cpu_link}}" target="_blank">Details</a>
+        {% if target.cpu_core_link %}
+        <a href="{{target.cpu_core_link}}" target="_blank">Details</a>
         {% endif %}
     </td>
 </tr>
@@ -38,46 +42,46 @@
 </tr>
 <tr>
     <td>CPU Manufacturer:</td>
-    <td>{{target.cpu_manufacturer_name}}</td>
+    <td>{{target.cpu_core_manufacturer_name}}</td>
     <td>
-        {% if target.cpu_manufacturer_link %}
-        <a href="{{target.cpu_manufacturer_link}}" target="_blank">Details</a>
+        {% if target.cpu_core_manufacturer_link %}
+        <a href="{{target.cpu_core_manufacturer_link}}" target="_blank">Details</a>
         {% endif %}
     </td>
 </tr>
 <tr>
     <td>Device/SoC Name:</td>
-    <td>{{target.type_device_name}}</td>
+    <td>{{target.device_name}}</td>
     <td>
-        {% if target.type_device_link %}
-        <a href="{{target.type_device_link}}" target="_blank">Details</a>
+        {% if target.device_link %}
+        <a href="{{target.device_link}}" target="_blank">Details</a>
         {% endif %}
     </td>
 </tr>
 <tr>
     <td>Device/SoC Manufacturer:</td>
-    <td>{{target.type_device_manufacturer_name}}</td>
+    <td>{{target.device_manufacturer_name}}</td>
     <td>
-        {% if target.type_device_manufacturer_link %}
-        <a href="{{target.type_device_manufacturer_link}}" target="_blank">Details</a>
+        {% if target.device_manufacturer_link %}
+        <a href="{{target.device_manufacturer_link}}" target="_blank">Details</a>
         {% endif %}
     </td>
 </tr>
 <tr>
     <td>Board Name:</td>
-    <td>{{target.type_board_name}}</td>
+    <td>{{target.board_name}}</td>
     <td>
-        {% if target.type_board_link %}
-        <a href="{{target.type_board_link}}" target="_blank">Details</a>
+        {% if target.board_link %}
+        <a href="{{target.board_link}}" target="_blank">Details</a>
         {% endif %}
     </td>
 </tr>
 <tr>
     <td>Board Manufacturer:</td>
-    <td>{{target.type_board_manufacturer_name}}</td>
+    <td>{{target.board_manufacturer_name}}</td>
     <td>
-        {% if target.type_board_manufacturer_link%}
-        <a href="{{target.type_board_manufacturer_link}}" target="_blank">Details</a>
+        {% if target.board_manufacturer_link%}
+        <a href="{{target.board_manufacturer_link}}" target="_blank">Details</a>
         {% endif %}
     </td>
 </tr>

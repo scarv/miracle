@@ -37,13 +37,13 @@ circuit boards to be captured.
 {% for tname in targets.keys() | sort %}
     {% set target = targets[tname] %}
     <tr>
-    <td><a href="{{url_for("targets.target_landing_page",target_name=target.name)}}">{{target.name}}</a></td>
-    <td>{{target.type_implementation}}</td>
-    <td>{{target.type_device_manufacturer_name}} {{target.type_device_name}}</td>
-    <td>{{target.type_board_name}}</td>
+    <td><a href="{{url_for("targets.target_landing_page",target_name=target.target_name)}}">{{target.target_name}}</a></td>
+    <td>{{target.target_implementation}}</td>
+    <td>{{target.device_manufacturer_name}} {{target.device_name}}</td>
+    <td>{{target.board_name}}</td>
     <td>{{target.cpu_arch_name}}</td>
-    <td>{{target.cpu_name}}</td>
-    <td>{{target.cpu_pipeline_depth}}</td>
+    <td>{{target.cpu_core_name}}</td>
+    <td>{{target.cpu_core_pipeline_depth}}</td>
     </tr>
 {% endfor %}
 </table>

@@ -2,7 +2,7 @@
 import os
 import logging  as log
 
-import yaml
+import configparser
 
 from flask      import (
     Blueprint, flash, g, redirect, render_template, request, url_for
@@ -24,33 +24,40 @@ class TargetDevice:
         self.name = name
         self.experiments = []
 
-    def fromYAML(filepath):
+    def fromCFG(filepath):
         """
         Given the supplied filepath, parse it as YAML and
         construct a target definition.
         """
         db = None
-        
-        with open (filepath,"r") as fh:
-            db = yaml.load(fh, Loader=yaml.BaseLoader)
 
-        tr = TargetDevice(db["name"])
-        tr.type_implementation          = db["type"]["implementation"]
-        tr.type_device_name             = db["type"]["device_name"]
-        tr.type_device_link             = db["type"]["device_link"]
-        tr.type_device_manufacturer_name= db["type"]["device_manufacturer_name"]
-        tr.type_device_manufacturer_link= db["type"]["device_manufacturer_link"]
-        tr.type_board_name              = db["type"]["board_name"]
-        tr.type_board_link              = db["type"]["board_link"]
-        tr.type_board_manufacturer_name = db["type"]["board_manufacturer_name"]
-        tr.type_board_manufacturer_link = db["type"]["board_manufacturer_link"]
-        tr.cpu_name                     = db["cpu"]["name"]
-        tr.cpu_link                     = db["cpu"]["link"]
-        tr.cpu_arch_name                = db["cpu"]["arch_name"]
-        tr.cpu_arch_link                = db["cpu"]["arch_link"]
-        tr.cpu_pipeline_depth           = db["cpu"]["pipeline_depth"]
-        tr.cpu_manufacturer_name        = db["cpu"]["manufacturer_name"]
-        tr.cpu_manufacturer_link        = db["cpu"]["manufacturer_link"]
+
+        config = configparser.ConfigParser()
+        config.read(filepath)
+        
+        tr = TargetDevice(config["TARGET"]["NAME"])
+
+        tr.target_name                = config["TARGET"]["NAME"]
+        tr.target_description         = config["TARGET"]["DESCRIPTION"]
+        tr.target_implementation      = config["TARGET"]["IMPLEMENTATION"]
+
+        tr.device_name                = config["DEVICE"]["NAME"]
+        tr.device_link                = config["DEVICE"]["LINK"]
+        tr.device_manufacturer_name   = config["DEVICE"]["MANUFACTURER_NAME"]
+        tr.device_manufacturer_link   = config["DEVICE"]["MANUFACTURER_LINK"]
+
+        tr.board_name                 = config["BOARD"]["NAME"]
+        tr.board_link                 = config["BOARD"]["LINK"]
+        tr.board_manufacturer_name    = config["BOARD"]["MANUFACTURER_NAME"]
+        tr.board_manufacturer_link    = config["BOARD"]["MANUFACTURER_LINK"]
+
+        tr.cpu_arch_name              = config["CPU"]["ARCH_NAME"]
+        tr.cpu_arch_link              = config["CPU"]["ARCH_LINK"]
+        tr.cpu_core_link              = config["CPU"]["CORE_LINK"]
+        tr.cpu_core_name              = config["CPU"]["CORE_NAME"]
+        tr.cpu_core_manufacturer_name = config["CPU"]["CORE_MANUFACTURER_NAME"]
+        tr.cpu_core_manufacturer_link = config["CPU"]["CORE_MANUFACTURER_LINK"]
+        tr.cpu_pipeline_depth         = config["CPU"]["PIPELINE_DEPTH"]
 
         return tr
 
@@ -75,9 +82,9 @@ def discoverTargets():
 
     for filename in os.listdir(targets_dir):
         fullpath = os.path.join(targets_dir, filename)
-        if(os.path.isfile(fullpath) and filename.endswith(".yaml")):
+        if(os.path.isfile(fullpath) and filename.endswith(".cfg")):
 
-            device = TargetDevice.fromYAML(fullpath)
+            device = TargetDevice.fromCFG(fullpath)
             bp.target_devices[device.name] = device
 
             log.info("Discovered Target Device: %s" % device.name)
