@@ -1,5 +1,5 @@
 /*!
-@defgroup targets-cw308-stm32f2 ARM M0 - STM32-F2
+@defgroup targets-cw308-stm32f2 ARM M3 - STM32-F2
 @brief ARM M3 - STM32-F2 Target Platform
 @ingroup targets
 
