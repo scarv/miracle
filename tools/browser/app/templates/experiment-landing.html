@@ -12,6 +12,8 @@
 <tr>
 <td>Target Name</td>
 <td>Description</td>
+<td>Program</td>
+<td>Disassembly</td>
 </tr>
 {% for target in experiment.targetNames | sort %}
 <tr>
@@ -19,6 +21,12 @@
 <a href="{{url_for("experiments.experiment_results_page",catagory=experiment.catagory,experiment_name=experiment.shortname,target_name=target)}}">{{target}}</a>
 </td>
 <td>{{targets[target].target_description}}</td>
+<td>
+<a href="{{url_for("experiments.download_program",catagory=experiment.catagory,experiment_name=experiment.shortname,target_name=target)}}">Download</a>
+</td>
+<td>
+<a href="{{url_for("experiments.download_disassembly",catagory=experiment.catagory,experiment_name=experiment.shortname,target_name=target)}}">Download</a>
+</td>
 </tr>
 {% endfor %}
 </table>
