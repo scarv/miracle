@@ -37,6 +37,16 @@
     <a href="{{url_for("experiments.experiment_landing_page",catagory=experiment.catagory,experiment_name=experiment.shortname)}}">{{experiment.name}}</a><br/>
 </p>
 
+<h2>Program Artifacts:</h2>
+
+<ul>
+<li>
+Program Executable:
+<a href="{{url_for("experiments.download_program",catagory=experiment.catagory,experiment_name=experiment.shortname,target_name=target.target_name)}}">Download</a>
+<li>
+Program Disassembly:
+<a href="{{url_for("experiments.download_disassembly",catagory=experiment.catagory,experiment_name=experiment.shortname,target_name=target.target_name)}}">Download</a>
+</ul>
 
 <h2>Experiment Traces:</h2>
 

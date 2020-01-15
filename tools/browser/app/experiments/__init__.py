@@ -95,6 +95,27 @@ def download_trace(catagory,experiment_name, target_name,trace_name):
             target_name,trace_name)
         return send_file(trace.filepath,attachment_filename=name)
 
+@bp.route("/experiments/download-program/<string:catagory>/<string:experiment_name>/<string:target_name>")
+def download_program(catagory,experiment_name, target_name):
+    experiment_name = catagory+"/"+experiment_name
+    experiment      = bp.experiments[experiment_name]
+    results         = experiment.getResultsForTarget(target_name)
+
+    fname = "%s-%s-%s-program.elf" % (catagory,experiment.shortname,target_name)
+    return send_file(results.program_elf,as_attachment=True,
+        attachment_filename=fname,mimetype="application")
+
+@bp.route("/experiments/download-disassembly/<string:catagory>/<string:experiment_name>/<string:target_name>")
+def download_disassembly(catagory,experiment_name, target_name):
+    experiment_name = catagory+"/"+experiment_name
+    experiment      = bp.experiments[experiment_name]
+    results         = experiment.getResultsForTarget(target_name)
+    
+    fname = "%s-%s-%s-program.dis" % (catagory,experiment.shortname,target_name)
+    return send_file(results.program_dis,as_attachment=True,
+        attachment_filename=fname,mimetype="text/plain")
+    
+
 # Call any one-time startup functions
 if(__name__ != "__main__"):
     pass

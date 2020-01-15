@@ -68,6 +68,14 @@ class ExperimentResultsSet:
         Return a list of all traces with a matching tracetype.
         """
         return [t for t in self.traces if t.tracetype == tracetype]
+    
+    @property
+    def program_elf(self):
+        return self._program_elf
+    
+    @property
+    def program_dis(self):
+        return self._program_dis
 
     @property
     def traceNames(self):

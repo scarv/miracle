@@ -36,6 +36,8 @@ var devices_per_experiment= {
 function update_devices_for_experiment(series) {
     experiment = document.getElementById(series+"_experiment").value;
     target     = document.getElementById(series+"_target");
+
+    var prev_value = target.value;
     
     while(target.options.length > 0) {
         target.options.remove(0);
@@ -45,6 +47,9 @@ function update_devices_for_experiment(series) {
         var opt     = document.createElement("option");
         opt.text    = devices_per_experiment[experiment][t];
         opt.value   = devices_per_experiment[experiment][t];
+        if(t == prev_value) {
+            opt.selected="selected";
+        }
         target.options.add(opt);
     }
 }
@@ -57,6 +62,8 @@ function update_traces_for_experiment_and_device(
     traces     = document.getElementById(series+"_trace");
     
     tlist      = traces_per_experiment_and_device[experiment][target];
+
+    var prev_value = traces.value;
     
     while(traces.options.length > 0) {
         traces.options.remove(0);
@@ -66,6 +73,9 @@ function update_traces_for_experiment_and_device(
         var opt     = document.createElement("option");
         opt.text    = tlist[t];
         opt.value   = tlist[t];
+        if(t.value == prev_value) {
+            opt.selected="selected";
+        }
         traces.options.add(opt);
     }
 }
@@ -90,18 +100,6 @@ function drawGraph(){
 
 {% endblock %}
 
-{% macro target_select_box(name,preselect) %}
-    <select name="{{name}}_target" id="{{name}}_target" autocomplete="off"
-        onchange="update_traces_for_experiment_and_device('{{name}}');">
-        {% for target in targets.keys() | sort %}
-        <option 
-        {%if target==preselect%} selected="selected" {%endif%}
-        label="{{targets[target].target_description}}"
-        value="{{target}}">{{target}}</option>
-        {% endfor %}
-    </select>
-{% endmacro %}
-
 {% macro experiment_select_box(name) %}
 <select name="{{name}}_experiment" id="{{name}}_experiment"
     autocomplete="off"
@@ -114,10 +112,23 @@ function drawGraph(){
 </select>
 {% endmacro %}
 
+{% macro target_select_box(name,preselect) %}
+<select name="{{name}}_target" id="{{name}}_target" autocomplete="off"
+    onchange="update_traces_for_experiment_and_device('{{name}}');"
+    onclick="update_traces_for_experiment_and_device('{{name}}');">
+    {% for target in targets.keys() | sort %}
+    <option 
+    {%if target==preselect%} selected="selected" {%endif%}
+    label="{{targets[target].target_description}}"
+    value="{{target}}">{{target}}</option>
+    {% endfor %}
+</select>
+{% endmacro %}
+
 {% macro trace_select_box(name) %}
-    <select name="{{name}}_trace" id="{{name}}_trace"
-        onload="update_traces_for_experiment_and_device('{{name}}');">
-    </select>
+<select name="{{name}}_trace" id="{{name}}_trace" autocomplete="off"
+    onload="update_traces_for_experiment_and_device('{{name}}');">
+</select>
 {% endmacro %}
 
 {% block content %}
