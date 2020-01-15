@@ -4,7 +4,9 @@
 <title>{% block title %}{% endblock %} - UArch Leakage Study</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 {% block css %}{% endblock %}
+<script type="text/javascript">
 {% block javascript %}{% endblock %}
+</script>
 </head>
 <body>
 <table class="navtable">
@@ -23,6 +25,7 @@
         <div class="item"><a href="/">Home</a></div>
         <div class="item"><a href="/targets">Targets</a></div>
         <div class="item"><a href="/experiments">Experiments</a></div>
+        <div class="item"><a href="/plot/compare-trace">Compare</a></div>
     </td>
 </tr>
 </table>

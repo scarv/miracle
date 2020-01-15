@@ -51,6 +51,10 @@ class ExperimentInfo:
         return self._targets.keys()
 
     @property
+    def targets(self):
+        return self._targets.values()
+
+    @property
     def name(self):
         return self._name
     

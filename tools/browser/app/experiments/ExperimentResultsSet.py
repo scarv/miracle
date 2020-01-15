@@ -70,6 +70,10 @@ class ExperimentResultsSet:
         return [t for t in self.traces if t.tracetype == tracetype]
 
     @property
+    def traceNames(self):
+        return self._traces.keys()
+
+    @property
     def traces(self):
         """
         Returns a List of traces in the results set.
@@ -83,3 +87,4 @@ class ExperimentResultsSet:
     @property
     def target_name(self):
         return self._target_name
+

@@ -20,6 +20,9 @@ class PlotDescription(object):
         self.width      = 12
         self.height     = 3
 
+    def addSeries(self, s):
+        self._series.append(s)
+
     @property
     def series(self):
         return self._series
