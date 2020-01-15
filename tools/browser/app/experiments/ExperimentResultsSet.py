@@ -21,7 +21,7 @@ class ExperimentResultsSet:
         self._program_elf= None
         self._program_dis= None
 
-        self._traces = []
+        self._traces = {}
 
         self.__discoverArtifactsForTarget()
 
@@ -51,11 +51,17 @@ class ExperimentResultsSet:
                 trace_path = os.path.join(traces_path,trace)
                 if(os.path.isfile(trace_path) and trace.endswith("npy")):
                     etrace = ExperimentTrace(trace_path)
-                    self._traces.append(etrace)
+                    self._traces[etrace.name] = etrace
         else:
             log.error("No traces for %s/%s" % (
                 self.experiment.name, self.target_name))
 
+    def getTraceByName(self, tracename):
+        """
+        Returns a single ExperimentTrace object with the same name
+        as `tracename` or None if no such trace exists in the results set.
+        """
+        return self._traces.get(tracename, None)
 
     def getTracesOfType(self, tracetype):
         """
@@ -65,7 +71,10 @@ class ExperimentResultsSet:
 
     @property
     def traces(self):
-        return self._traces
+        """
+        Returns a List of traces in the results set.
+        """
+        return self._traces.values()
     
     @property
     def experiment(self):

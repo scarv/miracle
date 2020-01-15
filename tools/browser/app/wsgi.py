@@ -41,6 +41,11 @@ def create_app(test_config=None):
     
     experiments.bp.targets = targets.bp.target_devices
 
+    import plot
+    app.register_blueprint(plot.bp)
+    plot.bp.targets     = targets.bp.target_devices
+    plot.bp.experiments = experiments.bp.experiments
+
     return app
 
 def main():

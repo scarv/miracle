@@ -1,9 +1,11 @@
 
 import os
 import logging as log
+import io
 
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for
+    Blueprint, flash, g, redirect, render_template, request, url_for,
+    send_file
 )
 
 from .ExperimentInfo import ExperimentInfo
@@ -60,7 +62,8 @@ def experiments_list():
 def experiment_landing_page(catagory,experiment_name):
     return render_template(
         "experiment-landing.html",
-        experiment = bp.experiments[catagory+"/"+experiment_name]
+        experiment = bp.experiments[catagory+"/"+experiment_name],
+        targets    = bp.targets
     )
 
 @bp.route("/experiments/<string:catagory>/<string:experiment_name>/<string:target_name>")
@@ -74,6 +77,23 @@ def experiment_results_page(catagory,experiment_name, target_name):
         target     = bp.targets[target_name],
         results    = results
     )
+
+@bp.route("/experiments/download-trace/<string:catagory>/<string:experiment_name>/<string:target_name>/<string:trace_name>")
+def download_trace(catagory,experiment_name, target_name,trace_name):
+    """
+    Returns the *.npy trace file for download.
+    """
+    experiment_name = catagory+"/"+experiment_name
+    experiment      = bp.experiments[experiment_name]
+    results         = experiment.getResultsForTarget(target_name)
+    trace           = results.getTraceByName(trace_name)
+
+    if(trace == None):
+        return "No such trace exists."
+    else:
+        name = "%s-%s-%s-%s" % (experiment.catagory,experiment.shortname,
+            target_name,trace_name)
+        return send_file(trace.filepath,attachment_filename=name)
 
 # Call any one-time startup functions
 if(__name__ != "__main__"):

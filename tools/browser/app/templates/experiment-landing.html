@@ -6,13 +6,22 @@
 
 {% block content %}
 
-<h2>Results for Device</h2>
+<h2>Results Per Target</h2>
 
-<ul>
+<table class="list_table">
+<tr>
+<td>Target Name</td>
+<td>Description</td>
+</tr>
 {% for target in experiment.targetNames | sort %}
-<li><a href="{{url_for("experiments.experiment_results_page",catagory=experiment.catagory,experiment_name=experiment.shortname,target_name=target)}}">{{target}}</a></li>
+<tr>
+<td>
+<a href="{{url_for("experiments.experiment_results_page",catagory=experiment.catagory,experiment_name=experiment.shortname,target_name=target)}}">{{target}}</a>
+</td>
+<td>{{targets[target].target_description}}</td>
+</tr>
 {% endfor %}
-</ul>
+</table>
 
 {% endblock %}
 
