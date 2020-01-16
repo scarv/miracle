@@ -9,6 +9,21 @@ bp = Blueprint('plot', __name__, url_prefix="/plot")
 
 bp.requested_plots = {}
 
+@bp.route("/view-single-trace/<string:catagory>/<string:experiment_name>/<string:target_name>/<string:trace_name>")
+def view_single_trace(catagory,experiment_name, target_name, trace_name):
+    """
+    Plot a single trace and return it as an image.
+    """
+    experiment_name = catagory+"/"+experiment_name
+    experiment      = bp.experiments[experiment_name]
+    results         = experiment.getResultsForTarget(target_name)
+    trace           = results.getTraceByName(trace_name)
+
+    return render_template("view-plot.html",
+        experiment  = experiment,
+        target      = bp.targets[target_name],
+        trace       = trace
+    )
 
 @bp.route("/single-trace/<string:catagory>/<string:experiment_name>/<string:target_name>/<string:trace_name>")
 def plot_single_trace(catagory,experiment_name, target_name, trace_name):
@@ -24,7 +39,8 @@ def plot_single_trace(catagory,experiment_name, target_name, trace_name):
                         experiment_name, target_name, trace_name
                     )
 
-    pd = PlotDescription(title=title,series=[trace])
+    pd              = PlotDescription(title=title,series=[trace])
+    pd.width        = 9
 
     return pd.makePlotResponse()
 
