@@ -39,14 +39,14 @@ def memory_bus_widths():
         normalise_axes = normalise_axes
     )
 
-@bp.route("/memory-bus-widths/plot/<string:width>/<string:target_name>/<string:trace_type>/<string:normalise_axes>")
-def memory_bus_widths_plot_bytes(width,target_name,trace_type,normalise_axes):
+@bp.route("/memory-bus-widths/plot/<string:width>/<string:target_name>/<string:trace_type>/<string:normalise_axes>/<string:ldst>")
+def memory_bus_widths_plot_bytes(width,target_name,trace_type,normalise_axes,ldst):
     """
     Render the plot for the load * experiment.
     where * is specified by width and width is one of bytes,halfword,word
     """
     target      = bp.targets[target_name]
-    experiment  = bp.experiments["memory-bus/bus-width-ld-"+width]
+    experiment  = bp.experiments["memory-bus/bus-width-"+ldst+"-"+width]
     results     = experiment.getResultsForTarget(target.target_name)
 
     hw_traces   = results.getTracesOfType(trace_type)
