@@ -21,12 +21,12 @@ function update_report() {
 <h3>
 <a href="{{url_for("experiments.experiment_landing_page",
     catagory="pipeline",
-    experiment_name=ename)}}">
-registers-implicit-{{ename}}</a> / 
-<a href="{{url_for("experiments.experiment_results_page",
+    experiment_name=ename+"-lhs")}}">
+pipeline/{{ename}}-lhs</a> , 
+<a href="{{url_for("experiments.experiment_landing_page",
     catagory="pipeline",
-    experiment_name=ename,
-    target_name=target.target_name)}}">{{target.target_name}}</a>
+    experiment_name=ename+"-rhs")}}">
+pipeline/{{ename}}-rhs</a>
 </h3>
 
 <img src="{{url_for("reports.pipeline_registers_plot",
