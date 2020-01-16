@@ -9,6 +9,17 @@ bp = Blueprint('plot', __name__, url_prefix="/plot")
 
 bp.requested_plots = {}
 
+def add_nocache_headers(r):
+    """
+    Add headers to both force latest IE rendering engine or Chrome Frame,
+    and also to cache the rendered page for 10 minutes.
+    """
+    r.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    r.headers["Pragma"] = "no-cache"
+    r.headers["Expires"] = "0"
+    r.headers['Cache-Control'] = 'public, max-age=0'
+    return r
+
 @bp.route("/view-single-trace/<string:catagory>/<string:experiment_name>/<string:target_name>/<string:trace_name>")
 def view_single_trace(catagory,experiment_name, target_name, trace_name):
     """
@@ -52,19 +63,31 @@ def plot_multiple_traces():
     
     key = len(bp.requested_plots)+1
 
-    pd = PlotDescription(title="A Plot",series = [])
+    pd = PlotDescription(title="",series = [])
     pd.width=10
 
     s1_experiment = bp.experiments[request.args["series1_exp"]]
     s1_results    = s1_experiment.getResultsForTarget(request.args["series1_dev"])
     s1_trace      = s1_results.getTraceByName(request.args["series1_trs"])
+    s1_trace.trim_start = int(request.args.get("series1_trim_start",0))
+    s1_trace.trim_end   = int(request.args.get("series1_trim_end"  ,0))
 
     s2_experiment = bp.experiments[request.args["series2_exp"]]
     s2_results    = s2_experiment.getResultsForTarget(request.args["series2_dev"])
     s2_trace      = s2_results.getTraceByName(request.args["series2_trs"])
+    s2_trace.trim_start = int(request.args.get("series2_trim_start",0))
+    s2_trace.trim_end   = int(request.args.get("series2_trim_end"  ,0))
+
+    if(request.args.get("sep_axes","off") == "off"):
+        pd.separate_axes = False
+    else:
+        pd.separate_axes = True
 
     pd.addSeries(s1_trace)
     pd.addSeries(s2_trace)
+
+    if(pd.separate_axes):
+        pd.height = 3*len(pd.series)
 
     bp.requested_plots[key] = pd
 
@@ -78,7 +101,11 @@ def get_requested_plot():
     tr = bp.requested_plots[imgid]
     del bp.requested_plots[imgid]
 
-    return tr.makePlotResponse()
+    rsp = tr.makePlotResponse()
+
+    rsp = add_nocache_headers(rsp)
+
+    return rsp
 
 
 @bp.route("/compare-trace/<string:catagory>/<string:experiment_name>/<string:target1>/<string:trace_name>")

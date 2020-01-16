@@ -19,6 +19,7 @@ class PlotDescription(object):
         self._imgtype   = "png"
         self.width      = 12
         self.height     = 3
+        self.separate_axes = False
 
     def addSeries(self, s):
         self._series.append(s)
@@ -42,10 +43,27 @@ class PlotDescription(object):
         """
 
         fig = Figure(figsize=(self.width,self.height))
-        ax  = fig.add_subplot(111)
+
+        plot_num = 1
 
         for s in self.series:
-            ax.plot(s.trace, linewidth=0.15)
+
+            if(self.separate_axes):
+                ax  = fig.add_subplot(len(self.series),1,plot_num)
+                ax.set_title("%s %s" % (s.name , s.tracetype))
+            else:
+                ax  = fig.add_subplot(1,1,1)
+            
+            trace = s.trace
+
+            if(s.trim_start):
+                trace = trace[s.trim_start:]
+            if(s.trim_end):
+                trace = trace[:-s.trim_end]
+
+            ax.plot(trace, linewidth=0.15)
+
+            plot_num += 1
 
         fig.tight_layout()
         

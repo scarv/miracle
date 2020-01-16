@@ -83,14 +83,21 @@ function update_traces_for_experiment_and_device(
 function drawGraph(){
     const Http = new XMLHttpRequest();
     const url='{{url_for("plot.plot_multiple_traces")}}?' +
-            "series1_exp="+document.getElementById("series1_experiment").value+
-            "&series1_dev="+document.getElementById("series1_target").value+
-            "&series1_trs="+document.getElementById("series1_trace").value+
-            "&series2_exp="+document.getElementById("series2_experiment").value+
-            "&series2_dev="+document.getElementById("series2_target").value+
-            "&series2_trs="+document.getElementById("series2_trace").value;
+    "series1_exp="+document.getElementById("series1_experiment").value+
+    "&series1_dev="+document.getElementById("series1_target").value+
+    "&series1_trs="+document.getElementById("series1_trace").value+
+    "&series1_trim_start="+document.getElementById("series1_start_trim").value+
+    "&series1_trim_end="+document.getElementById("series1_end_trim").value+
+    "&series2_exp="+document.getElementById("series2_experiment").value+
+    "&series2_dev="+document.getElementById("series2_target").value+
+    "&series2_trs="+document.getElementById("series2_trace").value+
+    "&series2_trim_start="+document.getElementById("series2_start_trim").value+
+    "&series2_trim_end="+document.getElementById("series2_end_trim").value+
+    "&sep_axes="+document.getElementById("separate_axes").value;
     Http.open("POST", url);
     Http.send();
+    
+    graph.src="";
 
     Http.onreadystatechange = (e) => {
         graph.src="{{url_for("plot.get_requested_plot")}}?imgid="+
@@ -131,6 +138,11 @@ function drawGraph(){
 </select>
 {% endmacro %}
 
+{% macro trim_box(name,end) %}
+<input name="{{name}}_{{end}}_trim" id="{{name}}_{{end}}_trim"
+    type="number" width="100px" value="0"/>
+{% endmacro %}
+
 {% block content %}
 
 <table>
@@ -139,20 +151,27 @@ function drawGraph(){
 <th>Experiment</th>
 <th>Target</th>
 <th>Trace</th>
+<th>Trim Start</th>
+<th>Trim End</th>
 </tr>
 <tr>
 <td>Series 1</td>
 <td>{{experiment_select_box("series1")}}</td>
 <td>{{target_select_box("series1")}}</td>
 <td>{{trace_select_box("series1")}}</td>
+<td>{{trim_box("series1","start")}}</td>
+<td>{{trim_box("series1","end")}}</td>
 </tr>
 <tr>
 <td>Series 2</td>
 <td>{{experiment_select_box("series2")}}</td>
 <td>{{target_select_box("series2")}}</td>
 <td>{{trace_select_box("series2")}}</td>
+<td>{{trim_box("series2","start")}}</td>
+<td>{{trim_box("series2","end")}}</td>
 </tr>
 </table>
+Seperate Axes: <input type="checkbox" name="separate_axes" id="separate_axes"/> |
 <input type="button" value="Draw" onclick="drawGraph();"/>
 <hr/>
 <img name="graph" id="graph"/>
