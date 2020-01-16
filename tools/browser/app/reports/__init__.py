@@ -54,7 +54,7 @@ def memory_bus_widths_plot_bytes(width,target_name,trace_type,normalise_axes):
 
     pd          = PlotDescription(series=hw_traces)
 
-    pd.height   = len(hw_traces)
+    pd.height   = 1.5*len(hw_traces)
     pd.width    = 10
     pd.separate_axes = True
 
