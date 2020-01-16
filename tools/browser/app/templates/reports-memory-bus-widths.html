@@ -1,0 +1,46 @@
+{% extends 'master.html' %}
+
+{% block header %}
+<h1>{% block title %}Memory Bus Widths{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+Target Device:
+<select name="target" id="target"
+    onchange="window.location='?target='+target.value;"/>
+    {% for tname in targets.keys() | sort %}
+    <option 
+    {%if tname==target.target_name %} selected="selected" {%endif%}
+    label="{{targets[tname].target_description}}"
+    value="{{tname}}">
+    {{tname}} - {{targets[tname].target_description}}
+    </option>
+    {% endfor %}
+</select>
+<input type="button" value="Show Report"
+    onclick="window.location='?target='+target.value;"/>
+
+<hr/>
+
+{% if target %}
+<h2>Report for
+<a href="{{url_for("targets.target_landing_page",target_name=target.target_name)}}">{{target.target_name}}</a></h2>
+
+<h3>Byte Load</h3>
+
+<img src="{{url_for("reports.memory_bus_widths_plot_bytes",width="bytes",target_name=target.target_name)}}" />
+
+<h3>Halfword Load</h3>
+
+<img src="{{url_for("reports.memory_bus_widths_plot_bytes",width="halfword",target_name=target.target_name)}}" />
+
+<h3>Word Load</h3>
+
+<img src="{{url_for("reports.memory_bus_widths_plot_bytes",width="word",target_name=target.target_name)}}" />
+
+{% endif %}
+
+{% endblock %}
+
+
