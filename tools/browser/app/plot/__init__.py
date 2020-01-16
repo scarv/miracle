@@ -8,6 +8,7 @@ from flask import (
 bp = Blueprint('plot', __name__, url_prefix="/plot")
 
 bp.requested_plots = {}
+bp.plot_counter    = 0
 
 def add_nocache_headers(r):
     """
@@ -61,7 +62,8 @@ def plot_multiple_traces():
     Plots multiple traces over one another.
     """
     
-    key = len(bp.requested_plots)+1
+    key = bp.plot_counter + 1
+    bp.plot_counter += 1
 
     pd = PlotDescription(title="",series = [])
     pd.width=10
@@ -78,7 +80,7 @@ def plot_multiple_traces():
     s2_trace.trim_start = int(request.args.get("series2_trim_start",0))
     s2_trace.trim_end   = int(request.args.get("series2_trim_end"  ,0))
 
-    if(request.args.get("sep_axes","off") == "off"):
+    if(request.args.get("sep_axes","false") == "false"):
         pd.separate_axes = False
     else:
         pd.separate_axes = True

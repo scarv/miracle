@@ -93,15 +93,17 @@ function drawGraph(){
     "&series2_trs="+document.getElementById("series2_trace").value+
     "&series2_trim_start="+document.getElementById("series2_start_trim").value+
     "&series2_trim_end="+document.getElementById("series2_end_trim").value+
-    "&sep_axes="+document.getElementById("separate_axes").value;
+    "&sep_axes="+document.getElementById("separate_axes").checked;
     Http.open("POST", url);
     Http.send();
     
     graph.src="";
 
     Http.onreadystatechange = (e) => {
-        graph.src="{{url_for("plot.get_requested_plot")}}?imgid="+
-            Http.responseText
+        if(Http.responseText != "") {
+            graph.src="{{url_for("plot.get_requested_plot")}}?imgid="+
+                Http.responseText;
+        }
     }
 }
 
