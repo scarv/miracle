@@ -15,6 +15,23 @@ function update_report() {
 
 {% endblock %}
 
+{% macro graphplot(target,ldst,trace_type,width,normalise_axes) %}
+<h3>
+<a href="{{url_for("experiments.experiment_landing_page",
+    catagory="memory-bus",
+    experiment_name="bus-width-"+ldst+"-"+width)}}">
+bus-width-{{ldst}}-{{width}}</a> / 
+<a href="{{url_for("experiments.experiment_results_page",
+catagory="memory-bus",
+experiment_name="bus-width-"+ldst+"-"+width,
+target_name=target.target_name)}}">{{target.target_name}}</a>
+</h3>
+
+<img src="{{url_for("reports.memory_bus_widths_plot_bytes",width=width,target_name=target.target_name,
+    trace_type=trace_type, ldst=ldst,
+    normalise_axes=normalise_axes)}}" />
+{% endmacro %}
+
 {% block content %}
 
 Target Device:
@@ -52,41 +69,12 @@ Normalise Axes:
     trace_type=trace_type,
     normalise_axes=normalise_axes)}}">{{target.target_name}}</a></h2>
 
-<h3>Byte Load</h3>
-
-<img src="{{url_for("reports.memory_bus_widths_plot_bytes",width="bytes",target_name=target.target_name,
-    trace_type=trace_type, ldst="ld",
-    normalise_axes=normalise_axes)}}" />
-
-<h3>Halfword Load</h3>
-
-<img src="{{url_for("reports.memory_bus_widths_plot_bytes",width="halfword",target_name=target.target_name,
-    trace_type=trace_type, ldst="ld",
-    normalise_axes=normalise_axes)}}" />
-
-<h3>Word Load</h3>
-
-<img src="{{url_for("reports.memory_bus_widths_plot_bytes",width="word",target_name=target.target_name,
-    trace_type=trace_type, ldst="ld",
-    normalise_axes=normalise_axes)}}" />
-
-<h3>Byte Store</h3>
-
-<img src="{{url_for("reports.memory_bus_widths_plot_bytes",width="bytes",target_name=target.target_name,
-    trace_type=trace_type, ldst="st",
-    normalise_axes=normalise_axes)}}" />
-
-<h3>Halfword Store</h3>
-
-<img src="{{url_for("reports.memory_bus_widths_plot_bytes",width="halfword",target_name=target.target_name,
-    trace_type=trace_type, ldst="st",
-    normalise_axes=normalise_axes)}}" />
-
-<h3>Word Store</h3>
-
-<img src="{{url_for("reports.memory_bus_widths_plot_bytes",width="word",target_name=target.target_name,
-    trace_type=trace_type, ldst="st",
-    normalise_axes=normalise_axes)}}" />
+{{graphplot(target,"ld",trace_type,"bytes",normalise_axes)}}
+{{graphplot(target,"ld",trace_type,"halfword",normalise_axes)}}
+{{graphplot(target,"ld",trace_type,"word",normalise_axes)}}
+{{graphplot(target,"st",trace_type,"bytes",normalise_axes)}}
+{{graphplot(target,"st",trace_type,"halfword",normalise_axes)}}
+{{graphplot(target,"st",trace_type,"word",normalise_axes)}}
 
 
 {% endif %}

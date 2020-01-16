@@ -42,7 +42,7 @@ def memory_bus_widths():
 @bp.route("/memory-bus-widths/plot/<string:width>/<string:target_name>/<string:trace_type>/<string:normalise_axes>/<string:ldst>")
 def memory_bus_widths_plot_bytes(width,target_name,trace_type,normalise_axes,ldst):
     """
-    Render the plot for the load * experiment.
+    Render the plot for the load/store * experiment.
     where * is specified by width and width is one of bytes,halfword,word
     """
     target      = bp.targets[target_name]
