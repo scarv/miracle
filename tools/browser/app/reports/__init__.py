@@ -1,4 +1,5 @@
 
+import operator
 from io import BytesIO
 
 from flask import (
@@ -8,20 +9,9 @@ from flask import (
 
 from    matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
-from . import memory_bus_width_plots
+from plot import PlotDescription
 
 bp = Blueprint('reports', __name__, url_prefix="/reports")
-
-def makePlotResponse(fig):
-    """
-    Return a Flask response object containing the rendered image.
-    """
-    sio     = BytesIO()
-    canvas  = FigureCanvas(fig)
-    canvas.print_png(sio)
-    rsp     = make_response(sio.getvalue())
-    rsp.headers["Content-Type"] = "image/png"
-    return rsp
 
 @bp.route("/")
 def experiments_list():
@@ -35,6 +25,8 @@ def memory_bus_widths():
     Render the memory bus widths report.
     """
     selected_target = request.args.get("target",None)
+    trace_type      = request.args.get("trace_type","ttrace")
+    normalise_axes  = request.args.get("normalise_axes","true")
 
     if(selected_target):
         selected_target = bp.targets[selected_target]
@@ -42,24 +34,39 @@ def memory_bus_widths():
     return render_template(
         "reports-memory-bus-widths.html",
         targets = bp.targets,
-        target  = selected_target
+        target  = selected_target,
+        trace_type = trace_type,
+        normalise_axes = normalise_axes
     )
 
-@bp.route("/memory-bus-widths/plot/<string:width>/<string:target_name>")
-def memory_bus_widths_plot_bytes(width,target_name):
+@bp.route("/memory-bus-widths/plot/<string:width>/<string:target_name>/<string:trace_type>/<string:normalise_axes>")
+def memory_bus_widths_plot_bytes(width,target_name,trace_type,normalise_axes):
     """
-    Render the plot for the load bytes experiment.
+    Render the plot for the load * experiment.
+    where * is specified by width and width is one of bytes,halfword,word
     """
     target      = bp.targets[target_name]
     experiment  = bp.experiments["memory-bus/bus-width-ld-"+width]
     results     = experiment.getResultsForTarget(target.target_name)
 
-    hw_traces   = results.getTracesOfType("cpa-hw")
+    hw_traces   = results.getTracesOfType(trace_type)
+    hw_traces.sort(key=operator.attrgetter('name'))
 
-    fig         = memory_bus_width_plots.plot_bytes(
-        hw_traces,"Hamming Weight Leakage"
-    )
-    rsp         = makePlotResponse(fig)
+    pd          = PlotDescription(series=hw_traces)
+
+    pd.height   = len(hw_traces)
+    pd.width    = 10
+    pd.separate_axes = True
+
+    if(normalise_axes == "true" and trace_type == "cpa-hw"):
+        pd.set_y_limits = True
+        pd.y_limit_min  = 0.0
+        pd.y_limit_max  = 1.0
+    else:
+        pd.set_y_limits = False
+
+    rsp         = pd.makePlotResponse()
+
     return        rsp
 
 

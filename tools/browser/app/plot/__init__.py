@@ -71,22 +71,22 @@ def plot_multiple_traces():
     s1_experiment = bp.experiments[request.args["series1_exp"]]
     s1_results    = s1_experiment.getResultsForTarget(request.args["series1_dev"])
     s1_trace      = s1_results.getTraceByName(request.args["series1_trs"])
-    s1_trace.trim_start = int(request.args.get("series1_trim_start",0))
-    s1_trace.trim_end   = int(request.args.get("series1_trim_end"  ,0))
+    s1_trace_trim_start = int(request.args.get("series1_trim_start",0))
+    s1_trace_trim_end   = int(request.args.get("series1_trim_end"  ,0))
 
     s2_experiment = bp.experiments[request.args["series2_exp"]]
     s2_results    = s2_experiment.getResultsForTarget(request.args["series2_dev"])
     s2_trace      = s2_results.getTraceByName(request.args["series2_trs"])
-    s2_trace.trim_start = int(request.args.get("series2_trim_start",0))
-    s2_trace.trim_end   = int(request.args.get("series2_trim_end"  ,0))
+    s2_trace_trim_start = int(request.args.get("series2_trim_start",0))
+    s2_trace_trim_end   = int(request.args.get("series2_trim_end"  ,0))
 
     if(request.args.get("sep_axes","false") == "false"):
         pd.separate_axes = False
     else:
         pd.separate_axes = True
 
-    pd.addSeries(s1_trace)
-    pd.addSeries(s2_trace)
+    pd.addSeries(s1_trace,trim_info=(s1_trace_trim_start,s1_trace_trim_end))
+    pd.addSeries(s2_trace,trim_info=(s2_trace_trim_start,s2_trace_trim_end))
 
     if(pd.separate_axes):
         pd.height = 3*len(pd.series)

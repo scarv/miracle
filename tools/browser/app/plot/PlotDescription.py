@@ -13,16 +13,27 @@ class PlotDescription(object):
     """
 
     def __init__(self, title="", series = []):
-        self._title     = title
-        self._series    = series
+        self._title         = title
+        self._series        = series
 
-        self._imgtype   = "png"
-        self.width      = 12
-        self.height     = 3
-        self.separate_axes = False
+        self._imgtype       = "png"
+        self.width          = 12
+        self.height         = 3
+        self.separate_axes  = False
 
-    def addSeries(self, s):
+        self.set_y_limits   = False
+        self.y_limit_min    = 0
+        self.y_limit_max    = 0
+
+        self._trim_info = {}
+
+    def addTrimInfo(self, series, trim_info):
+        self._trim_info[series] = trim_info
+
+    def addSeries(self, s, trim_info = None):
         self._series.append(s)
+        if(trim_info):
+            self._trim_info[s] = trim_info
 
     @property
     def series(self):
@@ -56,12 +67,16 @@ class PlotDescription(object):
             
             trace = s.trace
 
-            if(s.trim_start):
-                trace = trace[s.trim_start:]
-            if(s.trim_end):
-                trace = trace[:-s.trim_end]
+            if(s in self._trim_info):
+                trim_start, trim_end = self._trim_info[s]
+                if(trim_end == 0):
+                    trim_end = 1
+                trace = trace[trim_start:-trim_end]
 
             ax.plot(trace, linewidth=0.15)
+
+            if(self.set_y_limits):
+                ax.set_ylim(self.y_limit_min,self.y_limit_max)
 
             plot_num += 1
 
