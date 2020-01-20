@@ -37,27 +37,27 @@ class TargetDevice:
         
         tr = TargetDevice(config["TARGET"]["NAME"])
 
-        tr.target_name                = config["TARGET"]["NAME"]
-        tr.target_description         = config["TARGET"]["DESCRIPTION"]
-        tr.target_implementation      = config["TARGET"]["IMPLEMENTATION"]
+        tr.target_name                = config["TARGET"]["NAME"].lstrip("\"").rstrip("\"")
+        tr.target_description         = config["TARGET"]["DESCRIPTION"].lstrip("\"").rstrip("\"")
+        tr.target_implementation      = config["TARGET"]["IMPLEMENTATION"].lstrip("\"").rstrip("\"")
 
-        tr.device_name                = config["DEVICE"]["NAME"]
-        tr.device_link                = config["DEVICE"]["LINK"]
-        tr.device_manufacturer_name   = config["DEVICE"]["MANUFACTURER_NAME"]
-        tr.device_manufacturer_link   = config["DEVICE"]["MANUFACTURER_LINK"]
+        tr.device_name                = config["DEVICE"]["NAME"].lstrip("\"").rstrip("\"")
+        tr.device_link                = config["DEVICE"]["LINK"].lstrip("\"").rstrip("\"")
+        tr.device_manufacturer_name   = config["DEVICE"]["MANUFACTURER_NAME"].lstrip("\"").rstrip("\"")
+        tr.device_manufacturer_link   = config["DEVICE"]["MANUFACTURER_LINK"].lstrip("\"").rstrip("\"")
 
-        tr.board_name                 = config["BOARD"]["NAME"]
-        tr.board_link                 = config["BOARD"]["LINK"]
-        tr.board_manufacturer_name    = config["BOARD"]["MANUFACTURER_NAME"]
-        tr.board_manufacturer_link    = config["BOARD"]["MANUFACTURER_LINK"]
+        tr.board_name                 = config["BOARD"]["NAME"].lstrip("\"").rstrip("\"")
+        tr.board_link                 = config["BOARD"]["LINK"].lstrip("\"").rstrip("\"")
+        tr.board_manufacturer_name    = config["BOARD"]["MANUFACTURER_NAME"].lstrip("\"").rstrip("\"")
+        tr.board_manufacturer_link    = config["BOARD"]["MANUFACTURER_LINK"].lstrip("\"").rstrip("\"")
 
-        tr.cpu_arch_name              = config["CPU"]["ARCH_NAME"]
-        tr.cpu_arch_link              = config["CPU"]["ARCH_LINK"]
-        tr.cpu_core_link              = config["CPU"]["CORE_LINK"]
-        tr.cpu_core_name              = config["CPU"]["CORE_NAME"]
-        tr.cpu_core_manufacturer_name = config["CPU"]["CORE_MANUFACTURER_NAME"]
-        tr.cpu_core_manufacturer_link = config["CPU"]["CORE_MANUFACTURER_LINK"]
-        tr.cpu_pipeline_depth         = config["CPU"]["PIPELINE_DEPTH"]
+        tr.cpu_arch_name              = config["CPU"]["ARCH_NAME"].lstrip("\"").rstrip("\"")
+        tr.cpu_arch_link              = config["CPU"]["ARCH_LINK"].lstrip("\"").rstrip("\"")
+        tr.cpu_core_link              = config["CPU"]["CORE_LINK"].lstrip("\"").rstrip("\"")
+        tr.cpu_core_name              = config["CPU"]["CORE_NAME"].lstrip("\"").rstrip("\"")
+        tr.cpu_core_manufacturer_name = config["CPU"]["CORE_MANUFACTURER_NAME"].lstrip("\"").rstrip("\"")
+        tr.cpu_core_manufacturer_link = config["CPU"]["CORE_MANUFACTURER_LINK"].lstrip("\"").rstrip("\"")
+        tr.cpu_pipeline_depth         = config["CPU"]["PIPELINE_DEPTH"].lstrip("\"").rstrip("\"")
 
         return tr
 
