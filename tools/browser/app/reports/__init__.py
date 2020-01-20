@@ -213,3 +213,52 @@ def speculation_plot(target_name, ename):
     rsp         = pd.makePlotResponse()
 
     return        rsp
+
+
+@bp.route("/rosita")
+def rosita():
+    """
+    Render the rosita countermeasures report.
+    """
+    selected_target = request.args.get("target",None)
+    trace_type      = request.args.get("trace_type","ttrace")
+    normalise_axes  = request.args.get("normalise_axes","true")
+
+    if(selected_target):
+        selected_target = bp.targets[selected_target]
+
+    return render_template(
+        "reports-rosita.html",
+        targets = bp.targets,
+        target  = selected_target,
+        trace_type = trace_type,
+        normalise_axes = normalise_axes
+    )
+
+
+@bp.route("/rosita/plot/<string:target_name>/<string:ename>")
+def rosita_plot(target_name, ename):
+    target      = bp.targets[target_name]
+    experiment  = bp.experiments["countermeasures/"+ename]
+    results     = experiment.getResultsForTarget(target.target_name)
+    normalise_axes  = request.args.get("normalise_axes","true")
+    trace_type      = request.args.get("trace_type","cpa-hd")
+    
+    hw_traces   = results.getTracesOfType(trace_type)
+    hw_traces.sort(key=operator.attrgetter('name'))
+    
+    pd          = PlotDescription(series=hw_traces)
+
+    pd.height   = 1.5*len(hw_traces)
+    pd.width    = 10
+    pd.separate_axes = False
+
+    if(normalise_axes=="true"):
+        pd.set_y_limits = True
+        pd.y_limit_min  = 0.0
+        pd.y_limit_max  = 1.0
+
+    rsp         = pd.makePlotResponse()
+
+    return        rsp
+
