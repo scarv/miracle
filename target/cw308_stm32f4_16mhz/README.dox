@@ -12,6 +12,10 @@ This target analyses an ST Microelectronics `STM32F405 RGT6` SoC using the
 platform from
 [NewAE](https://newae.com).
 
+It is identical to the @ref targets-sw308-stm32f4 target, but runs at
+16MHz using the internal oscillator, rather than the external 7.35MHz
+crystal.
+
 The SoC contains an ARM M4 micro-processor, 512Kb of SRAM and 1Mb of flash.
 It uses an AHB main bus to talk to the memory, and a AHB-APB Bridge to
 talk to peripheral devices.
