@@ -50,7 +50,8 @@ class ExperimentResultsSet:
             for trace in os.listdir(traces_path):
                 trace_path = os.path.join(traces_path,trace)
                 if(os.path.isfile(trace_path) and trace.endswith("npy")):
-                    etrace = ExperimentTrace(trace_path)
+                    etrace = ExperimentTrace(trace_path,self._target_name,
+                        self._experiment)
                     self._traces[etrace.name] = etrace
         else:
             log.error("No traces for %s/%s" % (

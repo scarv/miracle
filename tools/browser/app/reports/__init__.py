@@ -55,7 +55,7 @@ def memory_bus_widths_plot_bytes(width,target_name,trace_type,normalise_axes,lds
     pd          = PlotDescription(series=hw_traces)
 
     pd.height   = 1.5*len(hw_traces)
-    pd.width    = 10
+    pd.width    = 8
     pd.separate_axes = True
 
     if(normalise_axes == "true" and trace_type == "cpa-hw"):
@@ -104,7 +104,7 @@ def memory_access_hazards_plot(target_name, ename):
     pd          = PlotDescription(series=hw_traces)
 
     pd.height   = 1.5*len(hw_traces)
-    pd.width    = 10
+    pd.width    = 8
     pd.separate_axes = True
 
     if(normalise_axes=="true"):
@@ -154,7 +154,7 @@ def pipeline_registers_plot(target_name, ename):
     pd          = PlotDescription(series=hw_traces)
 
     pd.height   = 1.5*len(hw_traces)
-    pd.width    = 10
+    pd.width    = 8
     pd.separate_axes = True
 
     if(normalise_axes=="true"):
@@ -202,7 +202,7 @@ def speculation_plot(target_name, ename):
     pd          = PlotDescription(series=hw_traces)
 
     pd.height   = 1.5*len(hw_traces)
-    pd.width    = 10
+    pd.width    = 8
     pd.separate_axes = False
 
     if(normalise_axes=="true"):
@@ -250,7 +250,7 @@ def rosita_plot(target_name, ename):
     pd          = PlotDescription(series=hw_traces)
 
     pd.height   = 1.5*len(hw_traces)
-    pd.width    = 10
+    pd.width    = 8
     pd.separate_axes = False
 
     if(normalise_axes=="true"):

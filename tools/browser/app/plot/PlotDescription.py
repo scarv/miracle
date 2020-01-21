@@ -61,7 +61,7 @@ class PlotDescription(object):
 
             if(self.separate_axes):
                 ax  = fig.add_subplot(len(self.series),1,plot_num)
-                ax.set_title("%s %s" % (s.name , s.tracetype))
+                ax.set_title("%s, %s, %s, %s" % (s.experiment.name, s.target_name,s.name , s.tracetype))
             else:
                 ax  = fig.add_subplot(1,1,1)
             

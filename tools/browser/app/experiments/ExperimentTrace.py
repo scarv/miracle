@@ -7,7 +7,7 @@ class ExperimentTrace:
     Information on a single "statistic trace"
     """
 
-    def __init__(self, path):
+    def __init__(self, path, target_name, experiment):
         """
         Create a new ExperimentTrace object
         """
@@ -15,6 +15,8 @@ class ExperimentTrace:
         self._filepath  = path
         self._name      = os.path.basename(path)
         self._tracetype = "other"
+        self._target_name = target_name
+        self._experiment= experiment
 
         if(self._name.startswith("avg-trace")):
             self._tracetype = "avg"
@@ -43,7 +45,18 @@ class ExperimentTrace:
 
     @property
     def name(self):
+        """The name (without directory) of the trace file"""
         return self._name
+
+    @property
+    def target_name(self):
+        """The name of the target device this trace belongs too"""
+        return self._target_name
+
+    @property
+    def experiment(self):
+        """The ExperimentInfo object this trace is associated with"""
+        return self._experiment
 
     @property
     def trace(self):

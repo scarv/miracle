@@ -9,7 +9,7 @@ class DefaultConfig(object):
 
     def __init__(self):
 
-        self.LOG_LEVEL = log.DEBUG
+        self.LOG_LEVEL = log.INFO
        
         # The very top level of where all results are kept
         self.RESULTS_DIRECTORY = os.getenv("UAS_BUILD",default=None)
