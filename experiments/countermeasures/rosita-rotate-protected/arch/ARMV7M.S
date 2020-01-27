@@ -5,22 +5,18 @@
 .global experiment_payload
 experiment_payload:
 
-    FUNC_ENTER
+    FUNC_ENTER      // r0 = value to rotate
+                    // r1 = mask
+    NOP_SPACER
 
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
+    mov r2, #24     // Amount to rotate by
 
-    mov r2, #24
+    eor r0, r1      // XOR mask with value being rotated
+    ror r0, r2      // Rotate value
+    ror r1, r2      // Rotate mask
+    eor r0, r1      // Un-mask
 
-    eor r0, r1
-    ror r0, r2
-    ror r1, r2
-    eor r0, r1
-
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
+    NOP_SPACER
 
     FUNC_RETURN
 

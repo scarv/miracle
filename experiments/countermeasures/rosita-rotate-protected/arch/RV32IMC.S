@@ -5,23 +5,23 @@
 .global experiment_payload
 experiment_payload:
 
-    FUNC_ENTER
+    FUNC_ENTER          // a0 = value to rotate
+                        // a1 = mask
+    NOP_SPACER
 
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
+    xor a0, a0, a1      // Mask value being rotated
 
-    xor a0, a0, a1
-
-    srli a0, a2, 24
-    slli t1, a2, 8
+    srli t1, a0, 24     // Rotate value
+    slli a0, a0, 8
     or a0, a0, t1
+    
+    srli t2, a1, 24     // Rotate Mask
+    slli a1, a1, 8
+    or a1, a1, t2
 
     xor a0, a0, a1
 
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
+    NOP_SPACER
 
     FUNC_RETURN
 
