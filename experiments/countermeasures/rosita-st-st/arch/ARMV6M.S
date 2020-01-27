@@ -9,48 +9,35 @@ experiment_payload:
 
     add sp,#-16
 
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
+    NOP_SPACER      // Variant 1, expect leakage
 
-    str r0,[r3,#0]
-    str r1,[r3,#0]
+    str r0,[r3,#0]  // Store TTest variable 1
+    and r2,r2       // Flush ALU datapath as much as possible.
+    str r1,[r3,#0]  // Store TTest variable 2
 
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
+    NOP_SPACER      // Barrier
+    str r2,[sp,#4]  // Flush store datapath
 
-    str r2,[sp,#4]
+    NOP_SPACER      // Variant 2, overwrite stack countermeasure
 
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
+    str r2,[sp,#4]  // Store random variable to stack
+    str r0,[r3,#0]  // Store TTest variable 1 to location X
+    and r2,r2       // Flush ALU datapath as much as possible.
+    str r2,[sp,#4]  // Store random variable to stack
+    str r1,[r3,#0]  // Store TTest variable 2 to locaton X
+    
+    NOP_SPACER      // Barrier
+    str r2,[sp,#4]  // Flush store datapath
 
-    str r2,[sp,#4]
-    str r0,[r3,#0]
+    NOP_SPACER      // Variant 3, overwrite destination address X
 
-    str r2,[sp,#4]
-    str r1,[r3,#0]
-
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-
-    str r2,[sp,#4]
-
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-
-    str r2,[r3,#0]
-    str r0,[r3,#0]
-
-    str r2,[r3,#0]
-    str r1,[r3,#0]
-
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
+    str r2,[r3,#0]  // Store random variable to location X
+    str r0,[r3,#0]  // Store TTest variable 1 to location X
+    and r2,r2       // Flush ALU datapath as much as possible.
+    str r2,[r3,#0]  // Store random variable to locaton X
+    str r1,[r3,#0]  // Store TTest variable 2 to location X
+    
+    NOP_SPACER
 
     add sp,#16
 
