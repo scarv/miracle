@@ -4,24 +4,25 @@
 
 .global experiment_payload
 experiment_payload:
+                                // r5 = TTest variable 1
+    FUNC_ENTER                  // r6 = TTest variable 2
+                                // r7 = Branch or not?
+    xor r9,r9,r9;               // Clear r9
 
-    FUNC_ENTER
+    NOP_SPACER
 
-    xor r9,r9,r9;
+    cmp r11, r9, r7             // Should we branch?
+    bnei r11, branch_target
+    beqi r11, branch_target
 
-    nop; nop; nop; nop; nop; nop; nop; nop; nop; nop;
+    xor r9,r9,r5                // Manipulate secret variable 0
+    xor r9,r9,r6                // Manipulate secret variable 1
 
-        cmp r11, r9, r7
-        bnei r11, branch_target
-        beqi r11, branch_target
-
-        xor r9,r6,r5
-
-    nop; nop; nop; nop; nop; nop; nop; nop; nop; nop;
+    NOP_SPACER
 
     branch_target:
 
-        nop; nop; nop; nop; nop; nop; nop; nop; nop; nop;
+    NOP_SPACER
 
     FUNC_RETURN
 

@@ -4,22 +4,21 @@
 
 .global experiment_payload
 experiment_payload:
-
-    FUNC_ENTER
-
-    xor r9,r9,r9
-
-    loop_0:
-
-        nop; nop; nop; nop; nop; nop; nop; nop;
-        nop; nop; nop; nop; nop; nop; nop; nop;
-
-        add r9,r9,r7
-
-            cmp r11, r9, r6
-            bnei r11, loop_0
-
-    xor r11,r11,r5
+                                // r5 = TTest variable 1
+    FUNC_ENTER                  // r6 = loop stop count
+                                // r7 = loop increment
+    xor r9,r9,r9                // r9 = loop counter
+                                                           
+    loop_0:                                                
+                                                           
+        NOP_SPACER                                         
+                                                           
+        add r9,r9,r7            // Increment loop counter
+                                                           
+            cmp r11, r9, r6     // Finish the loop?
+            bnei r11, loop_0    // Branch up
+                                                           
+    xor r11,r11,r5              // Operate on secret value.
 
     FUNC_RETURN
 

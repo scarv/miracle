@@ -17,19 +17,19 @@
 //! Randomness array. Managed by SCASS.
 uint8_t randomness[RLEN];
 
-uint8_t  di1_fixed,di1_rand ; //!< TTest random input values.
-uint8_t  di2_fixed,di2_rand ; //!< TTest random input values.
+uint32_t  di1_fixed,di1_rand ; //!< TTest random input values.
+uint32_t  di2_fixed,di2_rand ; //!< TTest random input values.
 
 //! Variables which the SCASS framework can control.
 scass_target_var  experiment_variables [] = {
-{"di1" , 1, &di1_rand, &di1_fixed, SCASS_FLAGS_TTEST_IN},
-{"di2" , 1, &di2_rand, &di2_fixed, SCASS_FLAGS_TTEST_IN}
+{"di1" , 4, &di1_rand, &di1_fixed, SCASS_FLAGS_TTEST_IN},
+{"di2" , 4, &di2_rand, &di2_fixed, SCASS_FLAGS_TTEST_IN}
 };
 
-//! Declaration for the experiment payload function in ldst-byte.S
+//! Declaration for the experiment payload function
 extern void     * experiment_payload(
-    uint8_t d1,
-    uint8_t d2,
+    uint32_t d1,
+    uint32_t d2,
     uint8_t br
 );
 
@@ -50,9 +50,9 @@ uint8_t experiment_run(
     char               fixed //!< used fixed variants of variables?
 ){
 
-    uint8_t d1 = (fixed ? di1_fixed: di1_rand);
-    uint8_t d2 = (fixed ? di2_fixed: di2_rand);
-    uint8_t br = randomness[0] & 0x1;
+    uint32_t d1 = (fixed ? di1_fixed: di1_rand);
+    uint32_t d2 = (fixed ? di2_fixed: di2_rand);
+    uint8_t  br = randomness[0] & 0x1;
 
     uas_bsp_trigger_set();
     

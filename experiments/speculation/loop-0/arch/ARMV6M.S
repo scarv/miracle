@@ -4,22 +4,21 @@
 
 .global experiment_payload
 experiment_payload:
-
-    FUNC_ENTER
-
-    eor r4,r4
+                        // r0 = TTest variable 1
+    FUNC_ENTER          // r1 = loop stop count
+                        // r2 = loop increment
+    eor r4,r4           // r4 = loop counter
 
     loop_0:
 
-        nop; nop; nop; nop; nop; nop; nop; nop;
-        nop; nop; nop; nop; nop; nop; nop; nop;
+        NOP_SPACER
 
-        add r4,r4,r2
+        add r4,r4,r2    // Increment loop counter
 
-            cmp r4, r1
-            bne loop_0
+        cmp r4, r1      // Finish the loop?
+        bne loop_0      // Branch up
 
-    eor r6,r0
+    eor r6,r0           // Operate on secret value.
 
     FUNC_RETURN
 
