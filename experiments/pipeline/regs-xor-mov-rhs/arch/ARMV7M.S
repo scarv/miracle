@@ -7,26 +7,16 @@ experiment_payload:
 
     FUNC_ENTER
 
-    eor r6,r6
+    eor r6,r6   // Clear r6, r7
     eor r7,r7
 
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
+    NOP_SPACER
 
-    eor r4,r0
-    mov r6, r7
-    eor r5,r1
+    eor r4,r0   // TTest Var 1 on RHS of xor
+    mov r6,r7   // MOV barrier
+    eor r5,r1   // TTest Var 2 on RHS of xor
 
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
+    NOP_SPACER
 
     FUNC_RETURN
 

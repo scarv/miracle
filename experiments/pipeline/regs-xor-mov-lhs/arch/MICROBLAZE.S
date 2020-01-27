@@ -7,26 +7,16 @@ experiment_payload:
 
     FUNC_ENTER
 
-    xor r11,r11,r11
+    xor r11,r11,r11     // Clear r11, r12
     xor r12,r12,r12
 
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
+    NOP_SPACER
 
-    xor r9,r5,r11
-    ori r11, r12, 0
-    xor r10,r6,r12
+    xor r9,r5,r11       // TTest Var 1 on LHS of xor
+    ori r11, r12, 0     // MOV barrier - as GCC compiles it
+    xor r10,r6,r12      // TTest Var 2 on LHS of xor
 
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
+    NOP_SPACER
 
     FUNC_RETURN
 
