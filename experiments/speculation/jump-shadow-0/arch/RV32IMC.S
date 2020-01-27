@@ -5,94 +5,28 @@
 .global experiment_payload
 experiment_payload:
 
-    FUNC_ENTER
-
-    nop; nop; nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop; nop; nop;
-
-    xor t0,a1,a0
-
-    nop; nop; nop; nop; nop; nop; nop; nop; nop; nop;
-
-    xor t0,t1,t1
-
-    nop; nop; nop; nop; nop; nop; nop; nop; nop; nop;
+    FUNC_ENTER          // a0 - TTest variable 1
+                        // a1 - TTest variable 2
+    NOP_SPACER          // a2 - TTest variable 3
+                        // a3 - TTest variable 4
+    xor a0,a0,a0        // Clear secret value a0 to get a
+                        // Baseline for how things leak.
+    NOP_SPACER
 
     test_0:
-
-        j test_1
-
-        xor t0,a1,a0
-
-    test_1:
-
-        nop; nop; nop; nop; nop; nop; nop; nop; nop; nop;
-
-        xor t0,t1,t1
-
-        nop; nop; nop; nop; nop; nop; nop; nop; nop; nop;
-
-        j test_2
-        nop;
-
-        xor t0,a1,a0
-
-    test_2:
-
-        nop; nop; nop; nop; nop; nop; nop; nop; nop; nop;
-
-        xor t0,t1,t1
-
-        nop; nop; nop; nop; nop; nop; nop; nop; nop; nop;
-
-        j test_3
-        nop;
-        nop;
-
-        xor t0,a1,a0
-
-    test_3:
-
-        nop; nop; nop; nop; nop; nop; nop; nop; nop; nop;
-
-        xor t0,t1,t1
-
-        nop; nop; nop; nop; nop; nop; nop; nop; nop; nop;
-
-        j test_4
-        nop;
-        nop;
-        nop;
-
-        xor t0,a1,a0
-
-    test_4:
-
-        nop; nop; nop; nop; nop; nop; nop; nop; nop; nop;
-
-        xor t0,t1,t1
-
-        nop; nop; nop; nop; nop; nop; nop; nop; nop; nop;
-
-        j test_end
-        nop;
-        nop;
-        nop;
-        nop;
-
-        xor t0,t0,a0
+        j test_end      // Branch to test 1
+        xor a1,a1,a1    // Clear secret value a1
+        xor a2,a2,a2    // Clear secret value a2
+        xor a3,a3,a3    // Clear secret value a3
 
     test_end:
 
-    nop; nop; nop; nop; nop; nop; nop; nop; nop; nop;
+        NOP_SPACER
 
-    xor t1,t1,t1
-
-    nop; nop; nop; nop; nop; nop; nop; nop; nop; nop;
+    NOP_SPACER
 
     FUNC_RETURN
 
 .global experiment_payload_end
 experiment_payload_end:
+
