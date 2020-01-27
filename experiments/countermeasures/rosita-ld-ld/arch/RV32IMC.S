@@ -15,7 +15,7 @@ experiment_payload:
     lw t1,0(a1)         // Load TTest variable 2
 
     NOP_SPACER          // Barrier between variants. ------------------------
-                        // Flush data load / store path
+    and a2,a2,a2        // Flush data load / store path
     sw a2,4(sp)         // Store random variable to stack
     lw a2,4(sp)         // Load random variable from stack
 
@@ -27,7 +27,7 @@ experiment_payload:
     lw t1,0(a1)         // Load TTest variable 2
 
     NOP_SPACER          // Barrier between variants. ------------------------
-                        // Flush data load / store path
+    and a2,a2,a2        // Flush data load / store path
     sw a2,4(sp)         // Store random variable to stack
     lw a2,4(sp)         // Load random variable from stack
 
@@ -38,7 +38,7 @@ experiment_payload:
     lw t1,0(a1)         // Load TTest variable 2
 
     NOP_SPACER          // Barrier between variants. ------------------------
-                        // Flush data load / store path
+    and a2,a2,a2        // Flush data load / store path
     sw a2,4(sp)         // Store random variable to stack
     lw a2,4(sp)         // Load random variable from stack
 
