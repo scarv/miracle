@@ -7,22 +7,14 @@ experiment_payload:
 
     FUNC_ENTER
 
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
+    xor r9, r9, r9      // Clear r9
 
-    xor r9,r5,r9
-    bslli r10,r6,31
+    NOP_SPACER
 
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
+    xor r9,r5,r9        // Secret value on LHS of xor
+    bslli r10,r6,31     // Secret value on LHS of bslli
+
+    NOP_SPACER
 
     FUNC_RETURN
 
