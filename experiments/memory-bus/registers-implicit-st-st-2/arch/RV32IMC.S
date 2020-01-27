@@ -1,0 +1,54 @@
+#include "kernel-macros.h"
+
+.text
+
+.global experiment_payload
+experiment_payload:
+
+    FUNC_ENTER
+
+    xor t0,t0,t0
+
+    nop; nop; nop; nop;
+    nop; nop; nop; nop;
+    nop; nop; nop; nop;
+    nop; nop; nop; nop;
+
+    sw t0,0(a0)
+    sw t0,0(a1)
+
+    nop; nop; nop; nop;
+    nop; nop; nop; nop;
+    nop; nop; nop; nop;
+    nop; nop; nop; nop;
+
+    sw a2,0(a0)
+
+    nop; nop; nop; nop;
+    nop; nop; nop; nop;
+    nop; nop; nop; nop;
+    nop; nop; nop; nop; xor t1,t1,t1;
+    nop; nop; nop; nop;
+    nop; nop; nop; nop;
+    nop; nop; nop; nop;
+    nop; nop; nop; nop;
+
+    sw a3,0(a1)
+
+    nop; nop; nop; nop;
+    nop; nop; nop; nop;
+    nop; nop; nop; nop;
+    nop; nop; nop; nop;
+
+    sw t0,0(a0)
+    sw t0,0(a1)
+
+    nop; nop; nop; nop;
+    nop; nop; nop; nop;
+    nop; nop; nop; nop;
+    nop; nop; nop; nop;
+
+    FUNC_RETURN
+
+.global experiment_payload_end
+experiment_payload_end:

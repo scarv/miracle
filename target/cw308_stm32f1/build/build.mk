@@ -1,5 +1,6 @@
+TARGET_ARCH=ARMV7M
 CFLAGS += -DTARGET=10
-CFLAGS += -DARCH_ARMV7M -Wall -march=armv7-m -mcpu=cortex-m3 -mthumb -O2
+CFLAGS += -DARCH_$(TARGET_ARCH) -Wall -march=armv7-m -mcpu=cortex-m3 -mthumb -O2
 CFLAGS += -mfloat-abi=soft -ffunction-sections -Wl,--gc-sections -lm
 CFLAGS += -T $(UAS_ROOT)/target/cw308_stm32f1/build/linker.ld
 CFLAGS += -I $(UAS_ROOT)/target/cw308_stm32f1/bsp/CMSIS/core

@@ -21,6 +21,18 @@ CFLAGS    += -I$(UAS_ROOT)/target/$(UAS_TARGET)
 
 TARGETS   =
 
+define get_target_arch
+$(subst -DARCH_,,$(firstword $(filter -DARCH_%,${1})))
+endef
+
+define get_asm_targets
+$(firstword $(filter %.S,${1}))
+endef
+
+define get_asm_pp_path
+$(UAS_ROOT)/experiments/$(UAS_EXPERIMENT)/arch/$(call get_target_arch,${1}).S
+endef
+
 #
 # Add a new build target
 #
@@ -29,6 +41,24 @@ TARGETS   =
 # 3. CFLAGS
 #
 define add_experiment_build_target
+
+##
+## This snippet was used to generate per-architecture ASM files from when
+## all the experiments were meta-programmed using macros.
+## Left here for posterity in case it is useful in the future.
+##
+##ifneq ($(call get_asm_targets,${2}),)
+##.PHONY: $(call get_asm_pp_path,${3})
+##$(call get_asm_pp_path,${3}) : $(call get_asm_targets,${2})
+##	@mkdir -p $(dir $(call get_asm_pp_path,${3}))
+##	$(CC) ${3} -E $${^} -o $${@}.tmp
+##	sed -i "s/^#.*//g" $${@}.tmp
+##	echo "#include \"kernel-macros.h\"" > $${@}
+##	cat -s $${@}.tmp >> $${@}
+##	rm  $${@}.tmp
+##
+##TARGETS += $(call get_asm_pp_path,${3})
+##endif
 
 $(call map_experiment_elf,${1}) : ${2} $(UAS_SRCS) $(TARGET_SRCS)
 	-mkdir -p $(dir $(call map_experiment_elf,${1}))

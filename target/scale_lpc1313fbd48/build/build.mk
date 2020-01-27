@@ -1,6 +1,6 @@
-
+TARGET_ARCH=ARMV7M
 CFLAGS += -DTARGET=3
-CFLAGS += -DARCH_ARMV7M -Wall -march=armv7-m -mcpu=cortex-m3 -mthumb -nostartfiles -O2
+CFLAGS += -DARCH_$(TARGET_ARCH) -Wall -march=armv7-m -mcpu=cortex-m3 -mthumb -nostartfiles -O2
 CFLAGS += -T$(UAS_ROOT)/external/scale-hw/target/lpc1313fbd48/scale.ld
 CFLAGS += -L$(UAS_ROOT)/external/scale-hw/share/lpc13xx
 CFLAGS += -I$(UAS_ROOT)/external/scale-hw/share

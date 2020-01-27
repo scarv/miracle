@@ -1,8 +1,8 @@
-
+TARGET_ARCH=MICROBLAZE
 CFLAGS += -DTARGET=6
-CFLAGS += -DARCH_MICROBLAZE -Wall -O2
+CFLAGS += -DARCH_$(TARGET_ARCH) -Wall -O2
 CFLAGS += -mlittle-endian -mxl-barrel-shift -mno-xl-soft-div
-CFLAGS += -mcpu=v10.0 -mno-xl-soft-mul -Wl,--no-relax -Wl,--gc-sections -o
+CFLAGS += -mcpu=v10.0 -mno-xl-soft-mul -Wl,--no-relax -Wl,--gc-sections
 CFLAGS += -Wl,-T -Wl,$(UAS_ROOT)/target/sakurax_mb8/build/linker.ld
 
 CC      = $(UAS_MICROBLAZE_TOOLCHAIN_ROOT)/microblaze-xilinx-elf-gcc

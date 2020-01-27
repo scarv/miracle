@@ -1,6 +1,6 @@
-
+TARGET_ARCH=RV32IMC
 CFLAGS += -DTARGET=7
-CFLAGS += -DARCH_RV32IMC -Wall -O2
+CFLAGS += -DARCH_$(TARGET_ARCH) -Wall -O2
 CFLAGS += -march=rv32imc -mabi=ilp32 -nostartfiles -mcmodel=medany
 CFLAGS += -Wl,-T -Wl,$(UAS_ROOT)/target/sakurax_picorv32/build/linker.ld
 
