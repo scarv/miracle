@@ -10,77 +10,22 @@ experiment_payload:
     xor a3,a3,a3
     xor a2,a2,a2
 
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
+    // Flush load data path
+    NOP_SPACER
 
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    lw a3,0(a0)
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
+    lw  a3,0(a0)
 
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    lw a2,0(a1)
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
+    NOP_SPACER
 
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    lw a3,0(a0)
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
+    // Load TTest Variable
+    lw  a2,0(a1)
 
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
+    NOP_SPACER
+
+    // Flush load data path again.
+    lw  a3,0(a0)
+
+    NOP_SPACER
 
     FUNC_RETURN
 

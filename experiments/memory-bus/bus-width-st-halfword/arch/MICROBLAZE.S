@@ -7,84 +7,25 @@ experiment_payload:
 
     FUNC_ENTER
 
+    // Clear the register we will write to memory
     xor r7,r7,r7
 
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
+    NOP_SPACER
 
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-
+    // Zero the store data path
     shi r7,r5,0
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
 
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
+    NOP_SPACER
 
+    // Store zero and overwrite TTest var in memory.
     shi r7,r6,0
 
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
+    NOP_SPACER
 
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-
+    // Zero the store data path
     shi r7,r5,0
 
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
+    NOP_SPACER
 
     FUNC_RETURN
 
