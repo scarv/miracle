@@ -36,3 +36,5 @@
 
 #define FUNC_RETURN               rtsd r15,8 ;\
                                   nop
+
+#define NOP_SPACER                nop;nop;nop;nop;nop;nop;nop;nop;

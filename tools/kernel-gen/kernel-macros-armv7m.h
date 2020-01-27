@@ -39,3 +39,5 @@
                                   eor   r7, r7 ; \
 
 #define FUNC_RETURN               pop  {r4, r5, r6, r7, pc}
+
+#define NOP_SPACER                nop;nop;nop;nop;nop;nop;nop;nop;

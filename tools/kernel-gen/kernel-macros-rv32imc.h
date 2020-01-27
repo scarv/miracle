@@ -37,3 +37,5 @@
 
 #define FUNC_RETURN               ret  ;\
                                   nop
+
+#define NOP_SPACER                nop;nop;nop;nop;nop;nop;nop;nop;
