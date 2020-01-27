@@ -15,7 +15,7 @@ experiment_payload:
     ldr r5,[r1,#0]      // Load TTest variable 2
 
     NOP_SPACER          // Barrier between variants. ------------------------
-    and r2, r2          // Flush data load / store path
+                        // Flush data load / store path
     str r2,[sp,#4]      // Store random variable to stack
     ldr r2,[sp,#4]      // Load back random variable from stack
 
@@ -27,7 +27,7 @@ experiment_payload:
     ldr r5,[r1,#0]      // Load TTest variable 2
 
     NOP_SPACER          // Barrier between variants. ------------------------
-    and r2, r2          // Flush data load / store path
+                        // Flush data load / store path
     str r2,[sp,#4]      // Store random variable to stack
     ldr r2,[sp,#4]      // Load back random variable from stack
 
@@ -38,7 +38,7 @@ experiment_payload:
     ldr r5,[r1,#0]      // Load TTest variable 2
     
     NOP_SPACER          // Barrier between variants. ------------------------
-    and r2, r2          // Flush data load / store path
+                        // Flush data load / store path
     str r2,[sp,#4]      // Store random variable to stack
     ldr r2,[sp,#4]      // Load back random variable from stack
 

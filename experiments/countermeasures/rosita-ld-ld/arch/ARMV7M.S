@@ -15,19 +15,19 @@ experiment_payload:
     ldr r5,[r1,#0]      // Load TTest variable 2
 
     NOP_SPACER          // Barrier between variants. ------------------------
-    and r2, r2          // Flush data load / store path
-    str r2,[sp,#4]      // Store random variable to stack
-    ldr r2,[sp,#4]      // Load back random variable from stack
+                        // Flush data load / store path
+    push {r2}           // Flush store path
+    pop  {r5}           // Flush load path
 
     NOP_SPACER          // Variant 2: protected, load & store flush
                         // Expect no leakage from here.
     ldr r4,[r0,#0]      // Load TTest variable 1
-    str r2,[sp,#4]      // Flush store path
-    ldr r2,[sp,#4]      // Flush load path
+    push {r2}           // Flush store path
+    pop  {r5}           // Flush load path
     ldr r5,[r1,#0]      // Load TTest variable 2
 
     NOP_SPACER          // Barrier between variants. ------------------------
-    and r2, r2          // Flush data load / store path
+                        // Flush data load / store path
     str r2,[sp,#4]      // Store random variable to stack
     ldr r2,[sp,#4]      // Load back random variable from stack
 
@@ -38,7 +38,7 @@ experiment_payload:
     ldr r5,[r1,#0]      // Load TTest variable 2
     
     NOP_SPACER          // Barrier between variants. ------------------------
-    and r2, r2          // Flush data load / store path
+                        // Flush data load / store path
     str r2,[sp,#4]      // Store random variable to stack
     ldr r2,[sp,#4]      // Load back random variable from stack
 
