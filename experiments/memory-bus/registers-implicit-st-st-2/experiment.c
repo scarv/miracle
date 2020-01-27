@@ -35,7 +35,7 @@ scass_target_var  experiment_variables [] = {
 {"idx2", 1, &dindex2 , &dindex2  , SCASS_FLAG_INPUT    },
 };
 
-//! Declaration for the experiment payload function in ldst-byte.S
+//! Declaration for the experiment payload function
 extern void     * experiment_payload(
     uint32_t * data1,
     uint32_t * data2,
@@ -81,6 +81,8 @@ uint8_t experiment_run(
     char               fixed //!< used fixed variants of variables?
 ){
 
+    din[dindex1] = 0;
+    din[dindex2] = 0;
     uint32_t t1 = (fixed ? di1_fixed: di1_rand);
     uint32_t t2 = (fixed ? di2_fixed: di2_rand);
 

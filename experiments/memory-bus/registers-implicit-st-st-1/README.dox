@@ -17,8 +17,8 @@ experiment, but does a sequence of two stores, rather than two loads.
 It also acts as an analogue to the
 @ref experiments-memory-registers-implicit-st-st-2
 experiment.
-This experiment stores zeros, overwriting the TTest variables in
-memory.
+This experiment stores zeros from CPU registers to memory, overwriting the
+TTest variables in memory.
 The other stores the TTest variables from CPU registers to memory,
 overwriting zeros in the memory.
 

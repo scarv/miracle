@@ -7,44 +7,30 @@ experiment_payload:
 
     FUNC_ENTER
 
-    xor t0,t0,t0
-    xor t1,t1,t1
+    xor t0,t0,t0    // Clear load instruction destination
+    xor t1,t1,t1    // registers.
 
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
+    NOP_SPACER
 
-    lw t0,0(a0)
+    lw t0,0(a0)     // Clear load data path
 
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
+    NOP_SPACER
 
-    lw a1,0(a1)
+    lw a1,0(a1)     // Load TTest variable 1
 
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop; xor t1,t1,t1;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
+    NOP_SPACER
 
-    lw a2,0(a2)
+    xor t1,t1,t1;   // Try to clear ALU datapath
 
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
+    NOP_SPACER
 
-    lw t0,0(a0)
+    lw a2,0(a2)     // Load TTest variable 2
 
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
+    NOP_SPACER
+
+    lw t0,0(a0)     // Clear load data path
+
+    NOP_SPACER
 
     FUNC_RETURN
 

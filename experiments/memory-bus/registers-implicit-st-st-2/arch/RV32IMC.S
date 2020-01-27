@@ -7,46 +7,19 @@ experiment_payload:
 
     FUNC_ENTER
 
-    xor t0,t0,t0
+    NOP_SPACER
 
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
+    sw a2,0(a0)     // Store TTest var 1 to idx 1
 
-    sw t0,0(a0)
-    sw t0,0(a1)
+    NOP_SPACER
+    
+    xor t1,t1,t1;   // Try to flush ALU datapath
 
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
+    NOP_SPACER
 
-    sw a2,0(a0)
+    sw a3,0(a1)     // Store TTest var 2 to idx 2
 
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop; xor t1,t1,t1;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-
-    sw a3,0(a1)
-
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-
-    sw t0,0(a0)
-    sw t0,0(a1)
-
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
+    NOP_SPACER
 
     FUNC_RETURN
 

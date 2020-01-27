@@ -7,46 +7,19 @@ experiment_payload:
 
     FUNC_ENTER
 
-    eor r4,r4
+    NOP_SPACER
 
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
+    str r2,[r0,#0]  // Store TTest var 1 to idx 1
+    
+    NOP_SPACER
 
-    str r4,[r0,#0]
-    str r4,[r1,#0]
+    eor r5, r5      // Try to flush ALU data path
+    
+    NOP_SPACER
 
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-
-    str r2,[r0,#0]
-
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop; eor r5,r5;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-
-    str r3,[r1,#0]
-
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-
-    str r4,[r0,#0]
-    str r4,[r1,#0]
-
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
-    nop; nop; nop; nop;
+    str r3,[r1,#0]  // Store TTest var 2 to idx 2
+    
+    NOP_SPACER
 
     FUNC_RETURN
 
