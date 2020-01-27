@@ -9,34 +9,46 @@ experiment_payload:
 
     addi r1,r1,-16
 
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
+    NOP_SPACER          // Variant 1: unprotected
+                        // Expect leakage here
+    lwi r9,r5,0         // Load TTest variable 1
+    lwi r10,r6,0        // Load TTest variable 2
 
-    lwi r9,r5,0
-    lwi r10,r6,0
+    NOP_SPACER          // Barrier between variants. ------------------------
+                        // Flush data load / store path
+    swi r7,r1,4         // Store random variable to stack
+    lwi r7,r1,4         // Load random variable from stack
 
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
+    NOP_SPACER          // Variant 2: protected, load & store flush
+                        // Expect no leakage here
+    lwi r9,r5,0         // Load TTest variable 1
+    swi r7,r1,4         // Store random variable to stack
+    lwi r7,r1,4         // Load random variable from stack
+    lwi r10,r6,0        // Load TTest variable 2
+    
+    NOP_SPACER          // Barrier between variants. ------------------------
+                        // Flush data load / store path
+    swi r7,r1,4         // Store random variable to stack
+    lwi r7,r1,4         // Load random variable from stack
 
-    swi r7,r1,4
-    lwi r7,r1,4
+    NOP_SPACER          // Variant 3: protected, load flush only
+                        // Expect no leakage here
+    lwi r9,r5,0         // Load TTest variable 1
+    lwi r7,r1,4         // Load random variable from stack
+    lwi r10,r6,0        // Load TTest variable 2
 
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
+    NOP_SPACER          // Barrier between variants. ------------------------
+                        // Flush data load / store path
+    swi r7,r1,4         // Store random variable to stack
+    lwi r7,r1,4         // Load random variable from stack
 
-    lwi r9,r5,0
+    NOP_SPACER          // Variant 4: protected, store flush only
+                        // Expect no leakage here
+    lwi r9,r5,0         // Load TTest variable 1
+    swi r7,r1,4         // Store random variable to stack
+    lwi r10,r6,0        // Load TTest variable 2
 
-    swi r7,r1,4
-    lwi r7,r1,4
-
-    lwi r10,r6,0
-
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
+    NOP_SPACER
 
     addi r1,r1,16
 

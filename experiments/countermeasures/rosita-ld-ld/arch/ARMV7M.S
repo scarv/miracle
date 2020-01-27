@@ -9,34 +9,46 @@ experiment_payload:
 
     add sp,#-16
 
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
+    NOP_SPACER          // Variant 1: Unprotected
+                        // Expect leakage here
+    ldr r4,[r0,#0]      // Load TTest variable 1
+    ldr r5,[r1,#0]      // Load TTest variable 2
 
-    ldr r4,[r0,#0]
-    ldr r5,[r1,#0]
+    NOP_SPACER          // Barrier between variants. ------------------------
+                        // Flush data load / store path
+    str r2,[sp,#4]      // Store random variable to stack
+    ldr r2,[sp,#4]      // Load back random variable from stack
 
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
+    NOP_SPACER          // Variant 2: protected, load & store flush
+                        // Expect no leakage from here.
+    ldr r4,[r0,#0]      // Load TTest variable 1
+    str r2,[sp,#4]      // Flush store path
+    ldr r2,[sp,#4]      // Flush load path
+    ldr r5,[r1,#0]      // Load TTest variable 2
 
-    str r2,[sp,#4]
-    ldr r2,[sp,#4]
+    NOP_SPACER          // Barrier between variants. ------------------------
+                        // Flush data load / store path
+    str r2,[sp,#4]      // Store random variable to stack
+    ldr r2,[sp,#4]      // Load back random variable from stack
 
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
+    NOP_SPACER          // Variant 3: protected, load flush only.
+                        // Expect no leakage from here.
+    ldr r4,[r0,#0]      // Load TTest variable 1
+    ldr r2,[sp,#4]      // Flush load path
+    ldr r5,[r1,#0]      // Load TTest variable 2
+    
+    NOP_SPACER          // Barrier between variants. ------------------------
+                        // Flush data load / store path
+    str r2,[sp,#4]      // Store random variable to stack
+    ldr r2,[sp,#4]      // Load back random variable from stack
 
-    ldr r4,[r0,#0]
-
-    str r2,[sp,#4]
-    ldr r2,[sp,#4]
-
-    ldr r5,[r1,#0]
-
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
-    nop; nop; nop; nop; nop; nop; nop; nop;
+    NOP_SPACER          // Variant 4: protected, store flush only.
+                        // Expect no leakage from here.
+    ldr r4,[r0,#0]      // Load TTest variable 1
+    str r2,[sp,#4]      // Store random variable to stack
+    ldr r5,[r1,#0]      // Load TTest variable 2
+    
+    NOP_SPACER
 
     add sp,#16
 
