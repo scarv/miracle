@@ -41,10 +41,10 @@ To build and run an experiment on the target:
 ```
 $> source bin/conf.sh
 $> export UAS_ARM_TOOLCHAIN_ROOT=<path to 2016q3 ARM embedded toolchain>
-$> make -B PROGRAM_WITH_OPENOCD=1 USB_BAUD=38400 UAS_TARGET=cw308_stm32f4_16mhz flow-pipeline-regs-xor-lhs
+$> make -B PROGRAM_WITH_OPENOCD=1 USB_BAUD=115200 UAS_TARGET=cw308_stm32f4_16mhz flow-pipeline-regs-xor-lhs
 ```
 
-@note The USB_BAUD rate for this target is `38400`.
+@note The USB_BAUD rate for this target is `115200`.
 
 If you're target device is not connected to `/dev/ttyUSB0`, you also need
 to specify `USB_PORT=<port path>`.
