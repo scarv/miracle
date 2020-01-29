@@ -1,0 +1,32 @@
+
+/*!
+@defgroup targets-intel_d2000 Intel D2000
+@brief Intel D2000 target platform.
+@ingroup targets
+
+@tableofcontents
+
+# Intel D2000
+
+---
+
+
+## Getting Started
+
+To build and run an experiment on the target:
+
+```
+$> source bin/conf.sh
+$> make -B UAS_TARGET=intel_d2000 flow-pipeline-regs-xor-lhs
+```
+
+If you're target device is not connected to `/dev/ttyUSB0`, you also need
+to specify `USB_PORT=<port path>`.
+
+
+---
+
+**Useful links:**
+- [NewAE target webapge](https://wiki.newae.com/CW308T-D2000)
+
+*/

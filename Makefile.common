@@ -32,20 +32,20 @@ EXPERIMENT_CAPTURE_MAKEFILE = $(EXPERIMENT_SRCS)/Makefile.capture
 # Given the global variables defining build directory, experiment name
 # and target device, return a name for the experiment binary elf file.
 define map_experiment_elf
-$(UAS_BUILD)/$(UAS_EXPERIMENT)/$(UAS_TARGET)/program${1}.elf
+$(UAS_EXPERIMENT_BUILD)/program${1}.elf
 endef
 #
 # Given the global variables defining build directory, experiment name
 # and target device, return a name for the experiment disassembly file.
 define map_experiment_dis
-$(UAS_BUILD)/$(UAS_EXPERIMENT)/$(UAS_TARGET)/program${1}.dis
+$(UAS_EXPERIMENT_BUILD)/program${1}.dis
 endef
 
 #
 # Given the global variables defining build directory, experiment name
 # and target device, return a name for the experiment hex memory file.
 define map_experiment_hex
-$(UAS_BUILD)/$(UAS_EXPERIMENT)/$(UAS_TARGET)/program${1}.hex
+$(UAS_EXPERIMENT_BUILD)/program${1}.hex
 endef
 
 #

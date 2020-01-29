@@ -11,6 +11,10 @@ if [ -z $UAS_ARM_TOOLCHAIN_ROOT ] ; then
     export UAS_ARM_TOOLCHAIN_ROOT=/usr/bin/
 fi
 
+if [ -z $IAMCU_TOOLCHAIN_DIR ] ; then
+    export IAMCU_TOOLCHAIN_DIR=
+fi
+
 if [ -z $VIVADO_ROOT ] ; then
     export VIVADO_ROOT=$XILINX_VIVADO
 fi
@@ -33,5 +37,6 @@ echo "OPENOCD   = $OPENOCD"
 echo "---"
 echo "UAS_ARM_TOOLCHAIN_ROOT        = $UAS_ARM_TOOLCHAIN_ROOT"
 echo "UAS_MICROBLAZE_TOOLCHAIN_ROOT = $UAS_MICROBLAZE_TOOLCHAIN_ROOT"
+echo "IAMCU_TOOLCHAIN_DIR           = $IAMCU_TOOLCHAIN_DIR"
 echo "VIVADO_ROOT                   = $VIVADO_ROOT"
 echo "-----------------------------------------------------------------------"
