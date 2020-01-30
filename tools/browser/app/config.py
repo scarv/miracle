@@ -30,3 +30,7 @@ class DefaultConfig(object):
             os.path.join(self.RESULTS_DIRECTORY,d) 
                 for d in self.EXPERIMENT_CLASSES
         ]
+        
+        # Root directory of the UAS source code repository.
+        self.UAS_ROOT = os.getenv("UAS_ROOT",default="")
+

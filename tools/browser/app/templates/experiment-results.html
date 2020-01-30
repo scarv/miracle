@@ -1,6 +1,10 @@
 {% extends 'master.html' %}
 
 {% block header %}
+<a href="{{url_for("experiments.experiments_list")}}">Experiments</a> /
+<a href="{{url_for("experiments.experiments_list")}}#catagory-{{experiment.catagory}}">{{experiment.catagory}}</a> /
+<a href="{{url_for("experiments.experiment_landing_page",catagory=experiment.catagory,experiment_name=experiment.shortname)}}">{{experiment.shortname}}</a> /
+{{target.name}}
 <h1>{% block title %}Experiment results{% endblock %}</h1>
 {% endblock %}
 
@@ -37,16 +41,14 @@
     <a href="{{url_for("experiments.experiment_landing_page",catagory=experiment.catagory,experiment_name=experiment.shortname)}}">{{experiment.name}}</a><br/>
 </p>
 
-<h2>Program Artifacts:</h2>
-
-<ul>
-<li>
-Program Executable:
+<p>
+<b>Program Executable:</b>
 <a href="{{url_for("experiments.download_program",catagory=experiment.catagory,experiment_name=experiment.shortname,target_name=target.target_name)}}">Download</a>
-<li>
-Program Disassembly:
+<p>
+<p>
+<b>Program Disassembly:</b>
 <a href="{{url_for("experiments.download_disassembly",catagory=experiment.catagory,experiment_name=experiment.shortname,target_name=target.target_name)}}">Download</a>
-</ul>
+</p>
 
 <h2>Experiment Traces:</h2>
 
@@ -65,6 +67,17 @@ Program Disassembly:
 {{ trace_type_table("min","Min Trace") }}
 {{ trace_type_table("max","Max Trace") }}
 </table>
+
+
+{% if experiment.getRenderedKernelCodeForArch(target.cpu_arch_name,"") %}
+<h2>Experiment Kernel Code</h2>
+{{experiment.getRenderedKernelCodeForArch(target.cpu_arch_name,"")|safe}}
+{% else %}
+<p>
+Couldn't retrieve experiment source code for archtiecture 
+"<b>{{target.cpu_arch_name}}</b>"
+</p>
+{% endif %}
 
 {% endblock %}
 

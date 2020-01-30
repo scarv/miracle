@@ -1,6 +1,11 @@
 {% extends 'master.html' %}
 
 {% block header %}
+<a href="{{url_for("experiments.experiments_list")}}">Experiments</a> /
+<a href="{{url_for("experiments.experiments_list")}}#catagory-{{experiment.catagory}}">{{experiment.catagory}}</a> /
+<a href="{{url_for("experiments.experiment_landing_page",catagory=experiment.catagory,experiment_name=experiment.shortname)}}">{{experiment.shortname}}</a> /
+<a href="{{url_for("experiments.experiment_results_page",catagory=experiment.catagory,experiment_name=experiment.shortname,target_name=target.name)}}">{{target.name}}</a> /
+{{trace.name}}
 <h1>{% block title %}View Plot{% endblock %}</h1>
 {% endblock %}
 
@@ -19,6 +24,17 @@
 <h2>Trace: {{trace.name}}</h2>
 
 <img src="{{url_for("plot.plot_single_trace",catagory=experiment.catagory,experiment_name=experiment.shortname,target_name=target.name,trace_name=trace.name)}}"/>
+
+
+{% if experiment.getRenderedKernelCodeForArch(target.cpu_arch_name,"") %}
+<h2>Experiment Kernel Code</h2>
+{{experiment.getRenderedKernelCodeForArch(target.cpu_arch_name,"")|safe}}
+{% else %}
+<p>
+Couldn't retrieve experiment source code for archtiecture 
+"<b>{{target.cpu_arch_name}}</b>"
+</p>
+{% endif %}
 
 {% endblock %}
 

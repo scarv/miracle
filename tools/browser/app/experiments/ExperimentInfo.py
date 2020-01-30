@@ -1,7 +1,21 @@
 
 import os
+import logging as log
+
+import markdown
 
 from .ExperimentResultsSet import ExperimentResultsSet
+
+def _renderCodeAsHTML(src,uid):
+    lines = src.split("\n")
+    for i in range(0,len(lines)):
+        lid = "%s-%d" % (uid, i)
+        newline = "<a href=\"#%s\" name=\"%s\">%03d</a>: %s" % (
+            lid,lid,i,lines[i]
+        )
+        lines[i] = newline
+    tr = "<pre>" + "\n".join(lines) + "</pre>"
+    return tr
 
 class ExperimentInfo:
     """
@@ -21,6 +35,11 @@ class ExperimentInfo:
 
         self._targets       = {}
 
+        self._documentation = None
+        self._html_documentation = None
+
+        self._experiment_kernels = {}
+
         self.__discoverTargets()
 
 
@@ -36,6 +55,32 @@ class ExperimentInfo:
                 self._targets[target_name] = results_set
 
 
+    def discoverSourceAndDocs(self, srcdir):
+        """
+        Tries to find the experiment README document and architecture specific
+        source code from the uarch-leakage source repo.
+        As opposed to looking in results_dir.
+        Returns True iff the right README.md file is found.
+        """
+
+        # Try to find the readme. Don't try very hard...
+        path = os.path.join(srcdir,self.name,"README.md")
+        if(os.path.exists(path)):
+            with open(path,"r") as fh:
+                self._documentation = fh.read()
+            self._html_documentation = markdown.markdown(self._documentation)
+        
+        # Get all of the architecture specific experiment files.
+        experiment_kernels_dir = os.path.join(srcdir,self.name,"arch")
+        if(os.path.isdir(experiment_kernels_dir)):
+            possibles = os.listdir(experiment_kernels_dir)
+            for possible in possibles:
+                if(possible.endswith(".S")):
+                    path = os.path.join(experiment_kernels_dir,possible)
+                    arch = possible.partition(".")[0]
+                    with open(path,"r") as fh:
+                        self._experiment_kernels[arch] = fh.read()
+
     def getResultsForTarget(self, target_name):
         """
         Returns an ExperimentResultsSet object representing the results
@@ -43,6 +88,19 @@ class ExperimentInfo:
         results are present.
         """
         return self._targets.get(target_name, None)
+
+
+    def getRenderedKernelCodeForArch(self, arch,uid):
+        """
+        Return the un-compiled assembly code which corresponds to this
+        experiment for a given ISA.
+        Returns False if no such architecture listing exists, or
+        a string of the source code file contents if not.
+        """
+        if(arch in self._experiment_kernels):
+            return _renderCodeAsHTML(self._experiment_kernels[arch],uid)
+        else:
+            return False
 
     
     @property
@@ -65,6 +123,18 @@ class ExperimentInfo:
     @property
     def catagory(self):
         return self._catagory
+
+    @property
+    def documentation(self):
+        """Contents of the experiment markdown documentation"""
+        return self._documentation
+
+    @property
+    def html_documentation(self):
+        """
+        Contents of the experiment markdown documentation, converted to HTML
+        """
+        return self._html_documentation
     
     @property
     def results_dir(self):

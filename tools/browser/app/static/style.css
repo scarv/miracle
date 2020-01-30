@@ -88,3 +88,7 @@ div.footer{
 .target_info_table tbody tr td:nth-child(1) {
     font-weight: bold;
 }
+
+#experiment-documentation-container {
+    max-width: 900px;
+}
