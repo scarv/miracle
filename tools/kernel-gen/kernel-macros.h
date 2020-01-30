@@ -10,6 +10,8 @@
     #include "kernel-macros-microblaze.h"
 #elif ARCH_RV32IMC
     #include "kernel-macros-rv32imc.h"
+#elif ARCH_IA32_X86
+    #include "kernel-macros-ia32_x86.h"
 #else
     .error "No known architecture defined"
 #endif

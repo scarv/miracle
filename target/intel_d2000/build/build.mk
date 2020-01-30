@@ -1,4 +1,6 @@
-
+TARGET_ARCH=IA32_X86
+CFLAGS += -DTARGET=14
+CFLAGS += -DARCH_$(TARGET_ARCH)
 CC      = $(IAMCU_TOOLCHAIN_DIR)/i586-intel-elfiamcu-gcc
 LD      = $(IAMCU_TOOLCHAIN_DIR)/i586-intel-elfiamcu-ld     
 AS      = $(IAMCU_TOOLCHAIN_DIR)/i586-intel-elfiamcu-as     
