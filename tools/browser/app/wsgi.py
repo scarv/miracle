@@ -31,6 +31,17 @@ def create_app(test_config=None):
     for experiment_results_dir in app.config["EXPERIMENT_DIRS"]:
         experiments.discoverExperimentsInDirectory(experiment_results_dir)
 
+    log.info("Discovering documentation and code for experiments...")
+
+    for ename in experiments.bp.experiments:
+        gotdocs = experiments.bp.experiments[ename].discoverSourceAndDocs(
+            os.path.join(app.config["UAS_ROOT"],"experiments")
+        )
+        if(not gotdocs):
+            log.warn("Couldn't find documentation for experiment %s" % (
+                ename
+            ))
+
     import targets
     app.register_blueprint(targets.bp)
 

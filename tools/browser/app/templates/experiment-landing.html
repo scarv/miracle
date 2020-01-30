@@ -1,10 +1,22 @@
 {% extends 'master.html' %}
 
 {% block header %}
+<a href="{{url_for("experiments.experiments_list")}}">Experiments</a> /
+<a href="{{url_for("experiments.experiments_list")}}#catagory-{{experiment.catagory}}">{{experiment.catagory}}</a> /
+{{experiment.shortname}}
+<br/>
+{% if not experiment.documentation %}
 <h1>{% block title %}{{experiment.name}}{% endblock %}</h1>
+{% endif %}
 {% endblock %}
 
 {% block content %}
+
+<div id="experiment-documentation-container">
+{% if experiment.documentation%}
+{{experiment.html_documentation|safe}}
+{% endif %}
+</div>
 
 <h2>Results Per Target</h2>
 
@@ -16,6 +28,7 @@
 <td>Disassembly</td>
 </tr>
 {% for target in experiment.targetNames | sort %}
+{% if target in targets %}
 <tr>
 <td>
 <a href="{{url_for("experiments.experiment_results_page",catagory=experiment.catagory,experiment_name=experiment.shortname,target_name=target)}}">{{target}}</a>
@@ -28,6 +41,7 @@
 <a href="{{url_for("experiments.download_disassembly",catagory=experiment.catagory,experiment_name=experiment.shortname,target_name=target)}}">Download</a>
 </td>
 </tr>
+{% endif %}
 {% endfor %}
 </table>
 
