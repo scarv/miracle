@@ -62,7 +62,7 @@ define add_experiment_build_target
 
 $(call map_experiment_elf,${1}) : ${2} $(UAS_SRCS) $(TARGET_SRCS)
 	-mkdir -p $(dir $(call map_experiment_elf,${1}))
-	$(CC) ${3} $${^} -o $${@}
+	$(CC) ${3} -o $${@} $${^}
 
 $(call map_experiment_dis,${1}) : $(call map_experiment_elf,${1})
 	$(OBJDUMP) -D $${<} > $${@}
@@ -70,9 +70,13 @@ $(call map_experiment_dis,${1}) : $(call map_experiment_elf,${1})
 $(call map_experiment_hex,${1}) : $(call map_experiment_elf,${1})
 	$(OBJCOPY) ${OBJCOPY_FLAGS} -O ihex $${<} $${@}
 
+$(call map_experiment_bin,${1}) : $(call map_experiment_elf,${1})
+	$(OBJCOPY) ${OBJCOPY_FLAGS} -O binary $${<} $${@}
+
 TARGETS += $(call map_experiment_elf,${1})
 TARGETS += $(call map_experiment_dis,${1})
 TARGETS += $(call map_experiment_hex,${1})
+TARGETS += $(call map_experiment_bin,${1})
 
 endef
 

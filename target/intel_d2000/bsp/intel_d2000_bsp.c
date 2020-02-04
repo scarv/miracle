@@ -22,18 +22,33 @@
 */
 uint8_t uas_bsp_init_target(){
 
-    qm_gpio_port_config_t cfg;
- 
+    // GPIO configuration
+
+	qm_gpio_port_config_t cfg;
+
     cfg.direction = BIT(TRIGGER_PIN);
     qm_gpio_set_config(QM_GPIO_0, &cfg);
-
+    
     qm_gpio_clear_pin(QM_GPIO_0, TRIGGER_PIN);
 
-    qm_pmux_select(QM_PIN_ID_12, QM_PMUX_FN_2); /* configure UART_A_TXD */
+	qm_pmux_select(QM_PIN_ID_12, QM_PMUX_FN_2); /* configure UART_A_TXD */
     qm_pmux_select(QM_PIN_ID_13, QM_PMUX_FN_2); /* configure UART_A_RXD */
     qm_pmux_input_en(QM_PIN_ID_13, true);       /* UART_A_RXD is an input */
 
+    // UART Configuration
+    qm_uart_config_t uart0_cfg;
+    uart0_cfg.baud_divisor = QM_UART_CFG_BAUD_DL_PACK(0,208,5);
+    uart0_cfg.line_control = QM_UART_LC_8N1;
+  	uart0_cfg.hw_fc = 0;
+    qm_uart_set_config(QM_UART_0, &uart0_cfg);
+
+    // External clock
+
     qm_pmux_select(QM_PIN_ID_5, QM_PMUX_FN_2); /* Set clock out */
+
+    uas_bsp_trigger_set();
+    uas_bsp_uart_wr_str("Hello World!\"n");
+    uas_bsp_trigger_clear();
 
     return 0;
 
