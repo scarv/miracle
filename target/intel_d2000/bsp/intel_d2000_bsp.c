@@ -40,7 +40,7 @@ uint8_t uas_bsp_init_target(){
 
     // UART Configuration
 
-    const int baud   = 9600;
+    const int baud   = 115200;
     const int sysclk = 48270000 / 2;
     int divisor =  sysclk  / baud;
     int dlh     =  divisor / 4096;
