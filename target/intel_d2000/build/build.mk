@@ -24,31 +24,10 @@ CFLAGS += -Xlinker --gc-sections
 CFLAGS += -nostdlib
 CFLAGS += -L$(TARGET_DIR)/build/qmsi/build/release/quark_d2000/x86/libqmsi/lib
 CFLAGS += -T$(TARGET_DIR)/build/qmsi/soc/quark_d2000/x86.ld
-
-#CFLAGS += -Wno-unused-parameter -ffunction-sections -fdata-sections
-#CFLAGS += -Os -fomit-frame-pointer -Wall -Wextra -fmessage-length=0
-#CFLAGS += -march=lakemont -mtune=lakemont -miamcu -msoft-float 
-#CFLAGS += -DHAS_RTC_XTAL=1 -DHAS_HYB_XTAL=1 -DQM_VER_API_MAJOR=1
-#CFLAGS += -DQM_VER_API_MINOR=3 -DQM_VER_API_PATCH=0 -DQM_LAKEMONT
 CFLAGS += -DPRINTF_ENABLE -DPUTS_ENABLE
 CFLAGS += -lc -lnosys -lsoftfp -lgcc -lqmsi
-#CFLAGS += -I$(TARGET_DIR)/build/qmsi/include -fno-asynchronous-unwind-tables 
-#CFLAGS += -I$(TARGET_DIR)/build/qmsi/build/release/quark_d2000/x86/libqmsi/include
-#CFLAGS += -I$(TARGET_DIR)/build/qmsi/soc/quark_d2000/include
-#CFLAGS += -I$(TARGET_DIR)/build/qmsi/soc/quark_d2000/include
-#CFLAGS += -I$(TARGET_DIR)/build/qmsi/board/drivers
 
 LIBQMSI = $(TARGET_DIR)/build/qmsi/build/release/quark_d2000/x86/libqmsi/lib/libqmsi.a
-
-#release/quark_d2000/x86/obj/./aes_encrypt.o
-#release/quark_d2000/x86/obj/./simpleserial.o
-#release/quark_d2000/x86/obj/./main.o
-#release/quark_d2000/x86/obj/./utils.o
-#release/quark_d2000/x86/obj/app_entry.o
-#release/quark_d2000/x86/obj/newlib-syscalls.o
-#../qmsi/soc/quark_d2000/release/quark_d2000/x86/obj/clk.o
-#../qmsi/soc/quark_d2000/release/quark_d2000/x86/obj/power_states.o
-#libqmsi
 
 $(info "OBJECTS: $(OBJECTS)")
 
