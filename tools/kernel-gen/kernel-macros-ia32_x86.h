@@ -1,5 +1,5 @@
 
-#define FUNC_ENTER                  
+#define FUNC_ENTER
 
 #define FUNC_RETURN               ret
 

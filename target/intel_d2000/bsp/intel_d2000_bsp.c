@@ -26,6 +26,7 @@ uint8_t uas_bsp_init_target(){
 
     // Clock Configuration
     clk_sys_set_mode(CLK_SYS_HYB_OSC_32MHZ, CLK_SYS_DIV_2);
+    clk_sys_set_mode(CLK_SYS_HYB_OSC_32MHZ, CLK_SYS_DIV_2);
 
     // GPIO configuration
 

@@ -21,7 +21,10 @@ program: $(PROGRAM_DEPS)
        -c "set QUARK_D2000_OTPC_DATA_WRITE_ENABLED 1" \
        -c "targets" \
        -c "load_image $(call map_experiment_bin) 0x00180000" \
-       -c "reset run" \
+       -c "reset init" \
+       -c "resume" \
+       -c "reset" \
+       -c "reset" \
        -c "targets" \
        -c "exit" ; echo "Programming done"
     endif

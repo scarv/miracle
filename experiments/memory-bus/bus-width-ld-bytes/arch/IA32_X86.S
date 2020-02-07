@@ -1,12 +1,23 @@
 #include "kernel-macros.h"
 
-.global experiment_payload
-experiment_payload:
+.text
 
+.global experiment_payload
+experiment_payload: // eax  - zeros
+                    // edx  - data to load
     FUNC_ENTER
 
     NOP_SPACER
 
+    #movb (%eax), %ecx   // Move zeros into ecx
+    #
+    #NOP_SPACER
+    #
+    #movb (%edx), %edx   // Load TTest variable.
+    #
+    #NOP_SPACER
+    #
+    #movb (%eax), %ecx   // Move zeros into ecx
 
     NOP_SPACER
 
