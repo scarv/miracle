@@ -9,15 +9,15 @@ experiment_payload:
 
     NOP_SPACER
 
-    movb (%eax), %ecx   // Move zeros into ecx
+    movl (%eax), %ecx   // Move zeros into ecx
     
     NOP_SPACER
     
-    movb (%edx), %edx   // Load TTest variable.
+    movl (%edx), %edx   // Load TTest variable.
     
     NOP_SPACER
     
-    movb (%eax), %ecx   // Move zeros into ecx
+    movl (%eax), %ecx   // Move zeros into ecx
 
     NOP_SPACER
 
@@ -25,3 +25,5 @@ experiment_payload:
 
 .global experiment_payload_end
 experiment_payload_end:
+
+
