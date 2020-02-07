@@ -11,29 +11,31 @@ uint8_t experiment_payload(
     uint8_t d2,
     uint8_t select
 ){
-    asm volatile ("nop"); asm volatile ("nop");
-    asm volatile ("nop"); asm volatile ("nop");
-    asm volatile ("nop"); asm volatile ("nop");
-    asm volatile ("nop"); asm volatile ("nop");
-    asm volatile ("nop"); asm volatile ("nop");
-    asm volatile ("nop"); asm volatile ("nop");
-    asm volatile ("nop"); asm volatile ("nop");
-    asm volatile ("nop"); asm volatile ("nop");
-    asm volatile ("nop"); asm volatile ("nop");
-    asm volatile ("nop"); asm volatile ("nop");
-    asm volatile ("nop"); asm volatile ("nop");
+    __asm__ volatile ("nop;"); __asm__ volatile ("nop;");
+    __asm__ volatile ("nop;"); __asm__ volatile ("nop;");
+    __asm__ volatile ("nop;"); __asm__ volatile ("nop;");
+    __asm__ volatile ("nop;"); __asm__ volatile ("nop;");
+    __asm__ volatile ("nop;"); __asm__ volatile ("nop;");
+    __asm__ volatile ("nop;"); __asm__ volatile ("nop;");
+    __asm__ volatile ("nop;"); __asm__ volatile ("nop;");
+    __asm__ volatile ("nop;"); __asm__ volatile ("nop;");
+    __asm__ volatile ("nop;"); __asm__ volatile ("nop;");
+    __asm__ volatile ("nop;"); __asm__ volatile ("nop;");
+    __asm__ volatile ("nop;"); __asm__ volatile ("nop;");
+    
     result = select ? d1 : d2;
-    asm volatile ("nop"); asm volatile ("nop");
-    asm volatile ("nop"); asm volatile ("nop");
-    asm volatile ("nop"); asm volatile ("nop");
-    asm volatile ("nop"); asm volatile ("nop");
-    asm volatile ("nop"); asm volatile ("nop");
-    asm volatile ("nop"); asm volatile ("nop");
-    asm volatile ("nop"); asm volatile ("nop");
-    asm volatile ("nop"); asm volatile ("nop");
-    asm volatile ("nop"); asm volatile ("nop");
-    asm volatile ("nop"); asm volatile ("nop");
-    asm volatile ("nop"); asm volatile ("nop");
+
+    __asm__ volatile ("nop;"); __asm__ volatile ("nop;");
+    __asm__ volatile ("nop;"); __asm__ volatile ("nop;");
+    __asm__ volatile ("nop;"); __asm__ volatile ("nop;");
+    __asm__ volatile ("nop;"); __asm__ volatile ("nop;");
+    __asm__ volatile ("nop;"); __asm__ volatile ("nop;");
+    __asm__ volatile ("nop;"); __asm__ volatile ("nop;");
+    __asm__ volatile ("nop;"); __asm__ volatile ("nop;");
+    __asm__ volatile ("nop;"); __asm__ volatile ("nop;");
+    __asm__ volatile ("nop;"); __asm__ volatile ("nop;");
+    __asm__ volatile ("nop;"); __asm__ volatile ("nop;");
+    __asm__ volatile ("nop;"); __asm__ volatile ("nop;");
     return result;
 }
 
