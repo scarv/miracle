@@ -3,21 +3,24 @@
 .text
 
 .global experiment_payload
-experiment_payload: // eax  - zeros
-                    // edx  - data to load
+experiment_payload:
+                   
     FUNC_ENTER
+
+    //movl 4(%esp),%eax   // eax = uint8 * zeros
+    //movl 8(%esp),%edx   // edx = uint8 * data
 
     NOP_SPACER
 
-    #movb (%eax), %ecx   // Move zeros into ecx
-    #
-    #NOP_SPACER
-    #
-    #movb (%edx), %edx   // Load TTest variable.
-    #
-    #NOP_SPACER
-    #
-    #movb (%eax), %ecx   // Move zeros into ecx
+    movb (%eax), %ecx   // Move zeros into ecx
+    
+    NOP_SPACER
+    
+    movb (%edx), %edx   // Load TTest variable.
+    
+    NOP_SPACER
+    
+    movb (%eax), %ecx   // Move zeros into ecx
 
     NOP_SPACER
 
