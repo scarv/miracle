@@ -16,7 +16,8 @@ $ISSM_OPENOCD \
    -c "reset halt" \
    -c "set QUARK_D2000_OTPC_DATA_WRITE_ENABLED 1" \
    -c "targets" \
-   -c "load_image $ISSM_BOOT_ROM 0x00000000" \
+   -c "load_image   $ISSM_BOOT_ROM 0x00000000" \
+   -c "verify_image $ISSM_BOOT_ROM 0x00000000" \
    -c "reset run" \
    -c "targets" \
    -c "exit" ; echo "Bootloader programmed"
