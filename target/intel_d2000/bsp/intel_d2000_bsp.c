@@ -25,11 +25,7 @@
 uint8_t uas_bsp_init_target(){
 
     // Clock Configuration
-    clk_sys_set_mode(CLK_SYS_HYB_OSC_32MHZ, CLK_SYS_DIV_2);
-    clk_sys_set_mode(CLK_SYS_HYB_OSC_32MHZ, CLK_SYS_DIV_2);
-    clk_sys_set_mode(CLK_SYS_HYB_OSC_32MHZ, CLK_SYS_DIV_2);
-    clk_sys_set_mode(CLK_SYS_HYB_OSC_32MHZ, CLK_SYS_DIV_2);
-    clk_sys_set_mode(CLK_SYS_HYB_OSC_32MHZ, CLK_SYS_DIV_2);
+    clk_sys_set_mode(CLK_SYS_CRYSTAL_OSC, CLK_SYS_DIV_1);
 
     // GPIO configuration
 
@@ -45,7 +41,7 @@ uint8_t uas_bsp_init_target(){
     // UART Configuration
 
     const int baud   = 115200;
-    const int sysclk = 48270000 / 2;
+    const int sysclk = 7376000 / 1;
     int divisor =  sysclk  / baud;
     int dlh     =  divisor / 4096;
     int dll     = (divisor - (dlh * 4096)) / 16;
