@@ -1,18 +1,18 @@
 
-#define FUNC_ENTER                pushl %eax        ; \
+#define FUNC_ENTER                pushl %ebp        ; \
+                                  movl  %esp, %ebp  ; \
+                                  pushl %eax        ; \
                                   pushl %ebx        ; \
                                   pushl %ecx        ; \
                                   pushl %edx        ; \
-                                  pushl %ebp        ; \
-                                  movl  %esp, %ebp  ; \
                                   
 
-#define FUNC_RETURN               movl  %ebp, %esp  ; \
-                                  popl  %ebp        ; \
-                                  popl  %edx        ; \
+#define FUNC_RETURN               popl  %edx        ; \
                                   popl  %ecx        ; \
                                   popl  %ebx        ; \
                                   popl  %eax        ; \
+                                  movl  %ebp, %esp  ; \
+                                  popl  %ebp        ; \
                                   ret               ;
 
 #define NOP_SPACER                nop;nop;nop;nop;nop;nop;nop;nop;
