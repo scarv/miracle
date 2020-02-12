@@ -24,6 +24,7 @@ program: $(PROGRAM_DEPS)
        -c "verify_image $(call map_experiment_bin) 0x00180000" \
        -c "reset run" \
        -c "targets" \
+       -c "reset run" \
        -c "exit" ; echo "Programming done"
     endif
 
