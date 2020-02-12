@@ -13,6 +13,7 @@ experiment_payload: // eax - d1
     NOP_SPACER
 
     xor %ebx, %eax  // Secret values on RHS of XOR
+    mov %ecx, %ecx  // MOV Barrier
     xor %ecx, %edx  // Secret values on RHS of XOR
     
     NOP_SPACER

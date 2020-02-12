@@ -50,7 +50,7 @@ uint8_t experiment_run(
 ){
 
     int mask = 0;
-    for(int i = 0; i < sizeof(int); i ++) {
+    for(unsigned int i = 0; i < sizeof(int); i ++) {
         mask |= randomness[i] << (8*i);
     }
 

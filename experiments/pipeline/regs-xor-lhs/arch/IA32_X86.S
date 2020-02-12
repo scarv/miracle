@@ -8,7 +8,7 @@ experiment_payload: // eax - d1
     FUNC_ENTER
 
     mov $0, %ebx    // Clear ebx
-    mov $0, %ebx    // Clear ecx
+    mov $0, %ecx    // Clear ecx
 
     NOP_SPACER
 

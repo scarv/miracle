@@ -3,8 +3,8 @@
 .text
 
 .global experiment_payload
-experiment_payload: // eax - d1
-                    // edx - d2
+experiment_payload: // eax - d1 - TTest var 1
+                    // edx - d2 - TTest var 2
     FUNC_ENTER
 
     mov $0, %ebx    // Clear ebx
@@ -12,8 +12,8 @@ experiment_payload: // eax - d1
 
     NOP_SPACER
 
-    xor %ebx, %eax  // Secret values on RHS of XOR
-    xor %ecx, %edx  // Secret values on RHS of XOR
+    xor %eax, %ebx  // TTest Var 1 on LHS of XOR
+    shr $31 , %edx  // Shift Right TTest Var 2 by 31
     
     NOP_SPACER
 
@@ -21,5 +21,6 @@ experiment_payload: // eax - d1
 
 .global experiment_payload_end
 experiment_payload_end:
+
 
 

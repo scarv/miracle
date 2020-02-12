@@ -13,6 +13,7 @@ experiment_payload: // eax - d1
     NOP_SPACER
 
     xor %ebx, %eax  // Secret values on RHS of XOR
+    nop
     xor %ecx, %edx  // Secret values on RHS of XOR
     
     NOP_SPACER
@@ -21,5 +22,6 @@ experiment_payload: // eax - d1
 
 .global experiment_payload_end
 experiment_payload_end:
+
 
 
