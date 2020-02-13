@@ -27,7 +27,8 @@ TARGETS     = sakurax_mb3 \
               cw308_stm32f3 \
               cw308_stm32f4 \
               cw308_stm32f4_16mhz \
-              intel_d2000
+              intel_d2000 \
+              nxp_lpc1115fbd48
 
 EXPERIMENTS = memory-bus/bus-width-st-bytes \
               memory-bus/bus-width-st-halfword \

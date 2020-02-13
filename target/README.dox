@@ -44,6 +44,7 @@ Target Name  | Description  | `TARGET` Value
 `cw308_stm32f3     ` | ST Mico ARM M4 Board / STM32-F3         | `12`
 `cw308_stm32f4     ` | ST Mico ARM M4 Board / STM32-F3         | `13`
 `intel_d2000       ` | Intel D2000 x86 Microcontroller         | `14`
+`nxp_lpc1115fbd48  ` | NXP ARM M0 LPC1115FBD48                 | `15`
 
 ## Candidate Platforms
 
