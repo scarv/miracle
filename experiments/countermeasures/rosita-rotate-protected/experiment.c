@@ -53,7 +53,7 @@ uint8_t experiment_run(
     uint32_t aes_mask = 0;
     uint32_t rnd_mask = 0;
 
-    for(int i = 0; i < sizeof(int); i ++) {
+    for(unsigned int i = 0; i < sizeof(int); i ++) {
         aes_mask |= ((uint32_t)randomness[4]) << (8*i);
         rnd_mask |= ((uint32_t)randomness[i]) << (8*i);
     }
