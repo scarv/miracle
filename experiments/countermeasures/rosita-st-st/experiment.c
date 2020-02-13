@@ -62,7 +62,7 @@ uint8_t experiment_run(
     destinations[0] = 0;
     destinations[1] = 0;
 
-    for(int i = 0; i < sizeof(int); i ++) {
+    for(unsigned int i = 0; i < sizeof(int); i ++) {
         wrd_mask |= ((uint32_t)randomness[i + 0]) << (8*i);
         rnd_mask |= ((uint32_t)randomness[i + 4]) << (8*i);
     }
