@@ -74,18 +74,27 @@ static void uas_bsp_init_uart()
 
 }
 
+static void uas_bsp_init_gpio() {
+    GPIO0DIR  |= 1<<3; // set pin 14 to output
+	GPIO0DATA  = 0x0;
+}
+
 /*!
 */
 uint8_t uas_bsp_init_target(){
     uas_bsp_init_clock();
     uas_bsp_init_uart();
+    uas_bsp_init_gpio();
     return 0;
 }
 
 /*!
 */
 uint8_t uas_bsp_uart_rd_char(){
-    return 0;
+    while(!(U0LSR & 0x1)) {
+        // Do nothing until valid data recieved.
+    }
+    return U0RBR;
 }
 
 /*!
@@ -93,19 +102,22 @@ uint8_t uas_bsp_uart_rd_char(){
 void    uas_bsp_uart_wr_char(
     uint8_t tosend
 ){
-
+    U0THR = tosend;
+	while((U0LSR & BIT5) == 0); // Wait for tx to finish
 }
 
 
 /*!
 */
 volatile void * uas_bsp_trigger_set(){
+	GPIO0DATA  |= 0x1 << 3;
     return NULL;
 }
 
 /*!
 */
 volatile void * uas_bsp_trigger_clear(){
+	GPIO0DATA  &= ~(0x1 << 3);
     return NULL;
 }
 
