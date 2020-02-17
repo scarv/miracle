@@ -13,12 +13,11 @@ class SQLiteBackend(BaseBackend):
     An SQLite backed version of the database.
     """
     
-    def __init__(self, path):
+    def __init__(self, path, autocommit=False):
         """
         Connect to the SQlite database at the supplied path.
         """
-        BaseBackend.__init__(self)
-        return NotImplementedError()
+        BaseBackend.__init__(self, path, autocommit=autocommit)
 
 
     def createNew(path):

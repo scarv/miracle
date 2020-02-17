@@ -17,3 +17,19 @@ class Board(Base):
     product_link    = Column(String)
     manufacturer    = Column(String)
 
+
+    def fromCFGDict(cfg):
+        """
+        Create a new Board row ready to insert into the database from
+        a CFG file dict.
+        """
+
+        dev = cfg["BOARD"]
+
+        return Board(
+            name         = dev["NAME"],
+            description  = dev["MANUFACTURER_LINK"],
+            manufacturer = dev["MANUFACTURER_NAME"],
+            product_link = dev["LINK"]
+        )
+

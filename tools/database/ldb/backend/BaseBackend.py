@@ -1,5 +1,10 @@
 
+import sqlalchemy
+
 from ..records import Device
+from ..records import Board
+from ..records import Core
+from ..records import Target
 from ..records import Experiment
 from ..records import TraceSet
 from ..records import StatisticTrace
@@ -10,10 +15,43 @@ class BaseBackend(object):
     interface which all backend classes must provide.
     """
 
-    def __init__(self):
+    def __init__(self, path, autocommit=False):
         """
         Create a new connection to a database
         """
+        self._engine        = sqlalchemy.create_engine(path)
+        self._SessionMaker  = sqlalchemy.orm.sessionmaker(bind=self._engine)
+        self._session       = self._SessionMaker()
+
+        self._autocommit    = autocommit
+
+    @property
+    def autocommit(self):
+        """
+        Automatically commit everything to the database after every call
+        to an insert/update/remove function
+        """
+        return self._autocommit
+
+    @autocommit.setter
+    def autocommit(self, value):
+        self._autocommit = value
+
+
+    def _handleAutocommit(self):
+        """
+        Called at the end of each insert/remove/update function to
+        handle automatic comitting of pending operations.
+        """
+        if(self._autocommit):
+            self.commit()
+
+
+    def commit(self):
+        """
+        Commit pending operations to the database
+        """
+        self._session.commit()
 
 
     def createNew(path):
@@ -31,7 +69,8 @@ class BaseBackend(object):
 
         :returns: None
         """
-
+        self._session.add(device)
+        self._handleAutocommit()
         return None
 
 
@@ -42,18 +81,20 @@ class BaseBackend(object):
 
         :returns: None
         """
-
+        self._session.add(board)
+        self._handleAutocommit()
         return None
     
 
-    def insertCPU(self, cpu ):
+    def insertCore(self, cpu ):
         """
-        Insert a new CPU into the database, as described by the
+        Insert a new Core into the database, as described by the
         cpu parameter.
 
         :returns: None
         """
-
+        self._session.add(cpu)
+        self._handleAutocommit()
         return None
 
     def insertTarget(self, target):
@@ -63,7 +104,8 @@ class BaseBackend(object):
 
         :returns: None
         """
-
+        self._session.add(target)
+        self._handleAutocommit()
         return None
 
 
@@ -74,7 +116,9 @@ class BaseBackend(object):
 
         :returns: None
         """
+        assert(False)
 
+        self._handleAutocommit()
         return None
 
     
@@ -85,7 +129,9 @@ class BaseBackend(object):
 
         :returns: None
         """
+        assert(False)
 
+        self._handleAutocommit()
         return None
 
 
@@ -96,7 +142,9 @@ class BaseBackend(object):
 
         :returns: None
         """
+        assert(False)
 
+        self._handleAutocommit()
         return None
 
 
@@ -107,6 +155,7 @@ class BaseBackend(object):
 
         :returns: None or Device
         """
+        assert(False)
 
         return None
 
@@ -118,17 +167,19 @@ class BaseBackend(object):
 
         :returns: None or Board
         """
+        assert(False)
 
         return None
 
 
-    def getCPUById(self, cpuId):
+    def getCoreById(self, coreId):
         """
-        Return an instance of the CPU class from the database with
-        the supplied cpuId.
+        Return an instance of the Core class from the database with
+        the supplied coreId.
 
-        :returns: None or CPU
+        :returns: None or Core
         """
+        assert(False)
 
         return None
 
@@ -140,6 +191,7 @@ class BaseBackend(object):
 
         :returns: None or Target 
         """
+        assert(False)
 
         return None
 
@@ -151,8 +203,7 @@ class BaseBackend(object):
 
         :returns: None or Device
         """
-
-        return None
+        return self._session.query(Device).filter_by(name=deviceName).first()
 
 
     def getBoardByName(self, boardName):
@@ -162,19 +213,17 @@ class BaseBackend(object):
 
         :returns: None or Board
         """
+        return self._session.query(Board).filter_by(name=boardName).first()
 
-        return None
 
-
-    def getCPUByName(self, cpuName):
+    def getCoreByName(self, coreName):
         """
-        Return an instance of the CPU class from the database with
-        the supplied cpuName.
+        Return an instance of the Core class from the database with
+        the supplied coreName.
 
-        :returns: None or CPU
+        :returns: None or Core
         """
-
-        return None
+        return self._session.query(Core).filter_by(name=coreName).first()
 
 
     def getTargetByName(self, targetName):
@@ -184,8 +233,7 @@ class BaseBackend(object):
 
         :returns: None or Target 
         """
-
-        return None
+        return self._session.query(Target).filter_by(name=targetName).first()
     
 
     def getExperimentById(self, experimentId):
@@ -195,6 +243,7 @@ class BaseBackend(object):
 
         :returns: None or StatisticTrace
         """
+        assert(False)
 
         return None
 
@@ -206,6 +255,7 @@ class BaseBackend(object):
 
         :returns: None or StatisticTrace 
         """
+        assert(False)
 
         return None
 
@@ -217,6 +267,7 @@ class BaseBackend(object):
 
         :returns: None or StatisticTrace 
         """
+        assert(False)
 
         return None
 
@@ -227,7 +278,9 @@ class BaseBackend(object):
         along with all experimental data from the database which
         points to that device.
         """
+        assert(False)
 
+        self._handleAutocommit()
         return None
 
 
@@ -237,17 +290,21 @@ class BaseBackend(object):
         along with all experimental data from the database which
         points to that board.
         """
+        assert(False)
 
+        self._handleAutocommit()
         return None
 
 
-    def removeCPU(self, cpuId):
+    def removeCore(self, coreId):
         """
-        Remove the CPU from the database with the supplied Id,
+        Remove the Core from the database with the supplied Id,
         along with all experimental data from the database which
-        points to that CPU.
+        points to that Core.
         """
+        assert(False)
 
+        self._handleAutocommit()
         return None
 
 
@@ -257,7 +314,9 @@ class BaseBackend(object):
         along with all experimental data from the database which
         points to that target.
         """
+        assert(False)
 
+        self._handleAutocommit()
         return None
 
     
@@ -267,7 +326,9 @@ class BaseBackend(object):
         along with all experimental data from the database which
         points to that experiment.
         """
+        assert(False)
 
+        self._handleAutocommit()
         return None
     
     
@@ -276,7 +337,9 @@ class BaseBackend(object):
         Remove the traceSet from the database with the supplied Id,
         along with all statistic traces which are derived from it.
         """
+        assert(False)
 
+        self._handleAutocommit()
         return None
 
     
@@ -284,7 +347,9 @@ class BaseBackend(object):
         """
         Remove the statistic from the database with the supplied Id
         """
+        assert(False)
 
+        self._handleAutocommit()
         return None
 
 

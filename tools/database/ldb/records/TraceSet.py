@@ -15,3 +15,7 @@ class TraceSet(Base):
     filepath    = Column(String)
     experimentId= Column(Integer, ForeignKey("experiments.id"))
     targetId    = Column(Integer, ForeignKey("targets.id"))
+    scope_samplerate = Column(Integer)
+    scope_resolution = Column(Integer)
+    trace_length     = Column(Integer)
+    device_freq      = Column(Integer)

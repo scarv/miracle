@@ -18,3 +18,20 @@ class Device(Base):
     product_link    = Column(String)
     datasheet_link  = Column(String)
     manufacturer    = Column(String)
+
+
+    def fromCFGDict(cfg):
+        """
+        Create a new Device row ready to insert into the database from
+        a CFG file dict.
+        """
+
+        dev = cfg["DEVICE"]
+
+        return Device(
+            name = dev["NAME"],
+            description = dev["MANUFACTURER_LINK"],
+            manufacturer= dev["MANUFACTURER_NAME"],
+            datasheet_link=dev["LINK"]
+        )
+

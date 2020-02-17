@@ -16,5 +16,22 @@ class Target(Base):
     description     = Column(String)
     deviceid        = Column(Integer, ForeignKey("devices.id"))
     boardid         = Column(Integer, ForeignKey("boards.id"))
-    cpuid           = Column(Integer, ForeignKey("cores.id"))
+    coreid          = Column(Integer, ForeignKey("cores.id"))
+    
+    
+    def fromCFGDict(cfg, deviceId, boardId, coreId):
+        """
+        Create a new Target row ready to insert into the database from
+        a CFG file dict.
+        """
+
+        dev         = cfg["TARGET"]
+
+        return Target(
+            name        = dev["NAME"],
+            description = dev["DESCRIPTION"],
+            boardid     = boardId,
+            deviceid    = deviceId,
+            coreid      = coreId
+        )
 

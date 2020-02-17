@@ -15,8 +15,29 @@ class Core(Base):
     name                = Column(String, unique=True)
     coretype            = Column(String)
     description         = Column(String)
-    manufacturer        = Column(String)
+    manufacturer_name   = Column(String)
+    manufacturer_link   = Column(String)
     product_link        = Column(String)
     architecture_link   = Column(String)
     architecture_name   = Column(String)
+    
+    
+    def fromCFGDict(cfg):
+        """
+        Create a new Core row ready to insert into the database from
+        a CFG file dict.
+        """
+
+        dev = cfg["CPU"]
+
+        return Core(
+            name                = dev["CORE_NAME"],
+            coretype            = "CPU",
+            description         = "",
+            manufacturer_name   = dev["CORE_MANUFACTURER_NAME"],
+            manufacturer_link   = dev["CORE_MANUFACTURER_LINK"],
+            product_link        = dev["CORE_LINK"],
+            architecture_link   = dev["ARCH_LINK"],
+            architecture_name   = dev["ARCH_NAME"]
+        )
 
