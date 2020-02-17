@@ -26,12 +26,16 @@ def commandInit(args):
 
     file_exists = os.path.isfile(args.dbfile)
 
-    if(file_exists and not args.soft):
+    if(file_exists and not args.soft and not args.force):
         log.error("The file '%s' already exists!" % args.dbfile)
         return 1
-    elif(file_exists and args.soft):
+    elif(file_exists and args.soft and not args.force):
         log.info("The file '%s' already exists." % args.dbfile)
         return 0
+
+    if(file_exists and args.force):
+        log.warning("Removing pre-existing file '%s'" % args.dbfile)
+        os.remove(args.dbfile)
 
     backend.createNew(args.dbfile)
 
@@ -70,7 +74,10 @@ def buildArgParser():
         default="sqlite", help="Database Backend To Use")
 
     parser_init.add_argument("--soft", action="store_true",
-        help="Don't raise an error if the destination file already exists")
+        help="Don't raise an error if the destination file already exists.")
+    
+    parser_init.add_argument("--force", action="store_true",
+        help="Remove the existing database file if it already exists.")
 
     parser_init.add_argument("dbfile", type=str, 
         help="File-path of the new database")
