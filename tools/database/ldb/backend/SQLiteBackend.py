@@ -1,4 +1,8 @@
 
+import os
+import sqlite3
+import logging  as log
+
 import sqlalchemy
 
 from .BaseBackend   import BaseBackend
@@ -20,10 +24,18 @@ class SQLiteBackend(BaseBackend):
     def createNew(path):
         """
         Create a new SQLite backed database using the supplied target
-        path and engine.
+        filepath and engine.
         """
 
-        engine = sqlalchemy.create_engine(path, echo=False)
+        if(os.path.isfile(path)):
+            log.info("Database file at '%s' already exists." % path)
+        else:
+            conn = sqlite3.connect(path)
+            conn.close()
+
+        fullpath    = "sqlite:///" + path
+        log.info("Creating database at: '%s'" % fullpath)
+        engine      = sqlalchemy.create_engine(fullpath, echo=False)
 
         Base.metadata.create_all(engine)
 

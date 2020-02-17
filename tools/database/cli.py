@@ -27,10 +27,10 @@ def commandInit(args):
     file_exists = os.path.isfile(args.dbfile)
 
     if(file_exists and not args.soft):
-        log.error("The file '%s' already exists!")
+        log.error("The file '%s' already exists!" % args.dbfile)
         return 1
     elif(file_exists and args.soft):
-        log.info("The file '%s' already exists.")
+        log.info("The file '%s' already exists." % args.dbfile)
         return 0
 
     backend.createNew(args.dbfile)
@@ -49,10 +49,14 @@ def buildArgParser():
 
     parser      = argparse.ArgumentParser()
 
+    parser.add_argument("--verbose","-v",action="store_true",
+        help="Turn on verbose logging.")
+
     subparsers  = parser.add_subparsers(
         title="Sub-commands",
-        dest="subparser"
+        dest="command"
     )
+    subparsers.required = True
 
     #
     # Arguments for initialising a new database
@@ -80,6 +84,11 @@ def main():
     """
     parser = buildArgParser()
     args   = parser.parse_args()
+
+    if(args.verbose):
+        log.basicConfig(level=log.INFO)
+    else:
+        log.basicConfig(level=log.WARN)
 
     result = args.func(args)
 
