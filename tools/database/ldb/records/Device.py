@@ -7,6 +7,7 @@ class Device(Base):
     """
     Represents a single target device for which there is experimental
     data present in the database.
+    A Device in this context means a physical SoC or FPGA.
     """
 
     __tablename__ = "devices"

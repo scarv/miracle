@@ -34,7 +34,6 @@ class SQLiteBackend(BaseBackend):
             conn.close()
 
         fullpath    = "sqlite:///" + path
-        log.info("Creating database at: '%s'" % fullpath)
         engine      = sqlalchemy.create_engine(fullpath, echo=False)
 
         Base.metadata.create_all(engine)

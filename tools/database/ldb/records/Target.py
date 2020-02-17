@@ -1,5 +1,5 @@
 
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey
 
 from . import Base
 
@@ -14,7 +14,7 @@ class Target(Base):
     id              = Column(Integer, primary_key=True)
     name            = Column(String, unique=True)
     description     = Column(String)
-    deviceid        = Column(Integer)
-    boardid         = Column(Integer)
-    cpuid           = Column(Integer)
+    deviceid        = Column(Integer, ForeignKey("devices.id"))
+    boardid         = Column(Integer, ForeignKey("boards.id"))
+    cpuid           = Column(Integer, ForeignKey("cores.id"))
 
