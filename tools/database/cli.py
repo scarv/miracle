@@ -277,6 +277,15 @@ def commandInsertTTest(args):
     return 0
 
 
+def commandInsertStatTrace(args):
+    """
+    Function for inserting statistic traces from disk into the database.
+    TODO: Implement this!
+    """
+    assert(False)
+    return 1
+
+
 def buildArgParser():
     """
     Return the ArgumentParser object used to parse command line arguments
@@ -374,6 +383,21 @@ def buildArgParser():
     parser_add_ttest.add_argument("traces",
         type=str,
         help="Filepath to the npy file containing the raw traces.")
+
+    #
+    # Arguments for inserting a new statistic trace
+
+    parser_add_stat = subparsers.add_parser("insert-statistic-trace",
+        help="Insert a statistic trace associated with a trace set")
+
+    parser_add_stat.set_defaults(func=commandInsertStatTrace)
+
+    parser_add_stat.add_argument("trace_file", type = str,
+        help="File path of the trace to add")
+    
+    parser_add_stat.add_argument("stat_type", type=str,
+        choices = ldb.records.STAT_TRACE_TYPES,
+        help="What sort of trace type are we working with")
 
     #
     # Arguments for initialising a new database

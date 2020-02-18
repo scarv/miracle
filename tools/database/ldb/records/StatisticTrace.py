@@ -3,8 +3,6 @@ from sqlalchemy import Column, Integer, String, ForeignKey
 
 from . import Base
 
-TRACE_COMPRESSION_NONE = 0
-TRACE_COMPRESSION_GZ   = 1
 
 class StatisticTrace(Base):
     """
@@ -17,6 +15,5 @@ class StatisticTrace(Base):
     id          = Column(Integer, primary_key=True)
     filepath    = Column(String)
     traceSetId  = Column(Integer, ForeignKey("trace_sets.id"))
-    experimentId= Column(Integer, ForeignKey("experiments.id"))
-    targetId    = Column(Integer, ForeignKey("targets.id"))
     compression = Column(Integer, default = TRACE_COMPRESSION_NONE)
+    traceType   = Column(String)
