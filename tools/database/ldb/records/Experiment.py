@@ -15,3 +15,7 @@ class Experiment(Base):
     name    = Column(String)
     catagories = Column(String)
     description = Column(String)
+
+    def __repr__(self):
+        return "%4d, %-20s, %s" % (self.id, self.name, self.description)
+

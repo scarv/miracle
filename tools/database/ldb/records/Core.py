@@ -21,6 +21,12 @@ class Core(Base):
     architecture_link   = Column(String)
     architecture_name   = Column(String)
     
+
+    def __repr__(self):
+        return "%4d, %-20s, %-10s, %-10s %s" % (
+            self.id, self.name, self.architecture_name, self.coretype,
+            self.description
+        )
     
     def fromCFGDict(cfg):
         """

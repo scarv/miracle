@@ -12,6 +12,20 @@ import configparser
 
 import ldb
 
+ENTITY_CORES   = "cores"
+ENTITY_DEVICES = "devices"
+ENTITY_BOARDS  = "boards"
+ENTITY_TARGETS = "targets"
+
+#
+# Possible entity types we can list in the database.
+list_command_options = [
+    ENTITY_CORES  ,
+    ENTITY_DEVICES,
+    ENTITY_BOARDS ,
+    ENTITY_TARGETS
+]
+
 def connectToBackend(path, backend):
     """
     Returns an appropriate instance of a database backend based on
@@ -107,6 +121,36 @@ def commandInsertTargets(args):
     return 0
 
 
+def commandListEntries(args):
+    """
+    A simple way to print out entries in the database.
+    """
+    assert(args.entity in list_command_options)
+    backend = connectToBackend(args.dbpath, args.backend)
+
+    items = []
+
+    if  (args.entity == ENTITY_CORES):
+        items = backend.getAllCores()
+
+    elif(args.entity == ENTITY_DEVICES):
+        items = backend.getAllDevices()
+
+    elif(args.entity == ENTITY_BOARDS):
+        items = backend.getAllBoards()
+    
+    elif(args.entity == ENTITY_TARGETS):
+        items = backend.getAllTargets()
+
+    else:
+        assert(False),"Should be unreachable!"
+    
+    for item in items:
+        print(item)
+
+    return 0
+
+
 def buildArgParser():
     """
     Return the ArgumentParser object used to parse command line arguments
@@ -129,6 +173,18 @@ def buildArgParser():
         dest="command"
     )
     subparsers.required = True
+    
+    #
+    # Arguments for listing entries in the database
+    
+    parser_add_target = subparsers.add_parser("list",
+        help="list entries in the database")
+    
+    parser_add_target.set_defaults(func=commandListEntries)
+
+    parser_add_target.add_argument("entity", type=str, 
+        choices=list_command_options,
+        help="What sort of entity type in the database to list.")
 
     #
     # Arguments for inserting a new target, board, device and core from

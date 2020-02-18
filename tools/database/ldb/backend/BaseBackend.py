@@ -97,6 +97,7 @@ class BaseBackend(object):
         self._handleAutocommit()
         return None
 
+
     def insertTarget(self, target):
         """
         Insert a new target device into the database, as described by the
@@ -146,6 +147,38 @@ class BaseBackend(object):
 
         self._handleAutocommit()
         return None
+
+
+    def getAllDevices(self):
+        """
+        Return an iterator which will iterate through all devices
+        in the database.
+        """
+        return self._session.query(Device).order_by(Device.id)
+
+
+    def getAllBoards(self):
+        """
+        Return an iterator which will iterate through all boards 
+        in the database.
+        """
+        return self._session.query(Board).order_by(Board.id)
+
+
+    def getAllCores(self):
+        """
+        Return an iterator which will iterate through all cores
+        in the database.
+        """
+        return self._session.query(Core).order_by(Core.id)
+
+
+    def getAllTargets(self):
+        """
+        Return an iterator which will iterate through all targets
+        in the database.
+        """
+        return self._session.query(Target).order_by(Target.id)
 
 
     def getDeviceById(self, deviceId):

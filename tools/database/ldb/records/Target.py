@@ -18,6 +18,9 @@ class Target(Base):
     boardid         = Column(Integer, ForeignKey("boards.id"))
     coreid          = Column(Integer, ForeignKey("cores.id"))
     
+
+    def __repr__(self):
+        return "%4d, %-20s, %s" % (self.id, self.name, self.description)
     
     def fromCFGDict(cfg, deviceId, boardId, coreId):
         """

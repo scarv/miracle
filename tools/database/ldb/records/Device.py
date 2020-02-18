@@ -19,6 +19,8 @@ class Device(Base):
     datasheet_link  = Column(String)
     manufacturer    = Column(String)
 
+    def __repr__(self):
+        return "%4d, %-20s, %s" % (self.id, self.name, self.description)
 
     def fromCFGDict(cfg):
         """

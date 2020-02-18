@@ -18,6 +18,11 @@ class Board(Base):
     manufacturer    = Column(String)
 
 
+    def __repr__(self):
+        return "%4d, %-30s, %-25s, %s" % (
+            self.id, self.name, self.manufacturer, self.description
+        )
+
     def fromCFGDict(cfg):
         """
         Create a new Board row ready to insert into the database from
