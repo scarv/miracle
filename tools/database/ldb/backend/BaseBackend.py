@@ -195,9 +195,7 @@ class BaseBackend(object):
 
         :returns: None or Device
         """
-        assert(False)
-
-        return None
+        return self._session.query(Device).filter_by(id=deviceId).first()
 
 
     def getBoardById(self, boardId):
@@ -207,9 +205,7 @@ class BaseBackend(object):
 
         :returns: None or Board
         """
-        assert(False)
-
-        return None
+        return self._session.query(Board).filter_by(id=boardId).first()
 
 
     def getCoreById(self, coreId):
@@ -219,9 +215,7 @@ class BaseBackend(object):
 
         :returns: None or Core
         """
-        assert(False)
-
-        return None
+        return self._session.query(Core).filter_by(id=coreId).first()
 
 
     def getTargetById(self, targetId):
@@ -231,9 +225,7 @@ class BaseBackend(object):
 
         :returns: None or Target 
         """
-        assert(False)
-
-        return None
+        return self._session.query(Target).filter_by(id=targetId).first()
 
 
     def getDeviceByName(self, deviceName):
