@@ -300,7 +300,6 @@ class BaseBackend(object):
         """
         return self._session.query(TraceSet).filter_by(id=traceSetId).first()
 
-        return None
 
     def getTraceSetsForTargetAndExperiment(self, targetId, experimentId):
         """
