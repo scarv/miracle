@@ -129,8 +129,7 @@ class BaseBackend(object):
 
         :returns: None
         """
-        assert(False)
-
+        self._session.add(traceSet)
         self._handleAutocommit()
         return None
 
@@ -178,6 +177,14 @@ class BaseBackend(object):
         in the database.
         """
         return self._session.query(Target).order_by(Target.id)
+
+
+    def getAllTraceSets(self):
+        """
+        Return an iterator which will iterate through all trace sets 
+        in the database.
+        """
+        return self._session.query(TraceSet).order_by(TraceSet.id)
 
 
     def getAllExperiments(self):
@@ -306,7 +313,7 @@ class BaseBackend(object):
         Return an iterable of all trace sets associated with the supplied
         target and experiment.
         """
-        return self._session.query(TraceSet).filer_by (
+        return self._session.query(TraceSet).filter_by (
             experimentId = experimentId,
             targetId     = targetId
         )

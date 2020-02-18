@@ -24,3 +24,13 @@ class TraceSet(Base):
     scope_resolution = Column(Integer, default = 0)
     trace_length     = Column(Integer, default = 0)
     device_freq      = Column(Integer, default = 0)
+    parameters       = Column(String, default="")
+
+    def __repr__(self):
+        return "%5d, %-5s, %-16s, %5d, %5d, %d, %d, %d %-40s" % (
+            self.id, self.set_type, self.timestamp, self.experimentId,
+            self.targetId,
+            self.scope_samplerate, self.scope_resolution,
+            self.device_freq,
+            self.filepath_traces
+        )

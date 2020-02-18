@@ -4,6 +4,9 @@ UAS_EXPERIMENT_BUILD = $(UAS_BUILD)/$(UAS_EXPERIMENT)/$(UAS_TARGET)
 
 TARGET_DIR           = $(UAS_ROOT)/target/$(UAS_TARGET)
 
+EXPERIMENT_CATAGORY = $(firstword $(subst /, ,$(UAS_EXPERIMENT)))
+EXPERIMENT_NAME     = $(lastword $(subst /, ,$(UAS_EXPERIMENT)))
+
 #
 # Standard scripts from fw-acquisition
 TTEST_CAPTURE       ?= $(UAS_ROOT)/external/fw-acquisition/bin/ttest_capture.py
@@ -22,6 +25,8 @@ USB_BAUD            ?= 9600
 TARGET_BUILD_MAKEFILE= $(TARGET_DIR)/build/build.mk
 
 EXPERIMENT_CAPTURE_MAKEFILE = $(EXPERIMENT_SRCS)/Makefile.capture
+
+DB_CLI = $(UAS_ROOT)/tools/database/cli.py $(UAS_DB) --backend $(UAS_DB_BACKEND)
 
 #
 # Experiment Build Macros
@@ -151,6 +156,15 @@ endef
 #
 define map_ttest_analyse_tgt
 analyse-ttest${1}-${2}
+endef
+
+#
+# Target name for inserting a TTEst trace set into the database
+#
+# 1 - The name of the TTest
+#
+define map_db_ttest_insert_tgt
+db-insert-ttest${1}
 endef
 
 #
@@ -297,6 +311,10 @@ define map_ttest_cpa_hd_npy
 $(UAS_EXPERIMENT_BUILD)/trace/cpa-hd${1}-${2}-${3}.npy
 endef
 
+db-insert-experiment:
+	$(DB_CLI) insert-experiment -c $(EXPERIMENT_CATAGORY) $(EXPERIMENT_NAME)
+
+
 #
 # Add a parameterised TTest capture target.
 #
@@ -317,7 +335,8 @@ $(call map_ttest_traces_npy,${1}) :
 	    $(TTEST_SCOPE_CONFIG) \
 	    $(TTEST_POWER_CHANNEL) \
 	    $(call map_ttest_traces_npy,${1}) \
-	    $(call map_ttest_fixed_npy,${1}) 
+	    $(call map_ttest_fixed_npy,${1})
+
 
 $(call map_ttest_fixed_npy,${1} ): $(call map_ttest_traces_npy,${1})
 $(call map_ttest_logfile,${1})   : $(call map_ttest_traces_npy,${1})
@@ -380,6 +399,16 @@ $(call map_ttest_std_trace_plot,${1}) : $(call map_ttest_ttrace_npy,${1})
         --title "Power Trace Standard Deviation" \
         $${@} $(call map_ttest_std_trace_npy,${1}) 
 
+$(call map_db_ttest_insert_tgt,${1}) : \
+        $(call map_ttest_fixed_npy,${1}) \
+        $(call map_ttest_traces_npy,${1}) \
+        db-insert-experiment 
+	$(DB_CLI) insert-ttest-traces --replace \
+	    --scope-config $(TTEST_SCOPE_CONFIG) \
+	    $(UAS_TARGET) \
+	    $(UAS_EXPERIMENT) \
+	    $(call map_ttest_fixed_npy,${1}) $(call map_ttest_traces_npy,${1}) 
+
 $(call map_ttest_analyse_tgt,${1}) : \
     $(call map_ttest_ttrace_npy,${1}) \
     $(call map_ttest_ttrace_plot,${1}) \
@@ -389,7 +418,8 @@ $(call map_ttest_analyse_tgt,${1}) : \
     $(call map_ttest_std_trace_plot,${1}) \
     $(call map_ttest_min_trace_npy,${1}) \
     $(call map_ttest_max_trace_npy,${1}) \
-    $(call map_ttest_rng_trace_npy,${1})
+    $(call map_ttest_rng_trace_npy,${1}) \
+    $(call map_db_ttest_insert_tgt,${1})
 
 endef
 

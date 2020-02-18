@@ -18,6 +18,7 @@ ENTITY_DEVICES      = "devices"
 ENTITY_BOARDS       = "boards"
 ENTITY_TARGETS      = "targets"
 ENTITY_EXPERIMENTS  = "experiments"
+ENTITY_TRACESETS    = "trace-sets"
 
 #
 # Possible entity types we can list in the database.
@@ -26,7 +27,8 @@ list_command_options = [
     ENTITY_DEVICES      ,
     ENTITY_BOARDS       ,
     ENTITY_TARGETS      ,
-    ENTITY_EXPERIMENTS
+    ENTITY_EXPERIMENTS  ,
+    ENTITY_TRACESETS
 ]
 
 def connectToBackend(path, backend):
@@ -147,6 +149,9 @@ def commandListEntries(args):
     
     elif(args.entity == ENTITY_EXPERIMENTS):
         items = backend.getAllExperiments()
+    
+    elif(args.entity == ENTITY_TRACESETS):
+        items = backend.getAllTraceSets()
 
     else:
         assert(False),"Should be unreachable!"
@@ -204,6 +209,13 @@ def commandInsertTTest(args):
         experiment_catagory, experiment_name
     )
 
+    if(args.scope_config):
+        cfg    = configparser.ConfigParser()
+        cfg.read(args.scope_config)
+
+        args.scope_samplerate = int(float(cfg["SCOPE"]["sample_freq"]))
+        args.scope_resolution = int(cfg["SCOPE"]["resolution"])
+
     if(experiment == None):
         log.error("No such experiment '%s' / '%s'" % (
             experiment_catagory, experiment_name))
@@ -215,31 +227,34 @@ def commandInsertTTest(args):
         log.error("No such target: '%s'" % args.target_name)
         return 2
 
+    insert_new  = True
+    id_toreturn = 0
+
     if(args.replace):
         candidates = backend.getTraceSetsForTargetAndExperiment(
             target.id, experiment.id
         )
 
-        id_toreturn = 0
-
         for candidate in candidates:
-            if(candidate.scope_samplerate == args.scope_samplerate and \
-               candidate.scope_resolution == args.scope_resolution and \
-               candidate.device_freq      == args.decive_freq      ):
+            
+            eq_sr = candidate.scope_samplerate == args.scope_samplerate
+            eq_res= candidate.scope_resolution == args.scope_resolution
+            eq_df = candidate.device_freq      == args.device_freq     
 
-                candidate.timestamp = datetime.datetime.now
+            if(eq_sr and eq_res and eq_df):
+
+                candidate.timestamp = datetime.datetime.now()
                 candidate.filepath_fixed = args.fixed_bits
                 candidate.filepath_traces= args.traces
                 backend.commit()
                 id_toreturn = candidate.id
+                insert_new  = False
+                print("Updated")
                 break
 
-        print(id_toreturn)
-        return 0
+    if(insert_new):
 
-    else:
-
-        newTraceset = TraceSet (
+        newTraceset = ldb.records.TraceSet (
             set_type        = "ttest",
             filepath_fixed  = args.fixed_bits,
             filepath_traces = args.traces,
@@ -253,9 +268,13 @@ def commandInsertTTest(args):
         backend.insertTraceSet(newTraceset)
         backend.commit()
 
-        print(newTraceset.id)
+        id_toreturn = newTraceset.id
+        
+        print("Inserted")
+    
+    print(id_toreturn)
 
-        return 0
+    return 0
 
 
 def buildArgParser():
@@ -335,6 +354,9 @@ def buildArgParser():
     parser_add_ttest.add_argument("--scope-samplerate",type=int,default=0)
     parser_add_ttest.add_argument("--scope-resolution",type=int,default=0)
     parser_add_ttest.add_argument("--device-freq"     ,type=int,default=0)
+
+    parser_add_ttest.add_argument("--scope-config", type=str,
+        help="File path of scope configuration to use.")
 
     parser_add_ttest.add_argument("--replace", action="store_true",
         help="If present, replace any existing trace set records with the same experiment, target, scope and device configuration with this one. Otherwise, just add a new entry.")
