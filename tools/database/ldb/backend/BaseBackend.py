@@ -117,8 +117,7 @@ class BaseBackend(object):
 
         :returns: None
         """
-        assert(False)
-
+        self._session.add(experiment)
         self._handleAutocommit()
         return None
 
@@ -179,6 +178,14 @@ class BaseBackend(object):
         in the database.
         """
         return self._session.query(Target).order_by(Target.id)
+
+
+    def getAllExperiments(self):
+        """
+        Return an iterator which will iterate through all experiments
+        in the database.
+        """
+        return self._session.query(Experiment).order_by(Experiment.id)
 
 
     def getDeviceById(self, deviceId):
@@ -274,11 +281,22 @@ class BaseBackend(object):
         Return an instance of the Experiment class from the database with
         the supplied experimentId.
 
-        :returns: None or StatisticTrace
+        :returns: None or Experiment
         """
-        assert(False)
+        return self._session.query(Experiment).filter_by(id=experimentId).first()
 
-        return None
+    
+    def getExperimentByCatagoryAndName(self, catagory, name):
+        """
+        Return an instance of the Experiment class from the database
+        which has the supplied catagory and name values.
+
+        :returns: None or Experiment
+        """
+        return self._session.query(Experiment).filter_by(
+            catagory = catagory,
+            name     = name
+        ).first()
 
     
     def getTraceSetById(self, traceSetId):

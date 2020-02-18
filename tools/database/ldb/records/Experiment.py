@@ -11,11 +11,13 @@ class Experiment(Base):
 
     __tablename__ = "experiments"
 
-    id      = Column(Integer, primary_key=True)
-    name    = Column(String)
-    catagories = Column(String)
+    id          = Column(Integer, primary_key=True)
+    name        = Column(String)
+    catagory    = Column(String)
     description = Column(String)
 
     def __repr__(self):
-        return "%4d, %-20s, %s" % (self.id, self.name, self.description)
+        return "%4d, %-20s, %-40s, %s" % (
+            self.id, self.catagory, self.name, self.description
+        )
 

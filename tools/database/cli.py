@@ -12,18 +12,20 @@ import configparser
 
 import ldb
 
-ENTITY_CORES   = "cores"
-ENTITY_DEVICES = "devices"
-ENTITY_BOARDS  = "boards"
-ENTITY_TARGETS = "targets"
+ENTITY_CORES        = "cores"
+ENTITY_DEVICES      = "devices"
+ENTITY_BOARDS       = "boards"
+ENTITY_TARGETS      = "targets"
+ENTITY_EXPERIMENTS  = "experiments"
 
 #
 # Possible entity types we can list in the database.
 list_command_options = [
-    ENTITY_CORES  ,
-    ENTITY_DEVICES,
-    ENTITY_BOARDS ,
-    ENTITY_TARGETS
+    ENTITY_CORES        ,
+    ENTITY_DEVICES      ,
+    ENTITY_BOARDS       ,
+    ENTITY_TARGETS      ,
+    ENTITY_EXPERIMENTS
 ]
 
 def connectToBackend(path, backend):
@@ -141,12 +143,49 @@ def commandListEntries(args):
     
     elif(args.entity == ENTITY_TARGETS):
         items = backend.getAllTargets()
+    
+    elif(args.entity == ENTITY_EXPERIMENTS):
+        items = backend.getAllExperiments()
 
     else:
         assert(False),"Should be unreachable!"
     
     for item in items:
         print(item)
+
+    return 0
+
+
+def commandInsertExperiment(args):
+    """
+    For inserting experiments into the database.
+    If the supplied name/catagory combination already exists, then
+    print the id of the existing entry. Otherwise print the id of
+    the new entry.
+    """
+    backend = connectToBackend(args.dbpath, args.backend)
+
+    existing = backend.getExperimentByCatagoryAndName(
+        args.catagory,
+        args.name
+    )
+
+    if(existing == None):
+
+        newExperiment = ldb.records.Experiment(
+            name        = args.name,
+            catagory    = args.catagory,
+            description = args.description
+        )
+
+        backend.insertExperiment(newExperiment)
+        backend.commit()
+
+        print(newExperiment.id)
+
+    else:
+
+        print(existing.id)
 
     return 0
 
@@ -197,6 +236,25 @@ def buildArgParser():
 
     parser_add_target.add_argument("--from-cfg", type=str, nargs="+",
         help="Insert Target, Device, Board and Core information from the supplied cfg file.")
+
+    #
+    # Arguments for adding a new experiment to the database
+
+    parser_add_experiment = subparsers.add_parser("insert-experiment",
+        help = "Add a new experiment to the database. If the experiment already exists, it is not updated.")
+    
+    parser_add_experiment.set_defaults(func=commandInsertExperiment)
+    
+    parser_add_experiment.add_argument("--catagory","-c", type=str,
+        default = "miscellaneous",
+        help="Catagory to which the experiment belongs.")
+    
+    parser_add_experiment.add_argument("--description","-d", type=str,
+        default="",
+        help="A short description of the experiment")
+
+    parser_add_experiment.add_argument("name", type=str,
+        help="The name of the experiment")
 
     #
     # Arguments for initialising a new database

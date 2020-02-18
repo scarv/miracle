@@ -13,3 +13,4 @@ init-database:
 	$(CMD) list devices
 	$(CMD) list boards
 	$(CMD) list targets
+	$(CMD) list experiments
