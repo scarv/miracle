@@ -43,3 +43,13 @@ echo "UAS_MICROBLAZE_TOOLCHAIN_ROOT = $UAS_MICROBLAZE_TOOLCHAIN_ROOT"
 echo "IAMCU_TOOLCHAIN_DIR           = $IAMCU_TOOLCHAIN_DIR"
 echo "VIVADO_ROOT                   = $VIVADO_ROOT"
 echo "-----------------------------------------------------------------------"
+
+if [ ! -f $UAS_DB ]; then
+
+    echo "Initialising UAS Leakage Database"
+
+    make -C $UAS_ROOT/tools/database init-database > \
+        $UAS_BUILD/database-init.log
+
+fi
+
