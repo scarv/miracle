@@ -296,11 +296,21 @@ class BaseBackend(object):
         Return an instance of the TraceSet class from the database with
         the supplied traceSetId.
 
-        :returns: None or StatisticTrace 
+        :returns: None or TraceSet 
         """
-        assert(False)
+        return self._session.query(TraceSet).filter_by(id=traceSetId).first()
 
         return None
+
+    def getTraceSetsForTargetAndExperiment(self, targetId, experimentId):
+        """
+        Return an iterable of all trace sets associated with the supplied
+        target and experiment.
+        """
+        return self._session.query(TraceSet).filer_by (
+            experimentId = experimentId,
+            targetId     = targetId
+        )
 
 
     def getStatisticTraceById(self, statisticTraceId):

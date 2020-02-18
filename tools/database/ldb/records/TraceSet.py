@@ -1,7 +1,7 @@
 
 import datetime
 
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, DateTime, Integer, String, ForeignKey
 
 from . import Base
 
@@ -15,8 +15,8 @@ class TraceSet(Base):
 
     id               = Column(Integer, primary_key=True)
     set_type         = Column(String)
-    filepath_fix     = Column(String)
-    filepath_random  = Column(String)
+    filepath_fixed   = Column(String)
+    filepath_traces  = Column(String)
     timestamp        = Column(DateTime, default=datetime.datetime.now)
     experimentId     = Column(Integer, ForeignKey("experiments.id"))
     targetId         = Column(Integer, ForeignKey("targets.id"))

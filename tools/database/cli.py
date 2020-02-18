@@ -7,6 +7,7 @@ Front-end CLI for the leakage database
 import sys
 import os
 import argparse
+import datetime
 import logging  as log
 import configparser
 
@@ -190,6 +191,73 @@ def commandInsertExperiment(args):
     return 0
 
 
+def commandInsertTTest(args):
+    """
+    Insert a ttest record into the database
+    """
+    backend = connectToBackend(args.dbpath, args.backend)
+
+    experiment_name     = args.experiment.partition("/")[2]
+    experiment_catagory = args.experiment.partition("/")[0]
+
+    experiment  = backend.getExperimentByCatagoryAndName(
+        experiment_catagory, experiment_name
+    )
+
+    if(experiment == None):
+        log.error("No such experiment '%s' / '%s'" % (
+            experiment_catagory, experiment_name))
+        return 1
+
+    target      = backend.getTargetByName(args.target_name)
+
+    if(target == None):
+        log.error("No such target: '%s'" % args.target_name)
+        return 2
+
+    if(args.replace):
+        candidates = backend.getTraceSetsForTargetAndExperiment(
+            target.id, experiment.id
+        )
+
+        id_toreturn = 0
+
+        for candidate in candidates:
+            if(candidate.scope_samplerate == args.scope_samplerate and \
+               candidate.scope_resolution == args.scope_resolution and \
+               candidate.device_freq      == args.decive_freq      ):
+
+                candidate.timestamp = datetime.datetime.now
+                candidate.filepath_fixed = args.fixed_bits
+                candidate.filepath_traces= args.traces
+                backend.commit()
+                id_toreturn = candidate.id
+                break
+
+        print(id_toreturn)
+        return 0
+
+    else:
+
+        newTraceset = TraceSet (
+            set_type        = "ttest",
+            filepath_fixed  = args.fixed_bits,
+            filepath_traces = args.traces,
+            device_freq     = args.device_freq,
+            scope_samplerate= args.scope_samplerate,
+            scope_resolution= args.scope_resolution,
+            experimentId    = experiment.id,
+            targetId        = target.id
+        )
+
+        backend.insertTraceSet(newTraceset)
+        backend.commit()
+
+        print(newTraceset.id)
+
+        return 0
+
+
 def buildArgParser():
     """
     Return the ArgumentParser object used to parse command line arguments
@@ -255,6 +323,35 @@ def buildArgParser():
 
     parser_add_experiment.add_argument("name", type=str,
         help="The name of the experiment")
+    
+    #
+    # Arguments for adding records of ttest trace sets to the database
+
+    parser_add_ttest= subparsers.add_parser("insert-ttest-traces",
+        help="Add a TTest trace set to the database")
+    
+    parser_add_ttest.set_defaults(func=commandInsertTTest)
+
+    parser_add_ttest.add_argument("--scope-samplerate",type=int,default=0)
+    parser_add_ttest.add_argument("--scope-resolution",type=int,default=0)
+    parser_add_ttest.add_argument("--device-freq"     ,type=int,default=0)
+
+    parser_add_ttest.add_argument("--replace", action="store_true",
+        help="If present, replace any existing trace set records with the same experiment, target, scope and device configuration with this one. Otherwise, just add a new entry.")
+
+    parser_add_ttest.add_argument("target_name", type = str,
+        help="Name of the target which this trace set is associated with")
+    
+    parser_add_ttest.add_argument("experiment", type = str,
+        help="Name of the experiment in the form '<catagory>/<name>'")
+
+    parser_add_ttest.add_argument("fixed_bits",
+        type=str,
+        help="Filepath to the npy file indicating which traces are fixed or random")
+
+    parser_add_ttest.add_argument("traces",
+        type=str,
+        help="Filepath to the npy file containing the raw traces.")
 
     #
     # Arguments for initialising a new database
