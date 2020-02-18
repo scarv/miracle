@@ -4,6 +4,8 @@ echo "------------------------- Project Setup -------------------------------"
 
 export UAS_ROOT=$PWD
 export UAS_BUILD=$UAS_ROOT/work
+export UAS_DB=$UAS_BUILD/database.sqlite
+export UAS_DB_BACKEND=sqlite
 export SCALE_SW=$UAS_ROOT/external/scale-sw
 export SCALE_HW=$UAS_ROOT/external/scale-hw
 
@@ -31,6 +33,7 @@ mkdir -p $UAS_BUILD
 
 echo "UAS_ROOT  = $UAS_ROOT"
 echo "UAS_BUILD = $UAS_BUILD"
+echo "UAS_DB    = $UAS_DB_BACKEND:///$UAS_DB"
 echo "SCALE_SW  = $SCALE_SW"
 echo "SCALE_HW  = $SCALE_HW"
 echo "OPENOCD   = $OPENOCD"
