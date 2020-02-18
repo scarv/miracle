@@ -240,8 +240,10 @@ def commandInsertTTest(args):
             eq_sr = candidate.scope_samplerate == args.scope_samplerate
             eq_res= candidate.scope_resolution == args.scope_resolution
             eq_df = candidate.device_freq      == args.device_freq     
+            eq_name = candidate.name           == args.name
+            eq_param= candidate.parameters     == args.parameters
 
-            if(eq_sr and eq_res and eq_df):
+            if(eq_sr and eq_res and eq_df and eq_name):
 
                 candidate.timestamp = datetime.datetime.now()
                 candidate.filepath_fixed = args.fixed_bits
@@ -249,7 +251,6 @@ def commandInsertTTest(args):
                 backend.commit()
                 id_toreturn = candidate.id
                 insert_new  = False
-                print("Updated")
                 break
 
     if(insert_new):
@@ -262,15 +263,14 @@ def commandInsertTTest(args):
             scope_samplerate= args.scope_samplerate,
             scope_resolution= args.scope_resolution,
             experimentId    = experiment.id,
-            targetId        = target.id
+            targetId        = target.id,
+            parameters      = args.parameters
         )
 
         backend.insertTraceSet(newTraceset)
         backend.commit()
 
         id_toreturn = newTraceset.id
-        
-        print("Inserted")
     
     print(id_toreturn)
 
@@ -368,7 +368,15 @@ def buildArgParser():
         help="File path of scope configuration to use.")
 
     parser_add_ttest.add_argument("--replace", action="store_true",
-        help="If present, replace any existing trace set records with the same experiment, target, scope and device configuration with this one. Otherwise, just add a new entry.")
+        help="If present, replace any existing trace set records with the same name, experiment, target, scope and device configuration with this one. Otherwise, just add a new entry.")
+
+    parser_add_ttest.add_argument("--name", type=str,
+        default = "ttest",
+        help ="A friendly-ish name for the TTest trace set.")
+    
+    parser_add_ttest.add_argument("--parameters", type=str,
+        default = "",
+        help ="A string of <name>=<value> separated items repreenting parameters to the trace capture.")
 
     parser_add_ttest.add_argument("target_name", type = str,
         help="Name of the target which this trace set is associated with")

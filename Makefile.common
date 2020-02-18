@@ -405,6 +405,7 @@ $(call map_db_ttest_insert_tgt,${1}) : \
         db-insert-experiment 
 	$(DB_CLI) insert-ttest-traces --replace \
 	    --scope-config $(TTEST_SCOPE_CONFIG) \
+        --name ${1} \
 	    $(UAS_TARGET) \
 	    $(UAS_EXPERIMENT) \
 	    $(call map_ttest_fixed_npy,${1}) $(call map_ttest_traces_npy,${1}) 

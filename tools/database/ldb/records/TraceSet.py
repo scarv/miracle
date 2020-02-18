@@ -14,6 +14,7 @@ class TraceSet(Base):
     __tablename__ = "trace_sets"
 
     id               = Column(Integer, primary_key=True)
+    name             = Column(String)
     set_type         = Column(String)
     filepath_fixed   = Column(String)
     filepath_traces  = Column(String)
