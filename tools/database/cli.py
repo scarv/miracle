@@ -290,18 +290,33 @@ def commandInsertStatTrace(args):
         log.error("Statistic trace does not exist: '%s'" % args.trace_file)
         return 1
 
-    parent_traceset = backend.getTraceSetById(args.traceset_id)
+    parent_traceset = None
+    
+    if(args.traceset_id != None):
+        
+        parent_traceset = backend.getTraceSetById(args.traceset_id)
+
+    elif(args.traceset_filepath != None):
+        
+        parent_traceset = backend.getTraceSetByTracesFilepath(
+            args.traceset_filepath
+        )
+
+    else:
+
+        log.error("Must specify an assoicated traceset!")
+        return 1
 
     if(parent_traceset == None):
         log.error("No traceset exists with id '%d'" % args.traceset_id)
         return 1
     
-    fh          = args.trace_file
+    fh = args.trace_file
 
     if(isinstance(args.trace_file,str) and args.trace_file.endswith(".gz")):
         fh = gzip.GzipFile(args.trace_file,"r")
 
-    nparray     = np.load(fh)
+    nparray = np.load(fh)
 
     to_insert   = ldb.records.StatisticTrace(
         filepath    = args.trace_file,
@@ -437,6 +452,18 @@ def buildArgParser():
     parser_add_stat.add_argument("stat_type", type=str,
         choices = ldb.records.STAT_TRACE_TYPES,
         help="What sort of trace type are we working with")
+
+    parser_add_stat_traceset = parser_add_stat.add_mutually_exclusive_group(
+        required = True
+    )
+
+    parser_add_stat_traceset.add_argument("--traceset-id",type = int,
+        default = None,
+        help="ID of the trace set from which this statistic trace is derived")
+
+    parser_add_stat_traceset.add_argument("--traceset-filepath",type=str,
+        default = None,
+        help="Filepath of the traceset from which this statistic trace is derived.")
 
     parser_add_stat.add_argument("traceset_id", type=int,
         help="ID of the traceset this statistic trace was derived from.")

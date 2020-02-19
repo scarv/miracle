@@ -399,6 +399,9 @@ $(call map_ttest_std_trace_plot,${1}) : $(call map_ttest_ttrace_npy,${1})
         --title "Power Trace Standard Deviation" \
         $${@} $(call map_ttest_std_trace_npy,${1}) 
 
+#
+# Insert the TTest trace set into the database.
+#
 $(call map_db_ttest_insert_tgt,${1}) : \
         $(call map_ttest_fixed_npy,${1}) \
         $(call map_ttest_traces_npy,${1}) \
