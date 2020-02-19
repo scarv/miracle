@@ -336,9 +336,9 @@ class BaseBackend(object):
 
         :returns: None or StatisticTrace 
         """
-        assert(False)
-
-        return None
+        return self._session.query(StatisticTrace).filter_by(
+            id=statisticTraceId
+        ).first()
 
 
     def removeDevice(self, deviceId):
