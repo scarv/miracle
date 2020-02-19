@@ -280,17 +280,46 @@ def commandInsertTTest(args):
     return 0
 
 
-def commandInsertStatTrace(args):
+def subCommandInsertStatTrace(tracelist, statType, traceset, compression, db):
+    """
+    Iterate over a list of traces in tracelist, which are all of type
+    statType and created from the supplied TraceSet instance traceset.
+    Insert each trace into the database.
+    """
+
+    for tfile in tracelist:
+
+        fh = tfile
+
+        if(not os.path.isfile(tfile)):
+            log.error("Statistic trace does not exist: '%s'" % tfile)
+            return 1
+
+        if(isinstance(tfile,str) and tfile.endswith(".gz")):
+            fh = gzip.GzipFile(tfile,"r")
+
+        nparray = np.load(fh)
+
+        to_insert   = ldb.records.StatisticTrace(
+            filepath    = tfile,
+            traceSetId  = traceset.id,
+            compression = compression,
+            traceType   = statType,
+            trace       = nparray
+        )
+
+        db.insertStatisticTrace(to_insert)
+
+    return 0
+
+def commandInsertStatTraces(args):
     """
     Function for inserting statistic traces from disk into the database.
     """
-    backend = connectToBackend(args.dbpath, args.backend)
+    backend             = connectToBackend(args.dbpath, args.backend)
+    backend.autocommit  = False
 
-    if(not os.path.isfile(args.trace_file)):
-        log.error("Statistic trace does not exist: '%s'" % args.trace_file)
-        return 1
-
-    parent_traceset = None
+    parent_traceset     = None
     
     if(args.traceset_id != None):
         
@@ -310,23 +339,23 @@ def commandInsertStatTrace(args):
     if(parent_traceset == None):
         log.error("No traceset exists with id '%d'" % args.traceset_id)
         return 1
+
+    subCommandInsertStatTrace (
+        args.avg_trace,STAT_TYPE_AVG,parent_traceset,args.compression,backend
+    )
     
-    fh = args.trace_file
-
-    if(isinstance(args.trace_file,str) and args.trace_file.endswith(".gz")):
-        fh = gzip.GzipFile(args.trace_file,"r")
-
-    nparray = np.load(fh)
-
-    to_insert   = ldb.records.StatisticTrace(
-        filepath    = args.trace_file,
-        traceSetId  = parent_traceset.id,
-        compression = args.compression,
-        traceType   = args.stat_type,
-        trace       = nparray
+    subCommandInsertStatTrace (
+        args.std_trace,STAT_TYPE_STD,parent_traceset,args.compression,backend
+    )
+    
+    subCommandInsertStatTrace (
+        args.hw_trace,STAT_TYPE_HW,parent_traceset,args.compression,backend
     )
 
-    backend.insertStatisticTrace(to_insert)
+    subCommandInsertStatTrace (
+        args.hd_trace,STAT_TYPE_HD,parent_traceset,args.compression,backend
+    )
+    
     backend.commit()
 
     return 0
@@ -441,17 +470,10 @@ def buildArgParser():
     #
     # Arguments for inserting a new statistic trace
 
-    parser_add_stat = subparsers.add_parser("insert-statistic-trace",
+    parser_add_stat = subparsers.add_parser("insert-statistic-traces",
         help="Insert a statistic trace associated with a trace set")
 
-    parser_add_stat.set_defaults(func=commandInsertStatTrace)
-
-    parser_add_stat.add_argument("trace_file", type = str,
-        help="File path of the trace to add")
-    
-    parser_add_stat.add_argument("stat_type", type=str,
-        choices = ldb.records.STAT_TRACE_TYPES,
-        help="What sort of trace type are we working with")
+    parser_add_stat.set_defaults(func=commandInsertStatTraces)
 
     parser_add_stat_traceset = parser_add_stat.add_mutually_exclusive_group(
         required = True
@@ -465,13 +487,15 @@ def buildArgParser():
         default = None,
         help="Filepath of the traceset from which this statistic trace is derived.")
 
-    parser_add_stat.add_argument("traceset_id", type=int,
-        help="ID of the traceset this statistic trace was derived from.")
-
     parser_add_stat.add_argument("--compression", type=str,
         choices = ldb.records.TRACE_COMPRESSION,
         default = ldb.records.TRACE_COMPRESSION_NONE,
         help="Whether and how to compress the trace in the database")
+    
+    parser_add_stat.add_argument("--avg-trace", type=str,nargs="*")
+    parser_add_stat.add_argument("--std-trace", type=str,nargs="*")
+    parser_add_stat.add_argument("--hw-trace", type=str,nargs="*")
+    parser_add_stat.add_argument("--hd-trace", type=str,nargs="*")
 
     #
     # Arguments for initialising a new database
