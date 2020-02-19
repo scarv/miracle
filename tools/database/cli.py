@@ -6,10 +6,13 @@ Front-end CLI for the leakage database
 
 import sys
 import os
+import gzip
 import argparse
 import datetime
 import logging  as log
 import configparser
+
+import numpy as np
 
 import ldb
 
@@ -280,10 +283,38 @@ def commandInsertTTest(args):
 def commandInsertStatTrace(args):
     """
     Function for inserting statistic traces from disk into the database.
-    TODO: Implement this!
     """
-    assert(False)
-    return 1
+    backend = connectToBackend(args.dbpath, args.backend)
+
+    if(not os.path.isfile(args.trace_file)):
+        log.error("Statistic trace does not exist: '%s'" % args.trace_file)
+        return 1
+
+    parent_traceset = backend.getTraceSetById(args.traceset_id)
+
+    if(parent_traceset == None):
+        log.error("No traceset exists with id '%d'" % args.traceset_id)
+        return 1
+    
+    fh          = args.trace_file
+
+    if(isinstance(args.trace_file,str) and args.trace_file.endswith(".gz")):
+        fh = gzip.GzipFile(args.trace_file,"r")
+
+    nparray     = np.load(fh)
+
+    to_insert   = ldb.records.StatisticTrace(
+        filepath    = args.trace_file,
+        traceSetId  = parent_traceset.id,
+        compression = args.compression,
+        traceType   = args.stat_type,
+        trace       = nparray
+    )
+
+    backend.insertStatisticTrace(to_insert)
+    backend.commit()
+
+    return 0
 
 
 def buildArgParser():
@@ -406,6 +437,14 @@ def buildArgParser():
     parser_add_stat.add_argument("stat_type", type=str,
         choices = ldb.records.STAT_TRACE_TYPES,
         help="What sort of trace type are we working with")
+
+    parser_add_stat.add_argument("traceset_id", type=int,
+        help="ID of the traceset this statistic trace was derived from.")
+
+    parser_add_stat.add_argument("--compression", type=str,
+        choices = ldb.records.TRACE_COMPRESSION,
+        default = ldb.records.TRACE_COMPRESSION_NONE,
+        help="Whether and how to compress the trace in the database")
 
     #
     # Arguments for initialising a new database

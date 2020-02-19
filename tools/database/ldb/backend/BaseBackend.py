@@ -141,8 +141,7 @@ class BaseBackend(object):
 
         :returns: None
         """
-        assert(False)
-
+        self._session.add(statisticTrace)
         self._handleAutocommit()
         return None
 
