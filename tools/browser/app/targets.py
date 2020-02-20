@@ -15,7 +15,7 @@ bp          = Blueprint('targets', __name__)
 bp.target_devices = {}
 
 # Folder where the target device descriptions are kept.
-targets_dir = os.path.abspath("app/targets/")
+targets_dir = os.path.expandvars(os.path.join("$UAS_ROOT","target/"))
 
 class TargetDevice:
 
@@ -81,8 +81,8 @@ def discoverTargets():
     log.info("Discovering target devices in %s" % targets_dir)
 
     for filename in os.listdir(targets_dir):
-        fullpath = os.path.join(targets_dir, filename)
-        if(os.path.isfile(fullpath) and filename.endswith(".cfg")):
+        fullpath = os.path.join(targets_dir, filename,filename+".cfg")
+        if(os.path.isfile(fullpath)):
 
             device = TargetDevice.fromCFG(fullpath)
             bp.target_devices[device.name] = device
