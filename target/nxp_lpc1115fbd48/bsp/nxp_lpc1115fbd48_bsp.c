@@ -94,7 +94,7 @@ uint8_t uas_bsp_uart_rd_char(){
     while(!(U0LSR & 0x1)) {
         // Do nothing until valid data recieved.
     }
-    return U0RBR;
+    return U0RBR & 0xFF;
 }
 
 /*!
@@ -102,8 +102,10 @@ uint8_t uas_bsp_uart_rd_char(){
 void    uas_bsp_uart_wr_char(
     uint8_t tosend
 ){
+	while(!(U0LSR & BIT5)){
+        // Wait for tx to finish sending anything else.
+    }
     U0THR = tosend;
-	while((U0LSR & BIT5) == 0); // Wait for tx to finish
 }
 
 

@@ -2,6 +2,7 @@
 #include "lpc111x.h"
 
 void main(void);
+void __init__(void);
 void default_handler(void);
 // The following are 'declared' in the linker script
 extern unsigned char  INIT_DATA_VALUES;
@@ -14,7 +15,7 @@ extern unsigned char  BSS_END;
 // by the linker script
 const void * Vectors[] __attribute__((section(".vectors"))) ={
 	(void *)0x10002000, 	/* Top of stack / SRAM */ 
-	main,   			/* Reset Handler */
+	__init__,   			/* Reset Handler */
 	default_handler,	/* NMI */
 	default_handler,	/* Hard Fault */
 	0,	                /* Reserved */
@@ -63,6 +64,25 @@ const void * Vectors[] __attribute__((section(".vectors"))) ={
 	default_handler, 	/* PIO1 */
 	default_handler 	/* PIO0 */
 };
+
+void __init__() {
+    // do global/static data initialization
+	unsigned char *src;
+	unsigned char *dest;
+	unsigned len;
+	src= &INIT_DATA_VALUES;
+	dest= &INIT_DATA_START;
+	len= &INIT_DATA_END-&INIT_DATA_START;
+	while (len--)
+		*dest++ = *src++;
+// zero out the uninitialized global/static variables
+	dest = &BSS_START;
+	len = &BSS_END - &BSS_START;
+	while (len--)
+		*dest++=0;
+
+    main();
+}
 
 void default_handler()
 {
