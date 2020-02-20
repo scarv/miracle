@@ -3,8 +3,13 @@ from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
-TRACE_COMPRESSION_NONE  = 0
-TRACE_COMPRESSION_GZ    = 1
+TRACE_COMPRESSION_NONE  = "none"
+TRACE_COMPRESSION_GZ    = "gz"
+
+TRACE_COMPRESSION = [
+    TRACE_COMPRESSION_NONE,
+    TRACE_COMPRESSION_GZ
+]
 
 STAT_TYPE_TTRACE        = "ttrace"
 STAT_TYPE_AVG           = "avg"

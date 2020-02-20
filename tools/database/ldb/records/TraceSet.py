@@ -17,7 +17,7 @@ class TraceSet(Base):
     name             = Column(String)
     set_type         = Column(String)
     filepath_fixed   = Column(String)
-    filepath_traces  = Column(String)
+    filepath_traces  = Column(String,unique=True)
     timestamp        = Column(DateTime, default=datetime.datetime.now)
     experimentId     = Column(Integer, ForeignKey("experiments.id"))
     targetId         = Column(Integer, ForeignKey("targets.id"))

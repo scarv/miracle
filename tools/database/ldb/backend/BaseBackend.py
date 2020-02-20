@@ -141,8 +141,7 @@ class BaseBackend(object):
 
         :returns: None
         """
-        assert(False)
-
+        self._session.add(statisticTrace)
         self._handleAutocommit()
         return None
 
@@ -306,6 +305,17 @@ class BaseBackend(object):
         :returns: None or TraceSet 
         """
         return self._session.query(TraceSet).filter_by(id=traceSetId).first()
+    
+    def getTraceSetByTracesFilepath(self, traceSetFilePath):
+        """
+        Return an instance of the TraceSet class from the database with
+        the supplied filepath_traces value.
+
+        :returns: None or TraceSet 
+        """
+        return self._session.query(TraceSet).filter_by(
+            filepath_traces=traceSetFilePath
+        ).first()
 
 
     def getTraceSetsForTargetAndExperiment(self, targetId, experimentId):
@@ -326,9 +336,9 @@ class BaseBackend(object):
 
         :returns: None or StatisticTrace 
         """
-        assert(False)
-
-        return None
+        return self._session.query(StatisticTrace).filter_by(
+            id=statisticTraceId
+        ).first()
 
 
     def removeDevice(self, deviceId):
