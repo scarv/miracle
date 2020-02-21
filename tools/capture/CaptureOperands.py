@@ -136,9 +136,34 @@ class CaptureOperands(object):
             trace_length    = self.trigger_window_size,
             parameters      = param_str
         )
+            
+        pre_existing = self.database.getTraceSetByTracesFilepath(
+            traceset.filepath_traces
+        )
+
+        if(overwrite and pre_existing != None):
+            stattraces = self.database.countStatisticTracesForTraceSet(
+                pre_existing.id
+            )
+
+            log.warn("Removing pre-existing traceset with same file path and %d associated statistic traces." % stattraces)
+
+            self.database.removeTraceSet(pre_existing.id)
+            
+            stattraces = self.database.countStatisticTracesForTraceSet(
+                pre_existing.id
+            )
+            assert(stattraces == 0),"Failed to remove downstream statistic traces"
 
         self.database.insertTraceSet(traceset)
-        self.database.commit()
+
+        try:
+            self.database.commit()
+        except Exception as e:
+            log.error("Failed to add traceset '%s' into the database." % (
+                traceset_name))
+            log.error(str(e))
+            return 1
         
         log.info("Insert traceset to database: id=%d" % traceset.id)
 
