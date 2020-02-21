@@ -42,6 +42,7 @@ def runCapture(args):
 
     return 0
 
+
 def runAnalysis(args):
     """
     Top level function for running all trace capture processes for this
