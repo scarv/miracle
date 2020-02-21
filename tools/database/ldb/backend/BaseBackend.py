@@ -6,8 +6,8 @@ from ..records import Board
 from ..records import Core
 from ..records import Target
 from ..records import Experiment
-from ..records import TraceSet
-from ..records import StatisticTrace
+from ..records import TTraceSet
+from ..records import TraceSetBlob
 
 class BaseBackend(object):
     """
@@ -23,7 +23,7 @@ class BaseBackend(object):
         self._SessionMaker  = sqlalchemy.orm.sessionmaker(bind=self._engine)
         self._session       = self._SessionMaker()
 
-        self._autocommit    = autocommit
+        self._autocommit    = [autocommit]
 
     @property
     def autocommit(self):
@@ -31,11 +31,21 @@ class BaseBackend(object):
         Automatically commit everything to the database after every call
         to an insert/update/remove function
         """
-        return self._autocommit
+        return self._autocommit[0]
 
     @autocommit.setter
     def autocommit(self, value):
-        self._autocommit = value
+        self._autocommit[0] = value
+
+
+    def pushAutoCommit(self,ac):
+        self._autocommit.insert(0,ac)
+
+    def popAutoCommit(self):
+        if(len(self._autocommit) > 1):
+            self._autocommit.pop(0)
+        else:
+            pass
 
 
     def _handleAutocommit(self):
@@ -121,30 +131,6 @@ class BaseBackend(object):
         self._handleAutocommit()
         return None
 
-    
-    def insertTraceSet(self, traceSet):
-        """
-        Insert a new traceSet into the database, as described by the
-        traceSet parameter.
-
-        :returns: None
-        """
-        self._session.add(traceSet)
-        self._handleAutocommit()
-        return None
-
-
-    def insertStatisticTrace(self, statisticTrace):
-        """
-        Insert a new statisticTrace into the database, as described by the
-        statisticTrace parameter.
-
-        :returns: None
-        """
-        self._session.add(statisticTrace)
-        self._handleAutocommit()
-        return None
-
 
     def getAllDevices(self):
         """
@@ -178,20 +164,28 @@ class BaseBackend(object):
         return self._session.query(Target).order_by(Target.id)
 
 
-    def getAllTraceSets(self):
-        """
-        Return an iterator which will iterate through all trace sets 
-        in the database.
-        """
-        return self._session.query(TraceSet).order_by(TraceSet.id)
-
-
     def getAllExperiments(self):
         """
         Return an iterator which will iterate through all experiments
         in the database.
         """
         return self._session.query(Experiment).order_by(Experiment.id)
+
+
+    def getAllTTraceSets(self):
+        """
+        Return an iterator which will iterate through all TTraceSet objects
+        in the database.
+        """
+        return self._session.query(TTraceSet).order_by(TTraceSet.id)
+
+
+    def getAllTraceSetBlobs(self):
+        """
+        Return an iterator which will iterate through all TraceSetBlob objects
+        in the database.
+        """
+        return self._session.query(TraceSetBlob).order_by(TraceSetBlob.id)
 
 
     def getDeviceById(self, deviceId):
@@ -297,50 +291,6 @@ class BaseBackend(object):
         ).first()
 
     
-    def getTraceSetById(self, traceSetId):
-        """
-        Return an instance of the TraceSet class from the database with
-        the supplied traceSetId.
-
-        :returns: None or TraceSet 
-        """
-        return self._session.query(TraceSet).filter_by(id=traceSetId).first()
-    
-    def getTraceSetByTracesFilepath(self, traceSetFilePath):
-        """
-        Return an instance of the TraceSet class from the database with
-        the supplied filepath_traces value.
-
-        :returns: None or TraceSet 
-        """
-        return self._session.query(TraceSet).filter_by(
-            filepath_traces=traceSetFilePath
-        ).first()
-
-
-    def getTraceSetsForTargetAndExperiment(self, targetId, experimentId):
-        """
-        Return an iterable of all trace sets associated with the supplied
-        target and experiment.
-        """
-        return self._session.query(TraceSet).filter_by (
-            experimentId = experimentId,
-            targetId     = targetId
-        )
-
-
-    def getStatisticTraceById(self, statisticTraceId):
-        """
-        Return an instance of the StatisticTrace class from the database with
-        the supplied statisticTraceId.
-
-        :returns: None or StatisticTrace 
-        """
-        return self._session.query(StatisticTrace).filter_by(
-            id=statisticTraceId
-        ).first()
-
-
     def removeDevice(self, deviceId):
         """
         Remove the device from the database with the supplied Id,
@@ -399,49 +349,4 @@ class BaseBackend(object):
 
         self._handleAutocommit()
         return None
-    
-    
-    def removeTraceSet(self, traceSetId):
-        """
-        Remove the traceSet from the database with the supplied Id,
-        along with all statistic traces which are derived from it.
-        """
-        
-        self.removeStatisticTracesForTraceSet(traceSetId)
-
-        query = self._session.query(TraceSet).filter_by(id=traceSetId)
-        query.delete()
-        self._handleAutocommit()
-
-    def removeStatisticTracesForTraceSet(self, traceSetId):
-        """
-        Remove all statistic traces associated with the supplied
-        trace set.
-        """
-        query = self._session.query(StatisticTrace).filter_by(
-            traceSetId = traceSetId
-        )
-        query.delete()
-        self._handleAutocommit()
-
-
-    def countStatisticTracesForTraceSet(self, traceSetId):
-        """
-        Return the number of statistic traces associated with
-        the supplied traceSetId
-        """
-        return self._session.query(StatisticTrace).filter(
-            StatisticTrace.traceSetId == traceSetId
-        ).count()
-
-    
-    def removeStatisticTrace(self, statisticTraceId):
-        """
-        Remove the statistic from the database with the supplied Id
-        """
-        assert(False)
-
-        self._handleAutocommit()
-        return None
-
 

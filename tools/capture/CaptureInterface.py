@@ -5,7 +5,7 @@ import logging as log
 import ldb
 import scass
 
-class CaptureOperands(object):
+class CaptureInterface(object):
     """
     Stores everything needed to be passed to an ExperimentFlow module.
 
@@ -105,71 +105,4 @@ class CaptureOperands(object):
         existing databases which already exist with the same matching
         credentials.
         """
-        ac                       = self.database.autocommit
-        self.database.autocommit = False
-
-        db_experiment   = self.dbGetOrInsertExperiment(
-            experiment_catagory, experiment_name
-        )
-
-        db_target       = self.database.getTargetByName(self.target_name)
-        
-        if(db_target == None):
-            log.error("No such target in database: '%s'" % (
-                self.target_name
-            ))
-            return 1
-
-        param_dict      = {}
-
-        for var in ttest.tgt_vars:
-            if(var.is_input and not var.is_ttest_variable and not var.is_randomisable):
-                param_dict[var.name] = var.fixed_value
-
-        param_str       = str(param_dict).rstrip("}").lstrip("{")
-
-        traceset = ldb.records.TraceSet(
-            name            = traceset_name,
-            set_type        = "ttest",
-            filepath_fixed  = ttest.trs_fb_file,
-            filepath_traces = ttest.trs_file,
-            experimentId    = db_experiment.id,
-            targetId        = db_target.id,
-            trace_length    = self.trigger_window_size,
-            parameters      = param_str
-        )
-            
-        pre_existing = self.database.getTraceSetByTracesFilepath(
-            traceset.filepath_traces
-        )
-
-        if(overwrite and pre_existing != None):
-            stattraces = self.database.countStatisticTracesForTraceSet(
-                pre_existing.id
-            )
-
-            log.warn("Removing pre-existing traceset with same file path and %d associated statistic traces." % stattraces)
-
-            self.database.removeTraceSet(pre_existing.id)
-            self.database.commit()
-            
-            stattraces = self.database.countStatisticTracesForTraceSet(
-                pre_existing.id
-            )
-            assert(stattraces == 0),"Failed to remove downstream statistic traces"
-
-        self.database.insertTraceSet(traceset)
-
-        self.database.autocommit = ac
-
-        try:
-            self.database.commit()
-        except Exception as e:
-            log.error("Failed to add traceset '%s' into the database." % (
-                traceset_name))
-            log.error(str(e))
-            return 1
-        
-        log.info("Insert traceset to database: id=%d" % traceset.id)
-
         return 0

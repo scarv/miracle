@@ -20,7 +20,7 @@ sys.path.append(os.path.expandvars("$UAS_ROOT/external/fw-acquisition"))
 import ldb
 import scass
 
-from CaptureOperands import CaptureOperands
+from CaptureInterface import CaptureInterface
 
 def connectToBackend(path, backend):
     """
@@ -104,7 +104,7 @@ def commandCapture(args, ef, db):
 
     log.info("Scope power channel: '%s'" % args.scope_power_channel)
 
-    capops = CaptureOperands(
+    capif = CaptureInterface(
         args, scope, target_name, target_comms, db, args.work_dir
     )
 
@@ -116,13 +116,13 @@ def commandCapture(args, ef, db):
     )
     log.info("Trigger window size: %d" % trigger_window_size)
 
-    capops.trigger_window_size = trigger_window_size
-    capops.scope_power_channel = scope.getChannel(args.scope_power_channel)
+    capif.trigger_window_size = trigger_window_size
+    capif.scope_power_channel = scope.getChannel(args.scope_power_channel)
 
     log.info("Running capture for %s/%s on target %s" % (
         ef.EXPERIMENT_CATAGORY, ef.EXPERIMENT_NAME, target_name))
 
-    result = ef.runCapture(capops)
+    result = ef.runCapture(capif)
 
     log.info("Capture complete for %s/%s on target %s" % (
         ef.EXPERIMENT_CATAGORY, ef.EXPERIMENT_NAME, target_name))

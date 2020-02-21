@@ -21,7 +21,8 @@ ENTITY_DEVICES      = "devices"
 ENTITY_BOARDS       = "boards"
 ENTITY_TARGETS      = "targets"
 ENTITY_EXPERIMENTS  = "experiments"
-ENTITY_TRACESETS    = "trace-sets"
+ENTITY_TTRACESETS   = "ttrace-sets"
+ENTITY_TRACESETBLOBS= "traceset-blobs"
 
 #
 # Possible entity types we can list in the database.
@@ -31,7 +32,8 @@ list_command_options = [
     ENTITY_BOARDS       ,
     ENTITY_TARGETS      ,
     ENTITY_EXPERIMENTS  ,
-    ENTITY_TRACESETS
+    ENTITY_TTRACESETS   ,
+    ENTITY_TRACESETBLOBS
 ]
 
 def connectToBackend(path, backend):
@@ -153,8 +155,11 @@ def commandListEntries(args):
     elif(args.entity == ENTITY_EXPERIMENTS):
         items = backend.getAllExperiments()
     
-    elif(args.entity == ENTITY_TRACESETS):
-        items = backend.getAllTraceSets()
+    elif(args.entity == ENTITY_TTRACESETS):
+        items = backend.getAllTTraceSets()
+    
+    elif(args.entity == ENTITY_TRACESETBLOBS):
+        items = backend.getAllTraceSetBlobs()
 
     else:
         assert(False),"Should be unreachable!"
@@ -488,8 +493,8 @@ def buildArgParser():
         help="Filepath of the traceset from which this statistic trace is derived.")
 
     parser_add_stat.add_argument("--compression", type=str,
-        choices = ldb.records.TRACE_COMPRESSION,
-        default = ldb.records.TRACE_COMPRESSION_NONE,
+        choices = ldb.records.TraceCompression.__members__.items(),
+        default = "NONE",
         help="Whether and how to compress the trace in the database")
     
     parser_add_stat.add_argument("--avg-trace", type=str,nargs="*")
