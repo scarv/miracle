@@ -406,7 +406,21 @@ class BaseBackend(object):
         Remove the traceSet from the database with the supplied Id,
         along with all statistic traces which are derived from it.
         """
+        
+        self.removeStatisticTracesForTraceSet(traceSetId)
+
         query = self._session.query(TraceSet).filter_by(id=traceSetId)
+        query.delete()
+        self._handleAutocommit()
+
+    def removeStatisticTracesForTraceSet(self, traceSetId):
+        """
+        Remove all statistic traces associated with the supplied
+        trace set.
+        """
+        query = self._session.query(StatisticTrace).filter_by(
+            traceSetId = traceSetId
+        )
         query.delete()
         self._handleAutocommit()
 

@@ -105,6 +105,8 @@ class CaptureOperands(object):
         existing databases which already exist with the same matching
         credentials.
         """
+        ac                       = self.database.autocommit
+        self.database.autocommit = False
 
         db_experiment   = self.dbGetOrInsertExperiment(
             experiment_catagory, experiment_name
@@ -149,6 +151,7 @@ class CaptureOperands(object):
             log.warn("Removing pre-existing traceset with same file path and %d associated statistic traces." % stattraces)
 
             self.database.removeTraceSet(pre_existing.id)
+            self.database.commit()
             
             stattraces = self.database.countStatisticTracesForTraceSet(
                 pre_existing.id
@@ -156,6 +159,8 @@ class CaptureOperands(object):
             assert(stattraces == 0),"Failed to remove downstream statistic traces"
 
         self.database.insertTraceSet(traceset)
+
+        self.database.autocommit = ac
 
         try:
             self.database.commit()
