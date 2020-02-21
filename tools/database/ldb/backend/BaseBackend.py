@@ -132,6 +132,30 @@ class BaseBackend(object):
         return None
 
 
+    def insertTTraceSet(self, ttraceset):
+        """
+        Insert a new ttraceset into the database, as described by the
+        ttraceset parameter.
+
+        :returns: None
+        """
+        self._session.add(ttraceset)
+        self._handleAutocommit()
+        return None
+
+
+    def insertTraceSetBlob(self, tracesetblob):
+        """
+        Insert a new TraceSetBlob into the database, as described by the
+        tracesetblob parameter.
+
+        :returns: None
+        """
+        self._session.add(tracesetblob)
+        self._handleAutocommit()
+        return None
+
+
     def getAllDevices(self):
         """
         Return an iterator which will iterate through all devices
@@ -290,7 +314,61 @@ class BaseBackend(object):
             name     = name
         ).first()
 
+
+    def getTTraceSetsById(self, ttraceSetId):
+        """
+        Return an instance of the TTraceSet class from the database with
+        the supplied ttraceSetId.
+
+        :returns: None or TTraceSet
+        """
+        return self._session.query(TTraceSet).filter_by(
+            id=ttraceSetId
+        ).first()
+
+    def getTTraceSetsByTargetAndExperiment(self, targetId, experimentId):
+        """
+        Return the set of TTraces matching the supplied target and experiment
+        ids.
+        """
+        return self._session.query(TTraceSet).filter_by(
+            targetId     = targetId,
+            experimentId = experimentId
+        )
     
+    def getTraceSetBlobById(self, traceSetBlobId):
+        """
+        Return the tracesetBlob object with the supplied ID
+        """
+        return self._session.query(TraceSetBlob).filter_by(
+            id=traceSetBlobId
+        ).first()
+
+    def removeTTraceSet(self, ttraceSetId):
+        """
+        Remove the ttraceset and associated traceset blobs
+        """
+        tset = self.getTTraceSetsById(ttraceSetId)
+
+        self.removeTraceSetBlob(tset.fixedBlobId)
+        self.removeTraceSetBlob(tset.randomBlobId)
+
+        self._session.query(TTraceSet).filter_by(
+            id=ttraceSetId
+        ).delete()
+        self._handleAutocommit()
+
+
+    def removeTraceSetBlob(self, traceSetBlobId):
+        """
+        Remove the ttracesetblob with the supplied id
+        """
+        self._session.query(TraceSetBlob).filter_by(
+            id=traceSetBlobId
+        ).delete()
+        self._handleAutocommit()
+
+
     def removeDevice(self, deviceId):
         """
         Remove the device from the database with the supplied Id,

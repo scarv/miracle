@@ -1,5 +1,6 @@
 
 import io
+import gzip
 
 import numpy as np
 
@@ -20,11 +21,22 @@ class TraceSetBlob(Base):
     __tablename__ = "traceset_blobs"
 
     id          = Column(Integer, primary_key=True)
-    compression = Column(Enum, default = TraceCompression.NONE)
-    trace       = Column(Blob)
+    compression = Column(Enum(TraceCompression), default = TraceCompression.NONE)
+    traces      = Column(Blob)
 
     def __repr__(self):
         return "%5d, %s" % (self.id, self.compression)
+
+
+    def fromTraces(traces, compression = TraceCompression.GZIP):
+        """
+        Create a new TraceSetBlob object from the supplied traces with the
+        specified compression, ready for insertion into the database.
+        """
+        return TraceSetBlob (
+            compression = compression,
+            traces      = TraceSetBlob.compress(traces, compression)
+        )
 
     def compress(traces, compression):
         """
@@ -33,16 +45,15 @@ class TraceSetBlob(Base):
         """
 
         bio = io.BytesIO()
+        
+        np.save(bio, traces)
 
         if(compression == TraceCompression.NONE):
-            np.save(bio, traces)
+            return bio.read()
         if(compression == TraceCompression.GZIP):
-            gzfh = gzip.GzipFile(bio,"w")
-            np.save(gzfh, traces)
+            return gzip.compress(bio.read())
         else:
             raise Exception("Unknown compression type: %s" % compression)
-
-        return bio
 
 
     def decompress(traces_bytes, compression):
@@ -50,7 +61,7 @@ class TraceSetBlob(Base):
         Return an np.ndarray, which is decompressed from the supplied
         traces paramter.
         """
-        assert(isinstance(traces_bytes),bytes)
+        assert(isinstance(traces_bytes,bytes))
 
         bio = io.BytesIO(traces_bytes)
 

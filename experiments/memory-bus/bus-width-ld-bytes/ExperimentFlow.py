@@ -26,13 +26,8 @@ def runCapture(args):
         ttest.reportVariables()
         ttest.performTTest()
 
-        ts_name = "%s_%s_%s_%d_%d" % (
-            EXPERIMENT_CATAGORY,EXPERIMENT_NAME,args.target_name,off,idx
-        )
-
         dbinsert_result = args.dbInsertTTestTraceSet(
             ttest,
-            ts_name,
             EXPERIMENT_CATAGORY,
             EXPERIMENT_NAME
         )

@@ -1,8 +1,12 @@
 
 import os
 import logging as log
+import datetime
 
 import ldb
+
+from ldb.records import TraceSetBlob
+
 import scass
 
 class CaptureInterface(object):
@@ -94,9 +98,22 @@ class CaptureInterface(object):
 
         return record
 
+    def createParamStringFromTTest(ttest):
+        """
+        Creates a string representation of ttest parameter values
+        """
+        param_dict      = {}
+
+        for var in ttest.tgt_vars:
+            if(var.is_input and not var.is_ttest_variable and not var.is_randomisable):
+                param_dict[var.name] = var.fixed_value
+
+        param_str       = str(param_dict).rstrip("}").lstrip("{")
+
+        return param_str
+
     def dbInsertTTestTraceSet(self, 
                               ttest,
-                              traceset_name,
                               experiment_catagory,
                               experiment_name,
                               overwrite = True):
@@ -105,4 +122,71 @@ class CaptureInterface(object):
         existing databases which already exist with the same matching
         credentials.
         """
+        self.database.pushAutoCommit(False)
+
+        db_experiment   = self.dbGetOrInsertExperiment(
+            experiment_catagory, experiment_name
+        )
+
+        db_target       = self.database.getTargetByName(self.target_name)
+        
+        if(db_target == None):
+            log.error("No such target in database: '%s'" % (
+                self.target_name
+            ))
+            return 1
+        
+        param_str = CaptureInterface.createParamStringFromTTest(ttest)
+
+        pre_existing = self.database.getTTraceSetsByTargetAndExperiment (
+            db_target.id, db_experiment.id
+        ).filter_by(parameters = param_str)
+
+        if(pre_existing.count() > 1):
+            log.error("Multiple existing TTraceSet entries for %s - %s/%s" %(
+                db_target.name, db_experiment.catagory, db_experiment.name
+            ))
+            return 1
+
+        elif(pre_existing.count() == 1 and not overwrite):
+            log.error("Pre-existing TTraceSet entry for %s - %s/%s" %(
+                db_target.name, db_experiment.catagory, db_experiment.name
+            ))
+            return 1
+
+        elif(pre_existing.count() == 1 and overwrite):
+            # Delete the old trace sets ready for updating
+            log.warn("Removed pre-existing ttrace set.")
+            self.database.removeTTraceSet(pre_existing.first().id)
+        
+
+        ts_fixed    = TraceSetBlob.fromTraces(ttest.getFixedTraces())
+        ts_rand     = TraceSetBlob.fromTraces(ttest.getRandomTraces())
+
+        self.database.insertTraceSetBlob(ts_fixed)
+        self.database.insertTraceSetBlob(ts_rand)
+
+        self.database.commit()
+
+        ttraceset   = ldb.records.TTraceSet(
+            experimentId    = db_experiment.id,
+            targetId        = db_target.id,
+            fixedBlobId     = ts_fixed.id,
+            randomBlobId    = ts_rand.id,
+            parameters      = param_str
+        )
+
+        self.database.insertTTraceSet(ttraceset)
+
+        self.database.popAutoCommit()
+
+        try:
+            self.database.commit()
+        except Exception as e:
+            log.error("Failed to add traceset into the database.")
+            log.error(str(e))
+            return 1
+        
+        log.info("Inserted TTraceSet to database: id=%d" % ttraceset.id)
+
         return 0
