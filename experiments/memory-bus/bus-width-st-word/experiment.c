@@ -78,7 +78,7 @@ void experiment_setup_scass(
     cfg -> scass_experiment_init = experiment_init;
     cfg -> scass_experiment_run  = experiment_run ;
 
-    cfg -> experiment_name       = "memory/bus-width-st-word";
+    cfg -> experiment_name       = "memory-bus/bus-width-st-word";
 
     cfg -> variables             = experiment_variables ;
     cfg -> num_variables         = 3                    ;

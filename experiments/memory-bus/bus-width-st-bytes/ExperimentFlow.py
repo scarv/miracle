@@ -3,7 +3,7 @@ import os
 import logging as log
 
 EXPERIMENT_CATAGORY = "memory-bus"
-EXPERIMENT_NAME     = "bus-width-ld-bytes"
+EXPERIMENT_NAME     = "bus-width-st-bytes"
 
 def runCapture(args):
     """

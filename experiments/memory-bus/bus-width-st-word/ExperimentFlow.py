@@ -3,16 +3,16 @@ import os
 import logging as log
 
 EXPERIMENT_CATAGORY = "memory-bus"
-EXPERIMENT_NAME     = "bus-width-ld-bytes"
+EXPERIMENT_NAME     = "bus-width-st-word"
 
 def runCapture(args):
     """
     Top level function for running all trace capture processes for this
     experiment.
     """
-    off = 5
+    off = 1
 
-    for idx in range(0,9):
+    for idx in range(0,2):
         log.info("TTEST: offset = %d, idx = %d" % (off, idx))
 
         args.target_comms.doInitExperiment()
