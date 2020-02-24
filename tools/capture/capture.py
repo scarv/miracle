@@ -152,6 +152,10 @@ def buildArgParser():
     parser.add_argument("--verbose","-v",action="store_true",
         help="Turn on verbose logging.")
 
+    parser.add_argument("--log", type=str,
+        help = "Filepath to log too."
+    )
+
     subparsers  = parser.add_subparsers(
         title="Sub-commands",
         dest="command"
@@ -194,10 +198,13 @@ def main():
     parser = buildArgParser()
     args   = parser.parse_args()
 
+    log_level   = log.WARN
+    log_file    = args.log
+
     if(args.verbose):
-        log.basicConfig(level=log.INFO)
-    else:
-        log.basicConfig(level=log.WARN)
+        log_level = log.INFO
+
+    log.basicConfig(filename = log_file, level=log_level)
 
     sys.path.append(os.path.expandvars(args.experiment))
 
