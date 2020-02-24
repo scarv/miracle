@@ -54,15 +54,25 @@ class TraceSetBlob(Base):
         and compressed, ready for storage in the database
         """
         bio = io.BytesIO()
-        
+
         np.save(bio, traces, allow_pickle = True)
 
+        tr = None
+
         if(compression == TraceCompression.NONE):
-            return bio.getvalue()
+            tr = bio.getvalue()
         if(compression == TraceCompression.GZIP):
-            return gzip.compress(bio.getvalue())
+            tr = gzip.compress(bio.getvalue())
         else:
             raise Exception("Unknown compression type: %s" % compression)
+
+        assert(isinstance(tr,bytes)),"Return value of TraceSetBlob.compress() should be of type 'bytes'"
+
+        log.info("Compressed %d bytes down to %d. Ratio = %.2f" % (
+            traces.size, len(tr), len(tr)/traces.size
+        ))
+
+        return tr
 
     def decompress(traces_bytes, compression):
         """
