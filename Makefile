@@ -1,15 +1,30 @@
-
 #
 # Top level makefile for the project
 #
 
-export USB_PORT ?= /dev/ttyUSB0
-export USB_BAUD ?= 9600
+#
+# Used by the SCALE and ChipWhisperer targets, enables re-programmng without
+# using the physical buttons on the boards,
+PROGRAM_WITH_OPENOCD =0
+
+USB_PORT            ?= /dev/ttyUSB0
+USB_BAUD            ?= 9600
+
+TTEST_NUM_TRACES    ?= 1000
+
+SCOPE_CONFIG        ?= $(UAS_ROOT)/target/$(UAS_TARGET)/capture/picoscope5000.cfg
+SCOPE_POWER_CHANNEL ?=B
+
+CAPTURE_ARGS        =
 
 #
-# Used by the SCALE targets, enables re-programmng without using
-# the physical buttons on the boards,
-export PROGRAM_WITH_OPENOCD=0
+# Whether or not to skip trace capture if there is already a comparable trace
+# set in the database.
+SKIP_CAPTURE_IF_PRESENT ?=1
+
+ifeq ($(SKIP_CAPTURE_IF_PRESENT),1)
+CAPTURE_ARGS += --skip-if-present
+endif
 
 # Make all variables available to submake shells.
 export
@@ -66,33 +81,36 @@ docs:
 	mkdir -p $(UAS_BUILD)/docs
 	doxygen docs/experiments.doxyfile
 
-BUILD_TARGETS = 
+DB_CON      = $(UAS_DB) --backend $(UAS_DB_BACKEND)
 
-FLOW_TARGETS  = 
+# CLI tool used to manually interact with the database
+DB_CLI      = $(UAS_ROOT)/tools/database/cli.py $(DB_CON)
+FLOW_CAPTURE= $(UAS_ROOT)/tools/capture/capture.py
 
+#
+# These variables are appended too by the various add_X macros below.
+BUILD_TARGETS        = 
+FLOW_TARGETS         = 
 TGT_ANALYSIS_TARGETS = 
 ALL_ANALYSIS_TARGETS = 
 
+#
+# Makes experiment names direcotry path friendly by removing "/" and
+# replacing with "-" characters.
+#
 define map_exp
 $(subst /,-,${1})
 endef
 
+#
+# Creates a Makefile target name from three inputs:
+#
+# 1 - Command: Should be a verb like "build", "program" or "analyse"
+# 2 - Target Device Name
+# 3 - Experiment Name
+#
 define map_tgt
 ${1}_${2}_$(call map_exp,${3})
-endef
-
-
-#
-# Add an experiment compile/build target for the given target and
-# experiment combination.
-#
-# 1. Target device.
-# 2. Experiment Name.
-#
-define tgt_build
-.PHONY: $(call map_tgt,build,${1},${2})
-$(call map_tgt,build,${1},${2}) :
-	$(MAKE) -f Makefile.build UAS_TARGET=${1} UAS_EXPERIMENT=${2} all
 endef
 
 
@@ -104,8 +122,13 @@ endef
 # 2. Experiment Name.
 #
 define add_tgt_build
-$(call tgt_build,${1},${2})
+
+.PHONY: $(call map_tgt,build,${1},${2})
+$(call map_tgt,build,${1},${2}) :
+	$(MAKE) -f Makefile.build UAS_TARGET=${1} UAS_EXPERIMENT=${2} all
+
 BUILD_TARGETS += $(call map_tgt,build,${1},${2})
+
 endef
 
 
@@ -132,7 +155,19 @@ endef
 define add_tgt_capture
 .PHONY: $(call map_tgt,capture,${1},${2})
 $(call map_tgt,capture,${1},${2}) : $(call map_tgt,program,${1},${2})
-	$(MAKE) -f experiments/${2}/Makefile.capture UAS_TARGET=${1} UAS_EXPERIMENT=${2} capture
+	$(FLOW_CAPTURE)         \
+        --baud $(USB_BAUD)  \
+        --backend $(UAS_DB_BACKEND) \
+        --verbose           \
+        --ttest-traces $(TTEST_NUM_TRACES) \
+        --scope-power-channel $(SCOPE_POWER_CHANNEL) \
+        $(CAPTURE_ARGS) \
+        $(UAS_ROOT)/experiments/${2}     \
+        $(UAS_ROOT)/target/${1}/${1}.cfg \
+        $(UAS_DB)           \
+        $(SCOPE_CONFIG)     \
+        $(USB_PORT)         
+
 endef
 
 
@@ -145,10 +180,13 @@ endef
 #
 define add_tgt_analyse
 $(call map_tgt,analyse,${1},${2}) :
-	$(MAKE) -f experiments/${2}/Makefile.analyse UAS_TARGET=${1} UAS_EXPERIMENT=${2} analyse
+	@echo "Analysis not implemeted for $${@}"
 ALL_ANALYSIS_TARGETS += $(call map_tgt,analyse,${1},${2}) 
 endef
 
+#
+# Utility command which does build, program and capture steps all in one go.
+#
 define add_tgt_flow
 flow-$(call map_exp,${1}) : \
             $(call map_tgt,build,${UAS_TARGET},${1}) \
@@ -162,6 +200,7 @@ define add_tgt_device_test
 test_device_${1} :
 	./external/fw-acquisition/bin/device-test.py -b $(USB_BAUD) $(USB_PORT)
 endef
+
 
 $(foreach EXP,$(EXPERIMENTS), $(eval $(call add_tgt_flow,$(EXP))))
 

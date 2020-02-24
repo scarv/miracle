@@ -19,7 +19,7 @@ class CaptureInterface(object):
     """
 
     def __init__(self,
-            cmd_args, scope, target_name, comms, database, work_dir):
+            cmd_args, scope, target_name, comms, database):
         self.cmd_args            = cmd_args
         self.target_name         = target_name
         self.target_comms        = comms
@@ -28,8 +28,7 @@ class CaptureInterface(object):
         self.num_ttest_traces    = self.cmd_args.ttest_traces
         self.scope_power_channel = None
         self.trigger_window_size = None
-        self.original_work_dir   = work_dir
-        self.work_dir            = work_dir
+        self.skip_if_present     = False
 
     def createTTestCaptureClass(self, variable_values = {}):
         """
@@ -37,8 +36,8 @@ class CaptureInterface(object):
         setting it up with the right input variable values.
         """
         
-        tt_traces = None #os.path.join(self.work_dir,"traces.npy.gz")
-        tt_fixed  = None #os.path.join(self.work_dir,"fixed.npy.gz")
+        tt_traces = None # Set to None to stop traces being written to file
+        tt_fixed  = None
 
         ttest = scass.ttest.TTestCapture(
             self.target_comms,
@@ -73,14 +72,33 @@ class CaptureInterface(object):
         """
         Create a TTestCapture class using createTTestCaptureClass,
         run the ttest and insert the results into self.database
+
+        If self.skip_if_present is set, then we check if an existing TTest
+        with the same experiment/target/parameters is specified, and if so,
+        return immediately.
         """
         assert(isinstance(experiment_catagory,str))
         assert(isinstance(experiment_name,str))
         assert(isinstance(variable_values,dict))
 
-        self.target_comms.doInitExperiment()
-
         ttest = self.createTTestCaptureClass(variable_values=variable_values)
+
+        if(self.skip_if_present):
+            param_string = CaptureInterface.createParamStringFromTTest(ttest)
+
+            ttest_exists = self.checkIfTTestSetExists(
+                experiment_catagory, experiment_name, param_string
+            )
+
+            if(ttest_exists):
+                log.info("TTest for %s/%s:%s with parameters %s already exists. Skipping." % (
+                    experiment_catagory, experiment_name,
+                    self.target_name, param_string
+                ))
+
+                return 0
+
+        self.target_comms.doInitExperiment()
 
         ttest.performTTest()
 
@@ -91,6 +109,33 @@ class CaptureInterface(object):
         )
 
         return dbinsert_result
+
+
+    def checkIfTTestSetExists(self,
+            experiment_catagory,
+            experiment_name,
+            ttest_param_string):
+        """
+        Return true iff a TTest traceset for the supplied experiment, target
+        and parameters already exists. Else return False.
+        """
+        db_experiment   = self.database.getExperimentByCatagoryAndName(
+            experiment_catagory, experiment_name
+        )
+
+        if(db_experiment == None):
+            return False
+
+        db_target       = self.database.getTargetByName(self.target_name)
+
+        if(db_target == None):
+            return False
+        
+        pre_existing = self.database.getTTraceSetsByTargetAndExperiment (
+            db_target.id, db_experiment.id
+        ).filter_by(parameters = ttest_param_string)
+
+        return pre_existing.count() > 0
 
 
     def dbGetOrInsertExperiment(self, experiment_catagory, experiment_name):
