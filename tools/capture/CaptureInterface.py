@@ -65,6 +65,34 @@ class CaptureInterface(object):
         return ttest
 
 
+    def runAndInsertTTest(self,
+            experiment_catagory,
+            experiment_name,
+            variable_values
+        ):
+        """
+        Create a TTestCapture class using createTTestCaptureClass,
+        run the ttest and insert the results into self.database
+        """
+        assert(isinstance(experiment_catagory,str))
+        assert(isinstance(experiment_name,str))
+        assert(isinstance(variable_values,dict))
+
+        self.target_comms.doInitExperiment()
+
+        ttest = self.createTTestCaptureClass(variable_values=variable_values)
+
+        ttest.performTTest()
+
+        dbinsert_result = self.dbInsertTTestTraceSet(
+            ttest,
+            experiment_catagory,
+            experiment_name
+        )
+
+        return dbinsert_result
+
+
     def dbGetOrInsertExperiment(self, experiment_catagory, experiment_name):
         """
         If no experiment with the supplied catagory/name exists, then
@@ -88,6 +116,7 @@ class CaptureInterface(object):
             self.database.commit()
 
         return record
+
 
     def createParamStringFromTTest(ttest):
         """

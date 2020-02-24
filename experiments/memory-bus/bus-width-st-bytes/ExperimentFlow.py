@@ -13,23 +13,13 @@ def runCapture(args):
     off = 5
 
     for idx in range(0,9):
-        log.info("TTEST: offset = %d, idx = %d" % (off, idx))
-
-        args.target_comms.doInitExperiment()
-
         variables = {"off" : off, "idx" : idx}
 
-        ttest = args.createTTestCaptureClass(variables)
-        ttest.performTTest()
-
-        dbinsert_result = args.dbInsertTTestTraceSet(
-            ttest,
-            EXPERIMENT_CATAGORY,
-            EXPERIMENT_NAME
+        args.runAndInsertTTest (
+            EXPERIMENT_CATAGORY ,
+            EXPERIMENT_NAME     ,
+            variables
         )
-
-        if(dbinsert_result != 0):
-            return dbinsert_result
 
     return 0
 
