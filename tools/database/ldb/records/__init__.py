@@ -8,6 +8,7 @@ Base = declarative_base()
 class TraceCompression(enum.Enum):
     NONE    = 1
     GZIP    = 2
+    ZLIB    = 3
 
 class StatTraceType(enum.Enum):
     TTRACE  = 0

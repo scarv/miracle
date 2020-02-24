@@ -1,7 +1,9 @@
 
 import io
 import gzip
+import zlib
 import logging as log
+import datetime
 
 import numpy as np
 
@@ -59,17 +61,27 @@ class TraceSetBlob(Base):
 
         tr = None
 
+        compress_begin = datetime.datetime.now()
+
         if(compression == TraceCompression.NONE):
             tr = bio.getvalue()
-        if(compression == TraceCompression.GZIP):
-            tr = gzip.compress(bio.getvalue())
+
+        elif(compression == TraceCompression.GZIP):
+            tr = gzip.compress(bio.getvalue(), compresslevel = 9)
+
+        elif(compression == TraceCompression.ZLIB):
+            tr = zlib.compress(bio.getvalue(), level = 9)
+
         else:
             raise Exception("Unknown compression type: %s" % compression)
 
+        compress_time = datetime.datetime.now() - compress_begin
+
         assert(isinstance(tr,bytes)),"Return value of TraceSetBlob.compress() should be of type 'bytes'"
 
-        log.info("Compressed %d bytes down to %d. Ratio = %.2f" % (
-            traces.size, len(tr), len(tr)/traces.size
+        log.info("Compressed %d bytes down to %d. Ratio = %.2fx. Took %s using %s compression." % (
+            traces.size, len(tr), len(tr)/traces.size, compress_time,
+            compression.name
         ))
 
         return tr
@@ -87,6 +99,10 @@ class TraceSetBlob(Base):
 
         elif(compression == TraceCompression.GZIP):
             bio = io.BytesIO(gzip.decompress(traces_bytes))
+            return np.load(bio)
+
+        elif(compression == TraceCompression.ZLIB):
+            bio = io.BytesIO(zlib.decompress(traces_bytes))
             return np.load(bio)
 
         else:
