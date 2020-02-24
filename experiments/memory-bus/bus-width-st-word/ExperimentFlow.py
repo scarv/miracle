@@ -12,7 +12,7 @@ def runCapture(args):
     """
     off = 1
 
-    for idx in range(0,2):
+    for idx in range(0,3):
         variables = {"off" : off, "idx" : idx}
 
         args.runAndInsertTTest (
