@@ -31,15 +31,6 @@ class CaptureInterface(object):
         self.original_work_dir   = work_dir
         self.work_dir            = work_dir
 
-    def createWorkDirSub(self, sub):
-        path = os.path.join(self.original_work_dir,sub)
-
-        if(not os.path.isdir(path)):
-            os.mkdir(path)
-            log.info("Created workdir subdirectory: '%s'" % path)
-
-        return path
-
     def createTTestCaptureClass(self, variable_values = {}):
         """
         Boilerplate code for creating a ttest capture object and
