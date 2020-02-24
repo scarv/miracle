@@ -46,8 +46,8 @@ class CaptureInterface(object):
         setting it up with the right input variable values.
         """
         
-        tt_traces = os.path.join(self.work_dir,"traces.npy.gz")
-        tt_fixed  = os.path.join(self.work_dir,"fixed.npy.gz")
+        tt_traces = None #os.path.join(self.work_dir,"traces.npy.gz")
+        tt_fixed  = None #os.path.join(self.work_dir,"fixed.npy.gz")
 
         ttest = scass.ttest.TTestCapture(
             self.target_comms,
