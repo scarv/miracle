@@ -34,5 +34,5 @@ class TTraceSet(Base):
             self.targetId,
             self.fixedBlobId,
             self.randomBlobId,
-            self.parameters
+            self.parameters.rstrip("}").lstrip("{")
         )

@@ -128,7 +128,7 @@ class CaptureInterface(object):
             if(var.is_input and not var.is_ttest_variable and not var.is_randomisable):
                 param_dict[var.name] = var.fixed_value
 
-        param_str       = str(param_dict).rstrip("}").lstrip("{")
+        param_str       = str(param_dict)
 
         return param_str
 
