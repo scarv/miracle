@@ -382,6 +382,8 @@ class BaseBackend(object):
     def removeTraceSetBlob(self, traceSetBlobId):
         """
         Remove the ttracesetblob with the supplied id
+        Will also automatically remove VariableValues entries which are
+        no longer linked too by a TraceSetBlob
         """
         self._session.query(TraceSetBlob).filter_by(
             id=traceSetBlobId

@@ -37,6 +37,7 @@ class TraceSetBlob(Base):
 
     variableValues   = relationship(
         "VariableValues",
+        cascade   = "all",
         secondary = traceset_blob_var_values_association
     )
 
