@@ -4,6 +4,7 @@
 Front-end CLI for the leakage database
 """
 
+import ast
 import sys
 import os
 import gzip
@@ -184,23 +185,23 @@ def showTTraceSet(backend, ttraceSet):
     fixed       = ttraceSet.fixedTraceSet
     random      = ttraceSet.randomTraceSet
 
-    parameters  = dict(ttraceSet.parameters)
+    parameters  = ast.literal_eval(ttraceSet.parameters)
 
     print("TTraceSet captured at %s" % ttraceSet.timestamp)
     print("Experiment: %s" % experiment.name)
     print("Target    : %s" % target.name)
     print("Parameters:")
     for p in parameters:
-        print("- %10s : %s" % (p, parameters[p]))
+        print("- %-7s : %s" % (p, parameters[p]))
 
-    print("Fixed  Traces: %05d traces, %05d long" % fixed.shape)
+    print("Fixed  Traces: %5d traces, %5d long" % fixed.shape)
 
     for var in fixed.variableValues:
-        print("- %5s - %d values" % (var.varname, var.num_values))
+        print("- %-5s id=%d, %d values" % (var.varname, var.id,var.num_values))
 
-    print("Random Traces: %05d traces, %05d long" % random.shape)
+    print("Random Traces: %5d traces, %5d long" % random.shape)
     for var in random.variableValues:
-        print("- %5s - %d values" % (var.varname, var.numpy))
+        print("- %-5s id=%d, %d values" % (var.varname, var.id,var.num_values))
 
     return 0
 
@@ -236,13 +237,20 @@ def commandRemove(args):
 
     if(args.entity == ENTITY_TTRACESETS):
 
-        ttraceSet = backend.getTTraceSetsById(args.id)
+        backend.pushAutoCommit(False)
 
-        if(ttraceSet == None):
-            log.error("No TTraceSet exists with id '%d'" % args.id)
-            return 1
+        for tsid in args.id:
+            ttraceSet = backend.getTTraceSetsById(tsid)
 
-        backend.removeTTraceSet(ttraceSet.id)
+            if(ttraceSet == None):
+                log.error("No TTraceSet exists with id '%d'" % tsid)
+                return 1
+
+            backend.removeTTraceSet(ttraceSet.id)
+
+        backend.popAutoCommit()
+
+        backend.commit()
 
     else:
         log.error("Functionality not implemented: 'show %s'" % args.entity)
@@ -421,7 +429,7 @@ def buildArgParser():
         choices=list_command_options,
         help="What sort of entity type in the database to remove.")
     
-    parser_rm.add_argument("id", type=int,
+    parser_rm.add_argument("id", type=int, nargs="+",
         help="Unique ID of the entity to remove")
 
 

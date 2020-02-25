@@ -259,8 +259,8 @@ class CaptureInterface(object):
         ts_fixed    = TraceSetBlob.fromTraces(ttest.getFixedTraces())
         ts_rand     = TraceSetBlob.fromTraces(ttest.getRandomTraces())
         
-        ts_fixed.variable_values = fixed_variables
-        ts_rand.variable_values  = random_variables
+        ts_fixed.variableValues = fixed_variables
+        ts_rand.variableValues  = random_variables
 
         self.database.insertTraceSetBlob(ts_fixed)
         self.database.insertTraceSetBlob(ts_rand)
