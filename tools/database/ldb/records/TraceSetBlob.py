@@ -19,6 +19,12 @@ traceset_blob_var_values_association = Table (
     Column("variableValuesId", Integer, ForeignKey("variable_values.id"))
 )
 
+traceset_blob_statistic_trace_association = Table (
+    "traceset_blob_statistic_trace_association", Base.metadata,
+    Column("traceSetBlobId", Integer, ForeignKey("traceset_blobs.id")),
+    Column("statisticTraceId", Integer, ForeignKey("statistic_traces.id"))
+)
+
 class TraceSetBlob(Base):
     """
     Represents a single set of numpy traces as a 2D numpy ndarray object.
@@ -34,6 +40,13 @@ class TraceSetBlob(Base):
     traceLen    = Column(Integer, default = 0)
     traceCount  = Column(Integer, default = 0)
     traces      = Column(Binary)
+    
+    statisticTraces = relationship(
+        "StatisticTrace",
+        single_parent = True,
+        cascade   = "all, delete-orphan",
+        secondary = traceset_blob_statistic_trace_association
+    )
 
     variableValues   = relationship(
         "VariableValues",

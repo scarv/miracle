@@ -18,14 +18,19 @@ class TraceCompression(enum.Enum):
     ZLIB    = 3
 
 class StatTraceType(enum.Enum):
-    TTRACE  = 0
-    AVG     = 1
-    STD     = 2
-    MIN     = 3
-    MAX     = 4
-    RNG     = 5
-    HW      = 6
-    HD      = 7
+    TTRACE  = 1
+    AVG     = 2
+    STD     = 3
+    MIN     = 4
+    MAX     = 5
+    RNG     = 6
+    HW      = 7
+    HD      = 8
+
+class CorrolationType(enum.Enum):
+    HAMMING_WEIGHT      = 1
+    HAMMING_DISTANCE    = 2
+    COMPLEX             = 3
 
 def compressNDArray(traces, compression):
     """
@@ -85,11 +90,14 @@ def decompressNDArray(traces_bytes, compression):
     else:
         raise Exception("Unknown compression type: %s" % compression)
 
-from .Device         import Device
-from .Board          import Board
-from .Core           import Core
-from .Target         import Target
-from .Experiment     import Experiment
-from .TTraceSet      import TTraceSet
-from .VariableValues import VariableValues
-from .TraceSetBlob   import TraceSetBlob
+from .Device            import Device
+from .Board             import Board
+from .Core              import Core
+from .Target            import Target
+from .Experiment        import Experiment
+from .TTraceSet         import TTraceSet
+from .VariableValues    import VariableValues
+from .TraceSetBlob      import TraceSetBlob
+from .StatisticTrace    import StatisticTrace
+from .CorrolationTraces import CorrolationTraces
+

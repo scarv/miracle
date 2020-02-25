@@ -21,17 +21,24 @@ class TTraceSet(Base):
     targetId     = Column(Integer,ForeignKey("targets.id"),nullable=False)
     fixedBlobId  = Column(Integer,ForeignKey("traceset_blobs.id"),nullable=False)
     randomBlobId = Column(Integer,ForeignKey("traceset_blobs.id"),nullable=False)
+    ttraceId     = Column(Integer,ForeignKey("statistic_traces.id"))
+
+    tStatisticTrace = relationship("StatisticTrace",
+        foreign_keys = ttraceId,
+        single_parent= True,
+        cascade      = "all, delete-orphan"
+    )
 
     fixedTraceSet = relationship("TraceSetBlob",
-        foreign_keys=fixedBlobId,
-        single_parent=True,
-        cascade = "all, delete-orphan"
+        foreign_keys    = fixedBlobId,
+        single_parent   = True,
+        cascade         = "all, delete-orphan"
     )
 
     randomTraceSet= relationship("TraceSetBlob",
-        foreign_keys=randomBlobId,
-        single_parent=True,
-        cascade = "all, delete-orphan"
+        foreign_keys    = randomBlobId,
+        single_parent   = True,
+        cascade         = "all, delete-orphan"
     )
 
     timestamp    = Column(DateTime, default=datetime.datetime.now)
@@ -47,3 +54,4 @@ class TTraceSet(Base):
             self.randomBlobId,
             self.parameters.rstrip("}").lstrip("{")
         )
+
