@@ -175,6 +175,59 @@ def commandListEntries(args):
     return 0
 
 
+def showTTraceSet(backend, ttraceSet):
+    """
+    Print information on the TTrace set.
+    """
+    experiment  = backend.getExperimentById(ttraceSet.experimentId)
+    target      = backend.getTargetById(ttraceSet.targetId)
+    fixed       = backend.getTraceSetBlobById(ttraceSet.fixedBlobId)
+    random      = backend.getTraceSetBlobById(ttraceSet.randomBlobId)
+
+    parameters  = dict(ttraceSet.parameters)
+
+    print("TTraceSet captured at %s" % ttraceSet.timestamp)
+    print("Experiment: %s" % experiment.name)
+    print("Target    : %s" % target.name)
+    print("Parameters:")
+    for p in parameters:
+        print("- %10s : %s" % (p, parameters[p]))
+
+    print("Fixed  Traces: %05d traces, %05d long" % fixed.shape)
+
+    for var in fixed.variableValues:
+        print("- %5s - %d values" % (var.varname, var.num_values))
+
+    print("Random Traces: %05d traces, %05d long" % random.shape)
+    for var in random.variableValues:
+        print("- %5s - %d values" % (var.varname, var.numpy))
+
+    return 0
+
+
+def commandShow(args):
+    """
+    Show all information on a specific object in the database.
+    """
+    backend = connectToBackend(args.dbpath, args.backend)
+
+    if(args.entity == ENTITY_TTRACESETS):
+
+        ttraceSet = backend.getTTraceSetsById(args.id)
+
+        if(ttraceSet == None):
+            log.error("No TTraceSet exists with id '%d'" % args.id)
+            return 1
+        else:
+            return showTTraceSet(backend, ttraceSet)
+
+    else:
+        log.error("Functionality not implemented: 'show %s'" % args.entity)
+        return 1
+
+    return 0
+
+
 def commandPlot(args):
     """
     Uses Matplotlib to show a simple average trace plot for the supplied
@@ -317,6 +370,21 @@ def buildArgParser():
     
     parser_init.add_argument("--force", action="store_true",
         help="Remove the existing database file if it already exists.")
+
+    #
+    # Arguments for showing information on things
+
+    parser_show = subparsers.add_parser("show",
+        help="Show information on an object in the database")
+    
+    parser_show.set_defaults(func=commandShow)
+
+    parser_show.add_argument("entity", type=str, 
+        choices=list_command_options,
+        help="What sort of entity type in the database to show.")
+    
+    parser_show.add_argument("id", type=int,
+        help="Unique ID of the entity to show")
 
 
     #
