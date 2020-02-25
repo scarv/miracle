@@ -72,7 +72,7 @@ void experiment_setup_scass(
     cfg -> scass_experiment_init = experiment_init;
     cfg -> scass_experiment_run  = experiment_run ;
 
-    cfg -> experiment_name       = "pipeline/regs-xor-lhs";
+    cfg -> experiment_name       = "pipeline/regs-xor-nop";
 
     cfg -> variables             = experiment_variables ;
     cfg -> num_variables         = 2                    ;
