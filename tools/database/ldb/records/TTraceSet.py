@@ -27,6 +27,7 @@ class TTraceSet(Base):
         single_parent=True,
         cascade = "all, delete-orphan"
     )
+
     randomTraceSet= relationship("TraceSetBlob",
         foreign_keys=randomBlobId,
         single_parent=True,

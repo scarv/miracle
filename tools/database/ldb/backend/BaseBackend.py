@@ -1,4 +1,6 @@
 
+import logging as log
+
 import sqlalchemy
 
 from ..records import Device
@@ -8,6 +10,7 @@ from ..records import Target
 from ..records import Experiment
 from ..records import TTraceSet
 from ..records import TraceSetBlob
+from ..records import VariableValues
 
 class BaseBackend(object):
     """
@@ -364,18 +367,17 @@ class BaseBackend(object):
             id=traceSetBlobId
         ).first()
 
+
     def removeTTraceSet(self, ttraceSetId):
         """
         Remove the ttraceset and associated traceset blobs
         """
-        tset = self.getTTraceSetsById(ttraceSetId)
+        log.info("Remove TTraceset with ID=%d" % ttraceSetId)
 
-        self.removeTraceSetBlob(tset.fixedBlobId)
-        self.removeTraceSetBlob(tset.randomBlobId)
+        ttraceSet = self.getTTraceSetsById(ttraceSetId)
 
-        self._session.query(TTraceSet).filter_by(
-            id=ttraceSetId
-        ).delete()
+        self._session.delete(ttraceSet)
+
         self._handleAutocommit()
 
 
@@ -385,9 +387,12 @@ class BaseBackend(object):
         Will also automatically remove VariableValues entries which are
         no longer linked too by a TraceSetBlob
         """
-        self._session.query(TraceSetBlob).filter_by(
-            id=traceSetBlobId
-        ).delete()
+        log.info("Remove TraceSetBlob with ID=%d" % traceSetBlobId)
+
+        traceSetBlob = self.getTraceSetBlobById(traceSetBlobId)
+
+        self._session.delete(traceSetBlob)
+
         self._handleAutocommit()
 
 
