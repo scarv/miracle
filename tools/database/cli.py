@@ -181,8 +181,8 @@ def showTTraceSet(backend, ttraceSet):
     """
     experiment  = backend.getExperimentById(ttraceSet.experimentId)
     target      = backend.getTargetById(ttraceSet.targetId)
-    fixed       = backend.getTraceSetBlobById(ttraceSet.fixedBlobId)
-    random      = backend.getTraceSetBlobById(ttraceSet.randomBlobId)
+    fixed       = ttraceSet.fixedTraceSet
+    random      = ttraceSet.randomTraceSet
 
     parameters  = dict(ttraceSet.parameters)
 
@@ -220,6 +220,29 @@ def commandShow(args):
             return 1
         else:
             return showTTraceSet(backend, ttraceSet)
+
+    else:
+        log.error("Functionality not implemented: 'show %s'" % args.entity)
+        return 1
+
+    return 0
+
+
+def commandRemove(args):
+    """
+    Implements removal operations for entities in the database.
+    """
+    backend = connectToBackend(args.dbpath, args.backend)
+
+    if(args.entity == ENTITY_TTRACESETS):
+
+        ttraceSet = backend.getTTraceSetsById(args.id)
+
+        if(ttraceSet == None):
+            log.error("No TTraceSet exists with id '%d'" % args.id)
+            return 1
+
+        backend.removeTTraceSet(ttraceSet.id)
 
     else:
         log.error("Functionality not implemented: 'show %s'" % args.entity)
@@ -385,6 +408,21 @@ def buildArgParser():
     
     parser_show.add_argument("id", type=int,
         help="Unique ID of the entity to show")
+
+    #
+    # Arguments for manually deleteing things
+
+    parser_rm= subparsers.add_parser("remove",
+        help="Remove an entity (and possible sub-entities) from the database.")
+    
+    parser_rm.set_defaults(func=commandRemove)
+
+    parser_rm.add_argument("entity", type=str, 
+        choices=list_command_options,
+        help="What sort of entity type in the database to remove.")
+    
+    parser_rm.add_argument("id", type=int,
+        help="Unique ID of the entity to remove")
 
 
     #
