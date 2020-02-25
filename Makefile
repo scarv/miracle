@@ -85,7 +85,7 @@ DB_CON      = $(UAS_DB) --backend $(UAS_DB_BACKEND)
 
 # CLI tool used to manually interact with the database
 DB_CLI      = $(UAS_ROOT)/tools/database/cli.py $(DB_CON)
-FLOW_CAPTURE= $(UAS_ROOT)/tools/capture/capture.py
+FLOW_CAPTURE= $(UAS_ROOT)/tools/flow/capture.py
 
 #
 # These variables are appended too by the various add_X macros below.
