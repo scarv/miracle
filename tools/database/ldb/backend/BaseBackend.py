@@ -156,6 +156,18 @@ class BaseBackend(object):
         return None
 
 
+    def insertVariableValues(self, variableValues):
+        """
+        Insert a new VariableValues set into the database, as described by the
+        variableValues parameter.
+
+        :returns: None
+        """
+        self._session.add(variableValues)
+        self._handleAutocommit()
+        return None
+
+
     def getAllDevices(self):
         """
         Return an iterator which will iterate through all devices
@@ -210,6 +222,14 @@ class BaseBackend(object):
         in the database.
         """
         return self._session.query(TraceSetBlob).order_by(TraceSetBlob.id)
+
+
+    def getAllVariableValues(self):
+        """
+        Return an iterator which will iterate through all VariableValues
+        objects in the database.
+        """
+        return self._session.query(VariableValues).order_by(VariableValues.id)
 
 
     def getDeviceById(self, deviceId):

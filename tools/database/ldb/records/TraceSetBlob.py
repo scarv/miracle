@@ -1,16 +1,23 @@
 
 import io
-import gzip
-import zlib
 import logging as log
-import datetime
 
 import numpy as np
 
-from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, Enum, Binary
+from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, Enum, Binary, Table
+from sqlalchemy.orm import relationship
 
 from . import Base
 from . import TraceCompression
+from . import compressNDArray
+from . import decompressNDArray
+
+
+traceset_blob_var_values_association = Table (
+    "traceset_blob_var_values_association", Base.metadata,
+    Column("traceSetBlobId", Integer, ForeignKey("traceset_blobs.id")),
+    Column("variableValuesId", Integer, ForeignKey("variable_values.id"))
+)
 
 class TraceSetBlob(Base):
     """
@@ -27,6 +34,11 @@ class TraceSetBlob(Base):
     traceLen    = Column(Integer, default = 0)
     traceCount  = Column(Integer, default = 0)
     traces      = Column(Binary)
+
+    variableValues   = relationship(
+        "VariableValues",
+        secondary = traceset_blob_var_values_association
+    )
 
     def __repr__(self):
         return "%5d, %s, %5d, %5d" % (
@@ -46,73 +58,16 @@ class TraceSetBlob(Base):
         Create a new TraceSetBlob object from the supplied traces with the
         specified compression, ready for insertion into the database.
         """
+        assert(isinstance(traces, np.ndarray))
         tr = TraceSetBlob ()
         tr.setTraces(traces, compression = compression)
         return tr
-
-    def compress(traces, compression):
-        """
-        Returns a BytesIO object to which the traces have been written
-        and compressed, ready for storage in the database
-        """
-        bio = io.BytesIO()
-
-        np.save(bio, traces, allow_pickle = True)
-
-        tr = None
-
-        compress_begin = datetime.datetime.now()
-
-        if(compression == TraceCompression.NONE):
-            tr = bio.getvalue()
-
-        elif(compression == TraceCompression.GZIP):
-            tr = gzip.compress(bio.getvalue(), compresslevel = 9)
-
-        elif(compression == TraceCompression.ZLIB):
-            tr = zlib.compress(bio.getvalue(), level = 9)
-
-        else:
-            raise Exception("Unknown compression type: %s" % compression)
-
-        compress_time = datetime.datetime.now() - compress_begin
-
-        assert(isinstance(tr,bytes)),"Return value of TraceSetBlob.compress() should be of type 'bytes'"
-
-        log.info("Compressed %d bytes down to %d. Ratio = %.2fx. Took %s using %s compression." % (
-            traces.size, len(tr), len(tr)/traces.size, compress_time,
-            compression.name
-        ))
-
-        return tr
-
-    def decompress(traces_bytes, compression):
-        """
-        Return an np.ndarray, which is decompressed from the supplied
-        traces paramter.
-        """
-        assert(isinstance(traces_bytes,bytes))
-
-        if(compression == TraceCompression.NONE):
-            bio = io.BytesIO(traces_bytes)
-            return np.load(bio)
-
-        elif(compression == TraceCompression.GZIP):
-            bio = io.BytesIO(gzip.decompress(traces_bytes))
-            return np.load(bio)
-
-        elif(compression == TraceCompression.ZLIB):
-            bio = io.BytesIO(zlib.decompress(traces_bytes))
-            return np.load(bio)
-
-        else:
-            raise Exception("Unknown compression type: %s" % compression)
 
     def getTracesAsNdArray(self):
         """
         Return the decompressed traces of this blob as a numpy.NdArray.
         """
-        return TraceSetBlob.decompress(self.traces,self.compression)
+        return decompressNDArray(self.traces,self.compression)
 
     def setTraces(self, traces, compression = TraceCompression.NONE):
         """
@@ -120,8 +75,11 @@ class TraceSetBlob(Base):
         update the traceCount and traceLen fields.
         """
         assert(isinstance(traces, np.ndarray))
+        
         self.traceCount, self.traceLen = traces.shape
-        self.traces     = TraceSetBlob.compress(traces, compression)
+        self.traces     = compressNDArray(traces, compression)
+        
         assert(len(self.traces) > 0),"Trace data length  = 0"
+
         self.compression= compression
 

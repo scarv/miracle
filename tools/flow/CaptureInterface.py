@@ -225,8 +225,42 @@ class CaptureInterface(object):
             self.database.removeTTraceSet(pre_existing.first().id)
         
 
+        fixed_variables   = []
+        random_variables  = []
+
+        for var_name in ttest.tgt_vars_values:
+            var_values = ttest.tgt_vars_values[var_name]
+            var        = ttest.getVariableByName(var_name)
+
+            if(var.is_input == False):
+                continue
+
+            nv_fixed = ldb.records.VariableValues.fromValuesArray(
+                var_name,
+                ttest.getVariableValuesForFixedTraces(var_name)
+            )
+
+            nv_rand  = ldb.records.VariableValues.fromValuesArray(
+                var_name,
+                ttest.getVariableValuesForRandomTraces(var_name)
+            )
+            
+            fixed_variables.append(nv_fixed)
+            random_variables.append(nv_rand)
+
+            self.database.insertVariableValues(nv_fixed)
+            self.database.insertVariableValues(nv_rand)
+
+            log.info("Added variable values for '%s'" % var_name)
+        
+        if(len(fixed_variables) > 0 or len(random_variables) > 0):
+            self.database.commit()
+
         ts_fixed    = TraceSetBlob.fromTraces(ttest.getFixedTraces())
         ts_rand     = TraceSetBlob.fromTraces(ttest.getRandomTraces())
+        
+        ts_fixed.variable_values = fixed_variables
+        ts_rand.variable_values  = random_variables
 
         self.database.insertTraceSetBlob(ts_fixed)
         self.database.insertTraceSetBlob(ts_rand)

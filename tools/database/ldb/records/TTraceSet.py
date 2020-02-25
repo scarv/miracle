@@ -2,6 +2,7 @@
 import datetime
 
 from sqlalchemy import Column, DateTime, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
 
 from . import Base
 
@@ -23,8 +24,6 @@ class TTraceSet(Base):
 
     timestamp    = Column(DateTime, default=datetime.datetime.now)
     parameters   = Column(String, default="")
-
-
 
     def __repr__(self):
         return "%5d, %-16s, %5d, %5d, %5d, %5d, %-40s" % (
