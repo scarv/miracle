@@ -86,6 +86,7 @@ DB_CON      = $(UAS_DB) --backend $(UAS_DB_BACKEND)
 # CLI tool used to manually interact with the database
 DB_CLI      = $(UAS_ROOT)/tools/database/cli.py $(DB_CON)
 FLOW_CAPTURE= $(UAS_ROOT)/tools/flow/capture.py
+FLOW_ANALYSE= $(UAS_ROOT)/tools/flow/analyse.py
 
 #
 # These variables are appended too by the various add_X macros below.
@@ -180,7 +181,12 @@ endef
 #
 define add_tgt_analyse
 $(call map_tgt,analyse,${1},${2}) :
-	@echo "Analysis not implemeted for $${@}"
+	$(FLOW_ANALYSE)     \
+        --verbose       \
+        --backend $(UAS_DB_BACKEND) \
+        $(UAS_DB)       \
+        ${2}            \
+        --targets ${1}
 ALL_ANALYSIS_TARGETS += $(call map_tgt,analyse,${1},${2}) 
 endef
 

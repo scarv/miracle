@@ -12,6 +12,7 @@ from ..records import TTraceSet
 from ..records import TraceSetBlob
 from ..records import VariableValues
 from ..records import StatisticTrace
+from ..records import CorrolationTraces
 
 class BaseBackend(object):
     """
@@ -98,7 +99,7 @@ class BaseBackend(object):
         self._session.add(board)
         self._handleAutocommit()
         return None
-    
+
 
     def insertCore(self, cpu ):
         """
@@ -168,6 +169,18 @@ class BaseBackend(object):
         :returns: None
         """
         self._session.add(variableValues)
+        self._handleAutocommit()
+        return None
+
+
+    def insertCorrolationTrace(self, corrolationTrace):
+        """
+        Insert a new CorrolationTraces object into the database, as described
+        by the corrolationTrace parameter.
+
+        :returns: None
+        """
+        self._session.add(corrolationTrace)
         self._handleAutocommit()
         return None
 
@@ -242,6 +255,14 @@ class BaseBackend(object):
         objects in the database.
         """
         return self._session.query(VariableValues).order_by(VariableValues.id)
+
+
+    def getAllCorrolationTraces(self):
+        """
+        Return an iterator which will iterate through all CorrolationTraces
+        objects in the database.
+        """
+        return self._session.query(CorrolationTraces).order_by(CorrolationTraces.id)
 
 
     def getDeviceById(self, deviceId):
@@ -367,7 +388,8 @@ class BaseBackend(object):
             targetId     = targetId,
             experimentId = experimentId
         )
-    
+
+
     def getTraceSetBlobById(self, traceSetBlobId):
         """
         Return the tracesetBlob object with the supplied ID
@@ -375,7 +397,46 @@ class BaseBackend(object):
         return self._session.query(TraceSetBlob).filter_by(
             id=traceSetBlobId
         ).first()
+    
+    
+    def getCorrolationTraceById(self, corrolationTraceId):
+        """
+        Return the CorrolationTraces object with the supplied ID
+        """
+        return self._session.query(CorrolationTraces).filter_by(
+            id=corrolationTraceId
+        ).first()
 
+
+    def getCorrolationTraceByAll(self,
+        targetId, experimentId, inputTraceSetIds, inputVarIds, corrType
+        ):
+        """
+        Tries to find a corrolation trace corresponding to all of the
+        supplied inputs. Returns it if found, otherwise None
+        """
+
+        q = self._session.query(CorrolationTraces).filter(
+            sqlalchemy.and_(
+                CorrolationTraces.targetId      == targetId,
+                CorrolationTraces.experimentId  == experimentId,
+                CorrolationTraces.corrType      == corrType
+            )
+        )
+
+        for candidate in q.all():
+
+            inSetIds = set([b.id for b in candidate.inputTraceSets])
+
+            if(inSetIds == inputTraceSetIds):
+                
+                inVarIds = set([v.id for v in candidate.inputVariables])
+
+                if(inVarIds == inputVarIds):
+                    return candidate
+
+        return None
+        
 
     def removeTTraceSet(self, ttraceSetId):
         """
@@ -401,6 +462,21 @@ class BaseBackend(object):
         traceSetBlob = self.getTraceSetBlobById(traceSetBlobId)
 
         self._session.delete(traceSetBlob)
+
+        self._handleAutocommit()
+    
+    
+    def removeCorrolationTrace(self, corrolationTraceId):
+        """
+        Remove the corrolationTrace with the supplied id
+        Will also automatically remove statistic trace entries which are
+        no longer linked too.
+        """
+        log.info("Remove CorrolationTrace ID=%d" % corrolationTraceId)
+
+        to_remove = self.getCorrolationTraceById(corrolationTraceId)
+
+        self._session.delete(to_remove)
 
         self._handleAutocommit()
 

@@ -21,3 +21,6 @@ class Experiment(Base):
             self.id, self.catagory, self.name, self.description
         )
 
+    @property
+    def fullname(self):
+        return "%s/%s" % (self.catagory, self.name)

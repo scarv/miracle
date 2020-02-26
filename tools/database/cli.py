@@ -26,6 +26,7 @@ ENTITY_TTRACESETS   = "ttrace-sets"
 ENTITY_TRACESETBLOBS= "traceset-blobs"
 ENTITY_VARIABLEVALUE= "variable-values"
 ENTITY_STAT_TRACES  = "statistic-traces"
+ENTITY_CORR_TRACES  = "corrolation-traces"
 
 #
 # Possible entity types we can list in the database.
@@ -38,7 +39,8 @@ list_command_options = [
     ENTITY_TTRACESETS   ,
     ENTITY_TRACESETBLOBS,
     ENTITY_VARIABLEVALUE,
-    ENTITY_STAT_TRACES
+    ENTITY_STAT_TRACES  ,
+    ENTITY_CORR_TRACES
 ]
 
 def connectToBackend(path, backend):
@@ -171,6 +173,9 @@ def commandListEntries(args):
     
     elif(args.entity == ENTITY_STAT_TRACES):
         items = backend.getAllStatisticTraces()
+    
+    elif(args.entity == ENTITY_CORR_TRACES):
+        items = backend.getAllCorrolationTraces()
 
     else:
         assert(False),"Should be unreachable!"
@@ -244,17 +249,43 @@ def commandRemove(args):
 
         backend.pushAutoCommit(False)
 
-        for tsid in args.id:
-            ttraceSet = backend.getTTraceSetsById(tsid)
+        if(args.all):
 
-            if(ttraceSet == None):
-                log.error("No TTraceSet exists with id '%d'" % tsid)
-                return 1
+            for ts in backend.getAllTTraceSets():
+                backend.removeTTraceSet(ts.id)
 
-            backend.removeTTraceSet(ttraceSet.id)
+        else:
+            for tsid in args.id:
+                ttraceSet = backend.getTTraceSetsById(tsid)
+
+                if(ttraceSet == None):
+                    log.error("No TTraceSet exists with id '%d'" % tsid)
+                    return 1
+
+                backend.removeTTraceSet(ttraceSet.id)
 
         backend.popAutoCommit()
 
+        backend.commit()
+
+    elif(args.entity == ENTITY_CORR_TRACES):
+
+        backend.pushAutoCommit(False)
+
+        if(args.all):
+            for ct in backend.getAllCorrolationTraces():
+                backend.removeCorrolationTrace(ct.id)
+        else:
+            for ctid in args.id:
+                corrtrace = backend.getCorrolationTraceById(ctid)
+
+                if(corrtrace== None):
+                    log.error("No Corrolation Trace exists with id '%d'" % ctid)
+                    return 1
+
+                backend.removeCorrolationTrace(corrtrace.id)
+
+        backend.popAutoCommit()
         backend.commit()
 
     else:
@@ -434,8 +465,13 @@ def buildArgParser():
         choices=list_command_options,
         help="What sort of entity type in the database to remove.")
     
-    parser_rm.add_argument("id", type=int, nargs="+",
+    parser_rm_grp = parser_rm.add_mutually_exclusive_group(required = True)
+    
+    parser_rm_grp.add_argument("--id", type=int, nargs="+",
         help="Unique ID of the entity to remove")
+    
+    parser_rm_grp.add_argument("--all", action="store_true",
+        help="Remove all entities of this type.")
 
 
     #

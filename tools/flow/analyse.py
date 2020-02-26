@@ -11,6 +11,7 @@ import argparse
 import datetime
 import logging  as log
 import configparser
+import importlib
 
 import numpy as np
 
@@ -61,8 +62,9 @@ def loadExperimentModule(experiment_path):
     sys.path.append(experiment_dir)
 
     import ExperimentFlow as ef
+    importlib.invalidate_caches()
 
-    log.info("Loaded experiment module: '%s'" % experiment_path)
+    log.info("Loaded module '%s': '%s'" % (ef.__name__, experiment_path))
 
     sys.path.pop(-1)
 
@@ -99,35 +101,26 @@ def getTargets(db, targetNames):
     return tr
 
 
-def getExperiments(db, experimentNames):
+def getExperiment(db, experimentName):
     """
     Return a list of ldb.records.Experiment objects based on the supplied
-    names. If the supplied list is None, return all experiments.
+    name.
 
-    Returns None if one of the Experiment names does not exist in the database.
+    Returns None if the Experiment name does not exist in the database.
     """
 
-    if(experimentNames == None):
-        return db.getAllExperiments()
+    catagory,name = experimentName.split("/")
+    exp = db.getExperimentByCatagoryAndName(catagory, name)
 
-    tr = []
-    
-    for ename in experimentNames:
+    if(exp == None):
         
-        catagory,name = ename.split("/")
-        exp = db.getExperimentByCatagoryAndName(catagory, name)
+        log.error("No Experiment with catagory '%s' and name '%s' in database."%(catagory, name))
+        
+        return None
 
-        if(exp == None):
-            
-            log.error("No Experiment with catagory '%s' and name '%s' in database."%(catagory, name))
-            
-            return None
+    else:
 
-        else:
-
-            tr.append(exp)
-
-    return tr
+        return exp
 
 
 def buildArgParser():
@@ -157,8 +150,8 @@ def buildArgParser():
     parser.add_argument("--force", action="store_true",
         help="Run the analysis even if it is already present in the database")
 
-    parser.add_argument("--experiments", type=str, nargs="+",
-        help = "Name of the experiments to run the analysis for.")
+    parser.add_argument("experiment", type=str,
+        help = "Name of the experiment to run the analysis for.")
 
     parser.add_argument("--targets", type=str, nargs="+",
         help = "Name of the target devices to run the analysis for.")
@@ -188,32 +181,30 @@ def main():
     if(target_set == None):
         return 1
 
-    experiment_set  = getExperiments(db, args.experiments)
+    experiment      = getExperiment(db, args.experiment)
 
-    if(experiment_set == None):
+    if(experiment == None):
         return 1
 
+    esubpath= "%s/%s" % (experiment.catagory, experiment.name)
+    epath   = os.path.join(args.experiment_base_path, esubpath)
 
-    for experiment in experiment_set:
-        
-        esubpath= "%s/%s" % (experiment.catagory, experiment.name)
-        epath   = os.path.join(args.experiment_base_path, esubpath)
+    emod = loadExperimentModule(epath)
+    log.info(emod.__file__)
 
-        emod = loadExperimentModule(epath)
+    for target in target_set:
 
-        for target in target_set:
+        log.info("Analysing %s/%s for %s" % (
+            experiment.catagory, experiment.name, target.name))
 
-            log.info("Analysing %s/%s for %s" % (
-                experiment.catagory, experiment.name, target.name))
+        aif = AnalysisInterface(
+            db, target, experiment, force = args.force
+        )
 
-            aif = AnalysisInterface(
-                db, target, experiment, force = args.force
-            )
-
-            if(hasattr(emod, "runAnalysis")):
-                emod.runAnalysis(aif)
-            else:
-                aif.runDefaultAnalysis()
+        if(hasattr(emod, "runAnalysis")):
+            emod.runAnalysis(aif)
+        else:
+            aif.runDefaultAnalysis()
 
     return 0
 

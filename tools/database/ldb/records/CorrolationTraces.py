@@ -55,12 +55,19 @@ class CorrolationTraces(Base):
 
     inputVariables  = relationship(
         "VariableValues",
-        cascade     = "all",
         secondary   = corrolation_trace_var_values_association
     )
 
     inputTraceSets  = relationship(
         "TraceSetBlob",
-        cascade     = "all",
         secondary   = corrolation_trace_traceset_blob_association
     )
+
+    def __repr__(self):
+        return "%5d, %5s, %20s, %20s, %20s" %(
+            self.id,
+            self.corrType.name,
+            self.name,
+            self.target.name,
+            self.experiment.catagory+"/"+self.experiment.name,
+        )
