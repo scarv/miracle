@@ -272,7 +272,7 @@ class BaseBackend(object):
 
         :returns: None or Device
         """
-        return self._session.query(Device).filter_by(id=deviceId).first()
+        return self._session.query(Device).filter_by(id=deviceId).one_or_none()
 
 
     def getBoardById(self, boardId):
@@ -282,7 +282,7 @@ class BaseBackend(object):
 
         :returns: None or Board
         """
-        return self._session.query(Board).filter_by(id=boardId).first()
+        return self._session.query(Board).filter_by(id=boardId).one_or_none()
 
 
     def getCoreById(self, coreId):
@@ -292,7 +292,7 @@ class BaseBackend(object):
 
         :returns: None or Core
         """
-        return self._session.query(Core).filter_by(id=coreId).first()
+        return self._session.query(Core).filter_by(id=coreId).one_or_none()
 
 
     def getTargetById(self, targetId):
@@ -302,7 +302,7 @@ class BaseBackend(object):
 
         :returns: None or Target 
         """
-        return self._session.query(Target).filter_by(id=targetId).first()
+        return self._session.query(Target).filter_by(id=targetId).one_or_none()
 
 
     def getDeviceByName(self, deviceName):
@@ -352,7 +352,7 @@ class BaseBackend(object):
 
         :returns: None or Experiment
         """
-        return self._session.query(Experiment).filter_by(id=experimentId).first()
+        return self._session.query(Experiment).filter_by(id=experimentId).one_or_none()
 
     
     def getExperimentByCatagoryAndName(self, catagory, name):
@@ -377,7 +377,7 @@ class BaseBackend(object):
         """
         return self._session.query(TTraceSet).filter_by(
             id=ttraceSetId
-        ).first()
+        ).one_or_none()
 
     def getTTraceSetsByTargetAndExperiment(self, targetId, experimentId):
         """
@@ -396,7 +396,7 @@ class BaseBackend(object):
         """
         return self._session.query(TraceSetBlob).filter_by(
             id=traceSetBlobId
-        ).first()
+        ).one_or_none()
     
     
     def getCorrolationTraceById(self, corrolationTraceId):
@@ -405,7 +405,7 @@ class BaseBackend(object):
         """
         return self._session.query(CorrolationTraces).filter_by(
             id=corrolationTraceId
-        ).first()
+        ).one_or_none()
 
 
     def getCorrolationTraceByAll(self,
