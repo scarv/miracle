@@ -23,6 +23,9 @@ class TTraceSet(Base):
     randomBlobId = Column(Integer,ForeignKey("traceset_blobs.id"),nullable=False)
     ttraceId     = Column(Integer,ForeignKey("statistic_traces.id"))
 
+    target       = relationship("Target")
+    experiment   = relationship("Experiment")
+
     tStatisticTrace = relationship("StatisticTrace",
         foreign_keys = ttraceId,
         single_parent= True,

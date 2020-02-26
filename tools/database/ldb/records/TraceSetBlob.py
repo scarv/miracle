@@ -40,6 +40,12 @@ class TraceSetBlob(Base):
     traceLen    = Column(Integer, default = 0)
     traceCount  = Column(Integer, default = 0)
     traces      = Column(Binary)
+
+    experimentId= Column(Integer,ForeignKey("experiments.id"),nullable=False)
+    targetId    = Column(Integer,ForeignKey("targets.id"),nullable=False)
+    
+    target      = relationship("Target")
+    experiment  = relationship("Experiment")
     
     statisticTraces = relationship(
         "StatisticTrace",
@@ -68,21 +74,41 @@ class TraceSetBlob(Base):
         """
         return (self.traceCount, self.traceLen)
 
-    def fromTraces(traces, compression = TraceCompression.GZIP):
+
+    def fromTraces(
+            traces, 
+            experimentId,
+            targetId,
+            compression = TraceCompression.GZIP):
         """
         Create a new TraceSetBlob object from the supplied traces with the
         specified compression, ready for insertion into the database.
+
+        traces       - The numpy.ndarray representing one trace per row.
+        experimentId - ID of the experiment this trace set is associated with
+        targetId     - The target device these traces are associated with.
+        compression  - What (if any) trace compression to apply.
         """
-        assert(isinstance(traces, np.ndarray))
-        tr = TraceSetBlob ()
+        
+        assert(isinstance(traces        , np.ndarray))
+        assert(isinstance(experimentId  , int       ))
+        assert(isinstance(targetId      , int       ))
+
+        tr = TraceSetBlob (
+            targetId = targetId,
+            experimentId = experimentId
+        )
         tr.setTraces(traces, compression = compression)
+
         return tr
+
 
     def getTracesAsNdArray(self):
         """
         Return the decompressed traces of this blob as a numpy.NdArray.
         """
         return decompressNDArray(self.traces,self.compression)
+
 
     def setTraces(self, traces, compression = TraceCompression.NONE):
         """
