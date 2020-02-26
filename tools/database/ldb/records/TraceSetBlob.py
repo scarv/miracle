@@ -12,6 +12,7 @@ from . import TraceCompression
 from . import compressNDArray
 from . import decompressNDArray
 
+from .CorrolationTraces import corrolation_trace_traceset_blob_association
 
 traceset_blob_var_values_association = Table (
     "traceset_blob_var_values_association", Base.metadata,
@@ -59,6 +60,14 @@ class TraceSetBlob(Base):
         single_parent = True,
         cascade   = "all, delete-orphan",
         secondary = traceset_blob_var_values_association
+    )
+
+    corrolationTraces = relationship (
+        "CorrolationTraces",
+        cascade   = "all, delete-orphan",
+        single_parent = True,
+        secondary = corrolation_trace_traceset_blob_association,
+        back_populates = "inputTraceSets"
     )
 
     def __repr__(self):
