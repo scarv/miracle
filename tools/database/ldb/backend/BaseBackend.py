@@ -11,6 +11,7 @@ from ..records import Experiment
 from ..records import TTraceSet
 from ..records import TraceSetBlob
 from ..records import VariableValues
+from ..records import StatisticTrace
 
 class BaseBackend(object):
     """
@@ -201,6 +202,14 @@ class BaseBackend(object):
         in the database.
         """
         return self._session.query(Target).order_by(Target.id)
+
+
+    def getAllStatisticTraces(self):
+        """
+        Return an iterator which will iterate through all statistic traces 
+        in the database.
+        """
+        return self._session.query(StatisticTrace).order_by(StatisticTrace.id)
 
 
     def getAllExperiments(self):

@@ -25,6 +25,7 @@ ENTITY_EXPERIMENTS  = "experiments"
 ENTITY_TTRACESETS   = "ttrace-sets"
 ENTITY_TRACESETBLOBS= "traceset-blobs"
 ENTITY_VARIABLEVALUE= "variable-values"
+ENTITY_STAT_TRACES  = "statistic-traces"
 
 #
 # Possible entity types we can list in the database.
@@ -36,7 +37,8 @@ list_command_options = [
     ENTITY_EXPERIMENTS  ,
     ENTITY_TTRACESETS   ,
     ENTITY_TRACESETBLOBS,
-    ENTITY_VARIABLEVALUE
+    ENTITY_VARIABLEVALUE,
+    ENTITY_STAT_TRACES
 ]
 
 def connectToBackend(path, backend):
@@ -166,6 +168,9 @@ def commandListEntries(args):
     
     elif(args.entity == ENTITY_VARIABLEVALUE):
         items = backend.getAllVariableValues()
+    
+    elif(args.entity == ENTITY_STAT_TRACES):
+        items = backend.getAllStatisticTraces()
 
     else:
         assert(False),"Should be unreachable!"

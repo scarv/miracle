@@ -207,7 +207,7 @@ def main():
                 experiment.catagory, experiment.name, target.name))
 
             aif = AnalysisInterface(
-                db, target, experiment
+                db, target, experiment, force = args.force
             )
 
             if(hasattr(emod, "runAnalysis")):

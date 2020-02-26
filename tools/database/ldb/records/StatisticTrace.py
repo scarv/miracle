@@ -31,14 +31,16 @@ class StatisticTrace(Base):
             self.id, self.stat_type.name, self.compression
         )
 
-    def fromTraceArray(trace, compression = TraceCompression.GZIP):
+    def fromTraceArray(trace, stat_type, compression = TraceCompression.GZIP):
         """
         Create a new StatisticTrace object from the supplied values with the
         specified compression, ready for insertion into the database.
         """
         assert(isinstance(trace, np.ndarray))
 
-        tr = StatisticTrace ()
+        tr = StatisticTrace (
+            stat_type = stat_type
+        )
         tr.setTraceValues(trace, compression = compression)
 
         return tr
@@ -49,7 +51,7 @@ class StatisticTrace(Base):
         """
         return decompressNDArray(self.trace_bin,self.compression)
 
-    def setTraceValues(self, trace, compression = TraceCompression.NONE):
+    def setTraceValues(self, trace, compression = TraceCompression.GZIP):
         """
         Set the trace_bin field of the record, compressing as needed.
         """
