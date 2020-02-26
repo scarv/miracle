@@ -6,6 +6,9 @@ CMD     = $(CLI) $(DB) $(BACKEND)
 
 DEVICE_CFGS = $(shell find $(UAS_ROOT) -maxdepth 3 -path "*.cfg")
 
+schema-diagram:
+	dot -Tsvg db-schema.dot > $(UAS_BUILD)/db-schema.dot
+
 init-database:
 	$(CMD) -v init --force
 	$(CMD) -v insert-targets --from-cfg $(DEVICE_CFGS)

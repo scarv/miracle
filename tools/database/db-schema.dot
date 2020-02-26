@@ -1,0 +1,37 @@
+
+digraph G {
+
+    nodesep=1
+    ranksep=1
+
+    Board               []
+    Core                []
+    Device              []
+    CorrolationTraces   []
+    Experiment          []
+    StatisticTrace      []
+    Target              []
+    TraceSetBlob        []
+    TTraceSet           []
+    VariableValues      []
+
+    Target -> Core
+    Target -> Board
+    Target -> Device
+
+    TTraceSet -> Experiment
+    TTraceSet -> Target
+    TTraceSet -> TraceSetBlob
+    TTraceSet -> TraceSetBlob
+    TTraceSet -> StatisticTrace
+
+    TraceSetBlob -> VariableValues
+    TraceSetBlob -> StatisticTrace
+
+    CorrolationTraces -> Experiment
+    CorrolationTraces -> Target
+    CorrolationTraces -> StatisticTrace
+    CorrolationTraces -> VariableValues
+    CorrolationTraces -> TraceSetBlob
+
+}
