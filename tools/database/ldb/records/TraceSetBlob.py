@@ -42,6 +42,9 @@ class TraceSetBlob(Base):
     traceCount  = Column(Integer, default = 0)
     traces      = Column(Binary)
 
+    # Frequency of the target device while capturing the traces.
+    targetFreq  = Column(Integer, default = 0)
+
     experimentId= Column(Integer,ForeignKey("experiments.id"),nullable=False)
     targetId    = Column(Integer,ForeignKey("targets.id"),nullable=False)
     
@@ -71,8 +74,8 @@ class TraceSetBlob(Base):
     )
 
     def __repr__(self):
-        return "%5d, %s, %5d, %5d" % (
-            self.id, self.compression, self.traceLen, self.traceCount
+        return "%5d, %7d, %s, %5d, %5d" % (
+            self.id, self.targetFreq, self.compression, self.traceLen, self.traceCount
         )
 
     @property

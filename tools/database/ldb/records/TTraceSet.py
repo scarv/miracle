@@ -25,6 +25,9 @@ class TTraceSet(Base):
 
     target       = relationship("Target")
     experiment   = relationship("Experiment")
+    
+    # Frequency of the target device while capturing the traces.
+    targetFreq  = Column(Integer, default = 0)
 
     tStatisticTrace = relationship("StatisticTrace",
         foreign_keys = ttraceId,
@@ -48,11 +51,12 @@ class TTraceSet(Base):
     parameters   = Column(String, default="")
 
     def __repr__(self):
-        return "%5d, %-16s, %5d, %5d, %5d, %5d, %-40s" % (
+        return "%5d, %-16s, %5d, %5d, %5d, %5d, %5d, %-40s" % (
             self.id,
             self.timestamp,
             self.experimentId,
             self.targetId,
+            self.targetFreq,
             self.fixedBlobId,
             self.randomBlobId,
             self.parameters.rstrip("}").lstrip("{")
