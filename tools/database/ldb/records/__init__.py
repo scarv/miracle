@@ -61,10 +61,10 @@ def compressNDArray(traces, compression):
 
     assert(isinstance(tr,bytes)),"Return value of TraceSetBlob.compress() should be of type 'bytes'"
 
-    log.info("Compressed %d bytes down to %d. Ratio = %.2fx. Took %s using %s compression." % (
-        traces.size, len(tr), len(tr)/traces.size, compress_time,
-        compression.name
-    ))
+    #log.info("Compressed %d bytes down to %d. Ratio = %.2fx. Took %s using %s compression." % (
+    #    traces.size, len(tr), len(tr)/traces.size, compress_time,
+    #    compression.name
+    #))
 
     return tr
 
