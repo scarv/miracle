@@ -1,10 +1,27 @@
 
 import  os
+import  sys
 import  logging as log
 
 from    flask   import Flask
 
 from    config  import DefaultConfig
+
+sys.path.append(os.path.expandvars("$UAS_ROOT/tools/database"))
+
+import  ldb
+
+
+def connectToBackend(path, backend):
+    """
+    Returns an appropriate instance of a database backend based on
+    the supplied path and backend parameters.
+    """
+    if(backend == "sqlite"):
+        return ldb.backend.SQLiteBackend("sqlite:///"+path)
+    else:
+        raise Exception("Unknown backend '%s'" % backend)
+
 
 def create_app(test_config=None):
     # create and configure the app
@@ -21,48 +38,14 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+    db = connectToBackend(app.config["DB_PATH"],app.config["DB_BACKEND"])
+
     import pages
     app.register_blueprint(pages.bp)
     app.add_url_rule('/',endpoint="index")
     
-    import experiments
-    app.register_blueprint(experiments.bp)
-
-    for experiment_results_dir in app.config["EXPERIMENT_DIRS"]:
-        experiments.discoverExperimentsInDirectory(experiment_results_dir)
-
-    log.info("Discovering documentation and code for experiments...")
-
-    for ename in experiments.bp.experiments:
-        gotdocs = experiments.bp.experiments[ename].discoverSourceAndDocs(
-            os.path.join(app.config["UAS_ROOT"],"experiments")
-        )
-        if(not gotdocs):
-            log.warn("Couldn't find documentation for experiment %s" % (
-                ename
-            ))
-
-    import targets
-    app.register_blueprint(targets.bp)
-
-    for target_name in targets.bp.target_devices:
-        targets.bp.target_devices[target_name].discoverExperimentsForTarget(
-            experiments.bp.experiments
-        )
-    
-    experiments.bp.targets = targets.bp.target_devices
-
-    import plot
-    app.register_blueprint(plot.bp)
-    plot.bp.targets     = targets.bp.target_devices
-    plot.bp.experiments = experiments.bp.experiments
-
-    import reports
-    app.register_blueprint(reports.bp)
-    reports.bp.targets     = targets.bp.target_devices
-    reports.bp.experiments = experiments.bp.experiments
-
     return app
+
 
 def main():
     app = create_app()
