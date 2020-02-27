@@ -40,9 +40,13 @@ class CorrolationTraces(Base):
     experimentId= Column(Integer,ForeignKey("experiments.id"),nullable=False)
     targetId    = Column(Integer,ForeignKey("targets.id"),nullable=False)
     corrType    = Column(Enum(CorrolationType),nullable=False)
-    
+    parameters   = Column(String, default="")
     target      = relationship("Target")
     experiment  = relationship("Experiment")
+
+    @property
+    def parameterDict(self):
+        return ast.literal_eval(self.parameters)
 
     statisticTraceid = Column(Integer,
         ForeignKey("statistic_traces.id"),nullable=False)

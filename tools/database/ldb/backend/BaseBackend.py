@@ -425,12 +425,24 @@ class BaseBackend(object):
             id=ttraceSetId
         ).one_or_none()
 
+
     def getTTraceSetsByTargetAndExperiment(self, targetId, experimentId):
         """
         Return the set of TTraces matching the supplied target and experiment
         ids.
         """
         return self._session.query(TTraceSet).filter_by(
+            targetId     = targetId,
+            experimentId = experimentId
+        )
+
+
+    def getCorrolationTraceByTargetAndExperiment(self, targetId, experimentId):
+        """
+        Return the set of CorrolationTraces matching the supplied target and
+        experiment ids.
+        """
+        return self._session.query(CorrolationTraces).filter_by(
             targetId     = targetId,
             experimentId = experimentId
         )

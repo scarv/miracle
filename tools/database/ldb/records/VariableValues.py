@@ -25,6 +25,11 @@ class VariableValues(Base):
     varname     = Column(String, nullable = False)
     num_values  = Column(Integer, default = 0)
     values_bin  = Column(Binary)
+
+    is_input    = Column(Boolean, nullable=False)
+    is_output   = Column(Boolean, nullable=False)
+    is_randomisable = Column(Boolean, nullable=False)
+    is_ttest_var= Column(Boolean, nullable=False)
     
     @property
     def is_fixed(self):

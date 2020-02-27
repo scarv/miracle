@@ -239,11 +239,19 @@ class CaptureInterface(object):
                 var_name,
                 ttest.getVariableValuesForFixedTraces(var_name)
             )
+            nv_fixed.is_input   = var.is_input
+            nv_fixed.is_output  = var.is_output
+            nv_fixed.is_randomisable = var.is_randomisable
+            nv_fixed.is_ttest_var    = var.is_ttest_variable
 
             nv_rand  = ldb.records.VariableValues.fromValuesArray(
                 var_name,
                 ttest.getVariableValuesForRandomTraces(var_name)
             )
+            nv_rand.is_input   = var.is_input
+            nv_rand.is_output  = var.is_output
+            nv_rand.is_randomisable = var.is_randomisable
+            nv_rand.is_ttest_var    = var.is_ttest_variable
             
             fixed_variables.append(nv_fixed)
             random_variables.append(nv_rand)

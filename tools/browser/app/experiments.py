@@ -63,10 +63,20 @@ def show_results(eid,tid):
     experiment = db.getExperimentById(eid)
     target     = db.getTargetById(tid)
 
+    ttests     = db.getTTraceSetsByTargetAndExperiment(
+        target.id, experiment.id
+    )
+
+    corrs      = db.getCorrolationTraceByTargetAndExperiment (
+        target.id, experiment.id
+    )
+
     template = render_template(
-        "experiments/results.html" ,
-        target     = target    ,
-        experiment = experiment 
+        "experiments/results.html"  ,
+        target     = target         ,
+        experiment = experiment     ,
+        ttests     = ttests         ,
+        corrs      = corrs
     )
 
     db_close()

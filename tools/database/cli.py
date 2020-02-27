@@ -96,7 +96,8 @@ def commandInsertTargets(args):
     if(args.from_cfg):
 
         backend = connectToBackend(args.dbpath, args.backend)
-        backend.autocommit = False
+
+        backend.pushAutoCommit(False)
 
         for cfg_path in args.from_cfg:
             cfg    = configparser.ConfigParser()
@@ -109,16 +110,19 @@ def commandInsertTargets(args):
             if(backend.getCoreByName(core.name) == None):
                 backend.insertCore(core)
             else:
+                core = backend.getCoreByName(core.name)
                 log.warn("Skipping core '%s', already exists." % core.name)
 
             if(backend.getBoardByName(board.name) == None):
                 backend.insertBoard(board)
             else:
+                board = backend.getBoardByName(board.name)
                 log.warn("Skipping board '%s', already exists." % board.name)
 
             if(backend.getDeviceByName(device.name) == None):
                 backend.insertDevice(device)
             else:
+                device = backend.getDeviceByName(device.name)
                 log.warn("Skipping device '%s', already exists." % device.name)
 
             target  = ldb.records.Target.fromCFGDict(
@@ -131,6 +135,8 @@ def commandInsertTargets(args):
                 log.warn("Skipping target '%s', already exists." % target.name)
 
             backend.commit()
+
+        backend.popAutoCommit()
 
     else:
         log.warn("No target information to insert!")

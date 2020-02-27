@@ -1,4 +1,5 @@
 
+import ast
 import datetime
 
 from sqlalchemy import Column, DateTime, Integer, String, ForeignKey
@@ -49,6 +50,10 @@ class TTraceSet(Base):
 
     timestamp    = Column(DateTime, default=datetime.datetime.now)
     parameters   = Column(String, default="")
+
+    @property
+    def parameterDict(self):
+        return ast.literal_eval(self.parameters)
 
     def __repr__(self):
         return "%5d, %-16s, %5d, %5d, %5d, %5d, %5d, %-40s" % (
