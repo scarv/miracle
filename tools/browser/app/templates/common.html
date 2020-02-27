@@ -1,0 +1,149 @@
+
+{% macro targets_list_table(targets) -%}
+
+<table class="list_table">
+<tr>
+<th>Target Name</th>
+<th>Core</th>
+<th>Device</th>
+<th>Board</th>
+<th>Description</th>
+</tr>
+{% for target in targets %}
+    <tr>
+    <td>
+    <a href="{{url_for("targets.show_target",id=target.id)}}">{{target.name}}</a>
+    </td>
+    <td> {% if target.core %}
+    <a href="{{url_for("targets.show_core",id=target.core.id)}}">{{target.core.name}}</a>
+    {% endif %} </td>
+    <td> {% if target.device %}
+    <a href="{{url_for("targets.show_device",id=target.device.id)}}">{{target.device.name}}</a>
+    {% endif %} </td>
+    <td> {% if target.board %}
+    <a href="{{url_for("targets.show_board",id=target.board.id)}}">{{target.board.name}}</a>
+    {% endif %} </td>
+    <td>{{target.description}}</td>
+    </tr>
+{% endfor %}
+</table>
+
+{%- endmacro %}
+
+
+{% macro experiments_list_table(experiments) -%}
+
+<table class="list_table">
+<tr>
+<th>Catagory</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+{% for experiment in experiments %}
+<tr>
+<td>{{experiment.catagory}}</td>
+<td>{{experiment.name}}</td>
+<td>{{experiment.description}}</td>
+</tr>
+{% endfor %}
+</table>
+
+{%- endmacro %}
+
+
+{% macro board_info_table(board) -%}
+
+<table class="list_table">
+<tr>
+<th>Field</th>
+<th>Value</th>
+<tr>
+<tr>
+<td>Name</td>
+<td>{% if board.product_link %}
+    <a target="_blank" href="{{board.product_link}}">
+    {{board.name}}</a>
+    {% else %}
+    {{board.name}}
+    {% endif %}
+</td>
+</tr>
+<td>Description</td>
+<td>{{board.description}}</a></td>
+</tr>
+<tr>
+<td>Manufacturer</td>
+<td>{{board.manufacturer}}</td>
+</tr>
+</table>
+
+{%- endmacro %}
+
+
+
+{% macro core_info_table(core) -%}
+
+<table class="list_table">
+<tr>
+<th>Field</th>
+<th>Value</th>
+<tr>
+<tr>
+<td>Name</td>
+<td><a target="_blank" href="{{core.product_link}}">
+{{core.name}}</a></td>
+</tr>
+<td>Architecture</td>
+<td><a target="_blank" href="{{core.architecture_link}}">
+{{core.architecture_name}}</a></td>
+</tr>
+<tr>
+<td>Manufacturer</td>
+<td><a target="_blank" href="{{core.manufacturer_link}}">
+{{core.manufacturer_name}}</a></td>
+</tr>
+<tr>
+<td>Type</td>
+<td>{{core.coretype}}</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>{{core.description}}</td>
+</tr>
+</table>
+
+{%- endmacro %}
+
+
+{% macro device_info_table(device) -%}
+
+<table class="list_table">
+<tr>
+<th>Field</th>
+<th>Value</th>
+<tr>
+<tr>
+<td>Name</td>
+<td>{% if device.product_link %}
+    <a target="_blank" href="{{device.product_link}}">
+    {{device.name}}</a>
+    {% else %}
+    {{device.name}}
+    {% endif %}
+</td>
+</tr>
+<td>Description</td>
+<td>{{device.description}}</a></td>
+</tr>
+<tr>
+<td>Manufacturer</td>
+<td>{{device.manufacturer}}</td>
+</tr>
+<tr>
+<td>Datasheet</td>
+<td><a target="_blank" href="{{device.datasheet_link}}">
+Download</a></td>
+</tr>
+</table>
+
+{%- endmacro %}

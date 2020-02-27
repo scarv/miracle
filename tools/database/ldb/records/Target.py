@@ -1,5 +1,6 @@
 
 from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
 
 from . import Base
 
@@ -14,9 +15,13 @@ class Target(Base):
     id              = Column(Integer, primary_key=True)
     name            = Column(String, unique=True)
     description     = Column(String)
-    deviceid        = Column(Integer, ForeignKey("devices.id"))
-    boardid         = Column(Integer, ForeignKey("boards.id"))
-    coreid          = Column(Integer, ForeignKey("cores.id"))
+    deviceid        = Column(Integer, ForeignKey("devices.id"), nullable=False)
+    boardid         = Column(Integer, ForeignKey("boards.id") , nullable=False)
+    coreid          = Column(Integer, ForeignKey("cores.id")  , nullable=False)
+
+    board           = relationship("Board", cascade="all")
+    core            = relationship("Core", cascade="all")
+    device          = relationship("Device", cascade="all")
     
 
     def __repr__(self):

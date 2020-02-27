@@ -357,7 +357,39 @@ class BaseBackend(object):
         """
         return self._session.query(Experiment).filter_by(id=experimentId).one_or_none()
 
+
+
+    def getTargetsByDevice(self, deviceId):
+        """
+        Return all of the targets where deviceid matches the supplied deviceId 
+        """
+        return self._session.query(Target).filter_by(deviceid=deviceId).all()
+
+
+    def getTargetsByCore(self, coreId):
+        """
+        Return all of the targets where coreid matches the supplied coreId
+        """
+        return self._session.query(Target).filter_by(coreid=coreId).all()
+
+
+    def getTargetsByBoard(self, boardId):
+        """
+        Return all of the targets where boardid matches the supplied boardId
+        """
+        return self._session.query(Target).filter_by(boardid=boardId).all()
     
+
+    def getExperimentsByTarget(self, targetId):
+        """
+        Return the set of experiments for which there are results
+        corresponding to the supplied targetId
+        """
+        eids = self._session.query(TraceSetBlob.experimentId).filter_by(
+                targetId = targetId).distinct().all()
+        eids = [x[0] for x in eids]
+        return self._session.query(Experiment).filter(Experiment.id.in_(eids))
+
     def getExperimentByCatagoryAndName(self, catagory, name):
         """
         Return an instance of the Experiment class from the database
