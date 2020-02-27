@@ -1,5 +1,5 @@
 
-{% macro targets_list_table(targets) -%}
+{% macro targets_list_table(targets, experiment=None) -%}
 
 <table class="list_table">
 <tr>
@@ -8,6 +8,9 @@
 <th>Device</th>
 <th>Board</th>
 <th>Description</th>
+{% if experiment %}
+<th>Experiment</th>
+{% endif %}
 </tr>
 {% for target in targets %}
     <tr>
@@ -24,6 +27,12 @@
     <a href="{{url_for("targets.show_board",id=target.board.id)}}">{{target.board.name}}</a>
     {% endif %} </td>
     <td>{{target.description}}</td>
+{% if experiment %}
+    <td>
+    <a href="{{url_for("experiments.show_experiment",id=experiment.id)}}">Details</a>,
+    <a href="{{url_for("experiments.show_results", eid=experiment.id, tid=target.id)}}">Results</a>
+    </td>
+{% endif %}
     </tr>
 {% endfor %}
 </table>
@@ -31,19 +40,27 @@
 {%- endmacro %}
 
 
-{% macro experiments_list_table(experiments) -%}
+{% macro experiments_list_table(experiments, target=None) -%}
 
 <table class="list_table">
 <tr>
 <th>Catagory</th>
 <th>Name</th>
 <th>Description</th>
+{% if target %}
+<th>Results</th>
+{% endif %}
 </tr>
 {% for experiment in experiments %}
 <tr>
 <td>{{experiment.catagory}}</td>
-<td>{{experiment.name}}</td>
+<td><a href="{{url_for("experiments.show_experiment",id=experiment.id)}}">{{experiment.name}}</a></td>
 <td>{{experiment.description}}</td>
+{% if target %}
+<td>
+<a href="{{url_for("experiments.show_results",eid=experiment.id,tid=target.id)}}">View</a>
+</td>
+{% endif %}
 </tr>
 {% endfor %}
 </table>

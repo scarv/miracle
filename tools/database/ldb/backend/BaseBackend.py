@@ -358,7 +358,6 @@ class BaseBackend(object):
         return self._session.query(Experiment).filter_by(id=experimentId).one_or_none()
 
 
-
     def getTargetsByDevice(self, deviceId):
         """
         Return all of the targets where deviceid matches the supplied deviceId 
@@ -389,6 +388,18 @@ class BaseBackend(object):
                 targetId = targetId).distinct().all()
         eids = [x[0] for x in eids]
         return self._session.query(Experiment).filter(Experiment.id.in_(eids))
+
+
+    def getTargetsByExperiment(self, experimentId):
+        """
+        Return the set of targets for which there are results
+        corresponding to the supplied experimentId 
+        """
+        tids = self._session.query(TraceSetBlob.targetId).filter_by(
+                experimentId = experimentId).distinct().all()
+        tids = [x[0] for x in tids]
+        return self._session.query(Target).filter(Target.id.in_(tids))
+
 
     def getExperimentByCatagoryAndName(self, catagory, name):
         """

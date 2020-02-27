@@ -34,6 +34,9 @@ def create_app(test_config=None):
 
     import targets
     app.register_blueprint(targets.bp)
+
+    import experiments
+    app.register_blueprint(experiments.bp)
     
     return app
 
