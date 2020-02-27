@@ -5,22 +5,12 @@ import  logging as log
 
 from    flask   import Flask
 
-from    config  import DefaultConfig
-
 sys.path.append(os.path.expandvars("$UAS_ROOT/tools/database"))
 
-import  ldb
+from    config  import DefaultConfig
 
+from    db      import db_connect
 
-def connectToBackend(path, backend):
-    """
-    Returns an appropriate instance of a database backend based on
-    the supplied path and backend parameters.
-    """
-    if(backend == "sqlite"):
-        return ldb.backend.SQLiteBackend("sqlite:///"+path)
-    else:
-        raise Exception("Unknown backend '%s'" % backend)
 
 
 def create_app(test_config=None):
@@ -38,11 +28,12 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    db = connectToBackend(app.config["DB_PATH"],app.config["DB_BACKEND"])
-
     import pages
     app.register_blueprint(pages.bp)
     app.add_url_rule('/',endpoint="index")
+
+    import targets
+    app.register_blueprint(targets.bp)
     
     return app
 

@@ -30,6 +30,9 @@ class BaseBackend(object):
 
         self._autocommit    = [autocommit]
 
+    def close(self):
+        self._session.close()
+
     @property
     def autocommit(self):
         """

@@ -27,23 +27,12 @@ circuit boards to be captured.
 <table class="list_table">
 <tr>
 <th>Target Name</th>
-<th>Type</th>
-<th>Device Name</th>
-<th>Board Name</th>
-<th>CPU Architecture</th>
-<th>CPU Core</th>
-<th>Pipeline Depth</th>
+<th>Description</th>
 </tr>
-{% for tname in targets.keys() | sort %}
-    {% set target = targets[tname] %}
+{% for target in targets %}
     <tr>
-    <td><a href="{{url_for("targets.target_landing_page",target_name=target.target_name)}}">{{target.target_name}}</a></td>
-    <td>{{target.target_implementation}}</td>
-    <td>{{target.device_manufacturer_name}} {{target.device_name}}</td>
-    <td>{{target.board_name}}</td>
-    <td>{{target.cpu_arch_name}}</td>
-    <td>{{target.cpu_core_name}}</td>
-    <td>{{target.cpu_pipeline_depth}}</td>
+    <td>{{target.name}}</td>
+    <td>{{target.description}}</td>
     </tr>
 {% endfor %}
 </table>
