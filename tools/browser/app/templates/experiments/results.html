@@ -22,7 +22,7 @@
 <th>Trace<br/>Length</th>
 <th>Target<br/>Frequency</th>
 <th>Download<br/>Traces</th>
-<th>Plot</th>
+<th>TStatistic</th>
 </tr>
 {% for ttest in ttests %}
 <tr>
@@ -42,7 +42,12 @@
     Fixed,
     Random
 </td>
-<td>TStatistic</td>
+<td>
+{% if ttest.statisticTrace %}
+Plot,
+Download
+{% endif %}
+</td>
 </tr>
 {% endfor %}
 </table>
@@ -55,7 +60,7 @@
 <td>Type</td>
 <td>Variables</td>
 <td>Parameters</td>
-<td>Plot</td>
+<td>Trace</td>
 </tr>
 {% for corr in corrs %}
 <tr>
@@ -71,7 +76,10 @@
 {{param}}={{corr.parameterDict[param]}},
 {% endfor %}
 </td>
-<td>Trace</td>
+<td>
+Plot,
+Download
+</td>
 </tr>
 {% endfor %}
 </table>

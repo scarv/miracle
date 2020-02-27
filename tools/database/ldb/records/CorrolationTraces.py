@@ -1,4 +1,5 @@
 
+import ast
 import io
 import logging as log
 import datetime
@@ -46,7 +47,10 @@ class CorrolationTraces(Base):
 
     @property
     def parameterDict(self):
-        return ast.literal_eval(self.parameters)
+        if(self.parameters):
+            return ast.literal_eval(self.parameters)
+        else:
+            return {}
 
     statisticTraceid = Column(Integer,
         ForeignKey("statistic_traces.id"),nullable=False)
