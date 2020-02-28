@@ -1,0 +1,22 @@
+{% extends 'master.html' %}
+{% import "common.html" as common %}
+
+{% block header %}
+<h1>View {{plotType}} Plot</h1>
+{% endblock %}
+
+{% block content %}
+
+<p>
+<ul>
+<li>Experiment: {{common.link_experiment(experiment)}}</li>
+<li>Target: {{common.link_target(target)}}</li>
+</ul>
+</p>
+
+<img src="{{url_for("plot.render_statistic_trace",tid=stid)}}"/>
+
+{% endblock %}
+
+
+

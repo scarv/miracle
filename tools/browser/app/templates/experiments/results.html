@@ -46,7 +46,7 @@
 </td>
 <td>
 {% if ttest.tStatisticTrace %}
-Plot,
+<a href="{{url_for("plot.plot_view_tstatistic",tid=ttest.id)}}">Plot</a>,
 Download
 {% endif %}
 </td>

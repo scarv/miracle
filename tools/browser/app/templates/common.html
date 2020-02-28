@@ -1,4 +1,12 @@
 
+{% macro link_target(target) -%}
+<a href="{{url_for("targets.show_target",id=target.id)}}">{{target.name}}</a>
+{%- endmacro %}
+
+{% macro link_experiment(experiment) -%}
+<a href="{{url_for("experiments.show_experiment",id=experiment.id)}}">{{experiment.fullname}}</a>
+{%- endmacro %}
+
 {% macro targets_list_table(targets, experiment=None) -%}
 
 <table class="list_table">

@@ -9,10 +9,6 @@ sys.path.append(os.path.expandvars("$UAS_ROOT/tools/database"))
 
 from    config  import DefaultConfig
 
-from    db      import db_connect
-
-
-
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
@@ -37,6 +33,9 @@ def create_app(test_config=None):
 
     import experiments
     app.register_blueprint(experiments.bp)
+
+    import plot
+    app.register_blueprint(plot.bp)
     
     return app
 
