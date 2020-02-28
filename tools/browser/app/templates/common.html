@@ -116,7 +116,7 @@ Download
 {% for ttest in ttests %}
 <tr>
 <td>{{ttest.id}}</td>
-<td>{{ttest.timestamp}}</td>
+<td>{{ttest.timestamp.strftime('%Y-%m-%d %H:%M')}}</td>
 <td>
 {% for param in ttest.parameterDict %}
 {{param}}={{ttest.parameterDict[param]}},
