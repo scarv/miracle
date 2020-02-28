@@ -356,6 +356,16 @@ class BaseBackend(object):
         :returns: None or Experiment
         """
         return self._session.query(Experiment).filter_by(id=experimentId).one_or_none()
+    
+    
+    def getStatisticTraceById(self, sid):
+        """
+        Return an instance of the StatisticTrace class from the database with
+        the supplied sid.
+
+        :returns: None or StatisticTrace
+        """
+        return self._session.query(StatisticTrace).filter_by(id=sid).one_or_none()
 
 
     def getTargetsByDevice(self, deviceId):

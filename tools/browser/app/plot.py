@@ -1,11 +1,57 @@
 
-from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for
-)
+import io
+
+from flask import Blueprint, flash, g, redirect, render_template
+from flask import request, url_for, make_response
+
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.figure import Figure
+from matplotlib.dates import DateFormatter
 
 from db import db_connect, db_close
 
 bp = Blueprint('plot', __name__, url_prefix="/plot")
+
+def makePlotFigure(
+        straces,
+        slabels=[],
+        title=""
+    ):
+    """
+    Given a list of satistic traces, create a plot of them.
+    """
+    fig = Figure(figsize=(10,5))
+
+    for s in straces:
+
+        ax  = fig.add_subplot(1,1,1)
+        
+        ax.plot(s, linewidth=0.15)
+
+    fig.tight_layout()
+    
+    if(title and title!=""):
+        fig.suptitle(title)
+
+    return fig
+
+    
+def makePlotResponse(figure, imgtype="png"):
+    """
+    Return a Flask response object containing the rendered image.
+    """
+    sio     = io.BytesIO()
+
+    canvas  = FigureCanvas(figure)
+
+    canvas.print_png(sio)
+
+    rsp     = make_response(sio.getvalue())
+
+    rsp.headers["Content-Type"] = "image/%s" % imgtype
+
+    return rsp
+
 
 @bp.route("/ttrace/<int:tid>")
 def plot_view_tstatistic(tid):
@@ -43,4 +89,16 @@ def render_statistic_trace(tid):
 
     db          = db_connect()
 
+    strace      = db.getStatisticTraceById(tid)
+    nptrace     = strace.getValuesAsNdArray()
+
+    figure      = makePlotFigure(
+        [nptrace],[],""
+    )
+
+    rsp         = makePlotResponse(figure)
+
     db_close()
+    
+    return rsp
+
