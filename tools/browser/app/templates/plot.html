@@ -14,6 +14,10 @@
 </ul>
 </p>
 
+<p>
+{{ common.ttests_list_table([ttest]) }}
+<p>
+
 <img src="{{url_for("plot.render_statistic_trace",tid=stid)}}"/>
 
 {% endblock %}

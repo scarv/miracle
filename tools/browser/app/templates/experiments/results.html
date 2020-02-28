@@ -14,81 +14,11 @@
 
 <h2>TTest Result Sets</h2>
 
-<table class="list_table">
-<tr>
-<th>ID</th>
-<th>Timestamp</th>
-<th>Parameters</th>
-<th>Trace count<br/>Fixed/Random</th>
-<th>Trace<br/>Length</th>
-<th>Target<br/>Frequency</th>
-<th>Download<br/>Traces</th>
-<th>TStatistic</th>
-</tr>
-{% for ttest in ttests %}
-<tr>
-<td>{{ttest.id}}</td>
-<td>{{ttest.timestamp}}</td>
-<td>
-{% for param in ttest.parameterDict %}
-{{param}}={{ttest.parameterDict[param]}},
-{% endfor %}
-</td>
-<td>
-{{ttest.fixedTraceSet.traceCount}} /
-{{ttest.randomTraceSet.traceCount}}
-</td>
-<td>{{ttest.fixedTraceSet.traceLen}}</td>
-<td>{{ttest.targetFreq}}</td>
-<td>
-    Fixed,
-    Random
-</td>
-<td>
-{% if ttest.tStatisticTrace %}
-<a href="{{url_for("plot.plot_view_tstatistic",tid=ttest.id)}}">Plot</a>,
-Download
-{% endif %}
-</td>
-</tr>
-{% endfor %}
-</table>
+{{ common.ttests_list_table(ttests) }}
 
 <h2>Corrolation Analysis Results</h2>
 
-<table class="list_table">
-<tr>
-<td>ID</td>
-<td>Name</td>
-<td>Type</td>
-<td>Variables</td>
-<td>Parameters</td>
-<td>Trace</td>
-</tr>
-{% for corr in corrs %}
-<tr>
-<td>{{corr.id}}</td>
-<td>{{corr.name}}</td>
-<td>{{corr.corrType.name}}</td>
-<td>
-{% for var in corr.inputVariables -%}
-{{var.varname}},
-{%- endfor %}
-</td>
-<td>
-{% for blob in corr.inputTraceSets -%}
-{% for var in blob.variableValues -%}
-{{var.varname}},
-{%- endfor %}
-{%- endfor %}
-</td>
-<td>
-Plot,
-Download
-</td>
-</tr>
-{% endfor %}
-</table>
+{{ common.corrolation_analysis_list_table(corrs) }}
 
 {% endblock %}
 
