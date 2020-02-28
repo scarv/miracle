@@ -81,6 +81,34 @@ def plot_view_tstatistic(tid):
     return template
 
 
+@bp.route("/corrolation/<int:tid>")
+def plot_view_corrolation_statistic(tid):
+    """
+    Render a the plot.html template for viewing a single corrolation-statistic
+    trace.
+    """
+
+    db          = db_connect()
+
+    corr        = db.getCorrolationTraceById(tid)
+    target      = corr.target
+    experiment  = corr.experiment
+    stid        = corr.statisticTraceid
+
+    template = render_template (
+        "plot.html"             ,
+        plotType    = "Corrolation" ,
+        corr        = corr      ,
+        target      = target    ,
+        experiment  = experiment,
+        stid        = stid
+    )
+
+    db_close()
+
+    return template
+
+
 @bp.route("/render/statistic-trace/<int:tid>")
 def render_statistic_trace(tid):
     """

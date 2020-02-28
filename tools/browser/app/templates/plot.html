@@ -15,7 +15,12 @@
 </p>
 
 <p>
+{% if ttest %}
 {{ common.ttests_list_table([ttest]) }}
+{% endif %}
+{% if corr%}
+{{ common.corrolation_analysis_list_table([corr]) }}
+{% endif %}
 <p>
 
 <img src="{{url_for("plot.render_statistic_trace",tid=stid)}}"/>
