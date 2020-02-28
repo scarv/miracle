@@ -294,8 +294,28 @@ def commandRemove(args):
         backend.popAutoCommit()
         backend.commit()
 
+    elif(args.entity == ENTITY_EXPERIMENTS):
+
+        backend.pushAutoCommit(False)
+
+        if(args.all):
+            for ct in backend.getAllExperiments():
+                backend.removeExperiment(ct.id)
+        else:
+            for ctid in args.id:
+                experiment = backend.getExperimentById(ctid)
+
+                if(experiment == None):
+                    log.error("No Experiment exists with id '%d'" % ctid)
+                    return 1
+
+                backend.removeExperiment(experiment.id)
+
+        backend.popAutoCommit()
+        backend.commit()
+
     else:
-        log.error("Functionality not implemented: 'show %s'" % args.entity)
+        log.error("Functionality not implemented: 'remove %s'" % args.entity)
         return 1
 
     return 0

@@ -603,8 +603,29 @@ class BaseBackend(object):
         along with all experimental data from the database which
         points to that experiment.
         """
-        assert(False)
 
+        tracesets = self._session.query(TTraceSet).filter_by(
+            experimentId = experimentId
+        ).all()
+
+        for t in tracesets:
+            log.info("Remove ttrace id=%d" % t.id)
+            self._session.delete(t)
+
+        corrtraces = self._session.query(CorrolationTraces).filter_by(
+            experimentId = experimentId
+        ).all()
+        
+        for t in corrtraces:
+            log.info("Remove corrolation trace id=%d" % t.id)
+            self._session.delete(t)
+
+        experiment = self.getExperimentById(experimentId)
+        
+        log.info("Remove experiment id=%d" % experiment.id)
+
+        self._session.delete(experiment)
+        
         self._handleAutocommit()
         return None
 
