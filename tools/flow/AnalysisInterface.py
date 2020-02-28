@@ -217,8 +217,10 @@ class AnalysisInterface(object):
             self.runTTestAnalyses(ttest)
 
             for variable in ttest.randomTraceSet.variableValues:
-                self.runHammingWeightAnalysis(
-                    ttest.randomTraceSet,
-                    variable.varname
-                )
+
+                if(variable.is_ttest_var or variable.is_randomisable):
+                    self.runHammingWeightAnalysis(
+                        ttest.randomTraceSet,
+                        variable.varname
+                    )
 

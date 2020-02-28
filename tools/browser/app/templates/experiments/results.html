@@ -16,6 +16,7 @@
 
 <table class="list_table">
 <tr>
+<th>ID</th>
 <th>Timestamp</th>
 <th>Parameters</th>
 <th>Trace count<br/>Fixed/Random</th>
@@ -26,6 +27,7 @@
 </tr>
 {% for ttest in ttests %}
 <tr>
+<td>{{ttest.id}}</td>
 <td>{{ttest.timestamp}}</td>
 <td>
 {% for param in ttest.parameterDict %}
@@ -43,7 +45,7 @@
     Random
 </td>
 <td>
-{% if ttest.statisticTrace %}
+{% if ttest.tStatisticTrace %}
 Plot,
 Download
 {% endif %}
@@ -56,6 +58,7 @@ Download
 
 <table class="list_table">
 <tr>
+<td>ID</td>
 <td>Name</td>
 <td>Type</td>
 <td>Variables</td>
@@ -64,6 +67,7 @@ Download
 </tr>
 {% for corr in corrs %}
 <tr>
+<td>{{corr.id}}</td>
 <td>{{corr.name}}</td>
 <td>{{corr.corrType.name}}</td>
 <td>
@@ -72,9 +76,11 @@ Download
 {%- endfor %}
 </td>
 <td>
-{% for param in corr.parameterDict %}
-{{param}}={{corr.parameterDict[param]}},
-{% endfor %}
+{% for blob in corr.inputTraceSets -%}
+{% for var in blob.variableValues -%}
+{{var.varname}},
+{%- endfor %}
+{%- endfor %}
 </td>
 <td>
 Plot,
