@@ -1,0 +1,48 @@
+/*!
+
+@defgroup experiments-countermeasures-rosita-ld-ld ROSITA Load-Load 
+@ingroup  experiments-countermeasures
+@brief Replicate the secure load-after-load countermeasure from the ROSITA paper.
+
+@note This experiment is based on the paper
+    "ROSITA: Towards Automatic Elimination of Power-Analysis Leakage in
+    Ciphers" by Shelton et al.
+
+@see @ref experiments-countermeasures-rosita-ld-ld
+@see @ref experiments-countermeasures-rosita-st-st
+@see @ref experiments-memory-registers-implicit-ld-ld
+@see @ref experiments-memory-registers-implicit-st-st-1
+@see @ref experiments-memory-registers-implicit-st-st-2
+
+## Purpose:
+
+
+## Method:
+
+
+## Expectations:
+
+
+## Running the experiment
+
+To run all stages of the experiment for a particular target device:
+
+```
+make -B USB_PORT=[PORT] UAS_TARGET=[TARGET] flow-rosita-ld-ld
+```
+
+Where:
+- `[PORT]` Is the UART/Serial port to communicate with it over.
+- `[TARGET]` Is one of the target names listed in @ref targets
+
+This will run all of the build, program, capture and analyse steps for
+the experiment on the specified target.
+
+The individual steps of the experiment are run with the following commands:
+
+- Build: `make build_[TARGET]_rosita-ld-ld`
+- Program: `make program_[TARGET]_rosita-ld-ld`
+- Capture: `make capture_[TARGET]_rosita-ld-ld USB_PORT=[PORT]`
+- Analyse: `make analyse_[TARGET]_rosita-ld-ld`
+
+*/
