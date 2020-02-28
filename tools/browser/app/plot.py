@@ -120,8 +120,29 @@ def render_statistic_trace(tid):
     strace      = db.getStatisticTraceById(tid)
     nptrace     = strace.getValuesAsNdArray()
 
+    tgtId       = request.args.get("tgtid",None)
+    expId       = request.args.get("eid",None)
+    ttestId     = request.args.get("ttid",None)
+    corrId      = request.args.get("corrId",None)
+
+    title       = ""
+
+    if(ttestId):
+        ttest  = db.getTTraceSetsById(ttestId)
+        title += "TTest: " + str(ttest.parameterDict) + " "
+    
+    if(corrId):
+        corr   = db.getCorrolationTraceById(corrId)
+        title += corr.corrType + ": " + ttest.randomTraceSet.parameters + " "
+
+    if(expId):
+        title += db.getExperimentById(expId).fullname+" "
+
+    if(tgtId):
+        title += db.getTargetById(tgtId).name+" "
+
     figure      = makePlotFigure(
-        [nptrace],[],""
+        [nptrace],[],title
     )
 
     rsp         = makePlotResponse(figure)

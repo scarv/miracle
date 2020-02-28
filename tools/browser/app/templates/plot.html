@@ -18,12 +18,18 @@
 {% if ttest %}
 {{ common.ttests_list_table([ttest]) }}
 {% endif %}
-{% if corr%}
+{% if corr %}
 {{ common.corrolation_analysis_list_table([corr]) }}
 {% endif %}
 <p>
 
-<img src="{{url_for("plot.render_statistic_trace",tid=stid)}}"/>
+{% if ttest %}
+<img src="{{common.plot_stat_trace(stid,eid=experiment.id,tgtid=target.id,ttid=ttest.id)}}"/>
+{% endif %}
+
+{% if corr %}
+<img src="{{common.plot_stat_trace(stid,eid=experiment.id,tgtid=target.id,corid=corr.id)}}"/>
+{% endif %}
 
 {% endblock %}
 

@@ -1,4 +1,18 @@
 
+{% macro plot_stat_trace(
+    stat_trace_id,
+    tgtid=None,
+    eid=None,
+    ttid=None,
+    corid=None
+) -%}
+{{url_for("plot.render_statistic_trace",tid=stat_trace_id)}}?
+{%- if tgtid -%} tgtid={{tgtid}}& {%- endif %}
+{%- if eid   -%} eid={{eid  }}& {%- endif %}
+{%- if ttid  -%} ttid={{ttid }}& {%- endif %}
+{%- if corid -%} corid={{corid}}& {%- endif %}
+{%- endmacro %}
+
 {% macro link_target(target) -%}
 <a href="{{url_for("targets.show_target",id=target.id)}}">{{target.name}}</a>
 {%- endmacro %}
@@ -71,7 +85,9 @@
 <td>
 {% for blob in corr.inputTraceSets -%}
 {% for var in blob.variableValues -%}
-{{var.varname}},
+{% if var.is_fixed %}
+{{var.varname}} = {{var.getValuesAsNdArray()[0]}},
+{% endif %}
 {%- endfor %}
 {%- endfor %}
 </td>
