@@ -182,7 +182,7 @@ endef
 define add_tgt_analyse
 $(call map_tgt,analyse,${1},${2}) :
 	$(FLOW_ANALYSE)     \
-        --verbose       \
+        --verbose --force \
         --backend $(UAS_DB_BACKEND) \
         $(UAS_DB)       \
         ${2}            \
