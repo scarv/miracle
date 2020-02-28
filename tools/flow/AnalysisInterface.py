@@ -174,10 +174,13 @@ class AnalysisInterface(object):
         If the trace already exists, it is not recomputed unless self.force
         is True
         """
+
+        verb = "Skipped"
+
         if(ttest.tStatisticTrace == None or self.force):
 
             fixed_traces  = ttest.fixedTraceSet.getTracesAsNdArray()
-            random_traces = ttest.fixedTraceSet.getTracesAsNdArray()
+            random_traces = ttest.randomTraceSet.getTracesAsNdArray()
 
             tt            = scass.ttest.TTest(fixed_traces, random_traces)
 
@@ -190,15 +193,21 @@ class AnalysisInterface(object):
 
                 ttest.tStatisticTrace = stat_trace
 
+                verb = "Inserted"
+
             else:
+
+                verb = "Updated"
 
                 ttest.tStatisticTrace.setTraceValues(tt.ttrace)
 
             self.database.commit()
 
-            log.info("Computed T-Statistic trace for TTest ID=%d" % (
-                ttest.id
-            ))
+
+        log.info("%s T-Statistic trace for TTest ID=%d" % (
+            verb,
+            ttest.id,
+        ))
 
     def getTTestsForTargetAndExperiment(self):
         return self.database.getTTraceSetsByTargetAndExperiment(
