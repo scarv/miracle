@@ -72,7 +72,10 @@ EXPERIMENTS = memory-bus/bus-width-st-bytes \
               speculation/unpredictable-0 \
               countermeasures/rosita-rotate-unprotected \
               countermeasures/rosita-rotate-protected \
-              countermeasures/rosita-ld-ld \
+              countermeasures/rosita-ld-ld-0 \
+              countermeasures/rosita-ld-ld-1 \
+              countermeasures/rosita-ld-ld-2 \
+              countermeasures/rosita-ld-ld-3 \
               countermeasures/rosita-st-st \
 
 
