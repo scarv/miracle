@@ -15,7 +15,10 @@ bp = Blueprint('plot', __name__, url_prefix="/plot")
 def makePlotFigure(
         straces,
         slabels=[],
-        title=""
+        title="",
+        xlabel="",
+        ylabel="",
+        ylines=[]
     ):
     """
     Given a list of satistic traces, create a plot of them.
@@ -28,10 +31,19 @@ def makePlotFigure(
         
         ax.plot(s, linewidth=0.15)
 
-    fig.tight_layout()
+        if(xlabel and xlabel != ""):
+            ax.set_xlabel(xlabel)
+
+        if(ylabel and ylabel != ""):
+            ax.set_ylabel(ylabel)
+
+    for y in ylines:
+        ax.axhline(y=y, xmin=0.0, xmax=1.0, color='r')
     
     if(title and title!=""):
-        fig.suptitle(title)
+        fig.suptitle(title,y=1.0)
+
+    fig.tight_layout()
 
     return fig
 
@@ -126,10 +138,16 @@ def render_statistic_trace(tid):
     corrId      = request.args.get("corrId",None)
 
     title       = ""
+    xlabel      = "Trace Sample"
+    ylabel      = ""
+    ylines      = []
 
     if(ttestId):
         ttest  = db.getTTraceSetsById(ttestId)
         title += "TTest: " + str(ttest.parameterDict) + " "
+        ylabel = "T-Statistic Value"
+        ylines.append(4.5)
+        ylines.append(-4.5)
     
     if(corrId):
         corr   = db.getCorrolationTraceById(corrId)
@@ -142,7 +160,7 @@ def render_statistic_trace(tid):
         title += db.getTargetById(tgtId).name+" "
 
     figure      = makePlotFigure(
-        [nptrace],[],title
+        [nptrace],[],title, xlabel=xlabel, ylabel=ylabel, ylines=ylines
     )
 
     rsp         = makePlotResponse(figure)
