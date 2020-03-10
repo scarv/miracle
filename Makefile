@@ -67,6 +67,7 @@ EXPERIMENTS = memory-bus/bus-width-st-bytes \
               pipeline/regs-lshf-rhs \
               pipeline/regs-rshf-lhs \
               pipeline/regs-rshf-rhs \
+              regfile/neighbour-hw \
               speculation/jump-shadow-0 \
               speculation/loop-0 \
               speculation/loop-1 \
