@@ -24,37 +24,28 @@ UART_HandleTypeDef UartHandle;
 */
 void init_platform() {
 
-#ifdef USE_INTERNAL_CLK
-     RCC_OscInitTypeDef RCC_OscInitStruct;
-     RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
-     RCC_OscInitStruct.HSEState       = RCC_HSE_OFF;
-     RCC_OscInitStruct.HSIState       = RCC_HSI_ON;
-     RCC_OscInitStruct.PLL.PLLSource  = RCC_PLL_NONE;
-     HAL_RCC_OscConfig(&RCC_OscInitStruct);
+    RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+    RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
-     RCC_ClkInitTypeDef RCC_ClkInitStruct;
-     RCC_ClkInitStruct.ClockType      = (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2);
-     RCC_ClkInitStruct.SYSCLKSource   = RCC_SYSCLKSOURCE_HSI;
-     RCC_ClkInitStruct.AHBCLKDivider  = RCC_SYSCLK_DIV1;
-     RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
-     RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
-     uint32_t flash_latency = 0;
-     HAL_RCC_ClockConfig(&RCC_ClkInitStruct, flash_latency);
-#else
-    RCC_OscInitTypeDef RCC_OscInitStruct;
-    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE | RCC_OSCILLATORTYPE_HSI;
-    RCC_OscInitStruct.HSEState       = RCC_HSE_BYPASS;
-    RCC_OscInitStruct.HSIState       = RCC_HSI_OFF;
-    RCC_OscInitStruct.PLL.PLLSource  = RCC_PLL_NONE;
+    /** Initializes the CPU, AHB and APB busses clocks
+    */
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+    RCC_OscInitStruct.HSEState = RCC_HSE_BYPASS;
+    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+    RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+    RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL3;
+    RCC_OscInitStruct.PLL.PREDIV = RCC_PREDIV_DIV1;
     HAL_RCC_OscConfig(&RCC_OscInitStruct);
 
-    RCC_ClkInitTypeDef RCC_ClkInitStruct;
-    RCC_ClkInitStruct.ClockType      = (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1);
-    RCC_ClkInitStruct.SYSCLKSource   = RCC_SYSCLKSOURCE_HSE;
-    RCC_ClkInitStruct.AHBCLKDivider  = RCC_SYSCLK_DIV1;
+    /** Initializes the CPU, AHB and APB busses clocks
+    */
+    RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                                |RCC_CLOCKTYPE_PCLK1;
+    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+    RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV2;
     RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
     HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0);
-  #endif
+    HAL_RCC_MCOConfig(RCC_MCO, RCC_MCO1SOURCE_SYSCLK, RCC_MCODIV_1);
 
 }
 
@@ -63,51 +54,68 @@ void init_platform() {
 */
 void init_uart(void)
 {
-    __HAL_RCC_GPIOA_CLK_ENABLE();
     GPIO_InitTypeDef GpioInit;
-    GpioInit.Pin       = GPIO_PIN_9 | GPIO_PIN_10;
+    GpioInit.Pin       = GPIO_PIN_2 | GPIO_PIN_3;
     GpioInit.Mode      = GPIO_MODE_AF_PP;
     GpioInit.Pull      = GPIO_PULLUP;
     GpioInit.Speed     = GPIO_SPEED_FREQ_HIGH;
-    GpioInit.Alternate = GPIO_AF1_USART1;
+    GpioInit.Alternate = GPIO_AF1_USART2;
     HAL_GPIO_Init(GPIOA, &GpioInit);
 
-    __HAL_RCC_USART1_CLK_ENABLE();
-    __HAL_RCC_USART1_CONFIG(RCC_USART1CLKSOURCE_SYSCLK);
-    UartHandle.Instance        = USART1;
-    UartHandle.Init.BaudRate   = 38400;
+    UartHandle.Instance = USART2;
+    UartHandle.Init.BaudRate = 9600;
     UartHandle.Init.WordLength = UART_WORDLENGTH_8B;
-    UartHandle.Init.StopBits   = UART_STOPBITS_1;
-    UartHandle.Init.Parity     = UART_PARITY_NONE;
-    UartHandle.Init.HwFlowCtl  = UART_HWCONTROL_NONE;
-    UartHandle.Init.Mode       = UART_MODE_TX_RX;
+    UartHandle.Init.StopBits = UART_STOPBITS_1;
+    UartHandle.Init.Parity = UART_PARITY_NONE;
+    UartHandle.Init.Mode = UART_MODE_TX_RX;
+    UartHandle.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+    UartHandle.Init.OverSampling = UART_OVERSAMPLING_16;
+    UartHandle.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+    UartHandle.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
     HAL_UART_Init(&UartHandle);
 }
 
 
 void init_trigger(void)
 {
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+    /* GPIO Ports Clock Enable */
+    __HAL_RCC_GPIOF_CLK_ENABLE();
     __HAL_RCC_GPIOA_CLK_ENABLE();
-    
-    GPIO_InitTypeDef GpioInit;
-    GpioInit.Pin       = GPIO_PIN_12;
-    GpioInit.Mode      = GPIO_MODE_OUTPUT_PP;
-    GpioInit.Pull      = GPIO_NOPULL;
-    GpioInit.Speed     = GPIO_SPEED_FREQ_HIGH;
-    HAL_GPIO_Init(GPIOA, &GpioInit);
-    
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, RESET);
+
+    /*Configure GPIO pin Output Level */
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET);
+
+    /*Configure GPIO pin : PA0 */
+    GPIO_InitStruct.Pin = GPIO_PIN_0;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+    /*Configure GPIO pin : PA8 */
+    GPIO_InitStruct.Pin = GPIO_PIN_8;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+    GPIO_InitStruct.Alternate = GPIO_AF0_MCO;
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 }
 
 /*!
 */
 uint8_t uas_bsp_init_target(){
     init_platform();
-    init_uart();
     init_trigger();
+    init_uart();
 
-    uas_bsp_trigger_set();
-    uas_bsp_trigger_clear();
+
+    while(1){
+        uas_bsp_trigger_set();
+        uas_bsp_uart_wr_char('A');
+        uas_bsp_trigger_clear();
+    }
 
     return 0;
 }
@@ -132,14 +140,14 @@ void    uas_bsp_uart_wr_char(
 /*!
 */
 volatile void * uas_bsp_trigger_set(){
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, SET);
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, SET);
     return NULL;
 }
 
 /*!
 */
 volatile void * uas_bsp_trigger_clear(){
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, RESET);
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, RESET);
     return NULL;
 }
 
