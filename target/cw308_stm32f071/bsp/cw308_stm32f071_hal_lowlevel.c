@@ -35,7 +35,7 @@
 */ 
 
 
-#include "stm32f0_hal_lowlevel.h"
+#include "cw308_stm32f071_hal_lowlevel.h"
 #include "stm32f0xx_hal_rcc.h"
 #include "stm32f0xx_hal_gpio.h"
 #include "stm32f0xx_hal_dma.h"

@@ -36,7 +36,7 @@ TARGETS     = sakurax_mb3 \
               scale_lpc1114fn28 \
               scale_lpc1313fbd48 \
               scale_lpc812m101 \
-              cw308_stm32f0 \
+              cw308_stm32f071 \
               cw308_stm32f1 \
               cw308_stm32f2 \
               cw308_stm32f3 \
