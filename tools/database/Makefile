@@ -13,5 +13,8 @@ init-database:
 	$(CMD) -v init --force
 	$(CMD) -v insert-targets --from-cfg $(DEVICE_CFGS)
 
+update-targets:
+	$(CMD) -v insert-targets --from-cfg $(DEVICE_CFGS)
+
 list-% :
 	$(CMD) list ${*}
