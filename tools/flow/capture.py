@@ -70,7 +70,11 @@ def commandCapture(args, ef, db):
     target_baud = int(target_config["UART_BAUD"])
 
     if(args.baud):
-        target_baud = args.baud
+        if(target_baud != args.baud):
+            log.warning("Target CFG baud rate does not match baud rate specified on command line.")
+            log.warning("Defaulting to target device baud rate")
+        else:
+            target_baud = args.baud
 
     log.info("Connecting to target %s on %s @ %d" % (
         target_name, args.port, target_baud
