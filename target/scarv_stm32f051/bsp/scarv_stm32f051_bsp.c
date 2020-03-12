@@ -129,12 +129,6 @@ uint8_t uas_bsp_init_target(){
     init_trigger();
     init_uart();
 
-    uas_bsp_uart_wr_char('a');
-    uas_bsp_uart_wr_char('b');
-    uint8_t x = uas_bsp_uart_rd_char();
-    uas_bsp_uart_wr_char(x);
-    uas_bsp_uart_wr_char('c');
-
     return 0;
 }
 
