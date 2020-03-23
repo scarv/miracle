@@ -93,6 +93,6 @@ Only the ones for the targets which you care about.
   - Likewise, set the `UAS_MICROBLAZE_TOOLCHAIN_ROOT` environment
     variable to the root of the Microblaze toolchain installation.
 
-    This is usually under `/opt/Xilinx/SDK/<VERSION>/gnu/microblaze/bin
+    This is usually under `/opt/Xilinx/SDK/<VERSION>/gnu/microblaze/bin`
 
 
