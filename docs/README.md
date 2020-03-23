@@ -8,4 +8,4 @@ intimidating make flow.*
 
 - [Getting Started](getting-started.md)
   - [Installing Dependencies](getting-started.md#Installing-Dependencies)
-
+- [Make Flow](make-flow.md)
