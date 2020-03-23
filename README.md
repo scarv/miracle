@@ -13,6 +13,12 @@ leakage due to pipelining and other implementation decisions in CPUs.*
 - [Conclusions](#Conclusions)
 - [Paper story](#Paper-Story)
 
+## Getting Started
+
+- See the `docs` folder for how to use this repository.
+
+- Start with [docs/README.md](docs/README.md)
+
 ## Overview
 
 **General:**

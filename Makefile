@@ -81,11 +81,6 @@ EXPERIMENTS = memory-bus/bus-width-st-bytes \
               countermeasures/rosita-st-st \
 
 
-.PHONY: docs
-docs:
-	mkdir -p $(UAS_BUILD)/docs
-	doxygen docs/experiments.doxyfile
-
 DB_CON      = $(UAS_DB) --backend $(UAS_DB_BACKEND)
 
 # CLI tool used to manually interact with the database
