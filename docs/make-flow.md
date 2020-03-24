@@ -39,6 +39,26 @@ running experiments on devices.*
 
 ## File Structure
 
+The following are useful files relating to the make flow:
+
+- `$REPO_HOME/Makefile` - The top level makefile, used to orchestrate the
+  rest of the flow.
+
+- `$REPO_HOME/common.mk` - Common targets and variables used across the make
+  flow.
+
+- `$REPO_HOME/build.mk` - Top level makefile used to build experiment
+  executables for targets. Includes target specific makefiles.
+
+  - `$REPO_HOME/target/[target]/build/build.mk` - Target specific
+    makefiles used to setup flags and toolchains for building experiments.
+
+- `$REPO_HOME/program.mk` - A skeleton makefile which just includes
+  target specific makefiles to program devices with experiments.
+
+  - `$REPO_HOME/target/[target]/program/program.mk` - Target specific
+    makefile for programming devices with experiments.
+
 
 ## Building
 
