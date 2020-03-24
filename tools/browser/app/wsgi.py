@@ -18,6 +18,8 @@ def create_app(test_config=None):
 
     log.basicConfig(level=app.config["LOG_LEVEL"])
 
+    log.info("Database file: '%s'" % app.config["DB_PATH"])
+
     # ensure the instance folder exists
     try:
         os.makedirs(app.instance_path)
