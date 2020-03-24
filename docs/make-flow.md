@@ -41,22 +41,22 @@ running experiments on devices.*
 
 The following are useful files relating to the make flow:
 
-- `$REPO_HOME/Makefile` - The top level makefile, used to orchestrate the
+- `$UAS_ROOT/Makefile` - The top level makefile, used to orchestrate the
   rest of the flow.
 
-- `$REPO_HOME/common.mk` - Common targets and variables used across the make
+- `$UAS_ROOT/common.mk` - Common targets and variables used across the make
   flow.
 
-- `$REPO_HOME/build.mk` - Top level makefile used to build experiment
+- `$UAS_ROOT/build.mk` - Top level makefile used to build experiment
   executables for targets. Includes target specific makefiles.
 
-  - `$REPO_HOME/target/[target]/build/build.mk` - Target specific
+  - `$UAS_ROOT/target/[target]/build/build.mk` - Target specific
     makefiles used to setup flags and toolchains for building experiments.
 
-- `$REPO_HOME/program.mk` - A skeleton makefile which just includes
+- `$UAS_ROOT/program.mk` - A skeleton makefile which just includes
   target specific makefiles to program devices with experiments.
 
-  - `$REPO_HOME/target/[target]/program/program.mk` - Target specific
+  - `$UAS_ROOT/target/[target]/program/program.mk` - Target specific
     makefile for programming devices with experiments.
 
 
@@ -92,7 +92,7 @@ The following are useful files relating to the make flow:
   ```
 
 - Each target `T` should be one of the directory names
-  found under `$REPO_HOME/target/`
+  found under `$UAS_ROOT/target/`
 
 - Each experiment name `E` is a combination of two directory names
   under `experiments/`. the major *catagory* directory and one subfolder.
@@ -259,7 +259,7 @@ The following are useful files relating to the make flow:
 - Running:
 
   ```sh
-  $REPO_HOME/tools/flow/analyse.py --help
+  $UAS_ROOT/tools/flow/analyse.py --help
   ```
 
   Will show how the analysis script can be used standalone.

@@ -6,7 +6,7 @@
 ---
 
 ```
-$REPO_HOME/
+$UAS_ROOT/
 ├── bin                         -
 │   └── conf.sh                 - Workspace setup script.
 ├── docs                        - All project documentation, such as it is.
