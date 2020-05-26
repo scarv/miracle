@@ -276,6 +276,9 @@ class CaptureInterface(object):
         ts_fixed.variableValues = fixed_variables
         ts_rand.variableValues  = random_variables
 
+        ts_fixed.sampleRate = ttest.scope.sample_freq
+        ts_rand.sampleRate  = ttest.scope.sample_freq
+
         self.database.insertTraceSetBlob(ts_fixed)
         self.database.insertTraceSetBlob(ts_rand)
 
