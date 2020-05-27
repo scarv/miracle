@@ -525,6 +525,13 @@ class BaseBackend(object):
 
         return None
 
+
+    def getProgramBinaryById(self, pid):
+        pbin = self._session.query(ProgramBinary).filter_by(
+            id =pid
+        )
+        return pbin.first()
+
     def getProgramBinaryByTargetAndExperiment(self, tgtId, expId):
         """
         Return all program binaries corresponding to the supplied
