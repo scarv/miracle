@@ -70,6 +70,7 @@ EXPERIMENTS = memory-bus/bus-width-st-bytes \
               pipeline/regs-rshf-lhs \
               pipeline/regs-rshf-rhs \
               regfile/neighbour-hw \
+              regfile/shift-imm \
               speculation/jump-shadow-0 \
               speculation/loop-0 \
               speculation/loop-1 \
@@ -80,7 +81,7 @@ EXPERIMENTS = memory-bus/bus-width-st-bytes \
               countermeasures/rosita-ld-ld-1 \
               countermeasures/rosita-ld-ld-2 \
               countermeasures/rosita-ld-ld-3 \
-              countermeasures/rosita-st-st \
+              countermeasures/rosita-st-st
 
 
 DB_CON      = $(UAS_DB) --backend $(UAS_DB_BACKEND)
