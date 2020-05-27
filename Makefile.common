@@ -20,6 +20,14 @@ TARGET_DIR           = $(UAS_ROOT)/target/$(UAS_TARGET)
 define map_experiment_elf
 $(UAS_EXPERIMENT_BUILD)/program${1}.elf
 endef
+
+#
+# 1. Experiment name
+# 2. Target
+define map_experiment_elf_full
+$(UAS_BUILD)/${1}/${2}/program.elf
+endef
+
 #
 # Given the global variables defining build directory, experiment name
 # and target device, return a name for the experiment disassembly file.
@@ -45,13 +53,6 @@ endef
 # and target device, return a name for the experiment bin memory file.
 define map_experiment_bin
 $(UAS_EXPERIMENT_BUILD)/program${1}.bin
-endef
-
-#
-# 1. Experiment name
-# 2. Target
-define map_experiment_bin_full
-$(UAS_BUILD)/${1}/${2}/program.bin
 endef
 
 #
