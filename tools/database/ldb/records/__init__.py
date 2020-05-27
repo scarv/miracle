@@ -100,4 +100,5 @@ from .VariableValues    import VariableValues
 from .TraceSetBlob      import TraceSetBlob
 from .StatisticTrace    import StatisticTrace
 from .CorrolationTraces import CorrolationTraces
+from .ProgramBinary     import ProgramBinary
 

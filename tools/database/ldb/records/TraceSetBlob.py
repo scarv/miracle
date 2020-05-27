@@ -46,7 +46,7 @@ class TraceSetBlob(Base):
     targetFreq  = Column(Integer, default = 0)
     
     # Oscilliscope sample rate used to capture this trace set.
-    sampleRate  = Column(Integer, default = 250000000)
+    sampleRate  = 250000000#Column(Integer, default = 250000000)
 
     experimentId= Column(Integer,ForeignKey("experiments.id"),nullable=False)
     targetId    = Column(Integer,ForeignKey("targets.id"),nullable=False)

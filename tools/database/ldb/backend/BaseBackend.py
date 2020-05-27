@@ -13,6 +13,7 @@ from ..records import TraceSetBlob
 from ..records import VariableValues
 from ..records import StatisticTrace
 from ..records import CorrolationTraces
+from ..records import ProgramBinary
 
 class BaseBackend(object):
     """
@@ -160,6 +161,15 @@ class BaseBackend(object):
         :returns: None
         """
         self._session.add(tracesetblob)
+        self._handleAutocommit()
+        return None
+
+
+    def insertProgramBinary(self, binary):
+        """
+        Insert a new program binary into the database.
+        """
+        self._session.add(binary)
         self._handleAutocommit()
         return None
 
@@ -400,6 +410,16 @@ class BaseBackend(object):
         return self._session.query(Experiment).filter(Experiment.id.in_(eids))
 
 
+    def getExperimentCountByTarget(self, targetId):
+        """
+        Return the number of experiments for which there are results
+        corresponding to the supplied ID.
+        """
+        eids = self._session.query(TraceSetBlob.experimentId).filter_by(
+                targetId = targetId).distinct().all()
+        return len(eids)
+
+
     def getTargetsByExperiment(self, experimentId):
         """
         Return the set of targets for which there are results
@@ -504,7 +524,28 @@ class BaseBackend(object):
                     return candidate
 
         return None
+
+    def getProgramBinaryByTargetAndExperiment(self, tgtId, expId):
+        """
+        Return all program binaries corresponding to the supplied
+        target and experiment ID.
+        """
+        pbin = self._session.query(ProgramBinary).filter (
+            sqlalchemy.and_(
+                ProgramBinary.targetId      == tgtId,
+                ProgramBinary.experimentId  == expId
+            )
+        )
+        return pbin.first()
         
+
+    def removeProgramBinary(self, pbin):
+        """
+        Delete the specified program binary from the database.
+        """
+        self._session.delete(pbin)
+        self._handleAutocommit()
+
 
     def removeTTraceSet(self, ttraceSetId):
         """
