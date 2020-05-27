@@ -2,6 +2,8 @@
 # Top level makefile for the project
 #
 
+include $(UAS_ROOT)/Makefile.common
+
 #
 # Used by the SCALE and ChipWhisperer targets, enables re-programmng without
 # using the physical buttons on the boards,
@@ -162,6 +164,8 @@ $(call map_tgt,capture,${1},${2}) : $(call map_tgt,program,${1},${2})
         --verbose           \
         --ttest-traces $(TTEST_NUM_TRACES) \
         --scope-power-channel $(SCOPE_POWER_CHANNEL) \
+        --store-binary $(call map_experiment_bin_full,${2},${1}) \
+        --store-disasm $(call map_experiment_dis_full,${2},${1}) \
         $(CAPTURE_ARGS) \
         $(UAS_ROOT)/experiments/${2}     \
         $(UAS_ROOT)/target/${1}/${1}.cfg \
@@ -195,9 +199,9 @@ endef
 #
 define add_tgt_flow
 flow-$(call map_exp,${1}) : \
-            $(call map_tgt,build,${UAS_TARGET},${1}) \
-            $(call map_tgt,program,${UAS_TARGET},${1}) \
-            $(call map_tgt,capture,${UAS_TARGET},${1})
+    $(call map_tgt,build,${UAS_TARGET},${1}) \
+    $(call map_tgt,program,${UAS_TARGET},${1}) \
+    $(call map_tgt,capture,${UAS_TARGET},${1})
 FLOW_TARGETS += flow-$(call map_exp,${1})
 TGT_ANALYSIS_TARGETS += $(call map_tgt,analyse,${UAS_TARGET},${1}) 
 endef

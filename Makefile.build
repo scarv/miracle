@@ -1,6 +1,8 @@
 
 include $(UAS_ROOT)/Makefile.common
 
+TARGET_BUILD_MAKEFILE= $(TARGET_DIR)/build/build.mk
+
 BINOUT     = $(call map_experiment_elf)
 OBJDUMP_OUT= $(call map_experiment_dis)
 HEX_OUT    = $(call map_experiment_hex)

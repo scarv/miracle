@@ -5,22 +5,9 @@
 
 
 UAS_TARGET          ?= scale_lpc1114fn28
-UAS_EXPERIMENT_SRC  ?= $(UAS_ROOT)/experiments/$(UAS_EXPERIMENT)
+UAS_EXPERIMENT_SRC   = $(UAS_ROOT)/experiments/$(UAS_EXPERIMENT)
 UAS_EXPERIMENT_BUILD = $(UAS_BUILD)/$(UAS_EXPERIMENT)/$(UAS_TARGET)
-
 TARGET_DIR           = $(UAS_ROOT)/target/$(UAS_TARGET)
-
-EXPERIMENT_CATAGORY  = $(firstword $(subst /, ,$(UAS_EXPERIMENT)))
-EXPERIMENT_NAME      = $(lastword $(subst /, ,$(UAS_EXPERIMENT)))
-
-#
-# Standard scripts from fw-acquisition
-
-
-export USB_PORT     ?= /dev/ttyUSB0
-export USB_BAUD     ?= 9600
-
-TARGET_BUILD_MAKEFILE= $(TARGET_DIR)/build/build.mk
 
 #
 # Experiment Build Macros
@@ -39,6 +26,12 @@ endef
 define map_experiment_dis
 $(UAS_EXPERIMENT_BUILD)/program${1}.dis
 endef
+#
+# 1. Experiment name
+# 2. Target
+define map_experiment_dis_full
+$(UAS_BUILD)/${1}/${2}/program.dis
+endef
 
 #
 # Given the global variables defining build directory, experiment name
@@ -52,6 +45,13 @@ endef
 # and target device, return a name for the experiment bin memory file.
 define map_experiment_bin
 $(UAS_EXPERIMENT_BUILD)/program${1}.bin
+endef
+
+#
+# 1. Experiment name
+# 2. Target
+define map_experiment_bin_full
+$(UAS_BUILD)/${1}/${2}/program.bin
 endef
 
 #
