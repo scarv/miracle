@@ -164,7 +164,7 @@ $(call map_tgt,capture,${1},${2}) : $(call map_tgt,program,${1},${2})
         --verbose           \
         --ttest-traces $(TTEST_NUM_TRACES) \
         --scope-power-channel $(SCOPE_POWER_CHANNEL) \
-        --store-binary $(call map_experiment_bin_full,${2},${1}) \
+        --store-binary $(call map_experiment_elf_full,${2},${1}) \
         --store-disasm $(call map_experiment_dis_full,${2},${1}) \
         $(CAPTURE_ARGS) \
         $(UAS_ROOT)/experiments/${2}     \
