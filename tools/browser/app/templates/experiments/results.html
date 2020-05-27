@@ -11,6 +11,18 @@
 
 {% block content %}
 
+{% if pbin %}
+<h2>Experiment Artifacts</h2>
+<ul>
+{% if pbin.binary %}
+<li><a target="_blank" href="{{url_for("experiments.download_binary",pid=pbin.id)}}">Download Program Binary</a></li>
+{% endif %}
+{% if pbin.disasm%}
+<li><a target="_blank" href="{{url_for("experiments.download_disassembly",pid=pbin.id)}}">Download Program Disassembly</a></li>
+{% endif %}
+</ul>
+{% endif %}
+
 <h2>TTest Result Sets</h2>
 
 {{ common.ttests_list_table(ttests) }}

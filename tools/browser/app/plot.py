@@ -12,6 +12,28 @@ from db import db_connect, db_close
 
 bp = Blueprint('plot', __name__, url_prefix="/plot")
 
+
+def getExperimentPayloadFromProgramBinary(pbin):
+    if(pbin == None):
+        return None
+    if(pbin.disasm == None):
+        return None
+
+    lines = pbin.disasm.split("\n")
+
+    tokeep= ""
+    add_lines = False
+
+    for l in lines:
+        if(add_lines):
+            tokeep += l +"\n"
+            if(l.endswith("<experiment_payload_end>:")):
+                return tokeep
+        elif (l.endswith("<experiment_payload>:")):
+            add_lines = True
+            tokeep += l +"\n"
+
+
 def makePlotFigure(
         straces,
         slabels=[],
@@ -78,6 +100,12 @@ def plot_view_tstatistic(tid):
     target      = ttest.target
     experiment  = ttest.experiment
     stid        = ttest.ttraceId
+    pbin        = db.getProgramBinaryByTargetAndExperiment(
+        target.id,
+        experiment.id
+    )
+    
+    disasm      = getExperimentPayloadFromProgramBinary(pbin)
 
     template = render_template (
         "plot.html"             ,
@@ -85,7 +113,9 @@ def plot_view_tstatistic(tid):
         ttest       = ttest     ,
         target      = target    ,
         experiment  = experiment,
-        stid        = stid
+        stid        = stid      ,
+        pbin        = pbin      ,
+        disasm      = disasm
     )
 
     db_close()
@@ -106,6 +136,12 @@ def plot_view_corrolation_statistic(tid):
     target      = corr.target
     experiment  = corr.experiment
     stid        = corr.statisticTraceid
+    pbin        = db.getProgramBinaryByTargetAndExperiment(
+        target.id,
+        experiment.id
+    )
+
+    disasm      = getExperimentPayloadFromProgramBinary(pbin)
 
     template = render_template (
         "plot.html"             ,
@@ -113,7 +149,9 @@ def plot_view_corrolation_statistic(tid):
         corr        = corr      ,
         target      = target    ,
         experiment  = experiment,
-        stid        = stid
+        stid        = stid      ,
+        pbin        = pbin      ,
+        disasm      = disasm
     )
 
     db_close()

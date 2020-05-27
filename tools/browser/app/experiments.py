@@ -5,7 +5,8 @@ import logging  as log
 import configparser
 
 from flask      import (
-    Blueprint, flash, g, redirect, render_template, request, url_for
+    Blueprint, flash, g, redirect, render_template, request, url_for,
+    make_response
 )
 
 from db import db_connect, db_close
@@ -71,15 +72,64 @@ def show_results(eid,tid):
         target.id, experiment.id
     )
 
+    pbin       = db.getProgramBinaryByTargetAndExperiment(
+        target.id, experiment.id
+    )
+
     template = render_template(
         "experiments/results.html"  ,
         target     = target         ,
         experiment = experiment     ,
         ttests     = ttests         ,
-        corrs      = corrs
+        corrs      = corrs          ,
+        pbin       = pbin
     )
 
     db_close()
 
     return template
 
+@bp.route("/download/binary/<int:pid>")
+def download_binary(pid):
+    """
+    Download a program binary.
+    """
+
+    db = db_connect()
+
+    pbin = db.getProgramBinaryById(pid)
+
+    rsp = make_response(pbin.binary)
+    rsp.headers.set("Content-Type","application/octet-stream")
+    rsp.headers.set("Content-Disposition","attachment",
+        filename = "%s-%s-program.elf" % (
+            pbin.target.name, pbin.experiment.name
+        )
+    )
+
+    db_close()
+
+    return rsp
+
+
+@bp.route("/download/disassembly/<int:pid>")
+def download_disassembly(pid):
+    """
+    Download a program disassembly.
+    """
+
+    db = db_connect()
+
+    pbin = db.getProgramBinaryById(pid)
+
+    rsp = make_response(pbin.disasm)
+    rsp.headers.set("Content-Type","text/plain")
+    rsp.headers.set("Content-Disposition","attachment",
+        filename = "%s-%s-program.dis" % (
+            pbin.target.name, pbin.experiment.name
+        )
+    )
+
+    db_close()
+
+    return rsp

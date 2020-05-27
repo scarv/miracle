@@ -24,11 +24,28 @@
 <p>
 
 {% if ttest %}
-<img src="{{common.plot_stat_trace(stid,eid=experiment.id,tgtid=target.id,ttid=ttest.id)}}"/>
+<img style="border: 1px solid black; padding-top: 5px;" src="{{common.plot_stat_trace(stid,eid=experiment.id,tgtid=target.id,ttid=ttest.id)}}"/>
 {% endif %}
 
 {% if corr %}
-<img src="{{common.plot_stat_trace(stid,eid=experiment.id,tgtid=target.id,corid=corr.id)}}"/>
+<img style="border: 1px solid black; padding-top: 5px;" src="{{common.plot_stat_trace(stid,eid=experiment.id,tgtid=target.id,corid=corr.id)}}"/>
+{% endif %}
+
+{% if disasm %}
+<pre>
+{{disasm}}
+</pre>
+{% endif %}
+
+{% if pbin %}
+<ul>
+{% if pbin.binary %}
+<li><a target="_blank" href="{{url_for("experiments.download_binary",pid=pbin.id)}}">Download Program Binary</a></li>
+{% endif %}
+{% if pbin.disasm%}
+<li><a target="_blank" href="{{url_for("experiments.download_disassembly",pid=pbin.id)}}">Download Program Disassembly</a></li>
+{% endif %}
+</ul>
 {% endif %}
 
 {% endblock %}
