@@ -1,6 +1,6 @@
 
 # Setup
-open_hw
+open_hw_manager
 
 # Connect to the hardware device server
 connect_hw_server -url localhost:3121
