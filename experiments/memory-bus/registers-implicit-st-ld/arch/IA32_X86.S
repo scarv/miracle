@@ -35,6 +35,6 @@ experiment_payload:     // eax - zeros array
     FUNC_RETURN
 
 .global experiment_payload_end
-experiment_payload_end:
+experiment_payload_end: nop
 
 

@@ -30,4 +30,4 @@ experiment_payload:    // eax - uint8_t * zeros
     FUNC_RETURN
 
 .global experiment_payload_end
-experiment_payload_end:
+experiment_payload_end: nop

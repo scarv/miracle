@@ -18,4 +18,4 @@ experiment_payload:
     FUNC_RETURN
 
 .global experiment_payload_end
-experiment_payload_end:
+experiment_payload_end: nop

@@ -21,6 +21,6 @@ experiment_payload: // eax - d1
     FUNC_RETURN
 
 .global experiment_payload_end
-experiment_payload_end:
+experiment_payload_end: nop
 
 
