@@ -54,12 +54,65 @@ def loadScope(config_path):
     return scass.scope.fromConfig(config_path)
 
 
-def commandCapture(args, ef, db):
+def insertBinary(args, db, ef, device_config):
+    """
+    Insert a program binary and/or disassembly into the database.
+    
+    Must be done after the main capture function, otherwise there
+    might not be an experiment in the database to associate the
+    program binary with.
+    """
+
+    f_bin= None
+    f_dis= None
+
+    if(args.store_binary):
+        log.info("- Binary     : %s" % args.store_binary)
+        with open(args.store_binary,"rb") as fh:
+            f_bin = fh.read()
+
+    if(args.store_disasm):
+        log.info("- Disassembly: %s" % args.store_disasm)
+        with open(args.store_disasm,"r") as fh:
+            f_dis = fh.read()
+
+    tgt = db.getTargetByName(device_config["TARGET"]["NAME"])
+
+    exp = db.getExperimentByCatagoryAndName(
+        ef.EXPERIMENT_CATAGORY, ef.EXPERIMENT_NAME
+    )
+
+    assert(tgt != None),"Target should not be None"
+    assert(exp != None),"Experiment should not be None"
+
+    pbin= db.getProgramBinaryByTargetAndExperiment(tgt.id,exp.id)
+
+    if(pbin == None):
+        log.info("Inserting new program binary record.")
+
+        pbin = ldb.records.ProgramBinary(
+            binary = f_bin,
+            disasm = f_dis,
+            target = tgt,
+            experiment = exp
+        )
+
+        db.insertProgramBinary(pbin)
+
+    else:
+        
+        log.info("Updating existing program binary record.")
+        
+        pbin.binary = f_bin
+        pbin.disasm = f_dis
+
+    db.commit()
+
+
+def commandCapture(args, ef, db, device_config):
     """
     Runs a data capture for the supplied experiment and device.
     """
-
-    device_config = loadDeviceConfig(args.device)
 
     if(device_config== None):
         return 1
@@ -165,6 +218,12 @@ def buildArgParser():
     parser.add_argument("--log", type=str,
         help = "Filepath to log too."
     )
+
+    parser.add_argument("--store-binary", type=str,
+        help="Store this binary file in the database associated with the experiment")
+    
+    parser.add_argument("--store-disasm", type=str,
+        help="Store this disassembly file in the database associated with the experiment")
     
     parser.add_argument("--baud",type=int,
         help="Override default baud rate of target device as specified the <device> argument config file")
@@ -225,7 +284,16 @@ def main():
 
     db = connectToBackend(args.dbpath, args.backend)
 
-    result = args.func(args, ef, db)
+    device_config = loadDeviceConfig(args.device)
+
+    result = args.func(args, ef, db, device_config)
+
+    # Must be done after the main capture function, otherwise there
+    # might not be an experiment in the database to associate the
+    # program binary with.
+    if(args.store_binary or args.store_disasm):
+        log.info("Storing program binary in database.")
+        insertBinary(args, db, ef, device_config)
 
     return result
 

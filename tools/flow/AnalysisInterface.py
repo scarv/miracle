@@ -3,6 +3,9 @@ import os
 import logging as log
 import datetime
 
+from scipy.signal import butter
+from scipy.signal import lfilter
+
 import ldb
 
 from ldb.records import StatisticTrace
