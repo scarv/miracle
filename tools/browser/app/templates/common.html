@@ -21,6 +21,7 @@
 <a href="{{url_for("experiments.show_experiment",id=experiment.id)}}">{{experiment.fullname}}</a>
 {%- endmacro %}
 
+
 {% macro targets_list_table(targets, experiment=None) -%}
 
 <table class="list_table">
@@ -56,6 +57,30 @@
     </td>
 {% endif %}
     </tr>
+{% endfor %}
+</table>
+
+{%- endmacro %}
+
+
+{% macro cores_list_table(cores) -%}
+
+<table class="list_table">
+<tr>
+<th>Core</th>
+<th>Type</th>
+<th>Manufacturer</th>
+<th>Architecture</th>
+<th>Description</th>
+</tr>
+{% for core in cores %}
+<tr>
+<td><a href="{{url_for("targets.show_core",id=core.id)}}">{{core.name}}</a></td>
+<td>{{core.coretype}}</td>
+<td><a target="_blank" href="{{core.manufacturer_link}}">{{core.manufacturer_name}}</a></td>
+<td><a target="_blank" href="{{core.architecture_link}}">{{core.architecture_name}}</a></td>
+<td><a target="_blank" href="{{core.product_link}}">Product Link</a></td>
+</tr>
 {% endfor %}
 </table>
 
