@@ -18,11 +18,11 @@ if [ -z $IAMCU_TOOLCHAIN_DIR ] ; then
 fi
 
 if [ -z $VIVADO_ROOT ] ; then
-    export VIVADO_ROOT=$XILINX_VIVADO
+    export VIVADO_ROOT=/opt/Xilinx/Vivado/2019.2
 fi
 
 if [ -z $UAS_MICROBLAZE_TOOLCHAIN_ROOT ] ; then
-    export UAS_MICROBLAZE_TOOLCHAIN_ROOT=/opt/Xilinx/SDK/2019.1/gnu/microblaze/lin/bin
+    export UAS_MICROBLAZE_TOOLCHAIN_ROOT=/opt/Xilinx/Vitis/2019.2/gnu/microblaze/lin/bin
 fi
 
 if [ -z $OPENOCD ] ; then
