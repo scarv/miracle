@@ -3,6 +3,8 @@ import os
 import logging as log
 import datetime
 
+import numpy as np
+
 from scipy.signal import butter
 from scipy.signal import lfilter
 
@@ -10,6 +12,7 @@ import ldb
 
 from ldb.records import StatisticTrace
 from ldb.records import CorrolationTraces
+from ldb.records import StatTraceType
 
 import scass
 
@@ -212,6 +215,55 @@ class AnalysisInterface(object):
             ttest.id,
         ))
 
+    
+    def runAverageTraceForTraceSetBlob(self, traceset):
+        """
+        Compute the average trace for the supplied trace set and
+        add it to the database.
+        """
+        existing = None
+        verb     = "Skipped"
+
+        for strace in traceset.statisticTraces:
+            if(strace.stat_trace == StatTraceType.AVG):
+                existing = strace
+                break
+
+        if(existing == None or self.force):
+            traces    = traceset.getTracesAsNdArray()
+            avg_trace = np.mean(traces,axis=0)
+
+            if(existing == None):
+                verb = "Inserted"
+
+                newtrace = StatisticTrace.fromTraceArray(
+                    avg_trace, StatTraceType.AVG
+                )
+
+                traceset.statisticTraces.append(newtrace)
+
+            else:
+                verb = "Updated"
+
+                existing.setTraceValues(avg_trace)
+
+            self.database.commit()
+
+        log.info("%s average trace for Trace Set ID=%d" % (
+            verb,
+            traceset.id,
+        ))
+
+
+    def runAverageTraceForTTest(self, ttest):
+        """
+        Compute the average trace for the fixed and random
+        trace sets for the supplied ttest
+        """
+        self.runAverageTraceForTraceSetBlob(ttest.fixedTraceSet)
+        self.runAverageTraceForTraceSetBlob(ttest.randomTraceSet)
+
+
     def getTTestsForTargetAndExperiment(self):
         return self.database.getTTraceSetsByTargetAndExperiment(
             self.target.id, self.experiment.id
@@ -227,6 +279,7 @@ class AnalysisInterface(object):
 
         for ttest in ttest_sets:
             self.runTTestAnalyses(ttest)
+            self.runAverageTraceForTTest(ttest)
 
             for variable in ttest.randomTraceSet.variableValues:
 

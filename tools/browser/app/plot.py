@@ -87,6 +87,44 @@ def makePlotResponse(figure, imgtype="png"):
     return rsp
 
 
+@bp.route("/stat-trace/<int:eid>/<int:tid>/<int:stid>")
+def plot_statistic_trace(eid, tid, stid):
+    """
+    Render a the plot.html template for viewing a single statistic trace.
+    """
+
+    db          = db_connect()
+    pbin        = None
+    disasm      = None
+
+    target      = db.getTargetById(tid)
+    experiment  = db.getExperimentById(eid)
+
+    pbin        = db.getProgramBinaryByTargetAndExperiment(
+        target.id,
+        experiment.id
+    )
+    
+    disasm      = getExperimentPayloadFromProgramBinary(pbin)
+    
+    trace       = db.getStatisticTraceById(stid)
+    
+    template = render_template (
+        "plot.html"             ,
+        plotType    = str(trace.stat_type),
+        target      = target    ,
+        experiment  = experiment,
+        stid        = trace.id  ,
+        strace      = trace     ,
+        pbin        = pbin      ,
+        disasm      = disasm
+    )
+
+    db_close()
+
+    return template
+
+
 @bp.route("/ttrace/<int:tid>")
 def plot_view_tstatistic(tid):
     """

@@ -4,13 +4,15 @@
     tgtid=None,
     eid=None,
     ttid=None,
-    corid=None
+    corid=None,
+    stid=None
 ) -%}
 {{url_for("plot.render_statistic_trace",tid=stat_trace_id)}}?
 {%- if tgtid -%} tgtid={{tgtid}}& {%- endif %}
 {%- if eid   -%} eid={{eid  }}& {%- endif %}
 {%- if ttid  -%} ttid={{ttid }}& {%- endif %}
 {%- if corid -%} corid={{corid}}& {%- endif %}
+{%- if corid -%} stid={{corid}}& {%- endif %}
 {%- endmacro %}
 
 {% macro link_target(target) -%}
@@ -162,6 +164,33 @@ Download
 <a href="{{url_for("plot.plot_view_tstatistic",tid=ttest.id)}}">Plot</a>,
 Download
 {% endif %}
+</td>
+</tr>
+<tr>
+<td>-</td>
+<td colspan="7">
+
+Random traces - Derived Statistic Traces:
+<ul>
+{% for strace in ttest.randomTraceSet.statisticTraces %}
+<li>
+{{strace.stat_type}} -
+<a href="{{url_for("plot.plot_statistic_trace",eid=ttest.experimentId,tid=ttest.targetId,stid=strace.id)}}">Plot</a>
+</li>
+{% endfor %}
+</ul>
+
+Fixed traces - Derived Statistic Traces:
+<ul>
+{% for strace in ttest.fixedTraceSet.statisticTraces %}
+<li>
+{{strace.stat_type}} -
+<a href="{{url_for("plot.plot_statistic_trace",eid=ttest.experimentId,tid=ttest.targetId,stid=strace.id)}}">Plot</a>
+</li>
+{% endfor %}
+</ul>
+
+
 </td>
 </tr>
 {% endfor %}
