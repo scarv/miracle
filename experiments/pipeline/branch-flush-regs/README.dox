@@ -1,0 +1,39 @@
+/*!
+
+@defgroup experiments-pipeline-branch-flush-regs Branch pipe reg flush
+@ingroup  experiments-pipeline
+@brief Do branch instructions clear pipeline registers?
+
+## Purpose:
+
+Do branches flush the contents of pipeline registers?
+
+## Expectations:
+
+- There should be no hamming weight leakage in any case.
+- If there is overwrite between the two TTest variables, this
+  will manifest as detectable hamming distance leakage.
+
+## Running the experiment
+
+To run all stages of the experiment for a particular target device:
+
+```
+make -B USB_PORT=[PORT] UAS_TARGET=[TARGET] flow-pipeline-branch-flush-regs
+```
+
+Where:
+- `[PORT]` Is the UART/Serial port to communicate with it over.
+- `[TARGET]` Is one of the target names listed in @ref targets
+
+This will run all of the build, program, capture and analyse steps for
+the experiment on the specified target.
+
+The individual steps of the experiment are run with the following commands:
+
+- Build: `make build_[TARGET]_pipeline-branch-flush-regs`
+- Program: `make program_[TARGET]_pipeline-branch-flush-regs`
+- Capture: `make capture_[TARGET]_pipeline-branch-flush-regs USB_PORT=[PORT]`
+- Analyse: `make analyse_[TARGET]_pipeline-branch-flush-regs`
+
+*/
