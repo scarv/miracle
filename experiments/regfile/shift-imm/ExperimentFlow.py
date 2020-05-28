@@ -16,3 +16,17 @@ def runCapture(args):
             {}
         )
 
+
+def runAnalysis(aif):
+    """
+    Run any experiment specific analysis.
+
+    aif - AnalysisInterface instance
+    """
+
+    aif.runDefaultAnalysis()
+
+    for ttest in aif.getTTestsForTargetAndExperiment():
+        aif.runHammingDistanceAnalysis(ttest.randomTraceSet, "di1","di2")
+        aif.runHammingDistanceAnalysis(ttest.randomTraceSet, "di2","di3")
+
