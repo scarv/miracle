@@ -8,7 +8,7 @@ experiment_payload:
     FUNC_ENTER
 
     mv  a1, a0          // Move a0 to a1
-    xor a0, r0, r0      // Clear r0
+    xor a0, a0, a0      // Clear r0
     xor a2, a2, a2      // Clear r2
     xor a3, a3, a3      // Clear r3
 
