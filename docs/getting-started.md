@@ -96,3 +96,9 @@ Only the ones for the targets which you care about.
     This is usually under `/opt/Xilinx/SDK/<VERSION>/gnu/microblaze/bin`
 
 
+## Drivers
+
+- You will need the relevant Segger J-Link debug probe drivers.
+
+  - See the [Segger website](https://www.segger.com/downloads/jlink/#J-LinkSoftwareAndDocumentationPack).
+
