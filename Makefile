@@ -19,6 +19,13 @@ SCOPE_POWER_CHANNEL ?=B
 
 CAPTURE_ARGS        =
 
+FORCE_ANALYSIS      = 1
+ANALYSIS_FLAGS      =
+
+ifeq ($(FORCE_ANALYSIS),1)
+    ANALYSIS_FLAGS += --force
+endif
+
 #
 # Whether or not to skip trace capture if there is already a comparable trace
 # set in the database.
@@ -190,7 +197,7 @@ endef
 define add_tgt_analyse
 $(call map_tgt,analyse,${1},${2}) :
 	$(FLOW_ANALYSE)     \
-        --verbose --force \
+        --verbose $(ANALYSIS_FLAGS) \
         --backend $(UAS_DB_BACKEND) \
         $(UAS_DB)       \
         ${2}            \

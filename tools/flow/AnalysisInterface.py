@@ -225,7 +225,7 @@ class AnalysisInterface(object):
         verb     = "Skipped"
 
         for strace in traceset.statisticTraces:
-            if(strace.stat_trace == StatTraceType.AVG):
+            if(strace.stat_type == StatTraceType.AVG):
                 existing = strace
                 break
 
