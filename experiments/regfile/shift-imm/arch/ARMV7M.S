@@ -8,10 +8,11 @@ experiment_payload: // r0 - TTest variable.
     FUNC_ENTER
     mov  r1, r0     // Move r0 to r1
     eor  r0, r0     // clear r0.
+    eor  r0, r0     // clear any pipe registers
 
     NOP_SPACER
 
-    slli r0, r0, 1  // Shift left zero'd r0 by 1. Does this access r1?
+    lsr  r0, r0, #1 // Shift left zero'd r0 by 1. Does this access r1?
     
     NOP_SPACER
 
