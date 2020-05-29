@@ -3,4 +3,4 @@
 	url = https://github.com/danpage/scale-hw.git
 [submodule "external/fw-acquisition"]
 	path = external/fw-acquisition
-	url = https://github.com/scarv/fw-acquisition.git
+	url = git@github.com:scarv/fw-acquisition.git
