@@ -26,6 +26,6 @@ intimidating make flow.*
 
   - [Analysis](make-flow.md#Analysis)
 
-- [Results Database](docs/database.md)
+- [Results Database](database.md)
 
-- [Results Browser](docs/results-browser.md)
+- [Results Browser](results-browser.md)
