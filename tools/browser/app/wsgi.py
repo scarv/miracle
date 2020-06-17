@@ -1,13 +1,14 @@
+import logging as log
+import os
+import sys
 
-import  os
-import  sys
-import  logging as log
-
-from    flask   import Flask
+from flask import Flask
+from waitress import serve
 
 sys.path.append(os.path.expandvars("$UAS_ROOT/tools/database"))
 
-from    config  import DefaultConfig
+from config import DefaultConfig
+
 
 def create_app(test_config=None):
     # create and configure the app
@@ -28,7 +29,7 @@ def create_app(test_config=None):
 
     import pages
     app.register_blueprint(pages.bp)
-    app.add_url_rule('/',endpoint="index")
+    app.add_url_rule('/', endpoint="index")
 
     import targets
     app.register_blueprint(targets.bp)
@@ -38,13 +39,14 @@ def create_app(test_config=None):
 
     import plot
     app.register_blueprint(plot.bp)
-    
+
     return app
 
 
 def main():
     app = create_app()
-    app.run()
+    serve(app)
 
-if(__name__ == "__main__"):
+
+if (__name__ == "__main__"):
     main()
