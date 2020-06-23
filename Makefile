@@ -252,5 +252,5 @@ $(foreach TGT,$(TARGETS), $(foreach EXP,$(EXPERIMENTS), $(eval $(call add_tgt_an
 build-all: $(BUILD_TARGETS)
 
 browse-results:
-	$(MAKE) -C $(MIR_BROWSER_REPO_HOME) run
+	cd $(MIR_BROWSER_REPO_HOME) && python3 ./browser/wsgi.py $(UAS_DB)
 
