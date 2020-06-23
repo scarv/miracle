@@ -8,6 +8,8 @@ export UAS_DB=$UAS_BUILD/database.sqlite
 export UAS_DB_BACKEND=sqlite
 export SCALE_SW=$UAS_ROOT/external/scale-sw
 export SCALE_HW=$UAS_ROOT/external/scale-hw
+export MIR_DB_REPO_HOME=$UAS_ROOT/external/miracle-db
+export MIR_BROWSER_REPO_HOME=$UAS_ROOT/external/miracle-browser
 
 if [ -z $UAS_ARM_TOOLCHAIN_ROOT ] ; then
     export UAS_ARM_TOOLCHAIN_ROOT=/usr/bin/
@@ -31,12 +33,14 @@ fi
 
 mkdir -p $UAS_BUILD
 
-echo "UAS_ROOT  = $UAS_ROOT"
-echo "UAS_BUILD = $UAS_BUILD"
-echo "UAS_DB    = $UAS_DB_BACKEND:///$UAS_DB"
-echo "SCALE_SW  = $SCALE_SW"
-echo "SCALE_HW  = $SCALE_HW"
-echo "OPENOCD   = $OPENOCD"
+echo "UAS_ROOT              = $UAS_ROOT"
+echo "UAS_BUILD             = $UAS_BUILD"
+echo "UAS_DB                = $UAS_DB_BACKEND:///$UAS_DB"
+echo "SCALE_SW              = $SCALE_SW"
+echo "SCALE_HW              = $SCALE_HW"
+echo "OPENOCD               = $OPENOCD"
+echo "MIR_DB_REPO_HOME      = $MIR_DB_REPO_HOME"
+echo "MIR_BROWSER_REPO_HOME = $MIR_BROWSER_REPO_HOME"
 echo "---"
 echo "UAS_ARM_TOOLCHAIN_ROOT        = $UAS_ARM_TOOLCHAIN_ROOT"
 echo "UAS_MICROBLAZE_TOOLCHAIN_ROOT = $UAS_MICROBLAZE_TOOLCHAIN_ROOT"
@@ -46,10 +50,18 @@ echo "-----------------------------------------------------------------------"
 
 if [ ! -f $UAS_DB ]; then
 
-    echo "Initialising UAS Leakage Database"
+    echo "No pre-existing leakage database found."
+    echo "> Initialising UAS Leakage Database..."
 
-    make -C $UAS_ROOT/tools/database init-database > \
-        $UAS_BUILD/database-init.log
+    $UAS_ROOT/bin/init-database.sh
+
+else
+
+    echo "Using existing leakage database:"
+    echo "> $UAS_DB"
 
 fi
+
+
+echo "-----------------------------------------------------------------------"
 

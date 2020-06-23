@@ -251,4 +251,6 @@ $(foreach TGT,$(TARGETS), $(foreach EXP,$(EXPERIMENTS), $(eval $(call add_tgt_an
 
 build-all: $(BUILD_TARGETS)
 
+browse-results:
+	$(MAKE) -C $(MIR_BROWSER_REPO_HOME) run
 

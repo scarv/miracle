@@ -4,3 +4,9 @@
 [submodule "external/fw-acquisition"]
 	path = external/fw-acquisition
 	url = git@github.com:scarv/fw-acquisition.git
+[submodule "external/miracle-db"]
+	path = external/miracle-db
+	url = git@github.com:scarv/miracle-db.git
+[submodule "external/miracle-browser"]
+	path = external/miracle-browser
+	url = git@github.com:scarv/miracle-browser.git
