@@ -76,10 +76,19 @@ void init_trigger(void)
 
 /*!
 */
-uint8_t uas_bsp_init_target(){
+uint8_t uas_bsp_init_target(
+    scass_target_cfg * cfg //!< The scass target object to configure.
+){
     init_platform();
     init_uart();
     init_trigger();
+
+    // Set the current clock rate.
+    cfg -> sys_clk.clk_current          = 7350000;
+    cfg -> sys_clk.ext_clk_rate         = 7350000; // 7.35MHz 
+    cfg -> sys_clk.clk_rates[0]         = cfg -> sys_clk.clk_current;
+    cfg -> sys_clk.clk_source_avail     = SCASS_CLK_SRC_EXTERNAL;
+    cfg -> sys_clk.clk_source_current   = SCASS_CLK_SRC_EXTERNAL;
 
     uas_bsp_trigger_set();
     uas_bsp_trigger_clear();

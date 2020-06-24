@@ -81,7 +81,9 @@ static void uas_bsp_init_gpio() {
 
 /*!
 */
-uint8_t uas_bsp_init_target(){
+uint8_t uas_bsp_init_target(
+    scass_target_cfg * cfg //!< The scass target object to configure.
+){
     uas_bsp_init_clock();
     uas_bsp_init_uart();
     uas_bsp_init_gpio();

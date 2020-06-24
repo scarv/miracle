@@ -33,7 +33,9 @@ const uint32_t GPIO_GPO     = 0x00000002;
 
 /*!
 */
-uint8_t uas_bsp_init_target(){
+uint8_t uas_bsp_init_target(
+    scass_target_cfg * cfg //!< The scass target object to configure.
+){
 
     // Clear the UART RX/TX FIFOs and disable it's interrupts
     UART_CTRL[0] = (UART_CTRL_RST_TX_FIFO |
@@ -41,6 +43,13 @@ uint8_t uas_bsp_init_target(){
 
     // Set the GPO bit to indicate we are running, and clear the trigger.
     GPIO[0] |= (GPIO_GPO & ~GPIO_TRIGGER);
+
+    // Set the current clock rate.
+    cfg -> sys_clk.clk_current          =  25000000; //  25MHz
+    cfg -> sys_clk.ext_clk_rate         = 200000000; // 200MHz
+    cfg -> sys_clk.clk_rates[0]         = cfg -> sys_clk.clk_current;
+    cfg -> sys_clk.clk_source_avail     = SCASS_CLK_SRC_INTERNAL;
+    cfg -> sys_clk.clk_source_current   = SCASS_CLK_SRC_INTERNAL;
 
     return 0;
 

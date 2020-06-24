@@ -15,12 +15,13 @@
 
 #include "uas_bsp.h"
 
-
 scale_conf_t scale_conf;
 
 /*!
 */
-uint8_t uas_bsp_init_target(){
+uint8_t uas_bsp_init_target(
+    scass_target_cfg * cfg //!< The scass target object to configure.
+){
     
     if(scale_init(&SCALE_CONF)) {
         scale_gpio_wr(SCALE_GPIO_PIN_GPO, 1);
@@ -31,6 +32,13 @@ uint8_t uas_bsp_init_target(){
         scale_gpio_wr(SCALE_GPIO_PIN_TRG, 1);
         return 1;
     }
+    
+    // Set the current clock rate for SCASS.
+    cfg -> sys_clk.clk_current  = SCALE_CONF.clock_freq_target*1000000;
+    cfg -> sys_clk.ext_clk_rate         = 0;
+    cfg -> sys_clk.clk_rates[0]         = cfg -> sys_clk.clk_current;
+    cfg -> sys_clk.clk_source_avail     = SCASS_CLK_SRC_INTERNAL;
+    cfg -> sys_clk.clk_source_current   = SCASS_CLK_SRC_INTERNAL;
 }
 
 /*!

@@ -148,6 +148,9 @@ def commandCapture(args, ef, db, device_config):
             log.error("Experiment name '%s' doesn't match target experiment name: '%s'" % (ef.EXPERIMENT_NAME, tname))
             return 1
 
+        clock_info = target_comms.doGetSysClkInfo()
+        log.info("Clock Information:\n"+str(clock_info))
+
     except Exception as e:
         log.error(e)
         return 1

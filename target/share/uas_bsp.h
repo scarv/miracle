@@ -14,6 +14,8 @@ interractions and configurations.
 #include <stdint.h>
 #include <stdlib.h>
 
+#include "scass/scass_target.h"
+
 #ifndef UAS_BSP_H
 #define UAS_BSP_H
 
@@ -27,7 +29,9 @@ interractions and configurations.
 @returns 0 on success, non-zero on failure.
 @note This function must be implemented by the target.
 */
-uint8_t uas_bsp_init_target();
+uint8_t uas_bsp_init_target(
+    scass_target_cfg * cfg //!< The scass target object to configure.
+);
 
 /*!
 @brief Read a single character from the target UART port.
