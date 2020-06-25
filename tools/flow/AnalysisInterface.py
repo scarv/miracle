@@ -13,6 +13,7 @@ import ldb
 from ldb.records import StatisticTrace
 from ldb.records import CorrolationTraces
 from ldb.records import StatTraceType
+from ldb.records import TraceSetBlob
 
 import scass
 
@@ -126,7 +127,7 @@ class AnalysisInterface(object):
         ):
         """
         Creates StatisticTrace and CorrolationTraces records from the
-        input parameters and commtis them to the database
+        input parameters and commits them to the database
         """
             
         self.database.pushAutoCommit(False)
@@ -255,6 +256,78 @@ class AnalysisInterface(object):
         ))
 
 
+    def getStatTraceForTraceSetBlob(self, traceset,traceType):
+        """
+        Given a TraceSetBlob, return the first StatisticTrace
+        object with the matching traceType, or None if it doesnt exist.
+        """
+        assert(isinstance(traceset, TraceSetBlob))
+
+        for t in traceset.statisticTraces:
+            if(t.stat_type == traceType):
+                return t
+
+        return None
+
+
+    def getOrInsertAverageTrace(self, traceset):
+        """
+        Given a TraceSetBlob, return the average StatisticTrace
+        object for it. If it doesn't exist, create it and return it.
+        """
+        assert(isinstance(traceset, TraceSetBlob))
+
+        tr = self.getStatTraceForTraceSetBlob(traceset, StatTraceType.AVG)
+        
+        if(tr == None):
+            self.runAverageTraceForTraceSetBlob(traceset)
+
+        tr = self.getStatTraceForTraceSetBlob(traceset, StatTraceType.AVG)
+
+        return tr
+
+
+    def runFFTForTraceSetBlob(self, traceset):
+        """
+        Compute the discrete fourier transform for the average
+        trace of the supplied trace set.
+        """
+        
+        statTrace = self.getOrInsertAverageTrace(traceset)
+        trace     = statTrace.getValuesAsNdArray()
+
+        existing  = self.getStatTraceForTraceSetBlob(
+            traceset, StatTraceType.FFT
+        )
+
+        toInsert  = None
+        verb      = "Skipped"
+
+        if(existing == None or self.force):
+
+            fft_trace = np.fft.fft(trace)
+            fft_trace = fft_trace[0:int(fft_trace.size/2)]
+
+            if(existing == None):
+                verb = "Inserted"
+                existing = StatisticTrace.fromTraceArray(
+                    fft_trace, StatTraceType.FFT
+                )
+
+                traceset.statisticTraces.append(existing)
+
+            else:
+                existing.setTraceValues(fft_trace)
+                verb = "Updated"
+
+            self.database.commit()
+        
+        log.info("%s FFT trace for Trace Set ID=%d" % (
+            verb,
+            traceset.id,
+        ))
+
+
     def runAverageTraceForTTest(self, ttest):
         """
         Compute the average trace for the fixed and random
@@ -262,6 +335,15 @@ class AnalysisInterface(object):
         """
         self.runAverageTraceForTraceSetBlob(ttest.fixedTraceSet)
         self.runAverageTraceForTraceSetBlob(ttest.randomTraceSet)
+
+    def runFFTForTTest(self, ttest):
+        """
+        Compute the discrete Fourier Transform for the average
+        trace of the fixed and random trace set blobs of the
+        supplied ttest.
+        """
+        self.runFFTForTraceSetBlob(ttest.fixedTraceSet)
+        self.runFFTForTraceSetBlob(ttest.randomTraceSet)
 
 
     def getTTestsForTargetAndExperiment(self):
@@ -280,6 +362,7 @@ class AnalysisInterface(object):
         for ttest in ttest_sets:
             self.runTTestAnalyses(ttest)
             self.runAverageTraceForTTest(ttest)
+            self.runFFTForTTest(ttest)
 
             for variable in ttest.randomTraceSet.variableValues:
 
