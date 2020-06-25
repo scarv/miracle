@@ -28,7 +28,7 @@ if [ -z $UAS_MICROBLAZE_TOOLCHAIN_ROOT ] ; then
 fi
 
 if [ -z $OPENOCD ] ; then
-    export OPENOCD=openocd
+    export OPENOCD=~/tools/openocd-code/build/bin/openocd
 fi
 
 mkdir -p $UAS_BUILD
