@@ -48,6 +48,21 @@ class AnalysisInterface(object):
 
         return None
 
+    def generateStatTraceName(self, traceSetBlob, name, variableName):
+        tset_params = ast.literal_eval(traceSetBlob.parameters)
+        pstr        = []
+        for p in tset_params:
+            pstr.append("%s=%s"%(p,tset_params[p]))
+        pstr        = ", ".join(pstr)
+
+        trace_name = "%s - %s %s: %s, %s" % (
+            self.experiment.name, self.target.name,
+            name,
+            variableName,
+            pstr
+        )
+
+        return trace_name
 
     def runHammingWeightAnalysis(self, traceSetBlob, variableName):
         """
@@ -70,16 +85,8 @@ class AnalysisInterface(object):
             hw_tracesset, hw_inputs
         )
 
-        tset_params = ast.literal_eval(traceSetBlob.parameters)
-        pstr        = []
-        for p in tset_params:
-            pstr.append("%s=%s"%(p,tset_params[p]))
-        pstr        = ", ".join(pstr)
-
-        corr_trace_name = "%s - %s Hamming Weight: %s, %s" % (
-            self.experiment.name, self.target.name,
-            variableName,
-            pstr
+        corr_trace_name = self.generateStatTraceName(
+            traceSetBlob, "Hamming Weight", variableName
         )
 
         self.insertCorrolationTrace(
@@ -122,7 +129,9 @@ class AnalysisInterface(object):
             hd_tracesset, inputs1, inputs2
         )
         
-        corr_trace_name = ""
+        corr_trace_name = self.generateStatTraceName(
+            traceSetBlob, "Hamming Distance", "%s+%s"%(var1Name,var2Name)
+        )
 
         self.insertCorrolationTrace(
             [traceSetBlob], [variable1,variable2], hd_trace,
