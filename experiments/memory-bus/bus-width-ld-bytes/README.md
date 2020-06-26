@@ -83,3 +83,9 @@ We expect to see either:
     which it resides is in fact manipulated and presented to the CPU,
     which then throws away the extra bytes.
 
+## Running
+
+```
+make UAS_TARGET=<tgt> flow-memory-bus-bus-width-ld-bytes
+```
+

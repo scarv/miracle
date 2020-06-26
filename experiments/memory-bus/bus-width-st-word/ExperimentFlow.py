@@ -15,11 +15,22 @@ def runCapture(args):
     for idx in range(0,3):
         variables = {"off" : off, "idx" : idx}
 
-        args.runAndInsertTTest (
+        args.runAndInsertTraceCollection (
             EXPERIMENT_CATAGORY ,
             EXPERIMENT_NAME     ,
-            variables
+            variables           ,
+            int(args.num_ttest_traces)
         )
 
     return 0
+
+def runAnalysis(aif):
+    """
+    Run any experiment specific analysis.
+
+    aif - AnalysisInterface instance
+    """
+
+    for blob in aif.getTraceSetBlobsForTargetAndExperiment():
+        aif.runHammingWeightAnalysis(blob, "din")
 
