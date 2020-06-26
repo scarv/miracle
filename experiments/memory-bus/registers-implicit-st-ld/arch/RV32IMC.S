@@ -10,13 +10,11 @@ experiment_payload:
     xor t0,t0,t0    // Clear load instruction destination
     xor t1,t1,t1    // registers.
 
-    NOP_SPACER
-
     lw t0,0(a0)     // Clear load data path
 
     NOP_SPACER
 
-    sw t1,0(a2)     // Store 0 over TTest variable 2
+    sw a3,0(a2)     // Store TTest variable 2 over zeros
 
     NOP_SPACER
 

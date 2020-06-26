@@ -10,8 +10,6 @@ experiment_payload:
     eor r4,r4       // Clear load instruction destination
     eor r5,r5       // registers.
 
-    NOP_SPACER
-
     ldr r4,[r0,#0]      // Clear load data path
 
     NOP_SPACER
@@ -24,7 +22,7 @@ experiment_payload:
 
     NOP_SPACER
 
-    str r5,[r2,#0]      // Store 0 over TTest variable 2
+    str r3,[r2,#0]  // Store TTest variable 2 over din[index2], which is zero.
 
     NOP_SPACER
 

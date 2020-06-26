@@ -8,7 +8,7 @@ experiment_payload:     // eax - zeros array
                         // ecx - ttest array 2
     FUNC_ENTER
     
-    mov $0, %ebx        // and data from memory into
+    mov     4(%ebp), %ebx  // ebx - di2
 
     NOP_SPACER
 
@@ -16,7 +16,7 @@ experiment_payload:     // eax - zeros array
                         // Use 32-bit reg identifier
     NOP_SPACER
     
-    mov   %ebx ,(%edx)  // Store zeros over TTest variable 1 in memory
+    mov   %ebx ,(%edx)  // Store TTest variable 2
     
     NOP_SPACER
     

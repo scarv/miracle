@@ -7,21 +7,15 @@ experiment_payload:     // eax - zeros array
                         // edx - ttest array 1
                         // ecx - ttest array 2
     FUNC_ENTER
-    
-    mov $0, %ebx        // and data from memory into
+    mov     4(%ebp), %ebx  // ebx - di2
 
-    NOP_SPACER
-
-    mov  (%eax), %ebx   // Move zeros into ebx
-                        // Use 32-bit reg identifier
     NOP_SPACER
     
     mov  (%edx), %edx   // Load TTest variable 1
     
     NOP_SPACER
     
-    mov   %ebx ,(%ecx)  // Store zeros over TTest variable 2 in memory
-
+    mov   %ebx ,(%ecx)   // Store TTest variable 2 over din[index2], which is zero.
     NOP_SPACER
     
     mov  (%eax), %ebx   // Move zeros into ebx

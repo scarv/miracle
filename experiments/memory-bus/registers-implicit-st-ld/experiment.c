@@ -39,7 +39,8 @@ scass_target_var  experiment_variables [] = {
 extern void     * experiment_payload(
     uint32_t * zeros,
     uint32_t * data1,
-    uint32_t * data2
+    uint32_t * data2,
+    uint32_t   di2
 );
 
 /*!
@@ -81,15 +82,17 @@ uint8_t experiment_run(
     char               fixed //!< used fixed variants of variables?
 ){
 
-    din[dindex1] = fixed ? di1_fixed: di1_rand;
-    din[dindex2] = fixed ? di2_fixed: di2_rand;
+    din[dindex1] = (fixed ? di1_fixed: di1_rand);
+    din[dindex2] = 0;
+    uint32_t  di2= (fixed ? di2_fixed: di2_rand);
 
     uas_bsp_trigger_set();
     
     experiment_payload(
         zeros,
-        din+dindex1 ,
-        din+dindex2 
+        &din[dindex1],
+        &din[dindex2],
+        di2
     );
     
     uas_bsp_trigger_clear();
