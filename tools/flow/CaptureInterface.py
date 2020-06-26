@@ -62,6 +62,31 @@ class CaptureInterface(object):
             var.takeFixedValue()
 
         return ttest
+    
+
+    def createCollectTracesClass(self, num_traces, variable_values={}):
+        """
+        Boilerplate for creating a CollectTraces class.
+        """
+
+        collector = scass.cpa.CollectTraces (
+            self.target_comms,
+            self.scope,
+            self.scope.trigger_channel,
+            self.scope_power_channel,
+            num_traces = num_traces,
+            num_samples = self.trigger_window_size
+        )
+
+        collector.initialiseTraceCollection()
+        
+        for vname in variable_values:
+            vvalue = variable_values[vname]
+            var = collector.getVariableByName(vname)
+            var.setFixedValue(vvalue.to_bytes(var.size,byteorder="little"))
+            var.takeFixedValue()
+
+        return collector
 
 
     def runAndInsertTTest(self,
@@ -136,6 +161,33 @@ class CaptureInterface(object):
         ).filter_by(parameters = ttest_param_string)
 
         return pre_existing.count() > 0
+    
+    
+    def checkIfTraceSetBlobExists(self,
+            experiment_catagory,
+            experiment_name,
+            param_string):
+        """
+        Return true iff a TraceSetBlob for the supplied experiment, target
+        and parameters already exists. Else return False.
+        """
+        db_experiment   = self.database.getExperimentByCatagoryAndName(
+            experiment_catagory, experiment_name
+        )
+
+        if(db_experiment == None):
+            return False
+
+        db_target       = self.database.getTargetByName(self.target_name)
+
+        if(db_target == None):
+            return False
+        
+        pre_existing = self.database.getTraceSetBlobByTargetAndExperiment(
+            db_target.id, db_experiment.id
+        ).filter_by(parameters = ttest_param_string)
+
+        return pre_existing.count() > 0
 
 
     def dbGetOrInsertExperiment(self, experiment_catagory, experiment_name):
@@ -176,6 +228,41 @@ class CaptureInterface(object):
         param_str       = str(param_dict)
 
         return param_str
+
+    def createParamStringFromDict(d):
+        return str(d)
+
+
+    def dbInsertVariableValues(
+        self,
+        var_info,
+        var_values
+        ):
+        """
+        Create, insert and return a variable values record.
+
+        var_name : str
+        var_values: ndarray
+        var_info : TargetVar
+
+        Returns: VariableValues instance
+        """
+
+        record = ldb.records.VariableValues.fromValuesArray(
+            var_info.name,
+            var_values
+        )
+        record.is_input         = var_info.is_input
+        record.is_output        = var_info.is_output
+        record.is_randomisable  = var_info.is_randomisable
+        record.is_ttest_var     = var_info.is_ttest_variable
+
+        self.database.insertVariableValues(record)
+
+        log.info("Added variable values for '%s'" % var_info.name)
+
+        return record
+
 
     def dbInsertTTestTraceSet(self, 
                               ttest,
@@ -229,37 +316,24 @@ class CaptureInterface(object):
         random_variables  = []
 
         for var_name in ttest.tgt_vars_values:
-            var_values = ttest.tgt_vars_values[var_name]
             var        = ttest.getVariableByName(var_name)
 
             if(var.is_input == False):
                 continue
 
-            nv_fixed = ldb.records.VariableValues.fromValuesArray(
-                var_name,
-                ttest.getVariableValuesForFixedTraces(var_name)
+            nv_fixed = self.dbInsertVariableValues (
+                var,
+                ttest.getVariableValuesForFixedTraces(var.name)
             )
-            nv_fixed.is_input   = var.is_input
-            nv_fixed.is_output  = var.is_output
-            nv_fixed.is_randomisable = var.is_randomisable
-            nv_fixed.is_ttest_var    = var.is_ttest_variable
-
-            nv_rand  = ldb.records.VariableValues.fromValuesArray(
-                var_name,
-                ttest.getVariableValuesForRandomTraces(var_name)
+            
+            nv_rand  = self.dbInsertVariableValues (
+                var,
+                ttest.getVariableValuesForRandomTraces(var.name)
             )
-            nv_rand.is_input   = var.is_input
-            nv_rand.is_output  = var.is_output
-            nv_rand.is_randomisable = var.is_randomisable
-            nv_rand.is_ttest_var    = var.is_ttest_variable
             
             fixed_variables.append(nv_fixed)
             random_variables.append(nv_rand)
 
-            self.database.insertVariableValues(nv_fixed)
-            self.database.insertVariableValues(nv_rand)
-
-            log.info("Added variable values for '%s'" % var_name)
 
         ts_fixed = TraceSetBlob.fromTraces(
             ttest.getFixedTraces(),
@@ -272,6 +346,9 @@ class CaptureInterface(object):
             db_experiment.id,
             db_target.id
         )
+
+        ts_fixed.parameters     = param_str
+        ts_rand.parameters      = param_str
 
         ts_fixed.targetFreq     = ttest.target_clk_info.current_rate
         ts_rand.targetFreq      = ttest.target_clk_info.current_rate
@@ -308,3 +385,99 @@ class CaptureInterface(object):
         log.info("Inserted TTraceSet to database: id=%d" % ttraceset.id)
 
         return 0
+
+
+    def runAndInsertTraceCollection(self,
+            experiment_catagory,
+            experiment_name,
+            variable_values,
+            num_traces
+        ):
+        """
+        Create a scass.cpa.CollectTraces class and collect N traces.
+        Insert the collected trace blob into the database.
+        """
+        assert(isinstance(experiment_catagory,str))
+        assert(isinstance(experiment_name,str))
+        assert(isinstance(variable_values,dict))
+
+        # Parameter string created from pre-set input variable values.
+        param_string = CaptureInterface.createParamStringFromDict(
+            variable_values
+        )
+    
+        if(self.skip_if_present):
+
+            ts_exists = self.checkIfTraceSetBlobExists (
+                experiment_catagory, experiment_name, param_string
+            )
+
+            if(ts_exists):
+                log.info("TraceSet for %s/%s:%s with parameters %s already exists. Skipping." % (
+                    experiment_catagory, experiment_name,
+                    self.target_name, param_string
+                ))
+
+                return 0
+        
+        # The object which does all of the trace collection.
+        collector = self.createCollectTracesClass(
+            num_traces,
+            variable_values=variable_values
+        )
+
+        # Gather the trace set
+        collector.gatherTraces()
+
+        # commit everything we insert at the end.
+        self.database.pushAutoCommit(False)
+        
+        db_experiment   = self.dbGetOrInsertExperiment(
+            experiment_catagory, experiment_name
+        )
+
+        db_target       = self.database.getTargetByName(self.target_name)
+
+        # Check if there are any pre-existing trace blobs matching
+        # our description and remove them if need be.
+        preexisting      = self.database.getTraceSetBlobByTargetAndExperiment(
+            db_target.id,
+            db_experiment.id
+        )
+
+        for p in preexisting:
+            if(p.parameters == param_string):
+                log.info("Removing existing trace blob id=%d"%p.id)
+                self.database.removeTraceSetBlob(p.id)
+
+        # Insert and collect records for the input variable values.
+        variableValues = []
+
+        for var in collector.tgt_vars:
+            record = self.dbInsertVariableValues (
+                var,
+                collector.getVariableValuesForTraces(var.name)
+            )
+            variableValues.append(record)
+
+        # Create and insert the trace blob object.
+        blob = TraceSetBlob.fromTraces (
+            collector.traces,
+            db_experiment.id,
+            db_target.id
+        )
+        blob.parameters = param_string
+        blob.variableValues= variableValues
+
+        self.database.insertTraceSetBlob(blob)
+
+        self.database.popAutoCommit()
+        
+        try:
+            self.database.commit()
+        except Exception as e:
+            log.error("Failed to add traceset into the database.")
+            log.error(str(e))
+            return 1
+        
+        log.info("Inserted TraceSetBlob to database: id=%d" % blob.id)

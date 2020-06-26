@@ -2,6 +2,7 @@
 import os
 import logging as log
 import datetime
+import ast
 
 import numpy as np
 
@@ -69,7 +70,17 @@ class AnalysisInterface(object):
             hw_tracesset, hw_inputs
         )
 
-        corr_trace_name = ""
+        tset_params = ast.literal_eval(traceSetBlob.parameters)
+        pstr        = []
+        for p in tset_params:
+            pstr.append("%s=%s"%(p,tset_params[p]))
+        pstr        = ", ".join(pstr)
+
+        corr_trace_name = "%s - %s Hamming Weight: %s, %s" % (
+            self.experiment.name, self.target.name,
+            variableName,
+            pstr
+        )
 
         self.insertCorrolationTrace(
             [traceSetBlob], [variable], hw_trace,
@@ -143,6 +154,8 @@ class AnalysisInterface(object):
 
             stat_trace  = StatisticTrace.fromTraceArray(trace, traceType)
 
+            stat_trace.name = name
+
             corr_trace  = CorrolationTraces(
                 name        = name,
                 experiment  = self.experiment,
@@ -196,6 +209,12 @@ class AnalysisInterface(object):
                 stat_trace  = StatisticTrace.fromTraceArray(
                     tt.ttrace,
                     ldb.records.StatTraceType.TTRACE
+                )
+
+                stat_trace.name = "%s - %s - TTrace, %s" % (
+                    self.experiment.name,
+                    self.target.name,
+                    self.createParamStringFromTTest(ttest)
                 )
 
                 ttest.tStatisticTrace = stat_trace
@@ -348,6 +367,11 @@ class AnalysisInterface(object):
 
     def getTTestsForTargetAndExperiment(self):
         return self.database.getTTraceSetsByTargetAndExperiment(
+            self.target.id, self.experiment.id
+        )
+
+    def getTraceSetBlobsForTargetAndExperiment(self):
+        return self.database.getTraceSetBlobByTargetAndExperiment(
             self.target.id, self.experiment.id
         )
 
