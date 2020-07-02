@@ -14,7 +14,7 @@ make -B \
     SKIP_CAPTURE_IF_PRESENT=0       \
     TTEST_NUM_TRACES=$NUM_TRACES    \
     UAS_TARGET=$TARGET              \
-    flow-$1 analyse_${TARGET}_${1}
+    flow-$1
 
 }
 

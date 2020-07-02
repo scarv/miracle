@@ -212,7 +212,8 @@ define add_tgt_flow
 flow-$(call map_exp,${1}) : \
     $(call map_tgt,build,${UAS_TARGET},${1}) \
     $(call map_tgt,program,${UAS_TARGET},${1}) \
-    $(call map_tgt,capture,${UAS_TARGET},${1})
+    $(call map_tgt,capture,${UAS_TARGET},${1}) \
+    $(call map_tgt,analyse,${UAS_TARGET},${1}) 
 FLOW_TARGETS += flow-$(call map_exp,${1})
 TGT_ANALYSIS_TARGETS += $(call map_tgt,analyse,${UAS_TARGET},${1}) 
 endef
