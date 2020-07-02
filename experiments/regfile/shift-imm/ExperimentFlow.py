@@ -29,4 +29,5 @@ def runAnalysis(aif):
     for ttest in aif.getTTestsForTargetAndExperiment():
         aif.runHammingDistanceAnalysis(ttest.randomTraceSet, "di1","di2")
         aif.runHammingDistanceAnalysis(ttest.randomTraceSet, "di2","di3")
+        aif.runHammingDistanceAnalysis(ttest.randomTraceSet, "di1","di3")
 
