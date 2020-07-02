@@ -16,6 +16,8 @@ from ldb.records import CorrolationTraces
 from ldb.records import StatTraceType
 from ldb.records import TraceSetBlob
 
+from CaptureInterface import CaptureInterface
+
 import scass
 
 class AnalysisInterface(object):
@@ -223,7 +225,7 @@ class AnalysisInterface(object):
                 stat_trace.name = "%s - %s - TTrace, %s" % (
                     self.experiment.name,
                     self.target.name,
-                    self.createParamStringFromTTest(ttest)
+                    ttest.parameters
                 )
 
                 ttest.tStatisticTrace = stat_trace
