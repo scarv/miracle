@@ -10,11 +10,13 @@ def runCapture(args):
     Top level function for running all trace capture processes for this
     experiment.
     """
-    return args.runAndInsertTTest (
-            EXPERIMENT_CATAGORY ,
-            EXPERIMENT_NAME     ,
-            {}
-        )
+
+    args.runAndInsertTraceCollection (
+        EXPERIMENT_CATAGORY ,
+        EXPERIMENT_NAME     ,
+        {}                  ,
+        int(args.num_ttest_traces)
+    )
 
 def runAnalysis(aif):
     """
@@ -22,10 +24,12 @@ def runAnalysis(aif):
 
     aif - AnalysisInterface instance
     """
-
-    aif.runDefaultAnalysis()
-
-    for ttest in aif.getTTestsForTargetAndExperiment():
-        aif.runHammingDistanceAnalysis(ttest.randomTraceSet, "di1","di2")
-        aif.runHammingDistanceAnalysis(ttest.randomTraceSet, "di2","di3")
-        aif.runHammingDistanceAnalysis(ttest.randomTraceSet, "di3","di4")
+    
+    for blob in aif.getTraceSetBlobsForTargetAndExperiment():
+        aif.runHammingWeightAnalysis(blob, "di1")
+        aif.runHammingWeightAnalysis(blob, "di2")
+        aif.runHammingWeightAnalysis(blob, "di3")
+        aif.runHammingWeightAnalysis(blob, "di4")
+        aif.runHammingDistanceAnalysis(blob, "di1","di2")
+        aif.runHammingDistanceAnalysis(blob, "di2","di3")
+        aif.runHammingDistanceAnalysis(blob, "di3","di4")
