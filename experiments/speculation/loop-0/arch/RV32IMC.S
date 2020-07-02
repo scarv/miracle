@@ -16,7 +16,9 @@ experiment_payload:
         add t0,t0,a2            // Increment loop counter
         bne t0, a1, loop_0      // Finish the loop?
 
-    xor t2,t2,a0                // Operate on secret value.
+    xor a0,a0,a0                // Operate on secret value.
+
+    NOP_SPACER
 
     FUNC_RETURN
 

@@ -18,8 +18,10 @@ experiment_payload:             // r5 = TTest variable 1
             cmp r11, r9, r6     // Finish the loop?
             bnei r11, loop_0    // Branch up
                                                            
-    xor r11,r11,r5              // Operate on secret value 1.
-    xor r11,r11,r6              // Operate on secret value 2.
+    xor r5, r5, r5              // Operate on secret value 1.
+    xor r6, r6, r6              // Operate on secret value 2.
+
+    NOP_SPACER
 
     FUNC_RETURN
 

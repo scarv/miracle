@@ -1,41 +1,29 @@
-/*!
 
-@defgroup experiments-speculation-loop-0 Loop Branch Shadow 0
-@ingroup  experiments-speculation
-@brief Do we see leakage from un-executed/partially executed instructions?
+# Speculation / loop 0
 
-@see @ref experiments-speculation-jump-shadow-0
-@see @ref experiments-speculation-loop-0
-@see @ref experiments-speculation-loop-1
-@see @ref experiments-speculation-unpredictable-0
+## Purpose
 
-## Purpose:
+- To see if after the "branch backwards" instruction of a loop
+  body is executed, and program-order instructions following it
+  are also partially executed but thrown away.
 
-- The simplest form of static branch prediction is "always predict taken"
-  of "always predict taken if backwards".
+## Method
 
-- If a CPU implements this, then looping code should have no branch shadow,
-  and instructions in the shadow of a branch should not be even
-  partially exectued.
+- Create a simple loop body which just increments the loop counter.
 
-## Method:
+- After final "branch backwards" instruction, add a single xor instruction
+  which "clears" a register containing a secret value: `xor r0,r0,r0`
 
-- Create a simple empty loop, which iterates 8 times.
+- Execute the loop `N` times before clearing the secret variable at the end.
 
-- The instruction following the end of the loop (immediately after the
-  branch instruction) is an `xor`, with a TTest variable as one of
-  it's operands.
+## Expectation
 
-## Expectations:
+- If the xor instrutiton only enters data-dependent parts of the pipeline
+  when executed, then we should only see hamming weight leakage in one
+  place in the trace.
 
-- If either the "always predict taken" or "always predict taken if backwards"
-  static branch prediction rules are implemented, then we should never
-  see the `xor` instruction leakage.
-
-  - Note that this experiment  assumes that the target device has a leaky
-    branch shadow of depth at-least `1`.
-
-  - If that assumption does not hold, no leakage will be visible.
+- If the xor instruction partially executes every loop iteration, then
+  we will see hamming weight leakage each time the loop re-runs.
 
 ## Running the experiment
 

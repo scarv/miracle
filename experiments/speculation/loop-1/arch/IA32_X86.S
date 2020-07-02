@@ -18,8 +18,10 @@ experiment_payload:
         cmp $0, %edx    // Finish the loop?
         jne loop_0      // Branch up
 
-    mov %eax,%eax       // Operate on TTest variable 1.
-    mov %ebx,%ebx       // Operate on TTest variable 2.
+    eor %eax,%eax       // Operate on TTest variable 1.
+    eor %ebx,%ebx       // Operate on TTest variable 2.
+
+    NOP_SPACER
 
     FUNC_RETURN
 

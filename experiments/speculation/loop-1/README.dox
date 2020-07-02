@@ -1,34 +1,19 @@
-/*!
 
-@defgroup experiments-speculation-loop-1 Loop Branch Shadow 1
-@ingroup  experiments-speculation
-@brief Do we see leakage from un-executed/partially executed instructions?
+# Speculation / loop 1
 
-@see @ref experiments-speculation-jump-shadow-0
-@see @ref experiments-speculation-loop-0
-@see @ref experiments-speculation-loop-1
-@see @ref experiments-speculation-unpredictable-0
+## Purpose
 
-## Purpose:
+- To see if after the "branch backwards" instruction of a loop
+  body is executed, and program-order instructions following it
+  are also partially executed but thrown away.
 
-Identical to @ref experiments-speculation-loop-1 but with a single
-`nop` between the loop branch instruction and the target `xor`.
-
-## Method:
-
-See  @ref experiments-speculation-loop-1 .
+## Method
 
 
-## Expectations:
 
-- If either the "always predict taken" or "always predict taken if backwards"
-  static branch prediction rules are implemented, then we should never
-  see the `xor` instruction leakage.
+## Expectation
 
-  - Note that this experiment assumes that the target device has a leaky
-    branch shadow of depth at-least `2`.
 
-  - If that assumption does not hold, no leakage will be visible.
 
 ## Running the experiment
 
@@ -52,4 +37,3 @@ The individual steps of the experiment are run with the following commands:
 - Capture: `make capture_[TARGET]_speculation-loop-1 USB_PORT=[PORT]`
 - Analyse: `make analyse_[TARGET]_speculation-loop-1`
 
-*/

@@ -15,10 +15,12 @@ experiment_payload:
                                                            
         add r9,r9,r7            // Increment loop counter
                                                            
-            cmp r11, r9, r6     // Finish the loop?
-            bnei r11, loop_0    // Branch up
+        cmp r11, r9, r6     // Finish the loop?
+        bnei r11, loop_0    // Branch up
                                                            
-    xor r11,r11,r5              // Operate on secret value.
+    xor r5 ,r5 ,r5              // Operate on secret value.
+
+    NOP_SPACER
 
     FUNC_RETURN
 

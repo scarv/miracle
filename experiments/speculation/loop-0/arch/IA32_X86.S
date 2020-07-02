@@ -18,7 +18,9 @@ experiment_payload:
         cmp %ebx,%edx   // Finish the loop?
         jne loop_0      // Branch up
 
-    mov %eax,%ebx       // Operate on secret value.
+    eor %eax,%eax       // Operate on secret value.
+
+    NOP_SPACER
 
     FUNC_RETURN
 

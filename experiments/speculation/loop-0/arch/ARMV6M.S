@@ -11,14 +11,20 @@ experiment_payload:
 
     loop_0:
 
-        NOP_SPACER
+        mov r1, r1      // Used to clear pipeline registers.
+        mov r1, r1
+        mov r1, r1
+        mov r1, r1
+        mov r1, r1
 
         add r4,r4,r2    // Increment loop counter
 
         cmp r4, r1      // Finish the loop?
         bne loop_0      // Branch up
 
-    eor r6,r0           // Operate on secret value.
+    eor r0,r0           // Operate on secret value.
+
+    NOP_SPACER
 
     FUNC_RETURN
 
