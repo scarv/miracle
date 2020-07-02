@@ -3,34 +3,32 @@
 .text
 
 .global experiment_payload
-experiment_payload: // eax - d1 - TTest var 1
-
-    FUNC_ENTER
+experiment_payload: // eax - varialbe d1
+                    // ecx - variable d2.
+    FUNC_ENTER      // edx - variable d3.
     
-    mov %eax, %ebx  // Move eax to ebx
-    xor %eax, %eax  // Clear eax
     xor %ecx, %ecx  // Clear ecx
     xor %edx, %edx  // Clear edx
 
     NOP_SPACER
 
-    mov %eax, %eax
-    mov %ecx, %ecx
-
-    NOP_SPACER
-
-    mov %eax, %eax
-    mov %edx, %edx
-
-    NOP_SPACER
-
     mov %edx, %edx
     mov %ecx, %ecx
 
     NOP_SPACER
 
+    mov %ecx, %ecx
     mov %edx, %edx
-    mov %eax, %eax
+
+    NOP_SPACER
+
+    mov %edx, %ecx
+    mov %ecx, %edx
+
+    NOP_SPACER
+
+    mov %ecx, %edx
+    mov %edx, %ecx
     
     NOP_SPACER
 
