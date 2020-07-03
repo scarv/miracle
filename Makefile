@@ -91,7 +91,10 @@ EXPERIMENTS = memory-bus/bus-width-st-bytes \
               countermeasures/rosita-ld-ld-1 \
               countermeasures/rosita-ld-ld-2 \
               countermeasures/rosita-ld-ld-3 \
-              countermeasures/rosita-st-st
+              countermeasures/rosita-st-st-0 \
+              countermeasures/rosita-st-st-1 \
+              countermeasures/rosita-st-st-2 \
+              countermeasures/rosita-st-st-3
 
 
 DB_CON      = $(UAS_DB) --backend $(UAS_DB_BACKEND)
