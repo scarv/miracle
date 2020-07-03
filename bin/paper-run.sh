@@ -27,12 +27,14 @@ run_experiment regfile-shift-imm
 run_experiment speculation-jump-shadow-0
 run_experiment speculation-loop-0
 run_experiment speculation-loop-1
-run_experiment speculation-unpredictable-0
 run_experiment countermeasures-rosita-rotate-unprotected
 run_experiment countermeasures-rosita-rotate-protected
 run_experiment countermeasures-rosita-ld-ld-0
 run_experiment countermeasures-rosita-ld-ld-1
 run_experiment countermeasures-rosita-ld-ld-2
 run_experiment countermeasures-rosita-ld-ld-3
-run_experiment countermeasures-rosita-st-st
+run_experiment countermeasures-rosita-st-st-0
+run_experiment countermeasures-rosita-st-st-1
+run_experiment countermeasures-rosita-st-st-2
+run_experiment countermeasures-rosita-st-st-3
 
