@@ -57,11 +57,9 @@ uint8_t experiment_run(
 ){
 
     uint32_t wrd_mask = 0;
-    uint32_t rnd_mask = 0;
 
     for(unsigned int i = 0; i < sizeof(int); i ++) {
         wrd_mask |= ((uint32_t)randomness[i + 0]) << (8*i);
-        rnd_mask |= ((uint32_t)randomness[i + 4]) << (8*i);
     }
 
     result       = 0;
@@ -73,7 +71,7 @@ uint8_t experiment_run(
     result = experiment_payload(
         &d1,
         &d2,
-        rnd_mask
+        0
     );
     
     uas_bsp_trigger_clear();
@@ -94,8 +92,8 @@ void experiment_setup_scass(
     cfg -> variables             = experiment_variables ;
     cfg -> num_variables         = 2                    ;
     cfg -> randomness            = randomness;
-    cfg -> randomness_len        = RLEN;
-    cfg -> randomness_refresh_rate=1;
+    cfg -> randomness_len        = 0;
+    cfg -> randomness_refresh_rate=0;
 
 }
 

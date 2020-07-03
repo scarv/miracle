@@ -8,6 +8,9 @@ experiment_payload:
     FUNC_ENTER
 
     addi sp,sp,-16
+    xor t0, t0, t0
+    sw  t0,0(sp)        // Clear load data path
+    lw  t0,0(sp)        // Clear load data path
 
     NOP_SPACER          // Variant 1: unprotected
                         // Expect leakage here
