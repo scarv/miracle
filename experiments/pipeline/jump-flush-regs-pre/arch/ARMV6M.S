@@ -12,16 +12,20 @@ experiment_payload:     // r0 - TTest Var 1
 
     NOP_SPACER
     
-    eor     r0,r2       // r0 ^= r2 - load r0 into pipeline regs
+    eor     r0,r0       // r0 ^= r0 - load r0 into pipeline regs
     b       branch_tgt  // Always branch
 
     NOP_SPACER
 
 branch_tgt:
     
-    eor     r1,r2       // r1 ^= r2 - load r1 into pipeline regs
+    eor     r1,r1       // r1 ^= r1 - load r1 into pipeline regs
+    eor     r2,r2       // Clear pipe regs
     
     NOP_SPACER
+
+    eor     r0, r0
+    eor     r1, r1
 
     FUNC_RETURN
 

@@ -12,8 +12,8 @@ experiment_payload:     // r5 - TTest Var 1
 
     NOP_SPACER
     
-    beqi    r7, branch_tgt  // Always branch
     xor     r7,r5,r5    // load r5 into pipeline regs
+    beqi    r7, branch_tgt  // Always branch
 
     NOP_SPACER
 

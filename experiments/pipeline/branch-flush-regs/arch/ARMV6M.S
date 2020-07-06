@@ -13,14 +13,14 @@ experiment_payload:     // r0 - TTest Var 1
     NOP_SPACER
     
     cmp     r2, r2
+    eor     r0,r0       // r0 ^= r0 - load r0 into pipeline regs
     beq     branch_tgt  // Always branch
-    eor     r0,r2       // r0 ^= r2 - load r0 into pipeline regs
 
     NOP_SPACER
 
 branch_tgt:
     
-    eor     r1,r2       // r1 ^= r2 - load r1 into pipeline regs
+    eor     r1,r1       // r1 ^= r1 - load r1 into pipeline regs
     
     NOP_SPACER
 

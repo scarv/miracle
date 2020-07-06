@@ -20,8 +20,13 @@ experiment_payload:     // a0 - TTest Var 1
 branch_tgt:
     
     xor     a2,a1,a1    // load a1 into pipeline regs
+    xor     x0,x0,x0
     
     NOP_SPACER
+
+    xor     a0, a0, a0
+    xor     a1, a1, a1
+    xor     a2, a2, a2
 
     FUNC_RETURN
 

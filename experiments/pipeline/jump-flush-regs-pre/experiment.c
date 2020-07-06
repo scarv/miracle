@@ -14,9 +14,6 @@
 
 #define RLEN 4
 
-//! Randomness array. Managed by SCASS.
-uint32_t randomness;
-
 uint32_t  di1_fixed,di1_rand ; //!< TTest random input values.
 uint32_t  di2_fixed,di2_rand ; //!< TTest random input values.
 
@@ -49,8 +46,8 @@ uint8_t experiment_run(
     char               fixed //!< used fixed variants of variables?
 ){
 
-    uint32_t d1 = (fixed ? di1_fixed: di1_rand) ^ randomness;
-    uint32_t d2 = (fixed ? di2_fixed: di2_rand) ^ randomness;
+    uint32_t d1 = (fixed ? di1_fixed: di1_rand);
+    uint32_t d2 = (fixed ? di2_fixed: di2_rand);
 
     uas_bsp_trigger_set();
     
@@ -76,9 +73,9 @@ void experiment_setup_scass(
 
     cfg -> variables             = experiment_variables ;
     cfg -> num_variables         = 2                    ;
-    cfg -> randomness            = (uint8_t*)(&randomness);
-    cfg -> randomness_len        = RLEN;
-    cfg -> randomness_refresh_rate=1;
+    cfg -> randomness            = NULL;
+    cfg -> randomness_len        = 0;
+    cfg -> randomness_refresh_rate=0;
 
 }
 
