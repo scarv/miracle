@@ -14,6 +14,10 @@ experiment_payload: // r5 - TTest variable di1.
     bslli   r0, r0, 6 // to reg r6 number to check implicit access.
 
     NOP_SPACER
+    
+    xor  r5, r5, r5
+    xor  r6, r6, r6
+    xor  r7, r7, r7
 
     FUNC_RETURN
 
