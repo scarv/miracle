@@ -79,6 +79,7 @@ EXPERIMENTS = memory-bus/bus-width-st-bytes \
               pipeline/branch-flush-regs \
               pipeline/jump-flush-regs-pre \
               pipeline/jump-flush-regs-post \
+              pipeline/result-stages \
               regfile/neighbour-hw \
               regfile/shift-imm \
               speculation/jump-shadow-0 \

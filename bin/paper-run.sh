@@ -19,6 +19,7 @@ make -B \
 }
 
 
+run_experiment pipeline-result-stages
 run_experiment pipeline-branch-flush-regs
 run_experiment pipeline-jump-flush-regs-pre
 run_experiment pipeline-jump-flush-regs-post
