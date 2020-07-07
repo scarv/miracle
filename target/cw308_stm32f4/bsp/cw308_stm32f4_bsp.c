@@ -47,7 +47,7 @@ static void stm32f_set_clk_rate(
         RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1            ;
         
         HAL_RCC_OscConfig(&RCC_OscInitStruct);
-    	HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_ACR_LATENCY_5WS);
+    	HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0);
 
     } else {
         
