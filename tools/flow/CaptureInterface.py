@@ -350,8 +350,8 @@ class CaptureInterface(object):
         ts_fixed.parameters     = param_str
         ts_rand.parameters      = param_str
 
-        ts_fixed.targetFreq     = ttest.target_clk_info.current_rate
-        ts_rand.targetFreq      = ttest.target_clk_info.current_rate
+        ts_fixed.targetFreq     = ttest.target_clk_info.sys_clk_rate
+        ts_rand.targetFreq      = ttest.target_clk_info.sys_clk_rate
         
         ts_fixed.variableValues = fixed_variables
         ts_rand.variableValues  = random_variables
@@ -368,7 +368,7 @@ class CaptureInterface(object):
             fixedTraceSet   = ts_fixed,
             randomTraceSet  = ts_rand,
             parameters      = param_str,
-            targetFreq      = ttest.target_clk_info.current_rate
+            targetFreq      = ttest.target_clk_info.sys_clk_rate
         )
 
         self.database.insertTTraceSet(ttraceset)

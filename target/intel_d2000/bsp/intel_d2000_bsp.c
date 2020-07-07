@@ -62,11 +62,8 @@ uint8_t uas_bsp_init_target(
     qm_pmux_select(QM_PIN_ID_5, QM_PMUX_FN_2); /* Set clock out */
 
     // Set the current clock rate for SCASS.
-    cfg -> sys_clk.clk_current          = 1000000 * clk_sys_get_ticks_per_us();
-    cfg -> sys_clk.ext_clk_rate         = 7350000; // 7.35MHz 
-    cfg -> sys_clk.clk_rates[0]         = cfg -> sys_clk.clk_current;
-    cfg -> sys_clk.clk_source_avail     = SCASS_CLK_SRC_INTERNAL;
-    cfg -> sys_clk.clk_source_current   = SCASS_CLK_SRC_INTERNAL;
+    cfg -> clk_cfgs[0].sys_clk_rate     = 1000000 * clk_sys_get_ticks_per_us();
+    cfg -> clk_cfgs[0].sys_clk_src      = SCASS_CLK_SRC_EXTERNAL;
 
     return 0;
 

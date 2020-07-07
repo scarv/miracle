@@ -132,11 +132,8 @@ uint8_t uas_bsp_init_target(
     init_uart();
 
     // Set the current clock rate.
-    cfg -> sys_clk.clk_current          = HAL_RCC_GetSysClockFreq();
-    cfg -> sys_clk.ext_clk_rate         = 7350000; // 7.35MHz 
-    cfg -> sys_clk.clk_rates[0]         = cfg -> sys_clk.clk_current;
-    cfg -> sys_clk.clk_source_avail     = SCASS_CLK_SRC_EXTERNAL;
-    cfg -> sys_clk.clk_source_current   = SCASS_CLK_SRC_EXTERNAL;
+    cfg -> clk_cfgs[0].sys_clk_rate     = 7350000;
+    cfg -> clk_cfgs[0].sys_clk_src      = SCASS_CLK_SRC_EXTERNAL;
 
     return 0;
 }

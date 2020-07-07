@@ -45,11 +45,8 @@ uint8_t uas_bsp_init_target(
     GPIO[0] |= (GPIO_GPO & ~GPIO_TRIGGER);
 
     // Set the current clock rate.
-    cfg -> sys_clk.clk_current          =  25000000; //  25MHz
-    cfg -> sys_clk.ext_clk_rate         = 200000000; // 200MHz
-    cfg -> sys_clk.clk_rates[0]         = cfg -> sys_clk.clk_current;
-    cfg -> sys_clk.clk_source_avail     = SCASS_CLK_SRC_INTERNAL;
-    cfg -> sys_clk.clk_source_current   = SCASS_CLK_SRC_INTERNAL;
+    cfg -> clk_cfgs[0].sys_clk_rate     = 25000000; //  25MHz
+    cfg -> clk_cfgs[0].sys_clk_src      = SCASS_CLK_SRC_EXTERNAL;
 
     return 0;
 

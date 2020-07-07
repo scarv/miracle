@@ -18,24 +18,45 @@
 
 UART_HandleTypeDef UartHandle;
 
-/*!
-@brief Setup oscillators / clocking / PLLs.
-*/
-void init_platform() {
-	RCC_OscInitTypeDef RCC_OscInitStruct;
-	RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE | RCC_OSCILLATORTYPE_HSI;
-	RCC_OscInitStruct.HSEState       = RCC_HSE_BYPASS;
-	RCC_OscInitStruct.HSIState       = RCC_HSI_OFF;
-	RCC_OscInitStruct.PLL.PLLSource  = RCC_PLL_NONE;
-	HAL_RCC_OscConfig(&RCC_OscInitStruct);
+//! Default set clock rate function. Does nothing.
+static void stm32f_set_clk_rate(
+    uint8_t               new_clk_cfg,
+    scass_target_cfg    * cfg
+) {
 
+    // Setup the clock source.
+	RCC_OscInitTypeDef RCC_OscInitStruct;
 	RCC_ClkInitTypeDef RCC_ClkInitStruct;
-	RCC_ClkInitStruct.ClockType      = (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2);
-	RCC_ClkInitStruct.SYSCLKSource   = RCC_SYSCLKSOURCE_HSE;
-	RCC_ClkInitStruct.AHBCLKDivider  = RCC_SYSCLK_DIV1;
-	RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
-	RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
-	HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_ACR_LATENCY_5WS);
+    
+    if(new_clk_cfg == 0) {
+        
+        // Set clock to exteranl crystal
+	    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE   |
+	                                       RCC_OSCILLATORTYPE_HSI   ;
+	    RCC_OscInitStruct.HSIState       = RCC_HSI_OFF              ;
+        RCC_OscInitStruct.HSEState       = RCC_HSE_BYPASS           ;
+        RCC_OscInitStruct.PLL.PLLSource  = RCC_PLL_NONE             ;
+        
+        RCC_ClkInitStruct.SYSCLKSource   = RCC_SYSCLKSOURCE_HSE     ;
+        RCC_ClkInitStruct.ClockType      = RCC_CLOCKTYPE_SYSCLK     |
+                                           RCC_CLOCKTYPE_HCLK       |
+                                           RCC_CLOCKTYPE_PCLK1      |
+                                           RCC_CLOCKTYPE_PCLK2      ;
+        RCC_ClkInitStruct.AHBCLKDivider  = RCC_SYSCLK_DIV1          ;
+        RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1            ;
+        RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1            ;
+        
+        HAL_RCC_OscConfig(&RCC_OscInitStruct);
+    	HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_ACR_LATENCY_5WS);
+
+    } else {
+        
+        // Fail.
+        return;
+
+    }
+
+    cfg -> current_clk_cfg = new_clk_cfg;
 }
 
 /*!
@@ -50,15 +71,17 @@ void init_uart(void)
 	GpioInit.Speed     = GPIO_SPEED_FREQ_HIGH;
 	GpioInit.Alternate = GPIO_AF7_USART1;
 	__GPIOA_CLK_ENABLE();
+	__GPIOA_CLK_ENABLE();
 	HAL_GPIO_Init(GPIOA, &GpioInit);
 
-	UartHandle.Instance        = USART1;
-	UartHandle.Init.BaudRate   = 38400;
-	UartHandle.Init.WordLength = UART_WORDLENGTH_8B;
-	UartHandle.Init.StopBits   = UART_STOPBITS_1;
-	UartHandle.Init.Parity     = UART_PARITY_NONE;
-	UartHandle.Init.HwFlowCtl  = UART_HWCONTROL_NONE;
-	UartHandle.Init.Mode       = UART_MODE_TX_RX;
+    UartHandle.Instance = USART1;
+    UartHandle.Init.BaudRate = 115200;
+    UartHandle.Init.WordLength = UART_WORDLENGTH_8B;
+    UartHandle.Init.StopBits = UART_STOPBITS_1;
+    UartHandle.Init.Parity = UART_PARITY_NONE;
+    UartHandle.Init.Mode = UART_MODE_TX_RX;
+    UartHandle.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+    UartHandle.Init.OverSampling = UART_OVERSAMPLING_16;
 	__USART1_CLK_ENABLE();
 	HAL_UART_Init(&UartHandle);
 }
@@ -79,16 +102,14 @@ void init_trigger(void)
 uint8_t uas_bsp_init_target(
     scass_target_cfg * cfg //!< The scass target object to configure.
 ){
-    init_platform();
-    init_uart();
-    init_trigger();
 
     // Set the current clock rate.
-    cfg -> sys_clk.clk_current          = 7350000;
-    cfg -> sys_clk.ext_clk_rate         = 7350000; // 7.35MHz 
-    cfg -> sys_clk.clk_rates[0]         = cfg -> sys_clk.clk_current;
-    cfg -> sys_clk.clk_source_avail     = SCASS_CLK_SRC_EXTERNAL;
-    cfg -> sys_clk.clk_source_current   = SCASS_CLK_SRC_EXTERNAL;
+    cfg -> clk_cfgs[0].sys_clk_rate     = 7350000;
+    cfg -> clk_cfgs[0].sys_clk_src      = SCASS_CLK_SRC_EXTERNAL;
+
+    stm32f_set_clk_rate(0, cfg);
+    init_uart();
+    init_trigger();
 
     uas_bsp_trigger_set();
     uas_bsp_trigger_clear();
