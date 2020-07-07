@@ -51,7 +51,7 @@ TARGETS     = sakurax_mb3 \
               cw308_stm32f2 \
               cw308_stm32f3 \
               cw308_stm32f4 \
-              cw308_stm32f4_16mhz \
+              cw308_stm32f4_int_16mhz \
               nxp_lpc1115fbd48 \
               intel_d2000 
 
