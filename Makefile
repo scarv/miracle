@@ -53,7 +53,7 @@ TARGETS     = sakurax_mb3 \
               cw308_stm32f4 \
               cw308_stm32f4_int_16mhz \
               nxp_lpc1115fbd48 \
-              intel_d2000 
+              #intel_d2000 
 
 EXPERIMENTS = memory-bus/bus-width-st-bytes \
               memory-bus/bus-width-st-halfword \
@@ -66,6 +66,8 @@ EXPERIMENTS = memory-bus/bus-width-st-bytes \
               memory-bus/registers-implicit-st-ld \
               memory-bus/registers-implicit-st-st-1 \
               memory-bus/registers-implicit-st-st-2 \
+              memory-bus/seq-ld-bytes \
+              memory-bus/seq-st-bytes \
               pipeline/regs-xor-lhs \
               pipeline/regs-xor-rhs \
               pipeline/regs-xor-nop \
