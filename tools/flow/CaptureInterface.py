@@ -185,7 +185,7 @@ class CaptureInterface(object):
         
         pre_existing = self.database.getTraceSetBlobByTargetAndExperiment(
             db_target.id, db_experiment.id
-        ).filter_by(parameters = ttest_param_string)
+        ).filter_by(parameters = param_string)
 
         return pre_existing.count() > 0
 
