@@ -88,6 +88,10 @@ EXPERIMENTS = memory-bus/bus-width-st-bytes \
               speculation/loop-0 \
               speculation/loop-1 \
               speculation/unpredictable-0 \
+              speculation/jump-fwd \
+              speculation/jump-bwd \
+              speculation/branch-fwd \
+              speculation/branch-bwd \
               countermeasures/rosita-rotate-unprotected \
               countermeasures/rosita-rotate-protected \
               countermeasures/rosita-ld-ld-0 \

@@ -10,7 +10,7 @@ experiment_payload:
     NOP_SPACER          // r7 - TTest variable di3
                         // r8 - TTest variable di4
 
-    bnei r0, target_address // Always jump
+    beqi r0, target_address // Always jump. beqi - branch if r0=0
     add r5, r5, r5
     add r6, r6, r6
     add r7, r7, r7

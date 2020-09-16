@@ -3,7 +3,7 @@ import os
 import logging as log
 
 EXPERIMENT_CATAGORY = "speculation"
-EXPERIMENT_NAME     = "jump-fwd"
+EXPERIMENT_NAME     = "jump-bwd"
 
 def runCapture(args):
     """
