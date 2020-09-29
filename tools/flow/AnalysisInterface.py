@@ -144,6 +144,7 @@ class AnalysisInterface(object):
 
         return 0
 
+
     def insertCorrolationTrace(self,
             inputTraceSets, inputVariables, trace, name, traceType, corrType
         ):
@@ -158,7 +159,8 @@ class AnalysisInterface(object):
         inVarIds = set([v.id for v in inputVariables])
 
         pre_existing = self.database.getCorrolationTraceByAll (
-            self.target.id, self.experiment.id, inSetIds, inVarIds, corrType
+            self.target.id, self.experiment.id, inSetIds, inVarIds, corrType,
+            name
         )
 
         if(pre_existing == None):
@@ -190,8 +192,9 @@ class AnalysisInterface(object):
         self.database.popAutoCommit()
         self.database.commit()
 
-        log.info("%s corrolation trace: %s/%s/%s/%s" %(
+        log.info("%s corrolation trace: %s %s/%s/%s/%s" %(
             verb,
+            name,
             self.experiment.fullname,
             self.target.name,
             corrType.name,
@@ -407,3 +410,17 @@ class AnalysisInterface(object):
                         variable.varname
                     )
 
+
+    def convertArrayBytesToInt(self, array):
+        """
+        Convert a Nx4 array of bytes into an Nx1 array of ints.
+        """
+        length,width = array.shape
+        assert(width == 4)
+        assert(array.dtype == np.uint8)
+
+        new_array = np.empty((length, 1),dtype=np.uint32)
+        for row in range(0, length):
+            new_array[row] = int.from_bytes(array[row],"big")
+
+        return new_array
