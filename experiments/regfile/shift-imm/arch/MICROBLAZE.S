@@ -11,7 +11,32 @@ experiment_payload: // r5 - TTest variable di1.
 
     NOP_SPACER
                       // Access no registers. Shift by ammount corresponding
+    bslli   r0, r0, 5 // to reg r6 number to check implicit access.
+    bslli   r0, r0, 5 // to reg r6 number to check implicit access.
+    
+    bslli   r0, r0, 5 // to reg r6 number to check implicit access.
     bslli   r0, r0, 6 // to reg r6 number to check implicit access.
+    
+    bslli   r0, r0, 5 // to reg r6 number to check implicit access.
+    bslli   r0, r0, 7 // to reg r6 number to check implicit access.
+    
+    bslli   r0, r0, 6 // to reg r6 number to check implicit access.
+    bslli   r0, r0, 5 // to reg r6 number to check implicit access.
+    
+    bslli   r0, r0, 6 // to reg r6 number to check implicit access.
+    bslli   r0, r0, 6 // to reg r6 number to check implicit access.
+    
+    bslli   r0, r0, 6 // to reg r6 number to check implicit access.
+    bslli   r0, r0, 7 // to reg r6 number to check implicit access.
+    
+    bslli   r0, r0, 7 // to reg r6 number to check implicit access.
+    bslli   r0, r0, 5 // to reg r6 number to check implicit access.
+    
+    bslli   r0, r0, 7 // to reg r6 number to check implicit access.
+    bslli   r0, r0, 6 // to reg r6 number to check implicit access.
+    
+    bslli   r0, r0, 7 // to reg r6 number to check implicit access.
+    bslli   r0, r0, 7 // to reg r6 number to check implicit access.
 
     NOP_SPACER
     

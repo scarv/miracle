@@ -12,6 +12,31 @@ experiment_payload: // a0 - TTest variable di1.
     NOP_SPACER
                         // Access no registers. Shift by ammount corresponding
     slli zero, zero, 11 // to reg a1 number to check implicit access.
+    slli zero, zero, 11 // to reg a1 number to check implicit access.
+    
+    slli zero, zero, 11 // to reg a1 number to check implicit access.
+    slli zero, zero, 12 // to reg a1 number to check implicit access.
+    
+    slli zero, zero, 11 // to reg a1 number to check implicit access.
+    slli zero, zero, 13 // to reg a1 number to check implicit access.
+    
+    slli zero, zero, 12 // to reg a1 number to check implicit access.
+    slli zero, zero, 11 // to reg a1 number to check implicit access.
+    
+    slli zero, zero, 12 // to reg a1 number to check implicit access.
+    slli zero, zero, 12 // to reg a1 number to check implicit access.
+    
+    slli zero, zero, 12 // to reg a1 number to check implicit access.
+    slli zero, zero, 13 // to reg a1 number to check implicit access.
+    
+    slli zero, zero, 13 // to reg a1 number to check implicit access.
+    slli zero, zero, 11 // to reg a1 number to check implicit access.
+    
+    slli zero, zero, 13 // to reg a1 number to check implicit access.
+    slli zero, zero, 12 // to reg a1 number to check implicit access.
+    
+    slli zero, zero, 13 // to reg a1 number to check implicit access.
+    slli zero, zero, 13 // to reg a1 number to check implicit access.
 
     NOP_SPACER
 
