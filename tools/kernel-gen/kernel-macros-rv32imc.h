@@ -35,6 +35,13 @@
                                   xor t2, t2, t2;\
                                   xor t3, t3, t3;\
 
+#define FUNC_ENTER_SHORT          
+                                  
+                                  
+                                  
+
+#define FUNC_RETURN_SHORT         ret  ;\
+
 #define FUNC_RETURN               ret  ;\
                                   nop
 

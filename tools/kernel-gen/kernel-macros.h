@@ -2,6 +2,9 @@
 #ifndef __KERNEL_MACROS_H__
 #define __KERNEL_MACROS_H__
 
+#define COMMA ,
+#define TEN_TIMES(X) X;X;X;X;X;X;X;X;X;X;
+
 #if ARCH_ARMV6M
     #include "kernel-macros-armv6m.h"
 #elif ARCH_ARMV7M
@@ -183,10 +186,24 @@
 #endif
 
 //
+// Enter a function and prepare space in registers to *do stuff*
+//
+#ifndef FUNC_ENTER_SHORT
+    .warning "Macro 'FUNC_ENTER_SHORT' not defined"
+#endif
+
+//
 // Return from a function
 //
 #ifndef FUNC_RETURN
     .warning "Macro 'FUNC_RETURN' not defined"
+#endif
+
+//
+// Return from a function
+//
+#ifndef FUNC_RETURN_SHORT
+    .warning "Macro 'FUNC_RETURN_SHORT' not defined"
 #endif
 
 #endif 

@@ -34,6 +34,11 @@
                                   xor r11, r11, r11;\
                                   xor r12, r12, r12;\
 
+#define FUNC_ENTER_SHORT          
+
+#define FUNC_RETURN_SHORT         rtsd r15,8 ;\
+                                  nop
+
 #define FUNC_RETURN               rtsd r15,8 ;\
                                   nop
 

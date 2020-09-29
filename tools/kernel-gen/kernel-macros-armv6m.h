@@ -38,6 +38,20 @@
                                   eor   r6, r6 ; \
                                   eor   r7, r7 ; \
 
+#define FUNC_ENTER_SHORT          
+
+#define FUNC_RETURN_SHORT         bx lr
+
 #define FUNC_RETURN               pop  {r4, r5, r6, r7, pc}
 
-#define NOP_SPACER                nop;nop;nop;nop;nop;nop;nop;nop;
+#define NOP_SPACER                lsr r7, r7, #0; \
+                                  lsr r7, r7, #0; \
+                                  lsr r7, r7, #0; \
+                                  lsr r7, r7, #0; \
+                                  lsr r7, r7, #0; \
+                                  lsr r7, r7, #0; \
+                                  lsr r7, r7, #0; \
+                                  lsr r7, r7, #0; \
+                                  lsr r7, r7, #0; \
+                                  lsr r7, r7, #0; \
+                                  lsr r7, r7, #0;

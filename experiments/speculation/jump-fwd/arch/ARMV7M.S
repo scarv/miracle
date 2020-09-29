@@ -7,8 +7,7 @@ experiment_payload:
 
     FUNC_ENTER          // r0 - TTest variable di1
                         // r1 - TTest variable di2
-    NOP_SPACER          // r2 - TTest variable di3
-                        // r3 - TTest variable di4
+    TEN_TIMES(eor r2 COMMA r2)
 
     b   target_address
     add r0, r0
@@ -17,7 +16,7 @@ experiment_payload:
     add r3, r3
 
 target_address:
-    NOP_SPACER
+    TEN_TIMES(eor r2 COMMA r2)
 
     FUNC_RETURN
 

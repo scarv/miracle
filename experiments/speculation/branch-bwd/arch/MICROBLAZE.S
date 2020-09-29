@@ -7,7 +7,7 @@ experiment_payload:
 
     FUNC_ENTER          // r5 - TTest variable di1
                         // r6 - TTest variable di2
-    NOP_SPACER          // r7 - TTest variable di3
+                        // r7 - TTest variable di3
                         // r8 - TTest variable di4
 
     bri branch_start
