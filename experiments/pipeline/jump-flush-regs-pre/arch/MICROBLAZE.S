@@ -24,9 +24,6 @@ branch_tgt:
     
     NOP_SPACER
 
-    xor     r7,r5,r5    //
-    xor     r7,r6,r6    //
-
     FUNC_RETURN
 
 .global experiment_payload_end

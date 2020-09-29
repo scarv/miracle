@@ -25,8 +25,8 @@ scass_target_var  experiment_variables [] = {
 
 //! Declaration for the experiment payload function in ldst-byte.S
 extern void     * experiment_payload(
-    uint8_t d1,
-    uint8_t d2
+    const uint32_t d1,
+    const uint32_t d2
 );
 
 /*!

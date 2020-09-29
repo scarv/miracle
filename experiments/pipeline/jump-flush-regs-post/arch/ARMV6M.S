@@ -6,28 +6,28 @@
 experiment_payload:     // r0 - TTest Var 1
                         // r1 - TTest Var 2
 
-    FUNC_ENTER
+    FUNC_ENTER_SHORT
 
-    eor     r2,r2       // Clear r2
-
-    NOP_SPACER
-    
-    b       branch_tgt  // Always branch
-    eor     r0,r0       // r0 ^= r0 - load r0 into pipeline regs
-
-    NOP_SPACER
-
-branch_tgt:
-    
-    eor     r1,r1       // r1 ^= r1 - load r1 into pipeline regs
-    eor     r2,r2       // Clear pipe regs
-    
-    NOP_SPACER
-
+    mov     r2,r0
+    mov     r3,r1 
     eor     r0, r0
     eor     r1, r1
 
-    FUNC_RETURN
+    TEN_TIMES(eor r0 COMMA r0)
+    TEN_TIMES(eor r0 COMMA r0)
+    
+    b       branch_tgt  // Always branch
+    eor     r0,r2       // r2 ^= r0 - load r0 into pipeline regs
+
+    TEN_TIMES(eor r0 COMMA r0)
+
+branch_tgt:
+    
+    eor     r1,r3       // r3 ^= r1 - load r1 into pipeline regs
+    
+    TEN_TIMES(eor r0 COMMA r0)
+
+    FUNC_RETURN_SHORT
 
 .global experiment_payload_end
 experiment_payload_end: nop
