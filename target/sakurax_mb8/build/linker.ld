@@ -54,11 +54,11 @@ SECTIONS
 
 .init : {
    KEEP (*(.init))
-} > BRAM_0_Mem0
+} > INST_LMB_Mem_DATA_LMB_Mem
 
 .fini : {
    KEEP (*(.fini))
-} > BRAM_0_Mem0
+} > INST_LMB_Mem_DATA_LMB_Mem
 
 .ctors : {
    __CTOR_LIST__ = .;
@@ -69,7 +69,7 @@ SECTIONS
    KEEP (*(.ctors))
    __CTOR_END__ = .;
    ___CTORS_END___ = .;
-} > BRAM_0_Mem0
+} > INST_LMB_Mem_DATA_LMB_Mem
 
 .dtors : {
    __DTOR_LIST__ = .;
@@ -80,7 +80,7 @@ SECTIONS
    KEEP (*(.dtors))
    PROVIDE(__DTOR_END__ = .);
    PROVIDE(___DTORS_END___ = .);
-} > BRAM_0_Mem0
+} > INST_LMB_Mem_DATA_LMB_Mem
 
 .rodata : {
    __rodata_start = .;
@@ -88,7 +88,7 @@ SECTIONS
    *(.rodata.*)
    *(.gnu.linkonce.r.*)
    __rodata_end = .;
-} > BRAM_0_Mem0
+} > INST_LMB_Mem_DATA_LMB_Mem
 
 .sdata2 : {
    . = ALIGN(8);
@@ -98,7 +98,7 @@ SECTIONS
    *(.gnu.linkonce.s2.*)
    . = ALIGN(8);
    __sdata2_end = .;
-} > BRAM_0_Mem0
+} > INST_LMB_Mem_DATA_LMB_Mem
 
 .sbss2 : {
    __sbss2_start = .;
@@ -106,7 +106,7 @@ SECTIONS
    *(.sbss2.*)
    *(.gnu.linkonce.sb2.*)
    __sbss2_end = .;
-} > BRAM_0_Mem0
+} > INST_LMB_Mem_DATA_LMB_Mem
 
 .data : {
    . = ALIGN(4);
@@ -115,31 +115,31 @@ SECTIONS
    *(.data.*)
    *(.gnu.linkonce.d.*)
    __data_end = .;
-} > BRAM_0_Mem0
+} > INST_LMB_Mem_DATA_LMB_Mem
 
 .got : {
    *(.got)
-} > BRAM_0_Mem0
+} > INST_LMB_Mem_DATA_LMB_Mem
 
 .got1 : {
    *(.got1)
-} > BRAM_0_Mem0
+} > INST_LMB_Mem_DATA_LMB_Mem
 
 .got2 : {
    *(.got2)
-} > BRAM_0_Mem0
+} > INST_LMB_Mem_DATA_LMB_Mem
 
 .eh_frame : {
    *(.eh_frame)
-} > BRAM_0_Mem0
+} > INST_LMB_Mem_DATA_LMB_Mem
 
 .jcr : {
    *(.jcr)
-} > BRAM_0_Mem0
+} > INST_LMB_Mem_DATA_LMB_Mem
 
 .gcc_except_table : {
    *(.gcc_except_table)
-} > BRAM_0_Mem0
+} > INST_LMB_Mem_DATA_LMB_Mem
 
 .sdata : {
    . = ALIGN(8);
@@ -148,7 +148,7 @@ SECTIONS
    *(.sdata.*)
    *(.gnu.linkonce.s.*)
    __sdata_end = .;
-} > BRAM_0_Mem0
+} > INST_LMB_Mem_DATA_LMB_Mem
 
 .sbss (NOLOAD) : {
    . = ALIGN(4);
@@ -158,7 +158,7 @@ SECTIONS
    *(.gnu.linkonce.sb.*)
    . = ALIGN(8);
    __sbss_end = .;
-} > BRAM_0_Mem0
+} > INST_LMB_Mem_DATA_LMB_Mem
 
 .tdata : {
    __tdata_start = .;
@@ -166,7 +166,7 @@ SECTIONS
    *(.tdata.*)
    *(.gnu.linkonce.td.*)
    __tdata_end = .;
-} > BRAM_0_Mem0
+} > INST_LMB_Mem_DATA_LMB_Mem
 
 .tbss : {
    __tbss_start = .;
@@ -174,7 +174,7 @@ SECTIONS
    *(.tbss.*)
    *(.gnu.linkonce.tb.*)
    __tbss_end = .;
-} > BRAM_0_Mem0
+} > INST_LMB_Mem_DATA_LMB_Mem
 
 .bss (NOLOAD) : {
    . = ALIGN(4);
@@ -185,7 +185,7 @@ SECTIONS
    *(COMMON)
    . = ALIGN(4);
    __bss_end = .;
-} > BRAM_0_Mem0
+} > INST_LMB_Mem_DATA_LMB_Mem
 
 _SDA_BASE_ = __sdata_start + ((__sbss_end - __sdata_start) / 2 );
 
@@ -199,7 +199,7 @@ _SDA2_BASE_ = __sdata2_start + ((__sbss2_end - __sdata2_start) / 2 );
    _heap_start = .;
    . += _HEAP_SIZE;
    _heap_end = .;
-} > BRAM_0_Mem0
+} > INST_LMB_Mem_DATA_LMB_Mem
 
 .stack (NOLOAD) : {
    _stack_end = .;
@@ -207,7 +207,7 @@ _SDA2_BASE_ = __sdata2_start + ((__sbss2_end - __sdata2_start) / 2 );
    . = ALIGN(8);
    _stack = .;
    __stack = _stack;
-} > BRAM_0_Mem0
+} > INST_LMB_Mem_DATA_LMB_Mem
 
 _end = .;
 }
