@@ -5,7 +5,7 @@ import logging as log
 EXPERIMENT_CATAGORY = "memory-bus"
 EXPERIMENT_NAME     = "registers-implicit-st-ld"
 
-idx1_list = [17]
+idx1_list = [16, 17]
 idx2_list = [16, 19, 20]
 
 def runCapture(args):
