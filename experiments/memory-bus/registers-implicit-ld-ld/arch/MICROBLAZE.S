@@ -9,26 +9,12 @@ experiment_payload:
 
     xor r9,r9,r9        // Clear load instruction destination
     xor r10,r10,r10     // registers.
-
-    NOP_SPACER
-
-    lwi r9,r5,0         // Clear load data path
-
+    
     NOP_SPACER
 
     lwi r6,r6,0         // Load TTest variable 1
-
-    NOP_SPACER
-
     xor r10,r10,r10;    // Try to clear ALU datapath
-
-    NOP_SPACER
-
     lwi r7,r7,0         // Load TTest variable 2
-
-    NOP_SPACER
-
-    lwi r9,r5,0         // Clear load data path
 
     NOP_SPACER
 

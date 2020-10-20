@@ -5,7 +5,7 @@ import logging as log
 EXPERIMENT_CATAGORY = "memory-bus"
 EXPERIMENT_NAME     = "registers-implicit-st-ld"
 
-idx1_list = [16, 17]
+idx1_list = [16, 19]
 idx2_list = [16, 19, 20]
 
 def runCapture(args):
@@ -40,4 +40,5 @@ def runAnalysis(aif):
         aif.runHammingWeightAnalysis(blob, "di1")
         aif.runHammingWeightAnalysis(blob, "di2")
         aif.runHammingDistanceAnalysis(blob, "di1", "di2")
+        aif.runAverageTraceForTraceSetBlob(blob)
 

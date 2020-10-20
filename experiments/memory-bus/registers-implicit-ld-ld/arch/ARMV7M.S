@@ -12,23 +12,9 @@ experiment_payload:
 
     NOP_SPACER
 
-    ldr r4,[r0,#0]      // Clear load data path
-
-    NOP_SPACER
-
     ldr r1,[r1,#0]      // Load TTest variable 1
-
-    NOP_SPACER
-
     eor r5,r5;          // Try to clear ALU datapath
-
-    NOP_SPACER
-
     ldr r2,[r2,#0]      // Load TTest variable 2
-
-    NOP_SPACER
-
-    ldr r4,[r0,#0]      // Clear load data path
 
     NOP_SPACER
 
