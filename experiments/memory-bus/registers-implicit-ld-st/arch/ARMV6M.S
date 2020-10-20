@@ -9,24 +9,12 @@ experiment_payload:
 
     eor r4,r4       // Clear load instruction destination
     eor r5,r5       // registers.
-
-    ldr r4,[r0,#0]  // Clear load data path
-
-    NOP_SPACER
     
+    NOP_SPACER
+
     ldr r5,[r1,#0]  // Load TTest variable 1
-
-    NOP_SPACER
-
     eor r5,r5;      // Try to clear ALU datapath
-
-    NOP_SPACER
-    
     str r3,[r2,#0]  // Store TTest variable 2 over din[index2], which is zero.
-
-    NOP_SPACER
-
-    ldr r4,[r0,#0]  // Clear load data path
 
     NOP_SPACER
 

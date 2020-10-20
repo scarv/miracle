@@ -273,6 +273,9 @@ class AnalysisInterface(object):
                 newtrace = StatisticTrace.fromTraceArray(
                     avg_trace, StatTraceType.AVG
                 )
+                newtrace.name = self.generateStatTraceName(
+                    traceset,"Trace Set Avg Power",""
+                )
 
                 traceset.statisticTraces.append(newtrace)
 

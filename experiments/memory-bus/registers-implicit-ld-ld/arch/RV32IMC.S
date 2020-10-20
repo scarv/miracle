@@ -12,23 +12,9 @@ experiment_payload:
 
     NOP_SPACER
 
-    lw t0,0(a0)     // Clear load data path
-
-    NOP_SPACER
-
     lw a1,0(a1)     // Load TTest variable 1
-
-    NOP_SPACER
-
     xor t1,t1,t1;   // Try to clear ALU datapath
-
-    NOP_SPACER
-
     lw a2,0(a2)     // Load TTest variable 2
-
-    NOP_SPACER
-
-    lw t0,0(a0)     // Clear load data path
 
     NOP_SPACER
 
