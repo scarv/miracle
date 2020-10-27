@@ -19,6 +19,7 @@ sys.path.append(os.path.expandvars("$MIR_DB_REPO_HOME"))
 sys.path.append(os.path.expandvars("$UAS_ROOT/external/fw-acquisition"))
 
 import ldb
+from ldb.records import TraceSetBlob
 import scass
 
 from AnalysisInterface import AnalysisInterface
@@ -156,6 +157,12 @@ def buildArgParser():
     parser.add_argument("--targets", type=str, nargs="+",
         help = "Name of the target devices to run the analysis for.")
 
+    parser.add_argument("--delete-traces-after-analysis",action="store_true",
+        help="Delete raw trace blobs corresponding to the current target and experiment from the database after analysis has completed.")
+
+    parser.add_argument("--clean-useless-blobs",action="store_true",
+        help="Delete raw trace blobs which have no derived statistic traces once analysis is complete.")
+
     return parser
 
     
@@ -205,6 +212,41 @@ def main():
             emod.runAnalysis(aif)
         else:
             aif.runDefaultAnalysis()
+
+        if(args.delete_traces_after_analysis):
+            log.info("Deleting trace blobs now analysis is complete")
+            blobs = db.getTraceSetBlobByTargetAndExperiment(
+                target.id, experiment.id).filter(
+                    TraceSetBlob.traces!=None).all()
+            log.info("- %d trace blobs will be removed." %(
+                len(blobs)
+            ))
+            db.pushAutoCommit(False)
+            for b in blobs:
+                b.traces = None
+            db.popAutoCommit()
+            db.commit()
+        
+        if(args.clean_useless_blobs):
+            log.info("Deleting un-used traceblobs")
+            blobs = db.getTraceSetBlobByTargetAndExperiment(
+                target.id, experiment.id).all()
+            to_remove = []
+
+            for b in blobs:
+                if(len(b.statisticTraces) == 0): 
+                   to_remove.append(b)
+                   
+            log.info("Blobs to remove: %s"%",".join(
+                [str(b.id) for b in to_remove])
+            )
+            db.pushAutoCommit(False)
+            for b in to_remove:
+                db._session.delete(b)
+            db.popAutoCommit()
+            db.commit()
+            
+
 
     return 0
 

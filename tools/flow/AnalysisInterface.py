@@ -388,9 +388,13 @@ class AnalysisInterface(object):
         )
 
     def getTraceSetBlobsForTargetAndExperiment(self):
+        """
+        Returns all trace set blob records which still have their
+        trace data included.
+        """
         return self.database.getTraceSetBlobByTargetAndExperiment(
             self.target.id, self.experiment.id
-        )
+        ).filter(TraceSetBlob.traces!=None)
 
     def runDefaultAnalysis(self):
         """
