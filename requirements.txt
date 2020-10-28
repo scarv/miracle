@@ -1,8 +1,10 @@
 SQLAlchemy
 flask
+lz4
 markdown
 matplotlib
+picoscope
+pyserial
 scipy
 tqdm
 waitress
-lz4

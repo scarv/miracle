@@ -210,7 +210,6 @@ $(call map_tgt,analyse,${1},${2}) :
         --verbose $(ANALYSIS_FLAGS) \
         --backend $(UAS_DB_BACKEND) \
         --delete-traces-after-analysis \
-        --clean-useless-blobs \
         $(UAS_DB)       \
         ${2}            \
         --targets ${1}
