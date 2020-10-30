@@ -12,7 +12,7 @@ export MIR_DB_REPO_HOME=$UAS_ROOT/external/miracle-db
 export MIR_BROWSER_REPO_HOME=$UAS_ROOT/external/miracle-browser
 
 if [ -z $UAS_ARM_TOOLCHAIN_ROOT ] ; then
-    export UAS_ARM_TOOLCHAIN_ROOT=/usr/bin/
+    export UAS_ARM_TOOLCHAIN_ROOT=/opt/eda/arm/gcc-arm-none-eabi-5_4-2016q3/bin
 fi
 
 if [ -z $IAMCU_TOOLCHAIN_DIR ] ; then
@@ -28,7 +28,7 @@ if [ -z $UAS_MICROBLAZE_TOOLCHAIN_ROOT ] ; then
 fi
 
 if [ -z $OPENOCD ] ; then
-    export OPENOCD=~/tools/openocd-code/build/bin/openocd
+    export OPENOCD=~/tools/openocd-code/install/bin/openocd
 fi
 
 mkdir -p $UAS_BUILD
