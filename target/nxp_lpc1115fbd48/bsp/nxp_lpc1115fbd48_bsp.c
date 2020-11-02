@@ -56,19 +56,19 @@ static void uas_bsp_init_uart()
 	// Turn on clock for UART
 	SYSAHBCLKCTRL  |= BIT12;
 	UARTCLKDIV      = 1;
-	// PCLK = 48Mhz. Desired Baud rate = 9600
+	// PCLK = 22.05MHz Desired Baud rate = 25000
 	// See table 199
-	// 9600=48MHz/(16* (256*U0DLM + U0DLL)*(1+DivAddVal/MulVal))
+	// 25000=PCLK/(16* (256*U0DLM + U0DLL)*(1+DivAddVal/MulVal))
 	// 312.5 = (256*U0DLM+U0DLL)*(1+DivAddVal/MulVal)
-	// let U0DLM=1, DivAddVal=0,MulVal =1
+	// let U0DLM=0, DivAddVal=0,MulVal =1
 	// 312.5=256+U0DLL
 	// U0DLL=56.5.
 	// Choose U0DLL=56.
-	// Actual baud rate achieved = 9615 - close enough.
+	// Actual baud rate achieved = 24609- close enough.
 	U0LCR          |= BIT7; // Enable divisor latch access
 	U0FDR           = (1<<4)+0; // Set DivAddVal = 0; MulVal = 1
 	U0DLL           = 56;
-	U0DLM           = 1;
+	U0DLM           = 0;
 	U0LCR          &= ~BIT7; // Disable divisor latch access
 	U0LCR          |= (BIT1+BIT0); // set word lenght to 8 bits.
 
@@ -87,6 +87,10 @@ uint8_t uas_bsp_init_target(
     uas_bsp_init_clock();
     uas_bsp_init_uart();
     uas_bsp_init_gpio();
+    
+    cfg -> clk_cfgs[0].sys_clk_rate     = 22050000;
+    cfg -> clk_cfgs[0].sys_clk_src      = SCASS_CLK_SRC_EXTERNAL;
+
     return 0;
 }
 
