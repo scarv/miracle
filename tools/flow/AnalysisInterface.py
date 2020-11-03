@@ -47,6 +47,8 @@ class AnalysisInterface(object):
         for inputVar in traceSetBlob.variableValues:
             if(inputVar.varname == variableName):
                 return inputVar
+            
+        log.error("No input variable named '%s' associated with traceset ID=%d" % (variableName, traceSetBlob.id))
 
         return None
 
@@ -76,7 +78,6 @@ class AnalysisInterface(object):
         )
         
         if(variable == None):
-            log.error("No input variable named '%s' associated with traceset ID=%d" % (variableName, traceSetBlob.id))
             return 1
 
         hw_inputs = variable.getValuesAsNdArray()
@@ -101,29 +102,42 @@ class AnalysisInterface(object):
         return 0
 
 
-    def runHammingDistanceAnalysis(self, traceSetBlob, var1Name, var2Name):
+    def runHammingDistanceAnalysis(self, traceSetBlob, var1Name, var2Name,tracename=None):
         """
         Run a hamming distance analysis on the variables used as inputs when
         generating the supplied traceset blob.
+        var1/2Name  can be a string, in which case we search the database
+        for the right variable values, or an np.ndarray, in which case
+        we just operat on that array.
         """
-        variable1 = self.getVariableArrayFromTraceSet(
-            traceSetBlob, var1Name
-        )
+        inputs1 = None
+        inputs2 = None
 
-        if(variable1 == None):
-            log.error("No input variable named '%s' associated with traceset ID=%d" % (var1Name, traceSetBlob.id))
-            return 1
+        if(isinstance(var1Name,str)):
+            variable1 = self.getVariableArrayFromTraceSet(
+                traceSetBlob, var1Name
+            )
+            if(variable1 == None):
+                return 1
+            inputs1 = variable1.getValuesAsNdArray()
+        elif(isinstance(var1Name,np.ndarray)):
+            inputs1 = var1Name
+        else:
+            assert False, "Unknown input variable type"
         
-        variable2 = self.getVariableArrayFromTraceSet(
-            traceSetBlob, var2Name
-        )
+        if(isinstance(var2Name,str)):
+            variable2 = self.getVariableArrayFromTraceSet(
+                traceSetBlob, var2Name
+            )
 
-        if(variable2 == None):
-            log.error("No input variable named '%s' associated with traceset ID=%d" % (var2Name, traceSetBlob.id))
-            return 1
-
-        inputs1 = variable1.getValuesAsNdArray()
-        inputs2 = variable2.getValuesAsNdArray()
+            if(variable2 == None):
+                return 1
+            
+            inputs2 = variable2.getValuesAsNdArray()
+        elif(isinstance(var2Name,np.ndarray)):
+            inputs2 = var2Name
+        else:
+            assert False, "Unknown input variable type"
 
         hd_tracesset= traceSetBlob.getTracesAsNdArray()
 
@@ -131,9 +145,10 @@ class AnalysisInterface(object):
             hd_tracesset, inputs1, inputs2
         )
         
-        corr_trace_name = self.generateStatTraceName(
-            traceSetBlob, "Hamming Distance", "%s+%s"%(var1Name,var2Name)
-        )
+        corr_trace_name = tracename if tracename != None else \
+            self.generateStatTraceName(
+                traceSetBlob, "Hamming Distance", "%s+%s"%(var1Name,var2Name)
+            )
 
         self.insertCorrolationTrace(
             [traceSetBlob], [variable1,variable2], hd_trace,
@@ -143,6 +158,59 @@ class AnalysisInterface(object):
         )
 
         return 0
+
+
+    def opXor(self, traceSetBlob, var1Name, var2Name):
+        """
+        Return a numpy array representing the xor of corresponding
+        variable values.
+        """
+        variable1 = self.getVariableArrayFromTraceSet(traceSetBlob, var1Name)
+        variable2 = self.getVariableArrayFromTraceSet(traceSetBlob, var2Name)
+        inputs1   = variable1.getValuesAsNdArray()
+        inputs2   = variable2.getValuesAsNdArray()
+
+        return inputs1 ^ inputs2
+
+
+    def opAdd(self, traceSetBlob, var1Name, var2Name):
+        """
+        Return a numpy array representing the addition of corresponding
+        variable values.
+        """
+        variable1 = self.getVariableArrayFromTraceSet(traceSetBlob, var1Name)
+        variable2 = self.getVariableArrayFromTraceSet(traceSetBlob, var2Name)
+        inputs1   = variable1.getValuesAsNdArray()
+        inputs2   = variable2.getValuesAsNdArray()
+
+        return np.add(inputs1,inputs2)
+
+
+    def opShiftRight(self, traceSetBlob, var1Name, shamt):
+        """
+        Return a numpy array representing the logical right shift of 
+        variable values.
+        """
+        variable1 = self.getVariableArrayFromTraceSet(traceSetBlob, var1Name)
+        inputs1   = variable1.getValuesAsNdArray()
+
+        for i in range(0, len(inputs1)):
+            inputs1[i] = inputs1[i] >> shamt
+
+        return inputs1
+
+    def opShiftLeft(self, traceSetBlob, var1Name, shamt):
+        """
+        Return a numpy array representing the logical left shift of 
+        variable values.
+        """
+        variable1 = self.getVariableArrayFromTraceSet(traceSetBlob, var1Name)
+        inputs1   = variable1.getValuesAsNdArray()
+
+        for i in range(0, len(inputs1)):
+            inputs1[i] = inputs1[i] << shamt
+
+        return inputs1
 
 
     def insertCorrolationTrace(self,
