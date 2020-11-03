@@ -14,7 +14,7 @@ experiment_payload:
 
     swi r8,r7,0        // Store TTest variable 2 over zeros
     xor r10,r10,r10;    // Try to clear ALU datapath
-    lwi r10,r6,0        // Load TTest variable 1
+    lwi r9 ,r6,0        // Load TTest variable 1
 
     NOP_SPACER
 

@@ -66,6 +66,7 @@ EXPERIMENTS = memory-bus/bus-width-st-bytes \
               memory-bus/registers-implicit-st-ld \
               memory-bus/registers-implicit-st-st-1 \
               memory-bus/registers-implicit-st-st-2 \
+              memory-bus/registers-implicit-st-st-3 \
               memory-bus/seq-ld-bytes \
               memory-bus/seq-st-bytes \
               pipeline/regs-xor-lhs \
@@ -82,6 +83,7 @@ EXPERIMENTS = memory-bus/bus-width-st-bytes \
               pipeline/jump-flush-regs-pre \
               pipeline/jump-flush-regs-post \
               pipeline/result-stages \
+              pipeline/iseq-xor-add \
               regfile/neighbour-hw \
               regfile/shift-imm \
               speculation/jump-shadow-0 \

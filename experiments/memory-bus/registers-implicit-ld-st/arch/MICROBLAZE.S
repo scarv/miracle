@@ -12,7 +12,7 @@ experiment_payload:
 
     NOP_SPACER
 
-    lwi r10,r6,0        // Load TTest variable 1
+    lwi r9 ,r6,0        // Load TTest variable 1
     xor r10,r10,r10;    // Try to clear ALU datapath
     swi r8,r7,0      // Store TTest variable 2 over din[index2], which is zero.
 

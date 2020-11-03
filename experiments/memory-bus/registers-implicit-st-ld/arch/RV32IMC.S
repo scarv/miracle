@@ -14,7 +14,7 @@ experiment_payload:
 
     sw a3,0(a2)     // Store TTest variable 2 over zeros
     xor t1,t1,t1;   // Try to clear ALU datapath
-    lw t1,0(a1)     // Load TTest variable 1
+    lw t0,0(a1)     // Load TTest variable 1
 
     NOP_SPACER
 
