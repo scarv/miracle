@@ -1,0 +1,27 @@
+
+## Pipeline result stages
+
+- How many pipeline stages contain the result of simple ALU instructions?
+
+## Running the experiment
+
+To run all stages of the experiment for a particular target device:
+
+```
+make -B USB_PORT=[PORT] UAS_TARGET=[TARGET] flow-pipeline-result-stages
+```
+
+Where:
+- `[PORT]` Is the UART/Serial port to communicate with it over.
+- `[TARGET]` Is one of the target names listed in @ref targets
+
+This will run all of the build, program, capture and analyse steps for
+the experiment on the specified target.
+
+The individual steps of the experiment are run with the following commands:
+
+- Build: `make build_[TARGET]_pipeline-result-stages`
+- Program: `make program_[TARGET]_pipeline-result-stages`
+- Capture: `make capture_[TARGET]_pipeline-result-stages USB_PORT=[PORT]`
+- Analyse: `make analyse_[TARGET]_pipeline-result-stages`
+

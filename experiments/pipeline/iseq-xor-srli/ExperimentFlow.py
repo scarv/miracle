@@ -1,10 +1,9 @@
 
 import os
 import logging as log
-import numpy as np
 
 EXPERIMENT_CATAGORY = "pipeline"
-EXPERIMENT_NAME     = "iseq-xor-add"
+EXPERIMENT_NAME     = "iseq-xor-srli"
 
 def runCapture(args):
     """
@@ -24,21 +23,19 @@ def runAnalysis(aif):
 
     aif - AnalysisInterface instance
     """
-
-    np.set_printoptions(formatter={'int':hex})
     
     for blob in aif.getTraceSetBlobsForTargetAndExperiment():
 
         aif.runAverageTraceForTraceSetBlob(blob)
 
         di1_xor_di2 = aif.opXor(blob, "di1", "di2")
-        di3_add_di4 = aif.opAdd(blob, "di3", "di4")
+        di4_srl_8   = aif.opShiftRight(blob, "di4", 8)
 
         aif.runHammingDistanceAnalysis(blob,
-            di1_xor_di2, di3_add_di4, "HD(d1^d2,d3+d4)")
+            di1_xor_di2, di4_srl_8 , "HD(d1^d2,d4>>8)")
         
         aif.runHammingDistanceAnalysis(blob,
-            "di3", di3_add_di4, "HD(d3,d3+d4)")
+            "di3", di4_srl_8 , "HD(di3,d4>>8)")
 
         aif.runHammingDistanceAnalysis(blob, "di1","di2")
         aif.runHammingDistanceAnalysis(blob, "di1","di3")

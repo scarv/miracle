@@ -84,6 +84,11 @@ EXPERIMENTS = memory-bus/bus-width-st-bytes \
               pipeline/jump-flush-regs-post \
               pipeline/result-stages \
               pipeline/iseq-xor-add \
+              pipeline/iseq-xor-xor \
+              pipeline/iseq-xor-srli \
+              pipeline/iseq-xor-rori \
+              pipeline/iseq-xor-lw   \
+              pipeline/iseq-xor-sw   \
               regfile/neighbour-hw \
               regfile/shift-imm \
               speculation/jump-shadow-0 \

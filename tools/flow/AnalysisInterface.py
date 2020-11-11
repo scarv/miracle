@@ -113,12 +113,13 @@ class AnalysisInterface(object):
         inputs1 = None
         inputs2 = None
 
+        sourceVariables = []
+
         if(isinstance(var1Name,str)):
             variable1 = self.getVariableArrayFromTraceSet(
                 traceSetBlob, var1Name
             )
-            if(variable1 == None):
-                return 1
+            sourceVariables.append(variable1)
             inputs1 = variable1.getValuesAsNdArray()
         elif(isinstance(var1Name,np.ndarray)):
             inputs1 = var1Name
@@ -129,10 +130,7 @@ class AnalysisInterface(object):
             variable2 = self.getVariableArrayFromTraceSet(
                 traceSetBlob, var2Name
             )
-
-            if(variable2 == None):
-                return 1
-            
+            sourceVariables.append(variable2)
             inputs2 = variable2.getValuesAsNdArray()
         elif(isinstance(var2Name,np.ndarray)):
             inputs2 = var2Name
@@ -144,14 +142,17 @@ class AnalysisInterface(object):
         hd_trace    = scass.cpa.hammingDistanceCorrolation(
             hd_tracesset, inputs1, inputs2
         )
+
+        tn = tracename
+        if(tn == None):
+            tn = "%s+%s"%(var1Name,var2Name)
         
-        corr_trace_name = tracename if tracename != None else \
-            self.generateStatTraceName(
-                traceSetBlob, "Hamming Distance", "%s+%s"%(var1Name,var2Name)
+        corr_trace_name = self.generateStatTraceName(
+                traceSetBlob, "Hamming Distance", tn
             )
 
         self.insertCorrolationTrace(
-            [traceSetBlob], [variable1,variable2], hd_trace,
+            [traceSetBlob], sourceVariables, hd_trace,
             corr_trace_name,
             ldb.records.StatTraceType.HD,
             ldb.records.CorrolationType.HAMMING_DISTANCE
@@ -159,6 +160,21 @@ class AnalysisInterface(object):
 
         return 0
 
+    def byteToWordNdArray(nda):
+        """
+        Takes an (X,4) ND array of bytes and returns an (X,1) array
+        of words.
+        """
+        assert(isinstance(nda, np.ndarray)),"Got %s" % type(nda)
+        length, width = nda.shape
+        assert(width == 4),"Array must be 4 bytes wide"
+        assert(nda.dtype == np.uint8),"array must be unsigned bytes"
+
+        newArray = np.empty((length,1),dtype=np.uint32)
+
+        for i in range(0,length):
+            newArray[i] = int.from_bytes(nda[i],"big")
+        return newArray
 
     def opXor(self, traceSetBlob, var1Name, var2Name):
         """
@@ -169,8 +185,10 @@ class AnalysisInterface(object):
         variable2 = self.getVariableArrayFromTraceSet(traceSetBlob, var2Name)
         inputs1   = variable1.getValuesAsNdArray()
         inputs2   = variable2.getValuesAsNdArray()
+        inputs1   = AnalysisInterface.byteToWordNdArray(inputs1)
+        inputs2   = AnalysisInterface.byteToWordNdArray(inputs2)
 
-        return inputs1 ^ inputs2
+        return np.bitwise_xor(inputs1, inputs2)
 
 
     def opAdd(self, traceSetBlob, var1Name, var2Name):
@@ -182,9 +200,21 @@ class AnalysisInterface(object):
         variable2 = self.getVariableArrayFromTraceSet(traceSetBlob, var2Name)
         inputs1   = variable1.getValuesAsNdArray()
         inputs2   = variable2.getValuesAsNdArray()
+        inputs1   = AnalysisInterface.byteToWordNdArray(inputs1)
+        inputs2   = AnalysisInterface.byteToWordNdArray(inputs2)
 
         return np.add(inputs1,inputs2)
 
+    def opRotateRight32(self, traceSetBlob, var1Name, ramt):
+        """
+        Return a numpy array representing the logical right rotation of 
+        variable values.
+        """
+        variable1 = self.getVariableArrayFromTraceSet(traceSetBlob, var1Name)
+        inputs1   = variable1.getValuesAsNdArray()
+        inputs1   = AnalysisInterface.byteToWordNdArray(inputs1)
+        
+        return np.right_shift(inputs1, ramt) | np.left_shift(inputs1,32-ramt)
 
     def opShiftRight(self, traceSetBlob, var1Name, shamt):
         """
@@ -193,11 +223,9 @@ class AnalysisInterface(object):
         """
         variable1 = self.getVariableArrayFromTraceSet(traceSetBlob, var1Name)
         inputs1   = variable1.getValuesAsNdArray()
+        inputs1   = AnalysisInterface.byteToWordNdArray(inputs1)
 
-        for i in range(0, len(inputs1)):
-            inputs1[i] = inputs1[i] >> shamt
-
-        return inputs1
+        return np.right_shift(inputs1, shamt)
 
     def opShiftLeft(self, traceSetBlob, var1Name, shamt):
         """
@@ -207,8 +235,7 @@ class AnalysisInterface(object):
         variable1 = self.getVariableArrayFromTraceSet(traceSetBlob, var1Name)
         inputs1   = variable1.getValuesAsNdArray()
 
-        for i in range(0, len(inputs1)):
-            inputs1[i] = inputs1[i] << shamt
+        return np.left_shift(inputs1, shamt)
 
         return inputs1
 

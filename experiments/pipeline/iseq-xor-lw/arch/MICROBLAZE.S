@@ -5,17 +5,13 @@
 .global experiment_payload
 experiment_payload: // r5 - uint32_t di1
                     // r6 - uint32_t di2
-    FUNC_ENTER      // r7 - uint32_t di3
+    FUNC_ENTER      // r7 - uint32_t*di3
                     // r8 - uint32_t di4
 
     NOP_SPACER
 
     xor r5, r5, r6 // di1 = di1 ^ di2
-    add r7, r7, r8 // di3 = di3 + di4
-
-    NOP_SPACER
-
-    add r5, r7, r0
+    lwi r8, r7, 0  // di4 = di3
 
     NOP_SPACER
 

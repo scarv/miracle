@@ -10,12 +10,10 @@ experiment_payload: // a0 - uint32_t di1
 
     NOP_SPACER
 
-    xor a0, a0, a1 // di1 = di1 ^ di2
-    add a2, a2, a3 // di3 = di3 + di4
-
-    NOP_SPACER
-
-    mv  a0, a2
+    xor  a0, a0, a1 // di1 = di1 ^ di2
+    srli a2, a3, 8  // di3 = di4 >> 8
+    slli t0, a3, 24 // di3 = di4 >> 8
+    or   a2, a2, t0
 
     NOP_SPACER
 

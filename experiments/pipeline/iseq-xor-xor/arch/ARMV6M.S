@@ -11,7 +11,7 @@ experiment_payload: // r0 - uint32_t di1
     NOP_SPACER
 
     eor r0, r1 // di1 = di1 ^ di2
-    add r2, r3 // di3 = di3 + di4
+    eor r2, r3 // di3 = di3 ^ di4
     
     NOP_SPACER
 
