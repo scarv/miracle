@@ -3,31 +3,29 @@
 .text
 
 .global experiment_payload
-experiment_payload:     // r0 - TTest Var 1
-                        // r1 - TTest Var 2
+experiment_payload:     // r0 - Var 1
+                        // r1 - Var 2
+                        // r2 - Var 3
+                        // r3 - Var 4
 
-    FUNC_ENTER_SHORT
+    FUNC_ENTER
 
-    mov     r2,r0
-    mov     r3,r1 
-    eor     r0, r0
-    eor     r1, r1
-
-    TEN_TIMES(eor r0 COMMA r0)
-    TEN_TIMES(eor r0 COMMA r0)
+    mov r5, #0
     
-    b       branch_tgt  // Always branch
-    eor     r0,r2       // r2 ^= r0 - load r0 into pipeline regs
+    TEN_TIMES(eor r5 COMMA r5)
 
-    TEN_TIMES(eor r0 COMMA r0)
+    b   branch_tgt
+    eor r0, r1
+    
+    TEN_TIMES(eor r5 COMMA r5)
 
 branch_tgt:
+    eor r2, r3
     
-    eor     r1,r3       // r3 ^= r1 - load r1 into pipeline regs
-    
-    TEN_TIMES(eor r0 COMMA r0)
+    TEN_TIMES(eor r5 COMMA r5)
 
-    FUNC_RETURN_SHORT
+
+    FUNC_RETURN
 
 .global experiment_payload_end
 experiment_payload_end: nop

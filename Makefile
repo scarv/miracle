@@ -80,6 +80,7 @@ EXPERIMENTS = memory-bus/bus-width-st-bytes \
               pipeline/regs-rshf-lhs \
               pipeline/regs-rshf-rhs \
               pipeline/branch-flush-regs \
+              pipeline/branch-flush-regs-post \
               pipeline/jump-flush-regs-pre \
               pipeline/jump-flush-regs-post \
               pipeline/result-stages \

@@ -3,7 +3,7 @@ import os
 import logging as log
 
 EXPERIMENT_CATAGORY = "pipeline"
-EXPERIMENT_NAME     = "branch-flush-regs"
+EXPERIMENT_NAME     = "branch-flush-regs-post"
 
 def runCapture(args):
     """

@@ -14,8 +14,9 @@ experiment_payload:     // r0 - Var 1
     
     TEN_TIMES(eor r5 COMMA r5)
 
+    cmp r4,r4
+    beq branch_tgt
     eor r0, r1
-    b   branch_tgt
     
     TEN_TIMES(eor r5 COMMA r5)
 

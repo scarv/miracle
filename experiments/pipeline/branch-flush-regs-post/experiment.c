@@ -1,5 +1,8 @@
 
 /*!
+@defgroup experiments-pipeline-branch-flush-regs-code Experiment Code
+@{
+@ingroup  experiments-pipeline-branch-flush-regs
 */
 
 #include <stdlib.h>
@@ -76,7 +79,7 @@ void experiment_setup_scass(
     cfg -> scass_experiment_init = experiment_init;
     cfg -> scass_experiment_run  = experiment_run ;
 
-    cfg -> experiment_name       = "pipeline/jump-flush-regs-post";
+    cfg -> experiment_name       = "pipeline/branch-flush-regs-post";
 
     cfg -> variables             = experiment_variables ;
     cfg -> num_variables         = 4                    ;

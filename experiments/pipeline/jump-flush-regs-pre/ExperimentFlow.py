@@ -26,7 +26,22 @@ def runAnalysis(aif):
     """
 
     for blob in aif.getTraceSetBlobsForTargetAndExperiment():
+        aif.runAverageTraceForTraceSetBlob(blob)
+
+        di1_xor_di2 = aif.opXor(blob, "di1", "di2")
+        di3_xor_di4 = aif.opXor(blob, "di3", "di4")
+
+        aif.runHammingDistanceAnalysis(blob,
+            di1_xor_di2, di3_xor_di4, "HD(d1^d2,d3^d4)")
+
+        aif.runHammingDistanceAnalysis(blob, "di1","di2")
+        aif.runHammingDistanceAnalysis(blob, "di1","di3")
+        aif.runHammingDistanceAnalysis(blob, "di1","di4")
+        aif.runHammingDistanceAnalysis(blob, "di2","di3")
+        aif.runHammingDistanceAnalysis(blob, "di2","di4")
+        aif.runHammingDistanceAnalysis(blob, "di3","di4")
         aif.runHammingWeightAnalysis(blob, "di1")
         aif.runHammingWeightAnalysis(blob, "di2")
-        aif.runHammingDistanceAnalysis(blob, "di1","di2")
+        aif.runHammingWeightAnalysis(blob, "di3")
+        aif.runHammingWeightAnalysis(blob, "di4")
 

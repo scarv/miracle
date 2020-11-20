@@ -12,8 +12,8 @@ experiment_payload:     // a0 - TTest Var 1
 
     NOP_SPACER
     
+    beqz    x0, branch_tgt  // Always branch
     xor     a0,a0,a1
-    j       branch_tgt  // Always branch
 
     NOP_SPACER
 
