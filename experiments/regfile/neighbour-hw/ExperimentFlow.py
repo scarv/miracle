@@ -2,6 +2,9 @@
 import os
 import logging as log
 
+import scipy.signal as si
+from   scipy.ndimage import median_filter
+
 EXPERIMENT_CATAGORY = "regfile"
 EXPERIMENT_NAME     = "neighbour-hw"
 
@@ -26,15 +29,24 @@ def runAnalysis(aif):
     """
 
     for blob in aif.getTraceSetBlobsForTargetAndExperiment():
+        
+        aif.runAverageTraceForTraceSetBlob(blob)
 
-        aif.runHammingWeightAnalysis  (blob, "di1")
-        aif.runHammingWeightAnalysis  (blob, "di2")
-        aif.runHammingWeightAnalysis  (blob, "di3")
-        aif.runHammingWeightAnalysis  (blob, "di4")
+        #up=1
+        #down=3
+        #traces = si.resample_poly (
+        #    blob.getTracesAsNdArray(), up=up, down=down, axis=1
+        #)
+        traces = blob.getTracesAsNdArray()
 
-        aif.runHammingDistanceAnalysis(blob, "di1","di2")
-        aif.runHammingDistanceAnalysis(blob, "di1","di3")
-        aif.runHammingDistanceAnalysis(blob, "di1","di4")
-        aif.runHammingDistanceAnalysis(blob, "di2","di3")
-        aif.runHammingDistanceAnalysis(blob, "di2","di4")
-        aif.runHammingDistanceAnalysis(blob, "di3","di4")
+        aif.runHammingWeightAnalysis  (blob, "di1",traces=traces)
+        aif.runHammingWeightAnalysis  (blob, "di2",traces=traces)
+        aif.runHammingWeightAnalysis  (blob, "di3",traces=traces)
+        aif.runHammingWeightAnalysis  (blob, "di4",traces=traces)
+
+        aif.runHammingDistanceAnalysis(blob, "di1","di2",traces=traces)
+        aif.runHammingDistanceAnalysis(blob, "di1","di3",traces=traces)
+        aif.runHammingDistanceAnalysis(blob, "di1","di4",traces=traces)
+        aif.runHammingDistanceAnalysis(blob, "di2","di3",traces=traces)
+        aif.runHammingDistanceAnalysis(blob, "di2","di4",traces=traces)
+        aif.runHammingDistanceAnalysis(blob, "di3","di4",traces=traces)

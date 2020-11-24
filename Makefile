@@ -26,6 +26,13 @@ ifeq ($(FORCE_ANALYSIS),1)
     ANALYSIS_FLAGS += --force
 endif
 
+DELETE_TRACES_AFTER_ANALYSIS ?=1
+DELETE_TRACES=
+
+ifeq ($(DELETE_TRACES_AFTER_ANALYSIS),1)
+    DELETE_TRACES=--delete-traces-after-analysis
+endif
+
 #
 # Whether or not to skip trace capture if there is already a comparable trace
 # set in the database.
@@ -216,8 +223,7 @@ define add_tgt_analyse
 $(call map_tgt,analyse,${1},${2}) :
 	$(FLOW_ANALYSE)     \
         --verbose $(ANALYSIS_FLAGS) \
-        --backend $(UAS_DB_BACKEND) \
-        --delete-traces-after-analysis \
+        --backend $(UAS_DB_BACKEND) $(DELETE_TRACES) \
         $(UAS_DB)       \
         ${2}            \
         --targets ${1}

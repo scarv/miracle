@@ -68,7 +68,7 @@ class AnalysisInterface(object):
 
         return trace_name
 
-    def runHammingWeightAnalysis(self, traceSetBlob, variableName):
+    def runHammingWeightAnalysis(self, traceSetBlob, variableName,traces=None):
         """
         Run a hamming weight analysis on the variables used as inputs when
         generating the supplied traceset blob.
@@ -82,10 +82,12 @@ class AnalysisInterface(object):
 
         hw_inputs = variable.getValuesAsNdArray()
 
-        hw_tracesset= traceSetBlob.getTracesAsNdArray()
+        hw_traceset = traces
+        if(hw_traceset is None):
+            hw_traceset = traceSetBlob.getTracesAsNdArray()
 
         hw_trace    = scass.cpa.hammingWeightCorrolation(
-            hw_tracesset, hw_inputs
+            hw_traceset, hw_inputs
         )
 
         corr_trace_name = self.generateStatTraceName(
@@ -102,7 +104,7 @@ class AnalysisInterface(object):
         return 0
 
 
-    def runHammingDistanceAnalysis(self, traceSetBlob, var1Name, var2Name,tracename=None):
+    def runHammingDistanceAnalysis(self, traceSetBlob, var1Name, var2Name,tracename=None, traces=None):
         """
         Run a hamming distance analysis on the variables used as inputs when
         generating the supplied traceset blob.
@@ -137,10 +139,12 @@ class AnalysisInterface(object):
         else:
             assert False, "Unknown input variable type"
 
-        hd_tracesset= traceSetBlob.getTracesAsNdArray()
+        hd_traceset = traces
+        if(hd_traceset is None):
+            hd_traceset = traceSetBlob.getTracesAsNdArray()
 
         hd_trace    = scass.cpa.hammingDistanceCorrolation(
-            hd_tracesset, inputs1, inputs2
+            hd_traceset, inputs1, inputs2
         )
 
         tn = tracename

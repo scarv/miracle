@@ -26,9 +26,13 @@ def runAnalysis(aif):
     """
 
     for blob in aif.getTraceSetBlobsForTargetAndExperiment():
+
+        aif.runAverageTraceForTraceSetBlob(blob)
+
         aif.runHammingWeightAnalysis  (blob, "di1")
         aif.runHammingWeightAnalysis  (blob, "di2")
         aif.runHammingWeightAnalysis  (blob, "di3")
+
         aif.runHammingDistanceAnalysis(blob, "di1","di2")
         aif.runHammingDistanceAnalysis(blob, "di2","di3")
         aif.runHammingDistanceAnalysis(blob, "di1","di3")
