@@ -9,9 +9,9 @@ experiment_payload:
 
     NOP_SPACER
 
-    xor t0,a0,a0
+    xor a0,a0,a1
     nop
-    xor t1,a1,a1
+    xor a2,a2,a3
 
     NOP_SPACER
 

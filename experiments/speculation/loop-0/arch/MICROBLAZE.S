@@ -4,23 +4,27 @@
 
 .global experiment_payload
 experiment_payload:
-                                // r5 = TTest variable 1
-    FUNC_ENTER                  // r6 = loop stop count
-                                // r7 = loop increment
-    xor r9,r9,r9                // r9 = loop counter
-                                                           
+                                // r5 = sensitive value array
+    FUNC_ENTER                  // r11= loop count er
+
+    lwi r10, r5, 5*4
+    lwi r9 , r5, 4*4
+    lwi r8 , r5, 3*4
+    lwi r7 , r5, 2*4
+    lwi r6 , r5, 1*4
+    lwi r5 , r5, 0*4
+    addi  r11, r0, 10           // loop 10 times.
+    add  r12, r0, r0
+
     loop_0:                                                
-                                                           
-        NOP_SPACER                                         
-                                                           
-        add r9,r9,r7            // Increment loop counter
-                                                           
-        cmp r11, r9, r6     // Finish the loop?
+        xor r12, r12, r10
+        add  r12, r0, r0
+        addi r11, r11, -1                                                  
         bnei r11, loop_0    // Branch up
                                                            
-    xor r5 ,r5 ,r5              // Operate on secret value.
-
-    NOP_SPACER
+    xor r5, r5, r6
+    xor r7, r7, r8
+    xor r9, r9, r10
 
     FUNC_RETURN
 

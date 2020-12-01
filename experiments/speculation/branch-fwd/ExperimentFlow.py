@@ -13,7 +13,6 @@ def runCapture(args):
     Top level function for running all trace capture processes for this
     experiment.
     """
-
     args.runAndInsertTraceCollection (
         EXPERIMENT_CATAGORY ,
         EXPERIMENT_NAME     ,
@@ -30,36 +29,45 @@ def runAnalysis(aif):
     
     for blob in aif.getTraceSetBlobsForTargetAndExperiment():
 
-        # Hamming weight of each operands
+        aif.runAverageTraceForTraceSetBlob(blob)
+
+        di1_xor_di2 = aif.opXor(blob, "di1", "di2")
+        di3_xor_di4 = aif.opXor(blob, "di3", "di4")
+        di5_xor_di6 = aif.opXor(blob, "di5", "di6")
+
+        aif.runHammingDistanceAnalysis(blob,
+            di1_xor_di2, di3_xor_di4, "HD(d1^d2,d3^d4)")
+        
+        aif.runHammingDistanceAnalysis(blob,
+            di1_xor_di2, di5_xor_di6, "HD(d1^d2,d5^d6)")
+        
+        aif.runHammingDistanceAnalysis(blob,
+            di3_xor_di4, di5_xor_di6, "HD(d3^d4,d5^d6)")
+
+        aif.runHammingDistanceAnalysis(blob, "di1","di2")
+        aif.runHammingDistanceAnalysis(blob, "di1","di3")
+        aif.runHammingDistanceAnalysis(blob, "di1","di4")
+        aif.runHammingDistanceAnalysis(blob, "di1","di5")
+        aif.runHammingDistanceAnalysis(blob, "di1","di6")
+
+        aif.runHammingDistanceAnalysis(blob, "di2","di3")
+        aif.runHammingDistanceAnalysis(blob, "di2","di4")
+        aif.runHammingDistanceAnalysis(blob, "di2","di5")
+        aif.runHammingDistanceAnalysis(blob, "di2","di6")
+
+        aif.runHammingDistanceAnalysis(blob, "di3","di4")
+        aif.runHammingDistanceAnalysis(blob, "di3","di5")
+        aif.runHammingDistanceAnalysis(blob, "di3","di6")
+        
+        aif.runHammingDistanceAnalysis(blob, "di4","di5")
+        aif.runHammingDistanceAnalysis(blob, "di4","di6")
+        
+        aif.runHammingDistanceAnalysis(blob, "di5","di6")
+
         aif.runHammingWeightAnalysis(blob, "di1")
         aif.runHammingWeightAnalysis(blob, "di2")
-        
-        # Hamming distance between consecutive operands
-        aif.runHammingDistanceAnalysis(blob, "di1","di2")
+        aif.runHammingWeightAnalysis(blob, "di3")
+        aif.runHammingWeightAnalysis(blob, "di4")
+        aif.runHammingWeightAnalysis(blob, "di5")
+        aif.runHammingWeightAnalysis(blob, "di6")
 
-        #
-        # Compute hamming distance between consecutive instruciton results.
-
-        vdi1 = aif.getVariableArrayFromTraceSet(blob, "di1")
-        vdi2 = aif.getVariableArrayFromTraceSet(blob, "di2")
-        
-        adi1 = aif.convertArrayBytesToInt(vdi1.getValuesAsNdArray())
-        adi2 = aif.convertArrayBytesToInt(vdi2.getValuesAsNdArray())
-
-        # Compute 2* each value of the input arrays, since each add
-        # instruction just adds x to x.
-        adi1_x2 = adi1 + adi1
-        adi2_x2 = adi2 + adi2
-
-        # Hamming distance between Consecutive results
-        hd_result_12 = scass.cpa.hammingDistanceCorrolation (
-            blob.getTracesAsNdArray(), adi1_x2, adi2_x2
-        )
-
-        # Insert the trace
-        aif.insertCorrolationTrace(
-            [blob],[vdi1,vdi2], hd_result_12, 
-            aif.generateStatTraceName(blob,"Hamming Distance","result di1->di2"),
-            ldb.records.StatTraceType.HD,
-            ldb.records.CorrolationType.HAMMING_DISTANCE
-        )

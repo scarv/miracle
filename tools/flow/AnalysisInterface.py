@@ -115,6 +115,9 @@ class AnalysisInterface(object):
         inputs1 = None
         inputs2 = None
 
+        if(isinstance(var1Name,str) and isinstance(var2Name,str)):
+            assert(var1Name != var2Name)
+
         sourceVariables = []
 
         if(isinstance(var1Name,str)):

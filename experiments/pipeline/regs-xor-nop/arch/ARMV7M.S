@@ -9,9 +9,9 @@ experiment_payload:
 
     NOP_SPACER
 
-    eor r4,r0
+    eor r0,r1
     nop
-    eor r5,r1
+    eor r2,r3
 
     NOP_SPACER
 

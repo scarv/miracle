@@ -3,27 +3,32 @@
 .text
 
 .global experiment_payload
-experiment_payload:
+experiment_payload:         // r0 - pointer to d1..d6 array.
 
-    FUNC_ENTER          // r0 - TTest variable di1
-                        // r1 - TTest variable di2
-                        // r2 - TTest variable di3
-                        // r3 - TTest variable di4
+    FUNC_ENTER
+
+    ldr r5,[r0,#(5*4)]      // Load sensitive values
+    ldr r4,[r0,#(4*4)]
+    ldr r3,[r0,#(3*4)]
+    ldr r2,[r0,#(2*4)]
+    ldr r1,[r0,#(1*4)]
+    ldr r0,[r0,#(0*4)]
+    eor r7, r7              //  zero r7
+    eor r7, r7              //  
+
     b branch_start
-    NOP_SPACER
 
 target_address:
-    NOP_SPACER
-
+    TEN_TIMES(eor r7 COMMA r7)
     FUNC_RETURN
 
 branch_start:
-    NOP_SPACER
-    b   target_address
-    add r0, r0
-    add r1, r1
-    add r2, r2
-    add r3, r3
+    TEN_TIMES(eor r7 COMMA r7)
+    eor r0, r1              // Secret vars 0,1
+    b   target_address      // Always jump
+    eor r2, r3
+    eor r4, r5
 
 .global experiment_payload_end
 experiment_payload_end: nop
+
