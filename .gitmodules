@@ -10,3 +10,6 @@
 [submodule "external/miracle-browser"]
 	path = external/miracle-browser
 	url = git@github.com:scarv/miracle-browser.git
+[submodule "external/texmf"]
+	path = external/texmf
+	url = ssh://git@github.com/scarv/texmf.git
