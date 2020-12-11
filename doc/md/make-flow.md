@@ -194,7 +194,7 @@ The following are useful files relating to the make flow:
     macro in the top level `Makefile`.
 
 - Captured experiment data is stored in the database file under
-  `work/database.sqlite`.
+  `build/database.sqlite`.
 
 - **Note:** The build, program and capture steps can be run automatically
   in sequence using the `flow_*` targets:

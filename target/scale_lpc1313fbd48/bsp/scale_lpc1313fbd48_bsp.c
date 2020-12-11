@@ -9,7 +9,7 @@
 
 #include <stdint.h>
 
-// These two come from the external/scale-hw repository.
+// These two come from the extern/scale-hw repository.
 #include "bsp.h"
 #include "scale.h"
 

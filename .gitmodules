@@ -1,15 +1,15 @@
-[submodule "external/scale-hw"]
-	path = external/scale-hw
+[submodule "extern/scale-hw"]
+	path = extern/scale-hw
 	url = https://github.com/danpage/scale-hw.git
-[submodule "external/fw-acquisition"]
-	path = external/fw-acquisition
+[submodule "extern/fw-acquisition"]
+	path = extern/fw-acquisition
 	url = git@github.com:scarv/fw-acquisition.git
-[submodule "external/miracle-db"]
-	path = external/miracle-db
+[submodule "extern/miracle-db"]
+	path = extern/miracle-db
 	url = git@github.com:scarv/miracle-db.git
-[submodule "external/miracle-browser"]
-	path = external/miracle-browser
+[submodule "extern/miracle-browser"]
+	path = extern/miracle-browser
 	url = git@github.com:scarv/miracle-browser.git
-[submodule "external/texmf"]
-	path = external/texmf
+[submodule "extern/texmf"]
+	path = extern/texmf
 	url = ssh://git@github.com/scarv/texmf.git

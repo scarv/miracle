@@ -14,18 +14,18 @@ export REPO_VERSION_PATCH="0"
 
 export REPO_VERSION="${REPO_VERSION_MAJOR}.${REPO_VERSION_MINOR}.${REPO_VERSION_PATCH}"
 
-export TEXMFLOCAL="${TEXMFLOCAL}:${REPO_HOME}/external/texmf"
+export TEXMFLOCAL="${TEXMFLOCAL}:${REPO_HOME}/extern/texmf"
 
 echo "------------------------- Project Setup -------------------------------"
 
 export UAS_ROOT=$PWD
-export UAS_BUILD=$UAS_ROOT/work
+export UAS_BUILD=$UAS_ROOT/build
 export UAS_DB=$UAS_BUILD/database.sqlite
 export UAS_DB_BACKEND=sqlite
-export SCALE_SW=$UAS_ROOT/external/scale-sw
-export SCALE_HW=$UAS_ROOT/external/scale-hw
-export MIR_DB_REPO_HOME=$UAS_ROOT/external/miracle-db
-export MIR_BROWSER_REPO_HOME=$UAS_ROOT/external/miracle-browser
+export SCALE_SW=$UAS_ROOT/extern/scale-sw
+export SCALE_HW=$UAS_ROOT/extern/scale-hw
+export MIR_DB_REPO_HOME=$UAS_ROOT/extern/miracle-db
+export MIR_BROWSER_REPO_HOME=$UAS_ROOT/extern/miracle-browser
 
 if [ -z $UAS_ARM_TOOLCHAIN_ROOT ] ; then
     export UAS_ARM_TOOLCHAIN_ROOT=/opt/eda/arm/gcc-arm-none-eabi-5_4-2016q3/bin

@@ -16,7 +16,7 @@ import importlib
 import numpy as np
 
 sys.path.append(os.path.expandvars("$MIR_DB_REPO_HOME"))
-sys.path.append(os.path.expandvars("$UAS_ROOT/external/fw-acquisition"))
+sys.path.append(os.path.expandvars("$UAS_ROOT/extern/fw-acquisition"))
 
 import ldb
 from ldb.records import TraceSetBlob

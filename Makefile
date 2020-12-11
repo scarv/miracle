@@ -245,7 +245,7 @@ endef
 
 define add_tgt_device_test
 test_device_${1} :
-	./external/fw-acquisition/bin/device-test.py -b $(USB_BAUD) $(USB_PORT)
+	./extern/fw-acquisition/bin/device-test.py -b $(USB_BAUD) $(USB_PORT)
 endef
 
 

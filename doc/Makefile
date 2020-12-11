@@ -24,7 +24,7 @@ ${BUILD}/spec.commit  :
 	@git log --pretty=format:'%H' --max-count 1                                          >> ${@}
 	@if [[ $(shell git diff | wc --lines) -ne 0 ]] ; then echo '{\color{red}\bf -dirty}' >> ${@} ; fi
 
-include ${REPO_HOME}/external/texmf/make/image.mk
+include ${REPO_HOME}/extern/texmf/make/image.mk
 
 ${BUILD}/spec.pdf     : ./spec.tex $(wildcard ./tex/*) ${IMAGE_TARGETS} ${BUILD}/spec.version ${BUILD}/spec.commit
 	@TEXINPUTS="${TEXINPUTS}:.:${BUILD}" pdflatex  -output-directory $(dir ${@}) $(basename ${<})
