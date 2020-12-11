@@ -15,7 +15,7 @@ a framework for executing such kernels and acquiring associated
 data sets, e.g., traces of power consumption;
 and
 a framework for analysing such data sets, and then presenting 
-the results (via a web-based front-end).*
+the results (via a web-based [front-end](https://miracle.scarv.org/)).*
 
 <!--- -------------------------------------------------------------------- --->
 
